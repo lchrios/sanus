@@ -55,7 +55,7 @@ const RowCards = () => {
                                     classes.projectName
                                 )}
                             >
-                                Project {id}
+                                Entrada al blog {id}
                             </span>
                         </div>
                     </Grid>

@@ -23,9 +23,9 @@ const StatCards = () => {
                     <div className="flex items-center">
                         <Icon className={classes.icon}>group</Icon>
                         <div className="ml-3">
-                            <small className="text-muted">New Leads</small>
+                            <small className="text-muted">Terapeutas</small>
                             <h6 className="m-0 mt-1 text-primary font-medium">
-                                3050
+                                351
                             </h6>
                         </div>
                     </div>
@@ -45,7 +45,7 @@ const StatCards = () => {
                         <Icon className={classes.icon}>attach_money</Icon>
                         <div className="ml-3">
                             <small className="text-muted line-height-1">
-                                This week Sales
+                                Ganancia semanal
                             </small>
                             <h6 className="m-0 mt-1 text-primary font-medium">
                                 $80,500
@@ -68,10 +68,10 @@ const StatCards = () => {
                         <Icon className={classes.icon}>store</Icon>
                         <div className="ml-3">
                             <small className="text-muted">
-                                Inventory Status
+                                Status de almacenamiento de la DB
                             </small>
                             <h6 className="m-0 mt-1 text-primary font-medium">
-                                8.5% Stock Surplus
+                                15.5% usado (77.51 MB) 
                             </h6>
                         </div>
                     </div>
@@ -91,10 +91,10 @@ const StatCards = () => {
                         <Icon className={classes.icon}>shopping_cart</Icon>
                         <div className="ml-3">
                             <small className="text-muted">
-                                Orders to deliver
+                                Sesiones agendadas
                             </small>
                             <h6 className="m-0 mt-1 text-primary font-medium">
-                                305 Orders
+                                905 sesiones
                             </h6>
                         </div>
                     </div>

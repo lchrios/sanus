@@ -12,6 +12,7 @@ import DummyChart from './DummyChart'
 import ProfileBarChart from './ProfileBarChart'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
+import MatxCalendar from 'app/views/calendar/MatxCalendar'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
@@ -105,7 +106,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                     <Grid item lg={8} md={8} sm={12} xs={12}>
                         <Card className="pb-4">
                             <h4 className="font-medium text-muted px-4 pt-4 pb-0">
-                                Data Use
+                                Resumen
                             </h4>
                             <ProfileBarChart
                                 height="260px"
@@ -117,19 +118,19 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                         140
                                     </h1>
                                     <span className="font-normal text-muted uppercase">
-                                        avg yearly
+                                        promedio anual
                                     </span>
                                 </div>
                                 <div>
                                     <h1 className="font-normal m-0 mb-1">12</h1>
                                     <span className="font-normal text-muted uppercase">
-                                        avg monthly
+                                        promedio mensual
                                     </span>
                                 </div>
                                 <div>
                                     <h1 className="font-normal m-0 mb-1">3</h1>
                                     <span className="font-normal text-muted uppercase">
-                                        avg weekly
+                                        promedio semanal
                                     </span>
                                 </div>
                             </div>
@@ -139,60 +140,60 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                     <Grid item lg={4} md={4} sm={12} xs={12}>
                         <Card className="p-4 h-full">
                             <h4 className="font-medium text-muted pb-6 pb-0 mb-6">
-                                Contacts
+                            <Icon>group</Icon> Pacientes
                             </h4>
                             <div className="flex items-center mb-4">
-                                <Badge badgeContent="New" color="primary">
+                                <Badge badgeContent="Nuevo" color="primary">
                                     <Fab className="bg-light-primary box-shadow-none overflow-hidden">
                                         <h4 className="text-primary m-0 font-normal">
-                                            MR
+                                            LM
                                         </h4>
                                     </Fab>
                                 </Badge>
                                 <div className="ml-4">
                                     <h5 className="m-0 mb-1 font-medium">
-                                        Watson Joyce
+                                        Luis Martinez
                                     </h5>
-                                    <p className="m-0 text-muted">London</p>
+                                    <p className="m-0 text-muted">Guadalajara, Jalisco</p>
                                 </div>
                             </div>
                             <div className="flex items-center mb-4">
                                 <Fab className="bg-light-green box-shadow-none overflow-hidden">
                                     <h4 className="text-green m-0 font-normal">
-                                        WT
+                                        HP
                                     </h4>
                                 </Fab>
                                 <div className="ml-4">
                                     <h5 className="m-0 mb-1 font-medium">
-                                        Watson Joyce
+                                        Hector Ponce
                                     </h5>
-                                    <p className="m-0 text-muted">London</p>
+                                    <p className="m-0 text-muted">Monterrey, Nuevo León</p>
                                 </div>
                             </div>
                             <div className="flex items-center mb-4">
                                 <Fab className="bg-light-error box-shadow-none overflow-hidden">
                                     <h4 className="text-error m-0 font-normal">
-                                        RY
+                                        JP
                                     </h4>
                                 </Fab>
                                 <div className="ml-4">
                                     <h5 className="m-0 mb-1 font-medium">
-                                        Watson Joyce
+                                        Jorge Perez
                                     </h5>
-                                    <p className="m-0 text-muted">London</p>
+                                    <p className="m-0 text-muted">CDMX, Estado de México</p>
                                 </div>
                             </div>
                             <div className="flex items-center">
                                 <Fab className="bg-light-primary box-shadow-none overflow-hidden">
-                                    <h4 className="text-error m-0 font-normal">
-                                        MR
+                                    <h4 className="text-brand m-0 font-normal">
+                                        AM
                                     </h4>
                                 </Fab>
                                 <div className="ml-4">
                                     <h5 className="m-0 mb-1 font-medium">
-                                        Watson Joyce
+                                        Angela Martinez
                                     </h5>
-                                    <p className="m-0 text-muted">London</p>
+                                    <p className="m-0 text-muted">Guadalajara, Jalisco</p>
                                 </div>
                             </div>
                         </Card>
@@ -344,15 +345,15 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
 
 const projectSummery = [
     {
-        title: 'Project Created',
+        title: 'Pacientes',
         amount: 11,
     },
     {
-        title: 'Project Completed',
+        title: 'Sesiones agendadas',
         amount: 15,
     },
     {
-        title: 'Project Published',
+        title: 'Sesiones completadas',
         amount: 25,
     },
 ]

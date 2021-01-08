@@ -39,10 +39,10 @@ const TopSellingTable = () => {
     return (
         <Card elevation={3} className="pt-5 mb-6">
             <div className="flex justify-between items-center px-6 mb-3">
-                <span className="card-title">top selling products</span>
+                <span className="card-title">Top terapeutas</span>
                 <Select size="small" defaultValue="this_month" disableUnderline>
-                    <MenuItem value="this_month">This Month</MenuItem>
-                    <MenuItem value="last_month">Last Month</MenuItem>
+                    <MenuItem value="this_month">Este mes</MenuItem>
+                    <MenuItem value="last_month">Mes pasado</MenuItem>
                 </Select>
             </div>
             <div className="overflow-auto">
@@ -55,16 +55,16 @@ const TopSellingTable = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell className="px-6" colSpan={4}>
-                                Name
+                                Nombre
                             </TableCell>
                             <TableCell className="px-0" colSpan={2}>
-                                Revenue
+                                Ingresos
                             </TableCell>
                             <TableCell className="px-0" colSpan={2}>
-                                Stock Status
+                                Disponibilidad
                             </TableCell>
                             <TableCell className="px-0" colSpan={1}>
-                                Action
+                                Detalles
                             </TableCell>
                         </TableRow>
                     </TableHead>
@@ -103,22 +103,22 @@ const TopSellingTable = () => {
                                     {product.available ? (
                                         product.available < 20 ? (
                                             <small className="border-radius-4 bg-secondary text-white px-2 py-2px">
-                                                {product.available} available
+                                                {product.available} dia/dias
                                             </small>
                                         ) : (
                                             <small className="border-radius-4 bg-primary text-white px-2 py-2px">
-                                                in stock
+                                                Disponible
                                             </small>
                                         )
                                     ) : (
                                         <small className="border-radius-4 bg-error text-white px-2 py-2px">
-                                            out of stock
+                                            Alta demanda
                                         </small>
                                     )}
                                 </TableCell>
                                 <TableCell className="px-0" colSpan={1}>
                                     <IconButton>
-                                        <Icon color="primary">edit</Icon>
+                                        <Icon color="primary">assignment_ind</Icon>
                                     </IconButton>
                                 </TableCell>
                             </TableRow>
@@ -132,32 +132,32 @@ const TopSellingTable = () => {
 
 const productList = [
     {
-        imgUrl: '/assets/images/products/headphone-2.jpg',
-        name: 'earphone',
+        imgUrl: '/assets/images/face-2.png',
+        name: 'Kim-Jong Un',
         price: 100,
         available: 15,
     },
     {
-        imgUrl: '/assets/images/products/headphone-3.jpg',
-        name: 'earphone',
+        imgUrl: '/assets/images/face-3.jpg',
+        name: 'Wosito Rodriguez',
         price: 1500,
         available: 30,
     },
     {
-        imgUrl: '/assets/images/products/iphone-2.jpg',
-        name: 'iPhone x',
+        imgUrl: '/assets/images/face-2.jpg',
+        name: 'Roberto Mendez',
         price: 1900,
         available: 35,
     },
     {
-        imgUrl: '/assets/images/products/iphone-1.jpg',
-        name: 'iPhone x',
+        imgUrl: '/assets/images/face-1.jpg',
+        name: 'Francisco Aceves',
         price: 100,
         available: 0,
     },
     {
-        imgUrl: '/assets/images/products/headphone-3.jpg',
-        name: 'Head phone',
+        imgUrl: '/assets/images/face-1.png',
+        name: 'Pablo Gonzalez',
         price: 1190,
         available: 5,
     },
