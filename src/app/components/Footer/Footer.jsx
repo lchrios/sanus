@@ -49,15 +49,10 @@ const Footer = () => {
             >
               <Button variant="contained">Download Free version</Button>
             </a> */}
-                        <a href="https://material-ui.com/store/items/matx-pro-react-dashboard-template/">
-                            <Button variant="contained" color="secondary">
-                                Get MatX Pro
-                            </Button>
-                        </a>
                         <span className="m-auto"></span>
                         <p className="m-0">
-                            Design and Developed by{' '}
-                            <a href="http://ui-lib.com">UI Lib</a>
+                            Desarrollado por{' '}
+                            <a href="https://github.com/lchrios/iknelia">ChriVias Soft</a>
                         </p>
                     </div>
                 </Toolbar>

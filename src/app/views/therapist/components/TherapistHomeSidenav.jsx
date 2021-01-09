@@ -31,8 +31,8 @@ const TherapistHomeSidenav = () => {
                     <h4 className="font-medium text-white">$ 20,495</h4>
                 </div>
                 <div>
-                    <p className="uppercase text-light-white mb-1">points</p>
-                    <h4 className="font-medium text-white">PT 3,000</h4>
+                    <p className="uppercase text-light-white mb-1">estrellas</p>
+                    <h4 className="font-medium text-white"><Icon>star_rate</Icon> 4.75</h4>
                 </div>
                 <div />
             </div>
@@ -60,14 +60,16 @@ const TherapistHomeSidenav = () => {
                     ))}
                 </Grid>
                 <div className="py-4" />
-                <div className="flex items-center justify-center text-primary">
-                    <Button>
-                        <Icon>sentiment_very_satisfied</Icon>
+                <Card className="flex items-center justify-center text-primary">
+                    <Button 
+                        className={classes.socialButton}
+                        >
+                        <Icon>note_add</Icon>
                         <h5 className="ml-8 text-primary font-medium mb-0">
-                            Upgrade to premium
+                            Escribir una entrada al blog
                         </h5>
                     </Button>
-                </div>
+                </Card>
                 <div className="py-2"></div>
             </div>
         </div>
@@ -76,23 +78,23 @@ const TherapistHomeSidenav = () => {
 
 const shortcutList = [
     {
-        title: 'stars',
+        title: 'estrellas',
         icon: 'star_outline',
     },
     {
-        title: 'events',
+        title: 'eventos',
         icon: 'email',
     },
     {
-        title: 'Photo',
+        title: 'Foto',
         icon: 'collections',
     },
     {
-        title: 'settings',
+        title: 'Configuracion',
         icon: 'brightness_7',
     },
     {
-        title: 'contacts',
+        title: 'Pacientes',
         icon: 'group',
     },
 ]

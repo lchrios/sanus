@@ -4,12 +4,18 @@ const TherapistHome = React.lazy(() => import('./TherapistHome'))
 
 const TherapistBlogs = React.lazy(() => import('./TherapistBlogs'))
 
-const BlogEntryForm = React.lazy(() => import('./BlogEntryForm'))
+const BlogEntryForm = React.lazy(() => import('./components/BlogEntryForm'))
+
+const TherapistCalendar = React.lazy(() => import('./TherapistCalendar'))
 
 const therapistRoutes = [
   {
-      path: "/:tid/appointments",
+      path: "/:tid/dashboard",
       component: TherapistHome
+  },
+  {
+      path: "/:tid/appointments",
+      component: TherapistCalendar
   },
   {
       path: "/:tid/myblogs",

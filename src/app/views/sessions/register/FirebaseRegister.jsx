@@ -109,7 +109,7 @@ const FirebaseRegister = () => {
                                     src="/assets/images/logos/google.svg"
                                     alt=""
                                 />
-                                Sign Up With Google
+                                Iniciar sesión con Google
                             </Button>
                         </div>
                         <p className="text-center mb-0">Or</p>
@@ -119,20 +119,20 @@ const FirebaseRegister = () => {
                                     className="mb-6 w-full"
                                     variant="outlined"
                                     size="small"
-                                    label="Email"
+                                    label="Correo"
                                     onChange={handleChange}
                                     type="email"
                                     name="email"
                                     value={email || ''}
                                     validators={['required', 'isEmail']}
                                     errorMessages={[
-                                        'this field is required',
-                                        'email is not valid',
+                                        'este campo es obligatorio',
+                                        'correo no válido',
                                     ]}
                                 />
                                 <TextValidator
                                     className="mb-4 w-full"
-                                    label="Password"
+                                    label="Contraseña"
                                     variant="outlined"
                                     size="small"
                                     onChange={handleChange}
@@ -140,7 +140,7 @@ const FirebaseRegister = () => {
                                     type="password"
                                     value={password || ''}
                                     validators={['required']}
-                                    errorMessages={['this field is required']}
+                                    errorMessages={['este campo es obligatorio']}
                                 />
                                 <FormControlLabel
                                     className="mb-4"
@@ -161,12 +161,12 @@ const FirebaseRegister = () => {
                                     }
                                     label={
                                         <>
-                                            I have read and agree to the{' '}
+                                            He leído y aceptado los{' '}
                                             <a
                                                 href="/"
                                                 className={classes.labelLink}
                                             >
-                                                terms of service.
+                                                términos de servicio.
                                             </a>
                                         </>
                                     }
@@ -182,7 +182,7 @@ const FirebaseRegister = () => {
                                             disabled={loading}
                                             type="submit"
                                         >
-                                            Sign Up
+                                            Registrarse
                                         </Button>
                                         {loading && (
                                             <CircularProgress
@@ -193,10 +193,10 @@ const FirebaseRegister = () => {
                                             />
                                         )}
                                     </div>
-                                    <span className="mx-2 ml-5">or</span>
+                                    <span className="mx-2 ml-5">o</span>
                                     <Link to="/session/signin">
                                         <Button className="capitalize">
-                                            Sign In
+                                            Iniciar sesión
                                         </Button>
                                     </Link>
                                 </div>

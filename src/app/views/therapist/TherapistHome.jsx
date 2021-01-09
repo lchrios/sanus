@@ -1,5 +1,5 @@
 import React, { Component, Fragment, useState, useEffect } from "react";
-import { Breadcrumb } from "app/components/index";
+import { Breadcrumb } from "app/components";
 import { Icon, IconButton, Hidden, useMediaQuery, Card, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import { useTheme } from '@material-ui/core/styles'
@@ -10,8 +10,8 @@ import {
 } from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import TherapistHomeContent from './TherapistHomeContent'
-import TherapistHomeSidenav from './TherapistHomeSidenav'
+import TherapistHomeContent from './components/TherapistHomeContent'
+import TherapistHomeSidenav from './components/TherapistHomeSidenav'
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({

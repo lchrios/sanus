@@ -29,7 +29,7 @@ const ProfileBarChart = ({ height, color }) => {
         },
         colors: ['rgba(var(--primary), 1)'],
         xaxis: {
-            categories: ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+            categories: ['Sab', 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie'],
             axisBorder: {
                 show: false,
             },

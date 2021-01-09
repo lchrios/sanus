@@ -1,6 +1,6 @@
 import imgOne from '../../../../../assets/images/videoIcon.svg'
 import imgTwo from '../../../../../assets/images/schedule.svg'
-import imgThree from '../../../../../assets/images/feelings.svg'
+import img3 from '../../../../../assets/images/schedule.svg'
 import img from '../../../../../assets/images/schedule.svg'
 
 export const homeObjOne = {
@@ -48,7 +48,7 @@ export const homeObjThree = {
     description: 'Tu crecimiento personal, paz mental y emocional, cuando la estés buscando.',
     buttonLabel: 'Comienza ahora',
     imgStart: false,
-    img: imgThree,
+    img: img3,
     alt: 'healthy brain',
     dark: true,
     primary: true,

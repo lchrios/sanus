@@ -7,7 +7,7 @@ export const navigations = [
         icon: 'dashboard',
     },
     {
-        name: 'Alternative',
+        name: 'Admin analytics',
         path: '/dashboard/alternative',
         icon: 'analytics',
     },
@@ -18,7 +18,7 @@ export const navigations = [
     },
        // Patient views
     {
-        name: 'Patient Views',
+        label: 'Patient Views',
         type: 'label',
     },
     { 
@@ -38,10 +38,15 @@ export const navigations = [
     },
     /**Therapist views */
     {
-        name: 'Therapist Views',
+        label: 'Therapist Views',
         type: 'label',
     },
     { 
+        name: "Therapist Dashboard",
+        icon: "event",
+        path: "/:tid/dashboard"
+    },
+    {
         name: "My appointments",
         icon: "event",
         path: "/:tid/appointments"

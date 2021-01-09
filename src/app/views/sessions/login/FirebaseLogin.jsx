@@ -101,7 +101,7 @@ const FirebaseLogin = () => {
         // console.log(userInfo);
         try {
             await signInWithEmailAndPassword(userInfo.email, userInfo.password)
-            history.push('/dashboard')
+            history.push('/dashboard/alternative')
         } catch (e) {
             console.log(e)
             setMessage(e.message)
@@ -111,7 +111,7 @@ const FirebaseLogin = () => {
     const handleGoogleLogin = async (event) => {
         try {
             await signInWithGoogle()
-            history.push('/')
+            history.push('/dashboard/alternative')
         } catch (e) {
             setMessage(e.message)
             setLoading(false)
@@ -136,36 +136,30 @@ const FirebaseLogin = () => {
                         >
                             <div className={classes.logo}>
                                 <MatxLogo className="mr-2" />{' '}
-                                <span>MatX Pro</span>
+                                <span>Iknelia</span>
                             </div>
                             <h1 className={classes.mainTitle}>
-                                Admin Dashboard
+                                La atención que mereces
                             </h1>
                             <div className={classes.features}>
                                 <div className="item">
-                                    JWT, FireBase & Auth0 Authentication
+                                    Crea tu cuenta 
                                 </div>
                                 <div className="item">
-                                    Clean & Organised code
+                                    Busca a un especialista de tu agrado
                                 </div>
                                 <div className="item">
-                                    Limitless Pages & Components
+                                    ¡Agenda tu cita! 
                                 </div>
                             </div>
-                            <span className="flex-grow"></span>
-                            <div className="flex items-center">
+                            {/*<span className="flex-grow"></span>*/}
+                            <div className="flex items-bottom p-32 flex-bottom">
                                 {/* <span className="">Design & Developed By</span> */}
-                                <a
-                                    href="https://ui-lib.com/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <img
-                                        className="h-32 w-32"
-                                        src="/assets/images/logos/ui-lib.png"
-                                        alt="UI Lib Logo"
-                                    />
-                                </a>
+                                <img
+                                    className="h-200 w-300"
+                                    src="/assets/images/illustrations/feelings.svg"
+                                    alt="feelings.svg"
+                                />
                             </div>
                         </div>
                     </Grid>
@@ -180,7 +174,7 @@ const FirebaseLogin = () => {
                                     src="/assets/images/logos/google.svg"
                                     alt=""
                                 />
-                                Sign In With Google
+                                Iniciar sesión con Google
                             </Button>
                         </div>
 
@@ -192,20 +186,20 @@ const FirebaseLogin = () => {
                                     className="mb-6 w-full"
                                     variant="outlined"
                                     size="small"
-                                    label="Email"
+                                    label="Correo"
                                     onChange={handleChange}
                                     type="email"
                                     name="email"
                                     value={userInfo.email}
                                     validators={['required', 'isEmail']}
                                     errorMessages={[
-                                        'this field is required',
-                                        'email is not valid',
+                                        'este campo es obligatorio',
+                                        'correo no válido',
                                     ]}
                                 />
                                 <TextValidator
                                     className="mb-3 w-full"
-                                    label="Password"
+                                    label="Contraseña"
                                     variant="outlined"
                                     size="small"
                                     onChange={handleChange}
@@ -213,7 +207,7 @@ const FirebaseLogin = () => {
                                     type="password"
                                     value={userInfo.password}
                                     validators={['required']}
-                                    errorMessages={['this field is required']}
+                                    errorMessages={['este campo es obligatorio']}
                                 />
                                 <FormControlLabel
                                     className="mb-3 min-w-288"
@@ -235,7 +229,7 @@ const FirebaseLogin = () => {
                                             checked={userInfo.remember}
                                         />
                                     }
-                                    label="Remeber me"
+                                    label="Recuérdame"
                                 />
 
                                 {message && (
@@ -250,7 +244,7 @@ const FirebaseLogin = () => {
                                             disabled={loading}
                                             type="submit"
                                         >
-                                            Sign in
+                                            Iniciar sesión
                                         </Button>
                                         {loading && (
                                             <CircularProgress
@@ -261,14 +255,14 @@ const FirebaseLogin = () => {
                                             />
                                         )}
                                     </div>
-                                    <span className="mr-2 ml-5">or</span>
+                                    <span className="mr-2 ml-5">o</span>
                                     <Button
                                         className="capitalize"
                                         onClick={() =>
                                             history.push('/session/signup')
                                         }
                                     >
-                                        Sign up
+                                        Registrarse
                                     </Button>
                                 </div>
                                 <Button
@@ -277,7 +271,7 @@ const FirebaseLogin = () => {
                                         history.push('/session/forgot-password')
                                     }
                                 >
-                                    Forgot password?
+                                    ¿Olvidaste tu contraseña?
                                 </Button>
                             </ValidatorForm>
                         </div>

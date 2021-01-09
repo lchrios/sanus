@@ -57,7 +57,7 @@ const ForgotPassword = () => {
                                 <TextValidator
                                     className="mb-6 w-full"
                                     variant="outlined"
-                                    label="Email"
+                                    label="Correo"
                                     onChange={handleChange}
                                     type="email"
                                     name="email"
@@ -65,8 +65,8 @@ const ForgotPassword = () => {
                                     value={email || ''}
                                     validators={['required', 'isEmail']}
                                     errorMessages={[
-                                        'this field is required',
-                                        'email is not valid',
+                                        'este campo es obligatorio',
+                                        'correo no válido',
                                     ]}
                                 />
                                 <div className="flex items-center">
@@ -75,12 +75,12 @@ const ForgotPassword = () => {
                                         color="primary"
                                         type="submit"
                                     >
-                                        Reset Password
+                                        Recuperar contraseña
                                     </Button>
-                                    <span className="ml-4 mr-2">or</span>
+                                    <span className="ml-4 mr-2">o</span>
                                     <Link to="/session/signin">
                                         <Button className="capitalize">
-                                            Sign in
+                                            Iniciar sesión
                                         </Button>
                                     </Link>
                                 </div>
