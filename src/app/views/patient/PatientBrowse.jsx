@@ -2,11 +2,8 @@ import React, { Component, Fragment } from "react";
 import { Breadcrumb, MatxSearchBox } from "app/components/index";
 import { Card, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles"
+import BrowseApp from './patientElements/browse/BrowseApp';
 import TherapistTableCards from "./patientElements/TherapistTableCard";
-
-/**como le haremos para que cuando el usuario busque un terapeuta le muestre el que necesita */
-/**En el botón de detalles, no se como desplegar la tarjeta del terapeuta, porque para empezar 
- no sé de donde importarla (ejemplo del matx-ui demo "view customer")*/
 class PatientBrowse extends Component {
     state = {};
     render() {
@@ -23,8 +20,7 @@ class PatientBrowse extends Component {
                     <div>
                         <h1>Encuentra a tu terapeuta favorito</h1>
                     </div>
-                    <MatxSearchBox/>
-                    <TherapistTableCards/>
+                    <BrowseApp/>
                 </div>
             </Fragment>
             

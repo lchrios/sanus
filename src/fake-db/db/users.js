@@ -1,7 +1,7 @@
 import Mock from '../mock'
 
 const userDB = {
-    users: [
+    therapists: [
         {
             id: '5a7b73f76bed15c94d1e46d4',
             index: 0,
@@ -1095,42 +1095,42 @@ const userDB = {
 }
 
 Mock.onGet('/api/user/all').reply((config) => {
-    return [200, userDB.users]
+    return [200, userDB.therapists]
 })
 
 Mock.onGet('/api/user').reply((config) => {
     const id = config.data
-    const response = userDB.users.find((user) => user.id === id)
+    const response = userDB.therapists.find((therapist) => therapist.id === id)
     return [200, response]
 })
 
 Mock.onPost('/api/user/delete').reply((config) => {
-    let user = JSON.parse(config.data)
+    let therapist = JSON.parse(config.data)
     let index = { i: 0 }
-    userDB.users.forEach((element) => {
-        if (element.id === user.id) {
-            return [200, userDB.users.splice(index.i, 1)]
+    userDB.therapists.forEach((element) => {
+        if (element.id === therapist.id) {
+            return [200, userDB.therapists.splice(index.i, 1)]
         }
         index.i++
     })
-    return [200, userDB.users]
+    return [200, userDB.therapists]
 })
 
 Mock.onPost('/api/user/update').reply((config) => {
-    let user = JSON.parse(config.data)
+    let therapist = JSON.parse(config.data)
     let index = { i: 0 }
-    userDB.users.forEach((element) => {
-        if (element.id === user.id) {
-            userDB.users[index.i] = user
-            return [200, userDB.users]
+    userDB.therapists.forEach((element) => {
+        if (element.id === therapist.id) {
+            userDB.therapists[index.i] = therapist
+            return [200, userDB.therapists]
         }
         index.i++
     })
-    return [200, userDB.users]
+    return [200, userDB.therapists]
 })
 
 Mock.onPost('/api/user/add').reply((config) => {
-    let user = JSON.parse(config.data)
-    userDB.users.push(user)
-    return [200, userDB.users]
+    let therapist = JSON.parse(config.data)
+    userDB.therapists.push(therapist)
+    return [200, userDB.therapists]
 })

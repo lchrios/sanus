@@ -4,6 +4,7 @@ import { Card, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import PatientHistory from './patientElements/PatientHistory'
 import UserPlanCard from "./patientElements/UserPlanCard";
+import SessionsHistory from "./patientElements/sessions/SessionsHistory";
 
 /**Como le puedo añadir una función para que dependiendo de el plan que tenga, muestre el plan que tiene y además cambie el texto del 
  botón y por lo tanto la ruta
@@ -18,16 +19,15 @@ class PatientSessions extends Component {
                     <div className="mb-sm-30">
                         <Breadcrumb routeSegments={[{ name: "Mi historial de sesiones" }]} />
                     </div>
-                    <div className="pb-86 pt-30 px-30 bg-primary">
-                        <Card></Card>
+                    <div>
+                        <Card>
+                            <SimpleCard title="Historial de sesiones">
+                                <SessionsHistory/>
+                            </SimpleCard>
+                        </Card>
                     </div>
-                    <SimpleCard title="Historial de sesiones">
-                        <PatientHistory/>
-                    </SimpleCard>
+                    
                         
-                </div>
-                <div>
-                    <UserPlanCard/>
                 </div>
             </Fragment>
             
