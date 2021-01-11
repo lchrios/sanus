@@ -33,7 +33,7 @@ export const Footer = () => {
                     </FooterLinksWrapper>
                     <FooterLinksWrapper>
                         <FooterLinkItems>
-                            <FooterLinkTitle> usaremos tus datos  </FooterLinkTitle>
+                            <FooterLinkTitle> Uso de datos  </FooterLinkTitle>
                                 <FooterLink to="/signin">Registrate</FooterLink>
                                 <FooterLink to="/signin">Conoce más</FooterLink>
                                 <FooterLink to="/signin">Especialistas</FooterLink>
@@ -43,7 +43,7 @@ export const Footer = () => {
                     </FooterLinksWrapper>
                     <FooterLinksWrapper>
                         <FooterLinkItems>
-                            <FooterLinkTitle> para ganar dinero  </FooterLinkTitle>
+                            <FooterLinkTitle> Trabaja con nosotros </FooterLinkTitle>
                                 <FooterLink to="/signin">Registrate</FooterLink>
                                 <FooterLink to="/signin">Conoce más</FooterLink>
                                 <FooterLink to="/signin">Especialistas</FooterLink>
@@ -53,7 +53,7 @@ export const Footer = () => {
                     </FooterLinksWrapper>
                     <FooterLinksWrapper>
                         <FooterLinkItems>
-                            <FooterLinkTitle> jalas?  </FooterLinkTitle>
+                            <FooterLinkTitle> Contacto </FooterLinkTitle>
                                 <FooterLink to="/signin">Registrate</FooterLink>
                                 <FooterLink to="/signin">Conoce más</FooterLink>
                                 <FooterLink to="/signin">Especialistas</FooterLink>
