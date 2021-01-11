@@ -63,7 +63,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
             fullWidth={true}
         >
             <div className="flex justify-between items-center pl-4 pr-2 py-2 bg-primary">
-                <h4 className="m-0 text-white">Add Events</h4>
+                <h4 className="m-0 text-white">Crear una sesión</h4>
                 <IconButton onClick={handleClose}>
                     <Icon className="text-white">clear</Icon>
                 </IconButton>
@@ -73,13 +73,13 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                 <ValidatorForm onSubmit={handleFormSubmit}>
                     <TextValidator
                         className="mb-6 w-full"
-                        label="Title"
+                        label="Nombre"
                         onChange={handleChange}
                         type="text"
-                        name="title"
+                        name="Nombre"
                         value={title || ''}
                         validators={['required']}
-                        errorMessages={['this field is required']}
+                        errorMessages={['Este campo es requerido']}
                     />
 
                     <Grid container spacing={4}>
@@ -88,7 +88,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                                 <DateTimePicker
                                     margin="none"
                                     id="start-date"
-                                    label="Start date"
+                                    label="Fecha del evento"
                                     inputVariant="standard"
                                     type="text"
                                     autoOk={true}
@@ -100,47 +100,30 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                                 />
                             </MuiPickersUtilsProvider>
                         </Grid>
-                        <Grid item sm={6} xs={12}>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <DateTimePicker
-                                    margin="none"
-                                    id="end-date"
-                                    label="End date"
-                                    inputVariant="standard"
-                                    type="text"
-                                    autoOk={true}
-                                    value={end || ''}
-                                    fullWidth
-                                    onChange={(date) =>
-                                        handleDateChange(date, 'end')
-                                    }
-                                />
-                            </MuiPickersUtilsProvider>
-                        </Grid>
                     </Grid>
                     <div className="py-2" />
                     <TextValidator
                         className="mb-6 w-full"
-                        label="Location"
+                        label="Descripción"
                         onChange={handleChange}
                         type="text"
-                        name="location"
+                        name="descripción"
                         value={location || ''}
                         validators={['required']}
-                        errorMessages={['this field is required']}
+                        errorMessages={['Este campo es requerido']}
                     />
 
                     <TextValidator
                         className="mb-9 w-full"
-                        label="Note"
+                        label="Nota extra"
                         onChange={handleChange}
                         type="text"
-                        name="note"
+                        name="nota"
                         value={note || ''}
                         rowsMax={2}
                         multiline={true}
                         validators={['required']}
-                        errorMessages={['this field is required']}
+                        errorMessages={['Este campo es requerido']}
                     />
 
                     <div className="flex justify-between items-center">
@@ -149,11 +132,11 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                             color="primary"
                             type="submit"
                         >
-                            Save
+                            Agendar
                         </Button>
                         <Button onClick={handleDeleteEvent}>
                             <Icon className="mr-2 align-middle">delete</Icon>
-                            Delete
+                            Borrar
                         </Button>
                     </div>
                 </ValidatorForm>

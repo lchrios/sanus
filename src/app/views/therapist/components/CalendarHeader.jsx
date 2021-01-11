@@ -13,11 +13,11 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const viewNameListObject = {
     month: {
-        name: 'Month',
+        name: 'Mensual',
         icon: 'view_module',
     },
     week: {
-        name: 'Week',
+        name: 'Semanal',
         icon: 'view_week',
     },
     work_week: {
@@ -25,7 +25,7 @@ const viewNameListObject = {
         icon: 'view_array',
     },
     day: {
-        name: 'Day',
+        name: 'Día',
         icon: 'view_day',
     },
     agenda: {

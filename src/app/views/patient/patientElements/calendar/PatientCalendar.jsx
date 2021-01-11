@@ -110,7 +110,7 @@ const PatientCalendar = () => {
                     })
                 }
             >
-                Add Event
+                Agenda una sesión
             </Button>
             <div
                 className={clsx('h-full-screen flex-column', classes.calendar)}

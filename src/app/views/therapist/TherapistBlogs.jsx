@@ -64,7 +64,7 @@ const TherapistBlogs = () => {
                 <div className="flex items-center mb-4 px-4">
                         <TextField
                             variant="outlined"
-                            placeholder="Discount Coupon"
+                            placeholder="Título de nueva entrada"
                             className="flex-grow"
                             size="small"
                         ></TextField>
@@ -73,14 +73,14 @@ const TherapistBlogs = () => {
                             variant="contained"
                             color="secondary"
                         >
-                            Apply
+                            Crear
                         </Button>
                         <Button
                             variant="contained"
                             color="primary"
                             onClick={() => history.push('/ecommerce/checkout')}
                         >
-                            Checkout
+                            Crear borrador
                         </Button>
                 </div>
                 <Divider></Divider>
@@ -182,37 +182,16 @@ const TherapistBlogs = () => {
                     </Grid>
                 </div>
             ))}
-
+            /** se puede usar para conectar entradas con back */
             <div>
                 <Divider className="mb-12"></Divider>
                 <Grid container className="mb-12 px-4">
-                    <Grid item lg={3} md={3} sm={3} xs={3}></Grid>
-                    <Grid item lg={4} md={4} sm={4} xs={4}></Grid>
-                    <Grid item lg={true} md={true} sm={true} xs={true}></Grid>
-                    <Grid
-                        item
-                        lg={true}
-                        md={true}
-                        sm={true}
-                        xs={true}
-                        className="text-center"
-                    >
-                        <h6 className="m-0">Total</h6>
-                    </Grid>
-                    <Grid
-                        item
-                        lg={true}
-                        md={true}
-                        sm={true}
-                        xs={true}
-                        className="text-center"
-                    >
-                        <h6 className="m-0">${getTotalCost().toFixed(2)}</h6>
-                    </Grid>
+                    <h6 className="m-0">${getTotalCost().toFixed(2)}</h6>
                 </Grid>
-            </div>
+            </div> 
         </Card>
     )
 }
 
 export default TherapistBlogs
+

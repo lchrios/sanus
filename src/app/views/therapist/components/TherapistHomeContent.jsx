@@ -272,7 +272,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                             <div className="flex-grow">
                                 <div className="flex items-center justify-between pr-4 pb-3">
                                     <h5 className="m-0 font-medium capitalize">
-                                        bought air ticket
+                                        Entrada de blog
                                     </h5>
                                     <span className="text-muted">
                                         12/03/2019
@@ -304,7 +304,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                             <div className="flex-grow">
                                 <div className="flex items-center justify-between pr-4 pb-3">
                                     <h5 className="m-0 font-medium capitalize">
-                                        timeline box title
+                                        Entrada de blog
                                     </h5>
                                     <span className="text-muted">
                                         12/03/2019
@@ -349,32 +349,32 @@ const projectSummery = [
 const paymentList = [
     {
         img: '/assets/images/payment-methods/master-card.png',
-        type: 'Master Card',
-        product: 'Bundled product',
+        type: 'Método 1',
+        product: 'Descripción del método',
         amount: 909,
     },
     {
         img: '/assets/images/payment-methods/paypal.png',
-        type: 'Master Card',
-        product: 'Bundled product',
+        type: 'Método 1',
+        product: 'Descripción del método',
         amount: 303,
     },
     {
         img: '/assets/images/payment-methods/visa.png',
-        type: 'Paypal',
-        product: 'Bundled product',
+        type: 'Método 2',
+        product: 'Descripción del método',
         amount: 330,
     },
     {
         img: '/assets/images/payment-methods/maestro.png',
-        type: 'Paypal',
-        product: 'Bundled product',
+        type: 'Método 3',
+        product: 'Descripción del método',
         amount: 909,
     },
     {
         img: '/assets/images/payment-methods/maestro.png',
-        type: 'Master Card',
-        product: 'Bundled product',
+        type: 'Método 4',
+        product: 'Descripción del método',
         amount: 909,
     },
 ]
