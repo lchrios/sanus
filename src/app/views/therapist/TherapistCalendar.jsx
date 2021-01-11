@@ -58,7 +58,8 @@ const TherapistCalendar = () => {
     const [shouldShowEventDialog, setShouldShowEventDialog] = useState(false)
     const [isAlive, setIsAlive] = useState(true)
     const [userList, setUserList] = useState([])
-    const [rowsPerPage, setRowsPerPage] = useState(10)
+
+    const [rowsPerPage, setRowsPerPage] = useState(6)
     const [page, setPage] = useState(0)
 
     const headerComponentRef = useRef(null)
@@ -191,8 +192,9 @@ const TherapistCalendar = () => {
                     justify="center"
                     alignItems="2-end"
                 >
-                    <div>
+                    <div className="p-6 flex flex-wrap justify-between items-center">
                         <h1>Próximos pacientes</h1>
+                        <div className="py-1"></div>
                     </div>
                     <Grid container spacing={3}
                       justify="space-evenly"
@@ -207,40 +209,6 @@ const TherapistCalendar = () => {
                             <PatientCard key={user.id} user={user} />
                             ))}
                     </Grid>
-                    {/*userList.map((user, ind) => (
-                        <Grid key={user.id} item lg={3} md={3} sm={6} xs={12}>
-                            <Card>
-                                <div className="p-6 flex flex-wrap justify-between items-center">
-                                    <div className="flex items-center">
-                                        <Avatar
-                                            className="h-48 w-48"
-                                            src={user.imgUrl}
-                                        />
-                                        <div className="ml-4">
-                                            <h5 className="m-0">{user.name}</h5>
-                                            <p className="mb-0 mt-2 text-muted font-normal capitalize">
-                                                {user.company?.toLowerCase()}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="flex m-2">
-                                        <Button
-                                            size="small"
-                                            className="bg-light-primary hover-bg-primary text-primary px-5 mr-1"
-                                        >
-                                            CHAT
-                                        </Button>
-                                        <Button
-                                            size="small"
-                                            className="bg-light-primary hover-bg-primary text-primary px-5"
-                                        >
-                                            PROFILE
-                                        </Button>
-                                    </div>
-                                </div>
-                            </Card>
-                        </Grid>
-                    ))*/}
                 </Grid>
             </Grid>
         </div>

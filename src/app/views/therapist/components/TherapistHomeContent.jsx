@@ -12,7 +12,7 @@ import DummyChart from './DummyChart'
 import ProfileBarChart from './ProfileBarChart'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import MatxCalendar from 'app/views/calendar/MatxCalendar'
+import NextSessions from './NextSessions'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
@@ -106,38 +106,16 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                     <Grid item lg={8} md={8} sm={12} xs={12}>
                         <Card className="pb-4">
                             <h4 className="font-medium text-muted px-4 pt-4 pb-0">
-                                Resumen
+                                Próximas citas
                             </h4>
-                            <ProfileBarChart
-                                height="260px"
-                                color={[theme.palette.warn]}
-                            />
-                            <div className="pt-4 flex items-center justify-around">
-                                <div>
-                                    <h1 className="font-normal m-0 mb-1">
-                                        140
-                                    </h1>
-                                    <span className="font-normal text-muted uppercase">
-                                        promedio anual
-                                    </span>
-                                </div>
-                                <div>
-                                    <h1 className="font-normal m-0 mb-1">12</h1>
-                                    <span className="font-normal text-muted uppercase">
-                                        promedio mensual
-                                    </span>
-                                </div>
-                                <div>
-                                    <h1 className="font-normal m-0 mb-1">3</h1>
-                                    <span className="font-normal text-muted uppercase">
-                                        promedio semanal
-                                    </span>
-                                </div>
-                            </div>
+                            <NextSessions />
                         </Card>
                     </Grid>
-
-                    <Grid item lg={4} md={4} sm={12} xs={12}>
+                    <Grid item lg={4} md={4} sm={12} xs={12} container spacing={1}>
+                        <Grid item lg={12}
+                                md={12}
+                                sm={12}
+                                xs={12}>
                         <Card className="p-4 h-full">
                             <h4 className="font-medium text-muted pb-6 pb-0 mb-6">
                             <Icon>group</Icon> Pacientes
@@ -156,7 +134,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                     </h5>
                                     <p className="m-0 text-muted">Guadalajara, Jalisco</p>
                                 </div>
-                            </div>
+                             </div>
                             <div className="flex items-center mb-4">
                                 <Fab className="bg-light-green box-shadow-none overflow-hidden">
                                     <h4 className="text-green m-0 font-normal">
@@ -197,7 +175,43 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                 </div>
                             </div>
                         </Card>
-                    </Grid>
+                        </Grid>
+                        <div className="py-7"></div>
+                        <Grid item lg={12}
+                                md={12}
+                                sm={12}
+                                xs={12}>
+                        <Card>
+                            {paymentList.map((method, index) => (
+                                <Fragment key={index}>
+                                    <div className="py-4 px-6 flex flex-wrap items-center justify-between">
+                                        <div className="flex flex-wrap items-center">
+                                            <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
+                                                <img
+                                                    className="w-36 overflow-hidden"
+                                                    src={method.img}
+                                                    alt="master card"
+                                                />
+                                            </div>
+                                            <div className="ml-4">
+                                                <h5 className="mb-1 font-medium">
+                                                    {method.type}
+                                                </h5>
+                                                <span className="text-muted">
+                                                    {method.product}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {index !== paymentList.length - 1 && (
+                                        <Divider />
+                                    )}
+                                </Fragment>
+                            ))}
+                        </Card>
+                        </Grid>
+                        
+                    </Grid> 
 
                     <Grid item lg={8} md={8} sm={12} xs={12}>
                         <div className="py-3"></div>
@@ -224,7 +238,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                             <div className="flex-grow">
                                 <div className="flex items-center justify-between pr-4 pb-3">
                                     <h5 className="m-0 font-medium capitalize">
-                                        update profile picture
+                                        Entrada más popular
                                     </h5>
                                     <span className="text-muted">
                                         12/03/2019
@@ -232,6 +246,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                 </div>
                                 <Divider className="mb-4"></Divider>
                                 <div className={classes.cardGrayBox}>
+                                    <h3>Técnicas de relajación</h3>
                                     <img
                                         className="h-full w-full border-radius-4"
                                         src="/assets/images/photo-1.jpg"
@@ -307,34 +322,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                     </Grid>
 
                     <Grid item lg={4} md={4} sm={12} xs={12}>
-                        <Card>
-                            {paymentList.map((method, index) => (
-                                <Fragment key={index}>
-                                    <div className="py-4 px-6 flex flex-wrap items-center justify-between">
-                                        <div className="flex flex-wrap items-center">
-                                            <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
-                                                <img
-                                                    className="w-36 overflow-hidden"
-                                                    src={method.img}
-                                                    alt="master card"
-                                                />
-                                            </div>
-                                            <div className="ml-4">
-                                                <h5 className="mb-1 font-medium">
-                                                    {method.type}
-                                                </h5>
-                                                <span className="text-muted">
-                                                    {method.product}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {index !== paymentList.length - 1 && (
-                                        <Divider />
-                                    )}
-                                </Fragment>
-                            ))}
-                        </Card>
+                        
                     </Grid>
                 </Grid>
                 <div className="py-2"></div>
