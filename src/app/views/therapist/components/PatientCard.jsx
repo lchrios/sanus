@@ -53,6 +53,10 @@ const PatientCard = ({ user }) => {
                                   <Icon className="cursor-pointer">more_horiz</Icon>
                               }
                           >
+                                <MenuItem>
+                                        <Icon fontSize="small"> done </Icon>
+                                        <span className="pl-4"> Mark as finished </span>
+                                </MenuItem>
                               <MenuItem>
                                   <Icon fontSize="small"> account_circle </Icon>
                                   <span className="pl-4"> View Profile </span>

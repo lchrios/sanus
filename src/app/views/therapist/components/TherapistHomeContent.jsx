@@ -5,6 +5,7 @@ import {
     Fab,
     Grid,
     Icon,
+    Button,
     IconButton,
 } from '@material-ui/core'
 import React, { Fragment } from 'react'
@@ -59,6 +60,11 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
         borderRadius: 8,
         backgroundColor: 'rgba(var(--body), 0.1)',
     },
+
+    showAllPatients: {
+        margin: theme.spacing(1),
+      },
+    
 }))
 
 const TherapistHomeContent = ({ toggleSidenav }) => {
@@ -116,67 +122,69 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                 md={12}
                                 sm={12}
                                 xs={12}>
-                        <Card className="p-4 h-full">
-                            <h4 className="font-medium text-muted pb-6 pb-0 mb-6">
-                            <Icon>group</Icon> Pacientes
-                            </h4>
-                            <div className="flex items-center mb-4">
-                                <Badge badgeContent="Nuevo" color="primary">
-                                    <Fab className="bg-light-primary box-shadow-none overflow-hidden">
-                                        <h4 className="text-primary m-0 font-normal">
-                                            LM
+                            <Card className="p-4 h-full">
+                                <h4 className="font-medium text-muted pb-6 pb-0 mb-6">
+                                <Icon>group</Icon> Pacientes
+                                </h4>
+                                <div className="flex items-center mb-4">
+                                    <Badge badgeContent="Nuevo" color="primary">
+                                        <Fab className="bg-light-primary box-shadow-none overflow-hidden">
+                                            <h4 className="text-primary m-0 font-normal">
+                                                LM
+                                            </h4>
+                                        </Fab>
+                                    </Badge>
+                                    <div className="ml-4">
+                                        <h5 className="m-0 mb-1 font-medium">
+                                            Luis Martinez
+                                        </h5>
+                                        <p className="m-0 text-muted">Guadalajara, Jalisco</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center mb-4">
+                                    <Fab className="bg-light-green box-shadow-none overflow-hidden">
+                                        <h4 className="text-green m-0 font-normal">
+                                            HP
                                         </h4>
                                     </Fab>
-                                </Badge>
-                                <div className="ml-4">
-                                    <h5 className="m-0 mb-1 font-medium">
-                                        Luis Martinez
-                                    </h5>
-                                    <p className="m-0 text-muted">Guadalajara, Jalisco</p>
+                                    <div className="ml-4">
+                                        <h5 className="m-0 mb-1 font-medium">
+                                            Hector Ponce
+                                        </h5>
+                                        <p className="m-0 text-muted">Monterrey, Nuevo León</p>
+                                    </div>
                                 </div>
-                             </div>
-                            <div className="flex items-center mb-4">
-                                <Fab className="bg-light-green box-shadow-none overflow-hidden">
-                                    <h4 className="text-green m-0 font-normal">
-                                        HP
-                                    </h4>
-                                </Fab>
-                                <div className="ml-4">
-                                    <h5 className="m-0 mb-1 font-medium">
-                                        Hector Ponce
-                                    </h5>
-                                    <p className="m-0 text-muted">Monterrey, Nuevo León</p>
+                                <div className="flex items-center mb-4">
+                                    <Fab className="bg-light-error box-shadow-none overflow-hidden">
+                                        <h4 className="text-error m-0 font-normal">
+                                            JP
+                                        </h4>
+                                    </Fab>
+                                    <div className="ml-4">
+                                        <h5 className="m-0 mb-1 font-medium">
+                                            Jorge Perez
+                                        </h5>
+                                        <p className="m-0 text-muted">CDMX, Estado de México</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex items-center mb-4">
-                                <Fab className="bg-light-error box-shadow-none overflow-hidden">
-                                    <h4 className="text-error m-0 font-normal">
-                                        JP
-                                    </h4>
-                                </Fab>
-                                <div className="ml-4">
-                                    <h5 className="m-0 mb-1 font-medium">
-                                        Jorge Perez
-                                    </h5>
-                                    <p className="m-0 text-muted">CDMX, Estado de México</p>
+                                <div className="flex items-center mb-4">
+                                    <Fab className="bg-light-primary box-shadow-none overflow-hidden">
+                                        <h4 className="text-brand m-0 font-normal">
+                                            AM
+                                        </h4>
+                                    </Fab>
+                                    <div className="ml-4">
+                                        <h5 className="m-0 mb-1 font-medium">
+                                            Angela Martinez
+                                        </h5>
+                                        <p className="m-0 text-muted">Guadalajara, Jalisco</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex items-center">
-                                <Fab className="bg-light-primary box-shadow-none overflow-hidden">
-                                    <h4 className="text-brand m-0 font-normal">
-                                        AM
-                                    </h4>
-                                </Fab>
-                                <div className="ml-4">
-                                    <h5 className="m-0 mb-1 font-medium">
-                                        Angela Martinez
-                                    </h5>
-                                    <p className="m-0 text-muted">Guadalajara, Jalisco</p>
+                                <div className="flex items-center mb-4">
+                                    <Button color="primary" className={classes.showAllPatients}>Mostrar más...</Button>
                                 </div>
-                            </div>
-                        </Card>
+                            </Card>
                         </Grid>
-                        <div className="py-7"></div>
                         <Grid item lg={12}
                                 md={12}
                                 sm={12}

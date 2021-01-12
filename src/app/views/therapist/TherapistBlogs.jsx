@@ -185,31 +185,6 @@ const TherapistBlogs = () => {
 
             <div>
                 <Divider className="mb-12"></Divider>
-                <Grid container className="mb-12 px-4">
-                    <Grid item lg={3} md={3} sm={3} xs={3}></Grid>
-                    <Grid item lg={4} md={4} sm={4} xs={4}></Grid>
-                    <Grid item lg={true} md={true} sm={true} xs={true}></Grid>
-                    <Grid
-                        item
-                        lg={true}
-                        md={true}
-                        sm={true}
-                        xs={true}
-                        className="text-center"
-                    >
-                        <h6 className="m-0">Total</h6>
-                    </Grid>
-                    <Grid
-                        item
-                        lg={true}
-                        md={true}
-                        sm={true}
-                        xs={true}
-                        className="text-center"
-                    >
-                        <h6 className="m-0">${getTotalCost().toFixed(2)}</h6>
-                    </Grid>
-                </Grid>
             </div>
         </Card>
     )

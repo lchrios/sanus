@@ -77,13 +77,18 @@ const NextSessions = () => {
                                     }
                                 >
                                     <MenuItem>
+                                        <Icon fontSize="small"> done </Icon>
+                                        <span className="pl-4"> Mark as finished </span>
+                                    </MenuItem>
+                                    <MenuItem>
                                         <Icon fontSize="small"> account_circle </Icon>
                                         <span className="pl-4"> View Profile </span>
                                     </MenuItem>
                                     <MenuItem>
                                         <Icon fontSize="small"> edit </Icon>
-                                        <span className="pl-4"> Edit Profile </span>
+                                        <span className="pl-4"> Editar sesion </span>
                                     </MenuItem>
+
                                 </MatxMenu>
                             </div>
                         </div>

@@ -196,7 +196,7 @@ const TherapistCalendar = () => {
                         <h1>Próximos pacientes</h1>
                         <div className="py-1"></div>
                     </div>
-                    <Grid container spacing={3}
+                    <Grid container spacing={1}
                       justify="space-evenly"
                       alignItems="stretch"
                     >

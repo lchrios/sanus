@@ -82,20 +82,20 @@ const shortcutList = [
         icon: 'star_outline',
     },
     {
-        title: 'eventos',
-        icon: 'email',
+        title: 'sesiones',
+        icon: 'event',
     },
     {
-        title: 'Foto',
-        icon: 'collections',
-    },
-    {
-        title: 'Configuracion',
-        icon: 'brightness_7',
-    },
-    {
-        title: 'Pacientes',
+        title: 'pacientes',
         icon: 'group',
+    },
+    {
+        title: 'configuracion',
+        icon: 'settings',
+    },
+    {
+        title: 'finanzas',
+        icon: 'payments',
     },
 ]
 
