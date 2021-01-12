@@ -66,11 +66,52 @@ export const NotificationProvider = ({ settings, children }) => {
 
     const getNotifications = async () => {
         try {
+            const notification_data = [
+                {
+                    heading: "Nuevo mensaje",
+                    id: "K0MU_mC25UB", 
+                    path: "chat",
+                    subtitle: "Hello, Any progress...",
+                    timestamp: 1570702802573,
+                    title: "Nuevo mensaje de Devid",
+                    icon: {
+                        name: "chat", 
+                        color: "primary"
+                    }
+                },
+                {
+                    heading: "Mensaje",
+                    id: "lelnosabia", 
+                    path: "page-layouts/user-profile",
+                    subtitle: "Servidor sobre caragado",
+                    timestamp: 1570702802573,
+                    title: "Haz superado el tráfico permitido",
+                    icon: {
+                        name: "notifications", 
+                        color: "error"
+                    }
+                },
+                {
+                    heading: "Nuevo mensaje",
+                    id: "K0MU_mC25UB", 
+                    path: "chat",
+                    subtitle: "Qué tal",
+                    timestamp: 1570702802573,
+                    title: "Nuevo mensaje de Devid",
+                    icon: {
+                        name: "chat", 
+                        color: "primary"
+                    }
+
+                }
+            ]
+        
             const res = await axios.get('/api/notification')
             dispatch({
                 type: 'LOAD_NOTIFICATIONS',
-                payload: res.data,
-            })
+                payload: notification_data,
+            }) 
+            console.log(notification_data)
         } catch (e) {
             console.error(e)
         }

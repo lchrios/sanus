@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core'
 import React, { Fragment } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+import history from '../../../../../../history';
 import clsx from 'clsx'
 import PatientTest from '../../test/PatientTest'
 import TherapistInfoUser from './TherapistInfoUser'
@@ -65,6 +66,10 @@ const UserProfileContent = ({ toggleSidenav }) => {
     const classes = usestyles()
     const theme = useTheme()
 
+    const onClick1 = () => {
+        history.push("/:pid/sessions");
+    }
+
     return (
         <Fragment>
             <div className={classes.profileContent}>
@@ -94,7 +99,7 @@ const UserProfileContent = ({ toggleSidenav }) => {
                                         </h4>
                                     </div>
                                     <div className="w-56 h-36">
-                                        <IconButton className="text-white">
+                                        <IconButton onClick={onClick1} className="text-white">
                                             <Icon> visibility </Icon>
                                         </IconButton>
                                     </div>

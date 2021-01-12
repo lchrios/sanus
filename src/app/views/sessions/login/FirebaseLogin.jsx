@@ -106,7 +106,7 @@ const FirebaseLogin = () => {
             history.push('/dashboard/alternative')
         } catch (e) {
             console.log(e)
-            setMessage(e.message)
+            setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
             setLoading(false)
         }
     }

@@ -1,4 +1,4 @@
-import React, {    useState} from 'react'
+import React, { useState } from 'react'
 import {
     Grid,
     Divider,
@@ -129,6 +129,14 @@ const TherapistBlogs = () => {
                     <Grid container alignItems="center">
                         <Grid item lg={3} md={3} sm={3} xs={3}>
                             <div className="flex items-center">
+                                <IconButton
+                                    size="small"
+                                    onClick={() =>
+                                        handleDeleteFromCart(product.id)
+                                    }
+                                >
+                                    <Icon fontSize="small">clear</Icon>
+                                </IconButton>
                                 <div className="px-4">
                                     <img
                                         className="border-radius-4 w-full"
@@ -139,7 +147,7 @@ const TherapistBlogs = () => {
                             </div>
                         </Grid>
                         <Grid item lg={4} md={4} sm={4} xs={4}>
-                            <h6 className="m-0">{product.name}</h6>
+                            <h6 className="m-0">{product.title}</h6>
                             <p className="mt-2 m-0 text-muted">
                                 {product.description}
                             </p>
@@ -152,7 +160,30 @@ const TherapistBlogs = () => {
                             xs={true}
                             className="text-center"
                         >
-                            <h6 className="m-0">{product.price}</h6>
+                            <h6 className="m-0">${product.price}</h6>
+                        </Grid>
+                        <Grid
+                            item
+                            lg={true}
+                            md={true}
+                            sm={true}
+                            xs={true}
+                            className="text-center"
+                        >
+                            <TextField
+                                variant="outlined"
+                                name="amount"
+                                type="number"
+                                size="small"
+                                value={product.amount}
+                                onChange={(e) => handleChange(e, product.id)}
+                                inputProps={{
+                                    style: {
+                                        // padding: "10px",
+                                        width: '60px',
+                                    },
+                                }}
+                            ></TextField>
                         </Grid>
                         <Grid
                             item
@@ -163,26 +194,12 @@ const TherapistBlogs = () => {
                             className="text-center"
                         >
                             <h6 className="m-0">
-                                {product.price * product.amount}
+                                ${product.price * product.amount}
                             </h6>
                         </Grid>
-                        <Grid
-                            item
-                            lg={true}
-                            md={true}
-                            sm={true}
-                            xs={true}
-                            className="text-center"
-                        >
-                            <IconButton>
-                                <Icon>edit</Icon>
-                            </IconButton>
-                        </Grid>
-                        
                     </Grid>
                 </div>
             ))}
-            /** se puede usar para conectar entradas con back */
             <div>
                 <Divider className="mb-12"></Divider>
             </div>

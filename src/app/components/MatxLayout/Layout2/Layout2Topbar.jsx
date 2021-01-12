@@ -82,7 +82,7 @@ const Layout2Topbar = () => {
                         <MatxSearchBox />
                         <NotificationBar2 />
 
-                        <ShoppingCart />
+                        {/* <ShoppingCart /> */}
 
                         <MatxMenu
                             menuButton={

@@ -78,11 +78,11 @@ const NextSessions = () => {
                                 >
                                     <MenuItem>
                                         <Icon fontSize="small"> done </Icon>
-                                        <span className="pl-4"> Mark as finished </span>
+                                        <span className="pl-4"> Marcar como terminado </span>
                                     </MenuItem>
                                     <MenuItem>
                                         <Icon fontSize="small"> account_circle </Icon>
-                                        <span className="pl-4"> View Profile </span>
+                                        <span className="pl-4"> Ver perfil </span>
                                     </MenuItem>
                                     <MenuItem>
                                         <Icon fontSize="small"> edit </Icon>
@@ -103,14 +103,7 @@ const NextSessions = () => {
                                         fontSize="small"
                                         className={clsx('text-14', classes.google)}
                                     />
-                                    <span className="ml-2">ui-lib@gmail.com</span>
-                                </Link>
-                                <Link className="flex items-center" to="/">
-                                    <Twitter
-                                        fontSize="small"
-                                        className={clsx('text-14', classes.twitter)}
-                                    />
-                                    <span className="ml-2">uilib</span>
+                                    <span className="ml-2">correiopaciente@gmail.com</span>
                                 </Link>
                             </div>
                             <div className="flex flex-wrap">
@@ -124,7 +117,7 @@ const NextSessions = () => {
                                     size="small"
                                     className="bg-light-primary hover-bg-primary text-primary px-5"
                                 >
-                                    PROFILE
+                                    PERFIL
                                 </Button>
                             </div>
                         </div>

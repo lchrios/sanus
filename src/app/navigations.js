@@ -62,6 +62,11 @@ export const navigations = [
         icon: "text_snippet",
         path: "/:tid/myblogs"
     },
+    {
+        name: 'Editor',
+        path: '/:tid/myblogs/new',
+        icon: 'text_snippet',
+    },
 
     /**
     {
