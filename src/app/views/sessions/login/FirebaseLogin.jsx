@@ -12,6 +12,7 @@ import { MatxLogo, MatxDivider } from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
 import history from 'history.js'
 import clsx from 'clsx'
+import {NavLogo} from '../../landing/components/Navbar_sc/NavbarElements';
 import useAuth from 'app/hooks/useAuth'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -135,8 +136,7 @@ const FirebaseLogin = () => {
                             })}
                         >
                             <div className={classes.logo}>
-                                <MatxLogo className="mr-2" />{' '}
-                                <span>Iknelia</span>
+                                <NavLogo>Iknelia</NavLogo>
                             </div>
                             <h1 className={classes.mainTitle}>
                                 La atención que mereces

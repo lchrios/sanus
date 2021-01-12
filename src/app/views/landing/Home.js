@@ -5,7 +5,7 @@ import {BrowserRouter as Router } from 'react-router-dom'
 import HeroSection from "./components/HeroSection/HeroIndex"
 import InfoSection from "./components/InfoSection/InfoIndex"
 import BlogEntries from "./components/BlogEntries/entriesIndex"
-import {homeObjOne,homeObjTwo,homeObjThree, blog1, blog2,blog3 } from './components/InfoSection/Data'
+import {homeObjOne,homeObjTwo,homeObjThree, blogs } from './components/InfoSection/Data'
 import Footer from './components/Footer/footerIndex'
 import Form from './components/ContactForm/Form';
 
@@ -22,9 +22,9 @@ const Home = () => {
       <Navbar toggle = {toggle}/>
       <HeroSection />
       <InfoSection id='inicio'{...homeObjOne}/>
-      <BlogEntries id='blog_ent' {...blog1}/>
+      <BlogEntries id='blog_ent' {...blogs}/>
       <InfoSection id='prof'{...homeObjTwo}/>
-      <Form />
+      {/*<Form />*/}
       <InfoSection id='start'{...homeObjThree}/>
       <Footer />
       

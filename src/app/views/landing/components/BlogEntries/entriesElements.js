@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const EntriesContainer = styled.div`
-    height:800px;
+    height:500px;
     display:flex;
     flex-direction:column;
     background:white;
@@ -49,6 +49,7 @@ export const EntriesCard = styled.div`
  justify-content:flex-start;
  align-items:center;
  border-radius: 10px;
+ min-height:340px;
  max-height:340px;
  padding: 30px;
  box-shadow:0 1px 3px rgba(0,0,0,0.2);
@@ -73,7 +74,7 @@ export const EntriesIcon = styled.img`
 
 export const EntriesH1 = styled.h1`
  font-size: 2.5rem;
- color: #fff;
+ color: black;
  margin-bottom: 64px;
 
  @media screen and (max-width: 480px) {

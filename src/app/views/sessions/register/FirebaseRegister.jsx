@@ -58,6 +58,7 @@ const FirebaseRegister = () => {
     const handleGoogleRegister = async (event) => {
         try {
             await signInWithGoogle()
+            console.log("todo chido bro 8)")
             history.push('/')
         } catch (e) {
             setMessage(e.message)
@@ -70,6 +71,7 @@ const FirebaseRegister = () => {
         try {
             setLoading(true)
             await createUserWithEmailAndPassword(state.email, state.password)
+            console.log("todo chido bro 8)")
             history.push('/')
         } catch (e) {
             setLoading(false)
@@ -112,7 +114,7 @@ const FirebaseRegister = () => {
                                 Iniciar sesión con Google
                             </Button>
                         </div>
-                        <p className="text-center mb-0">Or</p>
+                        <p className="text-center mb-0">Ó</p>
                         <div className="p-8 h-full">
                             <ValidatorForm onSubmit={handleFormSubmit}>
                                 <TextValidator

@@ -2,6 +2,12 @@ import imgOne from '../../../../../assets/images/videoIcon.svg'
 import imgTwo from '../../../../../assets/images/schedule.svg'
 import img3 from '../../../../../assets/images/schedule.svg'
 import img from '../../../../../assets/images/schedule.svg'
+import { SwapVerticalCircle } from '@material-ui/icons'
+import history from '../../../../../history'
+
+const clickObjOne = function() {
+    history.push('')
+}
 
 export const homeObjOne = {
     id:'inicio',
@@ -12,12 +18,17 @@ export const homeObjOne = {
     headline: 'Psicologos online, confiables y accesibles',
     description: 'Conectate de forma privada con un psicologo profesional cuando lo necesites',
     buttonLabel: 'Conoce más',
+    buttonClick: clickObjOne,
     imgStart: false,
     img: imgOne,
     alt: 'healthy brain',
     dark:true,
     primary: true,
     darkText: false,
+}
+
+const clickObjTwo = function() {
+    history.push('')
 }
 
 export const homeObjTwo = {
@@ -28,7 +39,8 @@ export const homeObjTwo = {
     topLine: 'Escoge con quien te sientas comodo',
     headline: 'Selecciona cualquiera de nuestros profesionales, y cambia tu vida, ahora.',
     description: 'Comienza a trabajar en tu salud mental, ahora mismo.',
-    buttonLabel: 'Solicitar una sesión',
+    buttonLabel: 'Conócelos ahora',
+    buttonClick: clickObjTwo,
     imgStart: false,
     img: imgTwo,
     alt: 'healthy brain',
@@ -36,6 +48,10 @@ export const homeObjTwo = {
     primary: true,
     darkText:true,
 
+}
+
+const clickObjThree = function() {
+    history.push('/session/signup')
 }
 
 export const homeObjThree = {
@@ -47,6 +63,7 @@ export const homeObjThree = {
     headline: 'Conectate online, crece emocionalmente',
     description: 'Tu crecimiento personal, paz mental y emocional, cuando la estés buscando.',
     buttonLabel: 'Comienza ahora',
+    buttonClick: clickObjThree,
     imgStart: false,
     img: img3,
     alt: 'healthy brain',
@@ -59,7 +76,7 @@ export const homeObjThree = {
 export const blog1 = {
     img: img,
     title: "Vive mejor",
-    body: "HACEMOS TU VIDA MEJOR"
+    body: "Trabaja en ti"
 }
 
 export const blog2 = {
@@ -73,3 +90,5 @@ export const blog3 = {
     title: "Sientete bien",
     body: "Pensar con claridad, pensar bien, para vivir bien."
 }
+
+export const blogs = [blog1, blog2, blog3]

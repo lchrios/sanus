@@ -1,5 +1,6 @@
 import React from 'react'
 import {Button} from '../buttonElement_sc'
+import history from '../../../../../history'
 import {
   InfoContainer,
   InfoWrapper, 
@@ -19,7 +20,8 @@ export const InfoSection = ({
   lightBg, 
   darkText, 
   buttonLabel, 
-  description, 
+  description,
+  buttonClick, 
   topLine,
   img,
   id, 
@@ -40,7 +42,7 @@ export const InfoSection = ({
                           <Heading lightText = {lightText}> {headline} </Heading>
                           <Subtitle darkText = {darkText}> {description} </Subtitle>
                           <BtnWrapper>
-                              <Button to = 'Home'
+                              <Button
                               smooth={true}
                               duration={500}
                               spy={true}
@@ -49,6 +51,7 @@ export const InfoSection = ({
                               primary={primary ? 1 : 0}
                               dark={dark ? 1 : 0 }
                               dark2={dark2 ? 1 : 0 }
+                              onClick={buttonClick}
                               >
                                 {buttonLabel}
                                 </Button>

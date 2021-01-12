@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Video from '../../../../../assets/videos/relax women.mp4';
+import history from '../../../../../history';
 import { HeroContainer, HeroBg, VideoBg } from './HeroElements';
 import { HeroContent, HeroH1, HeroP, HeroBtnWrapper, ArrowForward, ArrowRight } from './HeroElements';
 import { Button } from '../buttonElement_sc';
@@ -19,7 +20,7 @@ const HeroSection = () => {
                 <HeroH1>Empieza a vivir con la libertad que mereces</HeroH1>
                 <HeroP>Iknelia está contigo</HeroP>
               <HeroBtnWrapper>
-                <Button to='/signup' 
+                <Button onClick={() => history.push('session/signup')} 
                 onMouseEnter = {onHover}
                 onMouseLeave = {onHover}
                 primary = 'true'

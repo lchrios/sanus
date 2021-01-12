@@ -1,7 +1,7 @@
 import React from 'react'
 import { SidebarWrapper, SidebarMenu, SidebarLink,
     SideBtnWrap, SidebarRoute,  SidebarContainer, Icon, CloseIcon } from './SidebarElements'
-
+import history from '../../../../../history'
 export const Sidebar = ( { is0pen, toggle }) => {
     return (
         <SidebarContainer is0pen={is0pen} onClick={toggle}>
@@ -10,21 +10,21 @@ export const Sidebar = ( { is0pen, toggle }) => {
             </Icon>
             <SidebarWrapper>
                 <SidebarMenu>
-                    <SidebarLink to='/about' onClick={toggle}>
+                    <SidebarLink onClick={toggle}>
                         Acerca de
                     </SidebarLink>
-                    <SidebarLink to='blog_ent' onClick={toggle}>
+                    <SidebarLink onClick={toggle}>
                         Blog
                     </SidebarLink>
-                    <SidebarLink to = '/especialistas'onClick={toggle}>
+                    <SidebarLink onClick={toggle}>
                         Psicólogos
                     </SidebarLink>
-                    <SidebarLink to = 'Registrarse'onClick={toggle}>
+                    <SidebarLink onClick={() => {toggle();  history.push('/session/signup')}}>
                         Comienza ya
                     </SidebarLink>
                 </SidebarMenu>
                 <SideBtnWrap>
-                    <SidebarRoute to="/login" onClick={toggle}>Iniciar Sesión</SidebarRoute>
+                    <SidebarRoute onClick={toggle}>Iniciar Sesión</SidebarRoute>
                 </SideBtnWrap>
             </SidebarWrapper>
         </SidebarContainer>

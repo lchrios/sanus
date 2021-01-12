@@ -39,22 +39,22 @@ const Navbar = ( {toggle} ) => {
         <>
           <Nav scrollNav = {scrollNav}>
               <NavbarContainer>
-                  <NavLogo to="/" onClick={toggleHome}>Iknelia</NavLogo>
+                  <NavLogo onClick={toggleHome}>Iknelia</NavLogo>
                   <MobileIcon onClick={toggle}>
                       <FaBars />
                   </MobileIcon>
                   <NavMenu>
                       <NavItem>
-                          <NavLinks to='inicio'>Acerca de</NavLinks>
+                          <NavLinks >Acerca de</NavLinks>
                       </NavItem>
                       <NavItem>
-                          <NavLinks to='blog_ent'>Blog</NavLinks>
+                          <NavLinks >Blog</NavLinks>
                       </NavItem>
                       <NavItem>
-                          <NavLinks to='especialistas'>Psicólogos</NavLinks>
+                          <NavLinks >Psicólogos</NavLinks>
                       </NavItem>
                       <NavItem>
-                          <NavLinks to='registrarse'>Comienza ahora</NavLinks>
+                          <NavLinks onClick={() => {history.push("/session/signup")}}>Comienza ahora</NavLinks>
                       </NavItem>
                       <NavBtn onClick={() => {history.push("/session/signin")} }>
                           <NavBtnLink to='session/signin'>Iniciar Sesión</NavBtnLink>
