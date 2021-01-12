@@ -64,7 +64,7 @@ const TherapistBlogs = () => {
                 <div className="flex items-center mb-4 px-4">
                         <TextField
                             variant="outlined"
-                            placeholder="Discount Coupon"
+                            placeholder="Título de nueva entrada"
                             className="flex-grow"
                             size="small"
                         ></TextField>
@@ -73,14 +73,14 @@ const TherapistBlogs = () => {
                             variant="contained"
                             color="secondary"
                         >
-                            Apply
+                            Crear
                         </Button>
                         <Button
                             variant="contained"
                             color="primary"
                             onClick={() => history.push('/ecommerce/checkout')}
                         >
-                            Checkout
+                            Crear borrador
                         </Button>
                 </div>
                 <Divider></Divider>
@@ -182,7 +182,7 @@ const TherapistBlogs = () => {
                     </Grid>
                 </div>
             ))}
-
+            /** se puede usar para conectar entradas con back */
             <div>
                 <Divider className="mb-12"></Divider>
             </div>
@@ -191,3 +191,4 @@ const TherapistBlogs = () => {
 }
 
 export default TherapistBlogs
+

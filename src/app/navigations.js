@@ -2,60 +2,68 @@ import { authRoles } from './auth/authRoles'
 
 export const navigations = [
     {
+        label:"Vista de administrador",
+        type:'label',
+    },
+    /**{
         name: 'Dashboard',
         path: '/dashboard/default',
         icon: 'dashboard',
-    },
+    }, */
     {
-        name: 'Admin analytics',
+        name: 'Administrador',
         path: '/dashboard/alternative',
         icon: 'analytics',
     },
+    // Patient views
+    {
+        label: 'Vista de paciente',
+        type: 'label',
+    },
+    { 
+        name: "Iinicio",
+        icon: "home",
+        path: "/:pid/home"
+    },
+    { 
+        name: "Navegar",
+        icon: "search",
+        path: "/:pid/browse"
+    },
+    { 
+        name: "Historial de sesiones",
+        icon: "history",
+        path: "/:pid/sessions"
+    },
+    /**
     {
         name: 'Inventory Management',
         path: '/dashboard/inventory-management',
         icon: 'store',
     },
-       // Patient views
-    {
-        label: 'Patient Views',
-        type: 'label',
-    },
-    { 
-        name: "Home",
-        icon: "home",
-        path: "/:pid/home"
-    },
-    { 
-        name: "Browse",
-        icon: "search",
-        path: "/:pid/browse"
-    },
-    { 
-        name: "My sessions",
-        icon: "history",
-        path: "/:pid/sessions"
-    },
+       
     /**Therapist views */
     {
         label: 'Therapist Views',
         type: 'label',
     },
     { 
-        name: "Therapist Dashboard",
+        name: "Administrador de terapeuta",
         icon: "event",
         path: "/:tid/dashboard"
     },
     {
-        name: "My appointments",
+        name: "Mis sesiones",
         icon: "event",
         path: "/:tid/appointments"
     },
     { 
-        name: "My blogs",
+        name: "Mis entradas de blog",
         icon: "text_snippet",
         path: "/:tid/myblogs"
     },
+
+    /**
     {
         label: 'Pages',
         type: 'label',
@@ -531,5 +539,5 @@ export const navigations = [
         icon: 'launch',
         type: 'extLink',
         path: 'http://demos.ui-lib.com/matx-react-doc/',
-    },
+    }, */
 ]
