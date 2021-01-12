@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import history from 'history.js'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
+import { IkneliaLogo } from 'app/components/Brand/Brand'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -135,8 +136,7 @@ const FirebaseLogin = () => {
                             })}
                         >
                             <div className={classes.logo}>
-                                <MatxLogo className="mr-2" />{' '}
-                                <span>Iknelia</span>
+                                <IkneliaLogo>Iknelia</IkneliaLogo>
                             </div>
                             <h1 className={classes.mainTitle}>
                                 La atención que mereces
