@@ -12,6 +12,7 @@ import EventEditorDialog from './EventEditorDialog'
 import globalize from 'globalize'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
+import history from '../../../../../history'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     calendar: {
@@ -102,13 +103,14 @@ const PatientCalendar = () => {
                 className="mb-4"
                 variant="contained"
                 color="secondary"
-                onClick={() =>
+                onClick={() => {
+                    //history.push('/ecommerce/checkout')
                     openNewEventDialog({
                         action: 'doubleClick',
                         start: new Date(),
                         end: new Date(),
                     })
-                }
+                }}
             >
                 Agenda una sesión
             </Button>

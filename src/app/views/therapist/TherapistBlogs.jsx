@@ -75,13 +75,6 @@ const TherapistBlogs = () => {
                         >
                             Crear
                         </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => history.push('/ecommerce/checkout')}
-                        >
-                            Crear borrador
-                        </Button>
                 </div>
                 <Divider></Divider>
                 <div className="py-2"></div>
