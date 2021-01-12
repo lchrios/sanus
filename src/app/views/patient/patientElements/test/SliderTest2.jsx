@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 import { withStyles, makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Slider from '@material-ui/core/Slider'
+import { Grid } from '@material-ui/core'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 
-import { Grid } from '@material-ui/core'
-
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: 300 + 24 * 2,
+        width: 400 + 24 * 2,
         padding: 24,
     },
     margin: {
@@ -197,7 +196,7 @@ function AirbnbThumbComponent(props) {
     )
 }
 
-export default function SliderTest() {
+export default function SliderTest2() {
     const classes = useStyles()
 
     return (
@@ -207,7 +206,7 @@ export default function SliderTest() {
         sm={12}
         xs={12}>
         <Paper className={classes.root}>
-            <Typography gutterBottom>¿Cómo te sientes hoy?</Typography>
+            <Typography gutterBottom>Primer valor</Typography>
             <div className="py-2"></div>
             <IOSSlider
                 aria-label="iOS slider"

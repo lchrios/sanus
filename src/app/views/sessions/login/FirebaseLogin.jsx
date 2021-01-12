@@ -14,6 +14,7 @@ import history from 'history.js'
 import clsx from 'clsx'
 import {NavLogo} from '../../landing/components/Navbar_sc/NavbarElements';
 import useAuth from 'app/hooks/useAuth'
+import { IkneliaLogo } from 'app/components/Brand/Brand'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -136,7 +137,7 @@ const FirebaseLogin = () => {
                             })}
                         >
                             <div className={classes.logo}>
-                                <NavLogo>Iknelia</NavLogo>
+                                <IkneliaLogo>Iknelia</IkneliaLogo>
                             </div>
                             <h1 className={classes.mainTitle}>
                                 La atención que mereces

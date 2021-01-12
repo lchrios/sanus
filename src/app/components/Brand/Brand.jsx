@@ -1,5 +1,6 @@
 import React from 'react'
-import { MatxLogo } from 'app/components'
+import styled from 'styled-components';
+import {Link as LinkRouter} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import useSettings from 'app/hooks/useSettings'
@@ -13,6 +14,21 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
+export const IkneliaLogo = styled(LinkRouter)`
+ color:white;
+
+ justify-self: flex-start;
+ cursor:pointer;
+ font-family: 'Dancing Script', cursive;
+ font-size:1.5rem;
+ display:flex;
+ align-items:center;
+ margin-left:24px;
+ font-weight:bold;
+ text-decoration:none;
+ 
+`;
+
 const Brand = ({ children }) => {
     const classes = useStyles()
     const { settings } = useSettings()
@@ -20,19 +36,12 @@ const Brand = ({ children }) => {
     const { mode } = leftSidebar
 
     return (
+        
         <div
             className={clsx('flex items-center justify-between', classes.brand)}
         >
             <div className="flex items-center">
-                <MatxLogo />
-                <span
-                    className={clsx({
-                        'text-18 ml-2 font-medium sidenavHoverShow': true,
-                        [classes.hideOnCompact]: mode === 'compact',
-                    })}
-                >
-                    Matx
-                </span>
+                <IkneliaLogo to="/">Iknelia</IkneliaLogo>
             </div>
             <div
                 className={clsx({

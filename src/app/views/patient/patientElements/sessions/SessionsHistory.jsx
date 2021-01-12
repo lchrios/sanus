@@ -133,7 +133,7 @@ const SessionsHistory = () => {
             <div className="overflow-auto">
                 <div className="min-w-750">
                     <MUIDataTable
-                        title={'All Orders'}
+                        title={'Mis sesiones'}
                         data={orderList}
                         columns={columns}
                         options={{
