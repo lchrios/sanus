@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Avatar,
     Button,
@@ -10,17 +10,38 @@ import {
     TableCell,
     TableRow,
 } from '@material-ui/core'
+import firebase from 'firebase'
+import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper'
+
+
+
+//const app = firebase.initializeApp(firebaseConfig)
+const db = firebase.app().firestore()
+
+
+
 
 const TherapistInfoUser = () => {
+
+    const [therapist, setTherapist] = useState()
+
+    db.collection("patients").doc("1")
+        .get()
+        .then(doc => {
+            const data = doc.data()
+            setTherapist(data)
+            console.log(therapist)
+        })
+
     return (
         <Card className="pt-6">
             <div className="flex-column items-center mb-6">
                 <Avatar
                     className="w-84 h-84"
-                    src="/assets/images/faces/10.jpg"
+                    src={therapist?.imgSrc}
                 />
-                <h5 className="mt-4 mb-2">Ben Peterson</h5>
-                <small className="text-muted">CEO, Brack Ltd.</small>
+                <h5 className="mt-4 mb-2">{therapist?.name}</h5>
+                <small className="text-muted">{therapist?.phrase}</small>
             </div>
 
             <Divider />
@@ -29,10 +50,16 @@ const TherapistInfoUser = () => {
                     <TableRow>
                         <TableCell className="pl-4">Email</TableCell>
                         <TableCell>
-                            <div>ui-lib@example.com</div>
+                            <div>{therapist?.email}</div>
                             <small className="px-1 py-2px bg-light-green text-green border-radius-4">
-                                EMAIL VERIFIED
+                                EMAIL VERIFICADO
                             </small>
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className="pl-4">Telefono</TableCell>
+                        <TableCell>
+                            <div>{therapist?.telefono}</div>
                         </TableCell>
                     </TableRow>
                     {customerInfo.map((item, ind) => (
@@ -64,10 +91,6 @@ const TherapistInfoUser = () => {
 }
 
 const customerInfo = [
-    {
-        title: 'Teléfono',
-        value: '15615665165',
-    },
     {
         title: 'País',
         value: 'México',

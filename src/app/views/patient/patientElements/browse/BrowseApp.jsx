@@ -3,10 +3,13 @@ import Axios from 'axios'
 import MUIDataTable from 'mui-datatables'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@material-ui/core'
 import { Link } from 'react-router-dom'
+import firebase from 'firebase'
 
 const BrowseApp = () => {
     const [isAlive, setIsAlive] = useState(true)
     const [userList, setUserList] = useState([])
+
+    const db = firebase.app().firestore()
 
     useEffect(() => {
         Axios.get('/api/user/all').then(({ data }) => {
@@ -75,13 +78,33 @@ const BrowseApp = () => {
                 customBodyRenderLite: (dataIndex) => (
                     <div className="flex items-center">
                         <div className="flex-grow"></div>
-                        <Link to="/pages/new-customer">
+                        <Link to="/:pid/home">
                             <IconButton>
                                 <Icon>edit</Icon>
                             </IconButton>
                         </Link>
-                        <Link to="/pages/view-customer">
-                            <IconButton>
+                        <Link to="/:pid/home">
+                            <IconButton onClick={() => {
+                                console.log(userList[dataIndex])
+
+                                const dataRef = userList[dataIndex]
+                                var data = {
+                                    email: dataRef.email,
+                                    imgSrc: dataRef.imgUrl,
+                                    name: dataRef.name,
+                                    phrase: dataRef.company,
+                                    telefono: dataRef.phone,
+                                    therapist: dataIndex
+                                }
+
+                                db.collection("patients").doc("1")
+                                    .update(data)
+                                    .then(function() {
+                                        console.log("Document successfully updated!")
+                                    })
+
+
+                                }}>
                                 <Icon>arrow_right_alt</Icon>
                             </IconButton>
                         </Link>
