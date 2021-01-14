@@ -4,10 +4,13 @@ import MUIDataTable from 'mui-datatables'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@material-ui/core'
 import history from '../../../../../history'
 import { Link } from 'react-router-dom'
+import firebase from 'firebase'
 
 const BrowseApp = () => {
     const [isAlive, setIsAlive] = useState(true)
     const [userList, setUserList] = useState([])
+
+    const db = firebase.app().firestore()
 
     useEffect(() => {
        /* Axios.get('/api/user/all').then(({ data }) => {
@@ -399,14 +402,31 @@ const fakeDbTher = [
                 customBodyRenderLite: (dataIndex) => (
                     <div className="flex items-center">
                         <div className="flex-grow"></div>
-                        
-                            <IconButton onClick={() => history.push("/:pid/changepaymethod")}>
+                        <Link to="/:pid/changepaymethod" >
+                            
+                            <IconButton onClick={() => {
+                                console.log(userList[dataIndex])
+                                const db = firebase.app().firestore()
+
+                                const dataRef = userList[dataIndex]
+                                var data = {
+                                    email: dataRef.email,
+                                    imgSrc: dataRef.imgUrl,
+                                    name: dataRef.name,
+                                    phrase: dataRef.company,
+                                    telefono: dataRef.phone,
+                                    therapist: dataIndex
+                                }
+
+                                db.collection("patients").doc("1")
+                                    .update(data)
+                                    .then(function() {
+                                        console.log("Document successfully updated!")
+                                    })
+
+
+                                }}>
                                 <Icon>control_point</Icon>
-                            </IconButton>
-                        
-                        <Link >
-                            <IconButton>
-                                <Icon>arrow_right_alt</Icon>
                             </IconButton>
                         </Link>
                     </div>
