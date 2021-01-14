@@ -72,7 +72,7 @@ const FirebaseRegister = () => {
             setLoading(true)
             await createUserWithEmailAndPassword(state.email, state.password)
             console.log("todo chido bro 8)")
-            history.push('/')
+            history.push('/:pid/home')
         } catch (e) {
             setLoading(false)
             console.log(e)
@@ -147,6 +147,8 @@ const FirebaseRegister = () => {
                                 <FormControlLabel
                                     className="mb-4"
                                     name="agreement"
+                                    validators={['required']}
+                                    errorMessages={['Este campo es obligatorio']}
                                     onChange={(e) =>
                                         handleChange({
                                             target: {

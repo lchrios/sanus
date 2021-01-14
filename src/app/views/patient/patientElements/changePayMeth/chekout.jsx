@@ -7,13 +7,19 @@ import {
     Checkbox,
     Button,
     MenuItem,
-    Divider,
+ 
+    
 } from '@material-ui/core'
 import { countries } from './Country'
 import PaymentDialog from './PaymentDialog'
 import { useSelector } from 'react-redux'
+import SimpleRadio from './SimpleRadioApp'
+import imgSrc from '../../../../../assets/images/illustrations/upgrade.svg'
+import { Icon } from 'app/views/landing/components/SideBar/SidebarElements'
 
-const Checkout = () => {
+
+const ChangePayMeth = () => {
+    
     const [state, setState] = useState({})
     const [open, setOpen] = useState(false)
 
@@ -53,9 +59,9 @@ const Checkout = () => {
     } = state
 
     return (
-        <Card className="checkout m-sm-30 p-sm-24">
+        <Card className="checkout m-sm-30 p-sm-24 p-r-10">
             <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
-                <h5 className="font-medium mt-0 mb-6">Método de pago</h5>
+                <h3 className="font-medium mt-0 mb-6">Introduce tu información</h3>
                 <Grid container spacing={3}>
                     <Grid item lg={7} md={7} sm={12} xs={12}>
                         <Grid container spacing={3} className="mb-2">
@@ -183,53 +189,38 @@ const Checkout = () => {
                             control={<Checkbox />}
                             label="¿No eres dueño de esta cuenta?"
                         />
-                    </Grid>
-                    <Grid item lg={5} md={5} sm={12} xs={12}>
-                     <Card className="elevation-z5">
-                     
-                        <div className="flex justify-between mb-4">
-                            <h6 className="m-0"></h6>
-                            <h6 className="m-0">Total </h6>
-                        </div>
-                        <div>
-                            {cartList.map((product, ind) => (
-                                <Fragment key={product.id}>
-                                    <div className="flex justify-between py-4">
-                                        <span className="text-muted pr-8">
-                                            {product.title}
-                                        </span>
-                                        <span className="text-muted">
-                                            ${product.price * product.amount}
-                                        </span>
-                                    </div>
-                                    {ind !== cartList.length - 1 && (
-                                        <Divider></Divider>
-                                    )}
-                                </Fragment>
-                            ))}
-                            <div className="flex justify-between mb-8 mt-4">
-                                <h6 className="m-0">Total</h6>
-                                <h6 className="m-0">
-                                    ${getTotalCost().toFixed(2)}
-                                </h6>
-                            </div>
-                            <Button
+                    
+                        <h3 className=" font-medium mt-10 mb-6">Selecciona tu método de pago</h3>
+                        <SimpleRadio/>
+                    
+                 
+                        <Button
+                        
                                 className="w-full"
                                 color="primary"
                                 variant="contained"
                                 type="submit"
                             >
-                                Place Order
-                            </Button>
+                                Seleccionar método de pago
+                        </Button>
+                    
+                    
+                    </Grid>
+                    <Grid item lg={5} md={5} sm={12} xs={12}>
+                     
+                     
+                        <div className="flex justify-between mb-4 flex-column items-center ">
+                            <img src={imgSrc} className="max-w-full h-300 "></img>
                         </div>
-                     </Card>
+                     
                     </Grid>
                 </Grid>
             </ValidatorForm>
+            
 
             <PaymentDialog open={open} toggleDialog={toggleDialog} />
         </Card>
     )
 }
 
-export default Checkout
+export default ChangePayMeth

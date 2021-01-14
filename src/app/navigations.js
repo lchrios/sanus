@@ -67,7 +67,28 @@ export const navigations = [
         path: '/:tid/myblogs/new',
         icon: 'text_snippet',
     },
+    /**{
+        name: 'Ecommerce',
+        icon: 'shopping_basket',
 
+        children: [
+            {
+                name: 'Shop',
+                path: '/ecommerce/shop',
+                iconText: 'S',
+            },
+            {
+                name: 'Cart',
+                path: '/ecommerce/cart',
+                iconText: 'C',
+            },
+            {
+                name: 'Checkout',
+                path: '/ecommerce/checkout',
+                iconText: 'CO',
+            },
+        ],
+    },*/
     /**
     {
         label: 'Pages',
@@ -300,28 +321,6 @@ export const navigations = [
     {
         label: 'Apps',
         type: 'label',
-    },
-    {
-        name: 'Ecommerce',
-        icon: 'shopping_basket',
-
-        children: [
-            {
-                name: 'Shop',
-                path: '/ecommerce/shop',
-                iconText: 'S',
-            },
-            {
-                name: 'Cart',
-                path: '/ecommerce/cart',
-                iconText: 'C',
-            },
-            {
-                name: 'Checkout',
-                path: '/ecommerce/checkout',
-                iconText: 'CO',
-            },
-        ],
     },
     {
         name: 'Scrum Board',

@@ -104,7 +104,7 @@ const PatientCalendar = () => {
                 variant="contained"
                 color="secondary"
                 onClick={() => {
-                    //history.push('/ecommerce/checkout')
+                    history.push('/ecommerce/checkout')
                     openNewEventDialog({
                         action: 'doubleClick',
                         start: new Date(),

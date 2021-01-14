@@ -6,6 +6,7 @@ import {
     Grid,
     Icon,
     IconButton,
+    Button
 } from '@material-ui/core'
 import React, { Fragment } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
@@ -14,6 +15,8 @@ import clsx from 'clsx'
 import PatientTest from '../../test/PatientTest'
 import TherapistInfoUser from './TherapistInfoUser'
 import PatientCalendar from '../../calendar/PatientCalendar'
+import patientRoutes from 'app/views/patient/PatientRoutes';
+
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
@@ -145,8 +148,10 @@ const UserProfileContent = ({ toggleSidenav }) => {
                             
                             {paymentList.map((method, index) => (
                                 <Fragment key={index}>
+                                <Button onClick={() => history.push("/:pid/changepaymethod")}>
                                     <div className="py-4 px-6 flex flex-wrap items-center justify-between">
-                                        <div className="flex flex-wrap items-center">
+                                       
+                                        <div  className="flex flex-wrap items-center">
                                             <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
                                                 <img
                                                     className="w-36 overflow-hidden"
@@ -163,10 +168,13 @@ const UserProfileContent = ({ toggleSidenav }) => {
                                                 </span>
                                             </div>
                                         </div>
+                                     
+                                
                                     </div>
                                     {index !== paymentList.length - 1 && (
                                         <Divider />
                                     )}
+                                </Button>
                                 </Fragment>
                             ))}
                         </Card>
@@ -190,17 +198,18 @@ const sessionsSummery = [
 ]
 
 const paymentList = [
-    {
+    /**{
         img: '/assets/images/payment-methods/visa.png',
         type: 'Tarjeta de crédito',
         product: 'Coloca la información de tu tarjeta',
         amount: 909,
-    },
+    },*/
     {
         img: '/assets/images/payment-methods/oxxo.png',
         type: 'Depósito',
         product: 'Accede a una tienda, y deposita',
         amount: 303,
+        route: '/:pid/changepaymethod'
     },
     {
         img: '/assets/images/payment-methods/paypal.png',

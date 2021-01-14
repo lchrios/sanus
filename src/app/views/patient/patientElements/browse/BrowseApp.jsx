@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
 import MUIDataTable from 'mui-datatables'
 import { Avatar, Grow, Icon, IconButton, TextField } from '@material-ui/core'
+import history from '../../../../../history'
 import { Link } from 'react-router-dom'
 
 const BrowseApp = () => {
@@ -9,13 +10,336 @@ const BrowseApp = () => {
     const [userList, setUserList] = useState([])
 
     useEffect(() => {
-        Axios.get('/api/user/all').then(({ data }) => {
-            if (isAlive) setUserList(data)
-        })
+       /* Axios.get('/api/user/all').then(({ data }) => {
+            if (isAlive) 
+            console.log(data)
+        })*/
+        setUserList(fakeDbTher)
         return () => setIsAlive(false)
     }, [isAlive])
 
-
+const fakeDbTher = [
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+    {
+        adress:"",
+        age:"",
+        balance:"",
+        bd:"",
+        company:"",
+        email:"",
+        gender:"",
+        guid:"",
+        id:"",
+        imgUrl:"",
+        index:0,
+        isActive:false,
+        name:"Luis",
+        phone:""
+    },
+]
     /**tenemos que cambiar la base de datos para que coincida el nombre que el usuario ve, con el nombre
     que tenemos en base de datos, y no se muestre extraño o se preste a confuciones*/
 
@@ -75,12 +399,12 @@ const BrowseApp = () => {
                 customBodyRenderLite: (dataIndex) => (
                     <div className="flex items-center">
                         <div className="flex-grow"></div>
-                        <Link to="/pages/new-customer">
-                            <IconButton>
-                                <Icon>edit</Icon>
+                        
+                            <IconButton onClick={() => history.push("/:pid/changepaymethod")}>
+                                <Icon>control_point</Icon>
                             </IconButton>
-                        </Link>
-                        <Link to="/pages/view-customer">
+                        
+                        <Link >
                             <IconButton>
                                 <Icon>arrow_right_alt</Icon>
                             </IconButton>

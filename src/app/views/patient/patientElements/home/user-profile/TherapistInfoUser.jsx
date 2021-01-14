@@ -10,6 +10,7 @@ import {
     TableCell,
     TableRow,
 } from '@material-ui/core'
+import history from '../../../../../../history'
 
 const TherapistInfoUser = () => {
     return (
@@ -52,11 +53,12 @@ const TherapistInfoUser = () => {
                     Contactar al terapeuta
                 </Button>
 
-                <Button className="mb-4" variant="text">
+                <Button onClick={() => window.location.href='https://zoom.us/j/95739401999?pwd=dkh2NGQxcXBTYWJWRHlRM3U4UnVPQT09'
+                } className="mb-4" variant="text">
                     <Icon className="mr-2" fontSize="small">
                         comment
                     </Icon>{' '}
-                    Enviar mensaje directo
+                    Iniciar sesión psicológica
                 </Button>
             </div>
         </Card>
