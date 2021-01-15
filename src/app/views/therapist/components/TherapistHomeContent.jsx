@@ -8,7 +8,7 @@ import {
     Button,
     IconButton,
 } from '@material-ui/core'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import DummyChart from './DummyChart'
 import ProfileBarChart from './ProfileBarChart'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
@@ -70,6 +70,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 const TherapistHomeContent = ({ toggleSidenav }) => {
     const classes = usestyles()
     const theme = useTheme()
+    const [patientList, setPatientList] = useState(patients)
 
     return (
         <Fragment>
@@ -123,66 +124,44 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                 sm={12}
                                 xs={12}>
                             <Card className="p-4 h-full">
-                                <h4 className="font-medium text-muted pb-6 pb-0 mb-6">
+                                <h4 className="font-medium text-muted">
                                 <Icon>group</Icon> Pacientes
                                 </h4>
-                                <div className="flex items-center mb-4">
-                                    <Badge badgeContent="Nuevo" color="primary">
-                                        <Fab className="bg-light-primary box-shadow-none overflow-hidden">
-                                            <h4 className="text-primary m-0 font-normal">
-                                                LM
-                                            </h4>
-                                        </Fab>
-                                    </Badge>
-                                    <div className="ml-4">
-                                        <h5 className="m-0 mb-1 font-medium">
-                                            Luis Martinez
-                                        </h5>
-                                        <p className="m-0 text-muted">Guadalajara, Jalisco</p>
-                                    </div>
+                                <div style={{maxHeight: 400, overflow: 'auto'}}>
+                                    {patientList.map((patient) => {
+                                        return patient.isNew ?
+                                        <div className="flex items-center mb-4"  style={{marginTop: '15px'}}>
+                                            <Badge badgeContent="Nuevo" color={patient.color}>
+                                                <Fab className={patient.bg}>
+                                                    <h4 className={patient.min}>
+                                                        {patient.initials}
+                                                    </h4>
+                                                </Fab>
+                                            </Badge>
+                                            <div className="ml-4">
+                                                <h5 className="m-0 mb-1 font-medium">
+                                                    {patient.name}
+                                                </h5>
+                                                <p className="m-0 text-muted">{patient.place}</p>
+                                            </div>
+                                        </div>
+                                        :
+                                        <div className="flex items-center mb-4">
+                                            <Fab className={patient.bg}>
+                                                <h4 className={patient.min}>
+                                                    {patient.initials}
+                                                </h4>
+                                            </Fab>
+                                            <div className="ml-4">
+                                                <h5 className="m-0 mb-1 font-medium">
+                                                    {patient.name}
+                                                </h5>
+                                                <p className="m-0 text-muted">{patient.place}</p>
+                                            </div>
+                                        </div>
+                                    })}
                                 </div>
-                                <div className="flex items-center mb-4">
-                                    <Fab className="bg-light-green box-shadow-none overflow-hidden">
-                                        <h4 className="text-green m-0 font-normal">
-                                            HP
-                                        </h4>
-                                    </Fab>
-                                    <div className="ml-4">
-                                        <h5 className="m-0 mb-1 font-medium">
-                                            Hector Ponce
-                                        </h5>
-                                        <p className="m-0 text-muted">Monterrey, Nuevo León</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center mb-4">
-                                    <Fab className="bg-light-error box-shadow-none overflow-hidden">
-                                        <h4 className="text-error m-0 font-normal">
-                                            JP
-                                        </h4>
-                                    </Fab>
-                                    <div className="ml-4">
-                                        <h5 className="m-0 mb-1 font-medium">
-                                            Jorge Perez
-                                        </h5>
-                                        <p className="m-0 text-muted">CDMX, Estado de México</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center mb-4">
-                                    <Fab className="bg-light-primary box-shadow-none overflow-hidden">
-                                        <h4 className="text-brand m-0 font-normal">
-                                            AM
-                                        </h4>
-                                    </Fab>
-                                    <div className="ml-4">
-                                        <h5 className="m-0 mb-1 font-medium">
-                                            Angela Martinez
-                                        </h5>
-                                        <p className="m-0 text-muted">Guadalajara, Jalisco</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center mb-4">
-                                    <Button color="primary" className={classes.showAllPatients}>Mostrar más...</Button>
-                                </div>
+                                
                             </Card>
                         </Grid>
                         <Grid item lg={12}
@@ -338,6 +317,72 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
         </Fragment>
     )
 }
+
+const patients = [
+    {
+        initials: "JH",
+        name: "Jorge Hernandez",
+        place: "Guadalajara, Jalisco",
+        bg: "bg-light-primary box-shadow-none overflow-hidden",
+        isNew: true,
+        color: "primary",
+        min: "text-primary m-0 font-normal"
+    },
+    {
+        initials: "LM",
+        name: "Luis Martinez",
+        place: "Monterrey, Nuevo León",
+        bg: "bg-light-error box-shadow-none overflow-hidden",
+        isNew: false,
+        color: "error",
+        min: "text-error m-0 font-normal"
+    },
+    {
+        initials: "AS",
+        name: "Alma Sanchez",
+        place: "Guadalajara, Jalisco",
+        bg: "bg-light-green box-shadow-none overflow-hidden",
+        isNew: false,
+        color: "green",
+        min: "text-green m-0 font-normal"
+    },
+    {
+        initials: "MA",
+        name: "Marcos Aspericueta",
+        place: "Guadalajara, Jalisco",
+        bg: "bg-light-info box-shadow-none overflow-hidden",
+        isNew: false,
+        color: "info",
+        min: "text-info m-0 font-normal"
+    },
+    {
+        initials: "JR",
+        name: "Juan Robles",
+        place: "Guadalajara, Jalisco",
+        bg: "bg-light-error box-shadow-none overflow-hidden",
+        isNew: false,
+        color: "error",
+        min: "text-error m-0 font-normal"
+    },
+    {
+        initials: "JR",
+        name: "Juan Robles",
+        place: "Guadalajara, Jalisco",
+        bg: "bg-light-error box-shadow-none overflow-hidden",
+        isNew: false,
+        color: "error",
+        min: "text-error m-0 font-normal"
+    },
+    {
+        initials: "JR",
+        name: "Juan Robles",
+        place: "Guadalajara, Jalisco",
+        bg: "bg-light-error box-shadow-none overflow-hidden",
+        isNew: false,
+        color: "error",
+        min: "text-error m-0 font-normal"
+    },
+] 
 
 const projectSummery = [
     {
