@@ -44,6 +44,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
             },
         },
     },
+    cart: {
+        minWidth: 900,
+    },
 }))
 
 const localizer = globalizeLocalizer(globalize)
@@ -59,7 +62,7 @@ const TherapistCalendar = () => {
     const [isAlive, setIsAlive] = useState(true)
     const [userList, setUserList] = useState([])
 
-    const [rowsPerPage, setRowsPerPage] = useState(6)
+    const [rowsPerPage, setRowsPerPage] = useState(5)
     const [page, setPage] = useState(0)
 
     const headerComponentRef = useRef(null)
@@ -120,97 +123,101 @@ const TherapistCalendar = () => {
             <div className="mb-sm-30">
                 <Breadcrumb routeSegments={[{ name: 'Mis citas' }]} />
             </div>
-            <Grid container spacing={2}>
-
-            
-                <Grid item lg={9} md={9} sm={12} xs={12}>
-                    <Card className="bg-ligh bg-default flex items-center justify-between p-4">
-                        <Button
-                            className="mb-4"
-                            variant="contained"
-                            color="secondary"
-                            onClick={() =>
-                                openNewEventDialog({
-                                    action: 'doubleClick',
-                                    start: new Date(),
-                                    end: new Date(),
-                                })
-                            }
+            <Card elevation={3} className={clsx('m-sm-45', classes.cart)}>
+                <Grid container spacing={2} style={{marginLeft: '10px', marginRight: '10px', marginTop: '10px', marginBottom: '10px'}}>
+                    <Grid item lg={9} md={9} sm={12} xs={12}>
+                        <Card className="bg-ligh bg-default flex items-center justify-between p-4">
+                            <Button
+                                className="mb-4"
+                                variant="contained"
+                                color="secondary"
+                                onClick={() =>
+                                    openNewEventDialog({
+                                        action: 'doubleClick',
+                                        start: new Date(),
+                                        end: new Date(),
+                                    })
+                                }
+                            >
+                                Añadir evento
+                            </Button>
+                        </Card>
+                        <div
+                            className={clsx('h-full-screen flex-column', classes.calendar)}
                         >
-                            Añadir evento
-                        </Button>
-                    </Card>
-                    <div
-                        className={clsx('h-full-screen flex-column', classes.calendar)}
-                    >
-                        <div ref={headerComponentRef} />
-                        <DragAndDropCalendar
-                            selectable
-                            localizer={localizer}
-                            events={events}
-                            onEventDrop={handleEventMove}
-                            resizable
-                            onEventResize={handleEventResize}
-                            defaultView={Views.MONTH}
-                            defaultDate={new Date()}
-                            startAccessor="start"
-                            endAccessor="end"
-                            views={viewList}
-                            step={60}
-                            showMultiDayTimes
-                            components={{
-                                toolbar: (props) => {
-                                    return headerComponentRef.current ? (
-                                        ReactDOM.createPortal(
-                                            <CalendarHeader {...props} />,
-                                            headerComponentRef.current
+                            <div ref={headerComponentRef} />
+                            <DragAndDropCalendar
+                                selectable
+                                localizer={localizer}
+                                events={events}
+                                onEventDrop={handleEventMove}
+                                resizable
+                                onEventResize={handleEventResize}
+                                defaultView={Views.MONTH}
+                                defaultDate={new Date()}
+                                startAccessor="start"
+                                endAccessor="end"
+                                views={viewList}
+                                step={60}
+                                showMultiDayTimes
+                                components={{
+                                    toolbar: (props) => {
+                                        return headerComponentRef.current ? (
+                                            ReactDOM.createPortal(
+                                                <CalendarHeader {...props} />,
+                                                headerComponentRef.current
+                                            )
+                                        ) : (
+                                            <div>Header component not found</div>
                                         )
-                                    ) : (
-                                        <div>Header component not found</div>
-                                    )
-                                },
-                            }}
-                            // onNavigate={handleNavigate}
-                            onSelectEvent={(event) => {
-                                openExistingEventDialog(event)
-                            }}
-                            onSelectSlot={(slotDetails) =>
-                                openNewEventDialog(slotDetails)
-                            }
-                        />
-                    </div>
-                    {shouldShowEventDialog && (
-                        <EventEditorDialog
-                            handleClose={handleDialogClose}
-                            open={shouldShowEventDialog}
-                            event={newEvent}
-                        />
-                    )}     
-                </Grid>
-                <Grid item lg={3} md={3} sm={12} xs={12}
-                    direction="column"
-                    justify="center"
-                    alignItems="2-end"
-                >
-                    <div className="p-6 flex flex-wrap justify-between items-center">
-                        <h1>Próximos pacientes</h1>
-                        <div className="py-1"></div>
-                    </div>
-                    <Grid container spacing={1}
-                      justify="space-evenly"
-                      alignItems="stretch"
+                                    },
+                                }}
+                                // onNavigate={handleNavigate}
+                                onSelectEvent={(event) => {
+                                    openExistingEventDialog(event)
+                                }}
+                                onSelectSlot={(slotDetails) =>
+                                    openNewEventDialog(slotDetails)
+                                }
+                            />
+                        </div>
+                        {shouldShowEventDialog && (
+                            <EventEditorDialog
+                                handleClose={handleDialogClose}
+                                open={shouldShowEventDialog}
+                                event={newEvent}
+                            />
+                        )}     
+                    </Grid>
+                    <Grid item lg={3} md={3} sm={12} xs={12}
+                        direction="column"
+                        justify="center"
+                        alignItems="2-end"
                     >
-                    {userList
-                        .slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                        )
-                        .map((user, ind) => (
-                            <PatientCard key={user.id} user={user} />
-                            ))}
+                        <Card style={{maxWidth: 250}}>
+                            <div className="bg-light bg-default p-6 flex flex-wrap justify-between items-center">
+                                <h1>Próximos pacientes</h1>
+                                <div className="py-1"></div>
+                            </div>
+                            <Grid container spacing={1}
+                            justify="space-evenly"
+                            alignItems="stretch"
+                            direction="column"
+                            className="bg-default flex items-center justify-between p-4"
+                            >
+                                {userList
+                                    .slice(
+                                        page * rowsPerPage,
+                                        page * rowsPerPage + rowsPerPage
+                                    )
+                                    .map((user) => (
+                                        <PatientCard user={user} />
+                                ))}
+                            </Grid>
+                        </Card>
                     </Grid>
                 </Grid>
-            </Grid>
+            </Card>
         </div>
     )
 }
