@@ -13,7 +13,7 @@ import {
     deleteProductFromCart,
     updateCartAmount,
 } from 'app/redux/actions/EcommerceActions'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 
@@ -68,13 +68,14 @@ const TherapistBlogs = () => {
                             className="flex-grow"
                             size="small"
                         ></TextField>
-                        <Button
-                            className="mx-3"
-                            variant="contained"
-                            color="secondary"
-                        >
-                            Crear
-                        </Button>
+                            <Button
+                                className="mx-3"
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => {history.push("/:tid/newblog")}}
+                            >
+                                Crear
+                            </Button>
                 </div>
                 <Divider></Divider>
                 <div className="py-2"></div>

@@ -94,7 +94,7 @@ const PaymentDialog = ({ open, toggleDialog }) => {
                         <Button
                             variant="outlined"
                             color="secondary"
-                            onClick={() => window.location.href("https://zoom.us/j/95739401999?pwd=dkh2NGQxcXBTYWJWRHlRM3U4UnVPQT09")}
+                            onClick={() => window.location.href = "https://zoom.us/j/95739401999?pwd=dkh2NGQxcXBTYWJWRHlRM3U4UnVPQT09"}
                             className="mr-3"
                             type="button"
                         >

@@ -22,7 +22,7 @@ const therapistRoutes = [
       component: TherapistBlogs
   },
   {
-      path: "/:tid/myblogs/new",
+      path: "/:tid/newblog",
       component: BlogEntryForm
   }
 ];

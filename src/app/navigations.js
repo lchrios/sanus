@@ -45,7 +45,7 @@ export const navigations = [
         icon: 'store',
     },
        
-    /**Therapist views */
+    /*Therapist views */
     {
         label: 'Therapist Views',
         type: 'label',
@@ -67,7 +67,7 @@ export const navigations = [
     },
     {
         name: 'Editor',
-        path: '/:tid/myblogs/new',
+        path: '/:tid/newblog',
         icon: 'text_snippet',
     },
     /**{

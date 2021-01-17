@@ -4,10 +4,9 @@ import {
   Button,
   Icon
 } from "@material-ui/core";
-
 class BlogEntryForm extends Component {
   state = {
-    content: `<h1>Iknelia | Crea tu propio post</h1><p><a href="http://localhost:3000/dashboard/analytics" target="_blank">`
+    content: `<h1>Iknelia | Crea tu propio post</h1><p><a href="http://localhost:3000/dashboard/analytics" target="_blank">en Iknelia</a><p>`
   };
 
   handleContentChange = contentHtml => {
@@ -37,12 +36,16 @@ class BlogEntryForm extends Component {
           size="large"
           color="primary" 
           variant="contained" 
-          type="submit">
+          type="submit"
+          onClick={() => {
+            console.log(this.state.content)
+          }}
+          >
           <Icon>send</Icon>
           <span className="pl-8 capitalize">Publicar</span>
         </Button>
       </div>
-    );
+    )
   }
 }
 

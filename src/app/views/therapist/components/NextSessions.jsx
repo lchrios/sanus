@@ -10,7 +10,7 @@ import {
     MenuItem,
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
-import { Twitter } from '@material-ui/icons'
+import { CheckCircle } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import { MatxMenu, GoogleIcon } from 'app/components'
@@ -27,6 +27,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     twitter: {
         color: '#039ff5',
     },
+    button: {
+        margin: theme.spacing(1),
+      },
 }))
 
 const patients = [
@@ -106,18 +109,22 @@ const NextSessions = () => {
                                     <span className="ml-2">correiopaciente@gmail.com</span>
                                 </Link>
                             </div>
-                            <div className="flex flex-wrap">
+                            <div className="flex flex-wrap ">
+                                
                                 <Button
+                                    variant="contained"
                                     size="small"
-                                    className="bg-light-primary hover-bg-primary text-primary px-5 mr-1"
+                                    startIcon={<CheckCircle />}
+                                    className={clsx("bg-light-primary hover-bg-primary text-primary px-5", classes.button)}
                                 >
-                                    CHAT
+                                    Marcar sesion completada
                                 </Button>
                                 <Button
                                     size="small"
-                                    className="bg-light-primary hover-bg-primary text-primary px-5"
+                                    variant="contained"
+                                    className={clsx("bg-light-primary hover-bg-primary text-primary px-5 mr-1", classes.button)}
                                 >
-                                    PERFIL
+                                    Perfil
                                 </Button>
                             </div>
                         </div>
