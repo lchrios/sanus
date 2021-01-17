@@ -7,7 +7,8 @@ import InfoSection from "./components/InfoSection/InfoIndex"
 import BlogEntries from "./components/BlogEntries/entriesIndex"
 import {homeObjOne,homeObjTwo,homeObjThree, blogs } from './components/InfoSection/Data'
 import Footer from './components/Footer/footerIndex'
-import Form from './components/ContactForm/Form';
+
+
 
 const Home = () => {
   const [is0pen, setIs0pen ] = useState(false)

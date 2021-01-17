@@ -15,6 +15,9 @@ export const navigations = [
         path: '/dashboard/alternative',
         icon: 'analytics',
     },
+    {
+        path:""
+    },
     // Patient views
     {
         label: 'Vista de paciente',

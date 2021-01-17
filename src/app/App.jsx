@@ -25,6 +25,7 @@ const App = () => {
                                 <MatxSuspense>
                                     <Switch>
                                         <Route path="/home" component={landingRoutes[0].component} />
+                                        <Route path="/landingBlog" component={landingRoutes[1].component} />
                                         {/* AUTHENTICATION PAGES (SIGNIN, SIGNUP ETC.) */}
                                         {sessionRoutes.map((item, i) => (
                                             <Route

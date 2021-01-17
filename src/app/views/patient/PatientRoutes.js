@@ -8,6 +8,7 @@ const PatSessions = React.lazy(() => import("./PatientSessions"))
 
 const PatPayMeth = React.lazy(() => import("./patientElements/changePayMeth/chekout"))
 
+
 const patientRoutes = [
   {
       path: "/:pid/home",
@@ -24,7 +25,7 @@ const patientRoutes = [
   {
       path:"/:pid/changepaymethod",
       component: PatPayMeth
-  }
+  },
 ];
 
 export default patientRoutes;
