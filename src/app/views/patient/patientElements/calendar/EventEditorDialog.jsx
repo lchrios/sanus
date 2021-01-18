@@ -6,9 +6,14 @@ import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import { addNewEvent, updateEvent, deleteEvent } from './CalendarService'
 
+
+Date.prototype.addHours= function(h){
+    this.setHours(this.getHours()+h);
+    return this;
+}
+
 const EventEditorDialog = ({ event = {}, open, handleClose }) => {
     const [state, setState] = useState(event)
-
     const handleChange = (event) => {
         setState({ ...state, [event.target.name]: event.target.value })
     }
@@ -40,10 +45,11 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
         }
     }
 
-    const handleDateChange = (date, name) => {
+    const handleDateChange = (date) => {
         setState({
             ...state,
-            [name]: date,
+            'start': date,
+            'end': new Date(date).addHours(1)
         })
     }
 
@@ -63,7 +69,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
             fullWidth={true}
         >
             <div className="flex justify-between items-center pl-4 pr-2 py-2 bg-primary">
-                <h4 className="m-0 text-white">Crear una sesión</h4>
+                <h4 className="m-0 text-white">Agenda una sesión</h4>
                 <IconButton onClick={handleClose}>
                     <Icon className="text-white">clear</Icon>
                 </IconButton>
@@ -73,7 +79,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                 <ValidatorForm onSubmit={handleFormSubmit}>
                     <TextValidator
                         className="mb-6 w-full"
-                        label="Nombre"
+                        label="Terapeuta"
                         onChange={handleChange}
                         type="text"
                         name="Nombre"
@@ -83,7 +89,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                     />
 
                     <Grid container spacing={4}>
-                        <Grid item sm={6} xs={12}>
+                        <Grid item lg={6} md={6} sm={12} xs={12}>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <DateTimePicker
                                     margin="none"
@@ -94,9 +100,24 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                                     autoOk={true}
                                     value={start || ''}
                                     fullWidth
-                                    onChange={(date) =>
-                                        handleDateChange(date, 'start')
+                                    onChange={(date) => 
+                                        handleDateChange(date)
                                     }
+                                />
+                            </MuiPickersUtilsProvider>
+                        </Grid> 
+                        <Grid item lg={6} md={6} sm={6} xs={12}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <DateTimePicker
+                                    margin="none"
+                                    id="end-date"
+                                    label="Fecha del evento"
+                                    inputVariant="standard"
+                                    type="text"
+                                    autoOk={true}
+                                    disabled={true}
+                                    value={end || ''}
+                                    fullWidth
                                 />
                             </MuiPickersUtilsProvider>
                         </Grid>

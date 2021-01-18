@@ -25,12 +25,12 @@ const UserProfileSidenav = () => {
                 className="h-84 w-84 mb-5"
                 src="/assets/images/face-7.jpg"
             />
-            <p className="text-white">{user.name}</p>
+            <p className="text-white">{user.displayName || user.email}</p>
             <div className="py-3" />
             <div className="flex flex-wrap w-full px-12 mb-11">
                 <div className="flex-grow">
                     <p className="uppercase text-light-white mb-1">usuario</p>
-                    <h4 className="font-medium text-white">1266</h4>
+                    <h4 className="font-medium text-white">1163</h4>
                 </div>
                 <div>
                     <p className="uppercase text-light-white mb-1">uso</p>

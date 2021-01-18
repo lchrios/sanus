@@ -32,12 +32,14 @@ const TherapistInfoUser = () => {
         .get()
         .then(doc => {
             const data = doc.data()
-            data.therapist
+            if (data.therapist != null) {
+                data.therapist
                 .get()
                 .then(doc => {
                     const ther_data = doc.data()
                     setTherapist(ther_data)
                 })
+            }
         })
 
     return (
@@ -47,7 +49,7 @@ const TherapistInfoUser = () => {
                     className="w-84 h-84"
                     src={therapist?.img}
                 />
-                <h5 className="mt-4 mb-2">{therapist?.name}</h5>
+                <h5 className="mt-4 mb-2">{therapist?.name || "No tienes ningun terapeuta aun"}</h5>
                 <small className="text-muted">{therapist?.exp}</small>
             </div>
 
@@ -59,8 +61,8 @@ const TherapistInfoUser = () => {
                         <TableCell>
                             <div>{therapist?.email}</div>
                             <small className="px-1 py-2px bg-light-green text-green border-radius-4">
-                                EMAIL VERIFICADO
-                            </small>
+                                 EMAIL VERIFICADO
+                             </small>
                         </TableCell>
                     </TableRow>
                     <TableRow>
