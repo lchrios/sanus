@@ -8,30 +8,29 @@ import Favorite from "@material-ui/icons/Favorite";
 // core components
 import GridContainer from "./components/GridContainer";
 import GridItem from "./components/GridItem";
-import Parallax from "./components/parallax.js";
+import Parallax from "./components/parallax";
 import Navbar from '../components/Navbar_sc/NavbarIndex'
 // sections for this page
-import BlogCards from "./components/BlogCards";
-import SearchBox from './landingBlogStyles/searchBoxStyle'
-import InterestedSection from "./components/lessImpBlog";
-import SectionImage from "./components/sectionIamge";
-
+import SearchBox from './components/searchBoxStyle'
 import SubscribeLine from "./components/subscribeLine";
-
-import landingBlogStyles from "./landingBlogStyles/landingBlogStyles";
+import landingBlogStyles from "../landingBlog/landingBlogStyles/landingBlogStyles.js";
+import LandingPsy from './components/landingPsySection'
+import LandingPsySection from "./components/landingPsySection";
 
 
 
 
 const useStyles = makeStyles(landingBlogStyles);
 
-export default function landingBlog() {
+export default function landingPsy() {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     document.body.scrollTop = 0;
   });
   const classes = useStyles();
   return (
+
+    
     <div>
       <Navbar />
       <Parallax image={require("assets/images/psychologists/session1.jpg")} filter="dark" small>
@@ -39,7 +38,7 @@ export default function landingBlog() {
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={8} className={classes.textCenter}>
               <h2 className={classes.title}>
-                Busca un tema
+                Buscar un profesional
               </h2>
               <SearchBox />
               {/*<SearchBoxBlog></SearchBoxBlog>*/}
@@ -49,8 +48,7 @@ export default function landingBlog() {
       </Parallax>
       <div className={classes.main}>
         <div className={classes.container}>
-          <BlogCards />
-          <InterestedSection />
+          <LandingPsySection/>
         </div>
         <SubscribeLine />
       </div>

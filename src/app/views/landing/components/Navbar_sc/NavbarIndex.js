@@ -45,13 +45,16 @@ const Navbar = ( {toggle} ) => {
                   </MobileIcon>
                   <NavMenu>
                       <NavItem>
+                          <NavLinks onClick={() => {history.push('/home')}}> Inicio </NavLinks>
+                      </NavItem>
+                      <NavItem>
                           <NavLinks >Acerca de</NavLinks>
                       </NavItem>
                       <NavItem>
                           <NavLinks onClick={() => {history.push('/landingBlog')}}>Blog</NavLinks>
                       </NavItem>
                       <NavItem>
-                          <NavLinks >Psicólogos</NavLinks>
+                          <NavLinks onClick={() => {history.push('/psychologists')}} >Psicólogos</NavLinks>
                       </NavItem>
                       <NavItem>
                           <NavLinks onClick={() => {history.push("/session/signup")}}>Comienza ahora</NavLinks>
