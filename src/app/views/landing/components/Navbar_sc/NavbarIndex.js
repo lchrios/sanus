@@ -45,6 +45,9 @@ const Navbar = ( {toggle} ) => {
                   </MobileIcon>
                   <NavMenu>
                       <NavItem>
+                          <NavLinks onClick={() => {history.push('/home')}}> Inicio </NavLinks>
+                      </NavItem>
+                      <NavItem>
                           <NavLinks >Acerca de</NavLinks>
                       </NavItem>
                       <NavItem>

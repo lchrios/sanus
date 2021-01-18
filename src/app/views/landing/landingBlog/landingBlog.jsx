@@ -9,6 +9,7 @@ import Favorite from "@material-ui/icons/Favorite";
 import GridContainer from "./components/GridContainer";
 import GridItem from "./components/GridItem";
 import Parallax from "./components/parallax.js";
+import Navbar from '../components/Navbar_sc/NavbarIndex'
 // sections for this page
 import BlogCards from "./components/BlogCards";
 import SearchBox from './landingBlogStyles/searchBoxStyle'
@@ -32,6 +33,7 @@ export default function landingBlog() {
   const classes = useStyles();
   return (
     <div>
+      <Navbar />
       <Parallax image={require("assets/images/psychologists/session1.jpg")} filter="dark" small>
         <div className={classes.container}>
           <GridContainer justify="center">

@@ -40,11 +40,12 @@ export default function LandingPsySection({ ...rest }) {
                 classes.mlAuto + " " + classes.mrAuto + " " + classes.textCenter
               }
             >
-              <h2 className={classes.title}>The Executive Team 3</h2>
+              <h2 className={classes.title}>Nuestros profesionales</h2>
               <h5 className={classes.description}>
-                This is the paragraph where you can write more details about
-                your team. Keep you user engaged by providing meaningful
-                information.
+                  Nuestro equipo de terapeutas está altamente capacitado
+                  para atenderte con el mayor profesionalismo y privacidad 
+                  que requieres para atender los temas más sensibles de tu
+                  vida.
               </h5>
             </GridItem>
           </GridContainer>
@@ -68,13 +69,13 @@ export default function LandingPsySection({ ...rest }) {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Alec Thompson</h4>
+                      <h4 className={classes.cardTitle}>Mark Zuckerberg</h4>
                       
-                        <h6 className={classes.cardCategory}>FOUNDER</h6>
+                        <h6 className={classes.cardCategory}>Psicólogo</h6>
                       
                       <p className={classes.description}>
-                        Don{"'"}t be scared of the truth because we need to
-                        restart the human foundation in truth...
+                        5 años de experiencia en terapia psicológica, 
+                        maestría en psicoanálisis.
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
@@ -111,15 +112,15 @@ export default function LandingPsySection({ ...rest }) {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Kendall Andrew</h4>
+                      <h4 className={classes.cardTitle}>Mark Zuckerberg</h4>
                       
                         <h6 className={classes.cardCategory}>
-                          GRAPHIC DESIGNER
+                        Psicólogo
                         </h6>
                       
                       <p className={classes.description}>
-                        Don{"'"}t be scared of the truth because we need to
-                        restart the human foundation in truth...
+                      5 años de experiencia en terapia psicológica, 
+                        maestría en psicoanálisis.
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
@@ -159,13 +160,13 @@ export default function LandingPsySection({ ...rest }) {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Gina Andrew</h4>
+                      <h4 className={classes.cardTitle}>Mark Zuckerberg</h4>
                       
-                        <h6 className={classes.cardCategory}>WEB DESIGNER</h6>
+                        <h6 className={classes.cardCategory}>Psicólogo</h6>
                       
                       <p className={classes.description}>
-                        I love you like Kanye loves Kanye. Don{"'"}t be scared
-                        of the truth.
+                      5 años de experiencia en terapia psicológica, 
+                        maestría en psicoanálisis.
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
@@ -202,550 +203,13 @@ export default function LandingPsySection({ ...rest }) {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>George West</h4>
+                      <h4 className={classes.cardTitle}>Mark Zuckerberg</h4>
                       
-                        <h6 className={classes.cardCategory}>BACKEND HACKER</h6>
-                      
-                      <p className={classes.description}>
-                        I love you like Kanye loves Kanye. Don{"'"}t be scared
-                        of the truth.
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="linkedin">
-                        <i className="fab fa-linkedin-in" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-          </GridContainer>
-          <GridContainer>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>Alec Thompson</h4>
-                      
-                        <h6 className={classes.cardCategory}>FOUNDER</h6>
+                        <h6 className={classes.cardCategory}>Psicólogo</h6>
                       
                       <p className={classes.description}>
-                        Don{"'"}t be scared of the truth because we need to
-                        restart the human foundation in truth...
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>Kendall Andrew</h4>
-                      
-                        <h6 className={classes.cardCategory}>
-                          GRAPHIC DESIGNER
-                        </h6>
-                      
-                      <p className={classes.description}>
-                        Don{"'"}t be scared of the truth because we need to
-                        restart the human foundation in truth...
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="linkedin">
-                        <i className="fab fa-linkedin-in" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="dribbble">
-                        <i className="fab fa-dribbble" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>Gina Andrew</h4>
-                      
-                        <h6 className={classes.cardCategory}>WEB DESIGNER</h6>
-                      
-                      <p className={classes.description}>
-                        I love you like Kanye loves Kanye. Don{"'"}t be scared
-                        of the truth.
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="youtube">
-                        <i className="fab fa-youtube" />
-                      </Button>
-                      <Button justIcon simple color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      <Button justIcon simple color="instagram">
-                        <i className="fab fa-instagram" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>George West</h4>
-                      
-                        <h6 className={classes.cardCategory}>BACKEND HACKER</h6>
-                      
-                      <p className={classes.description}>
-                        I love you like Kanye loves Kanye. Don{"'"}t be scared
-                        of the truth.
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="linkedin">
-                        <i className="fab fa-linkedin-in" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-          </GridContainer>
-          <GridContainer>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>Alec Thompson</h4>
-                      
-                        <h6 className={classes.cardCategory}>FOUNDER</h6>
-                      
-                      <p className={classes.description}>
-                        Don{"'"}t be scared of the truth because we need to
-                        restart the human foundation in truth...
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>Kendall Andrew</h4>
-                      
-                        <h6 className={classes.cardCategory}>
-                          GRAPHIC DESIGNER
-                        </h6>
-                      
-                      <p className={classes.description}>
-                        Don{"'"}t be scared of the truth because we need to
-                        restart the human foundation in truth...
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="linkedin">
-                        <i className="fab fa-linkedin-in" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="dribbble">
-                        <i className="fab fa-dribbble" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>Gina Andrew</h4>
-                      
-                        <h6 className={classes.cardCategory}>WEB DESIGNER</h6>
-                      
-                      <p className={classes.description}>
-                        I love you like Kanye loves Kanye. Don{"'"}t be scared
-                        of the truth.
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="youtube">
-                        <i className="fab fa-youtube" />
-                      </Button>
-                      <Button justIcon simple color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      <Button justIcon simple color="instagram">
-                        <i className="fab fa-instagram" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>George West</h4>
-                      
-                        <h6 className={classes.cardCategory}>BACKEND HACKER</h6>
-                      
-                      <p className={classes.description}>
-                        I love you like Kanye loves Kanye. Don{"'"}t be scared
-                        of the truth.
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="linkedin">
-                        <i className="fab fa-linkedin-in" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-          </GridContainer>
-          <GridContainer>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>Alec Thompson</h4>
-                      
-                        <h6 className={classes.cardCategory}>FOUNDER</h6>
-                      
-                      <p className={classes.description}>
-                        Don{"'"}t be scared of the truth because we need to
-                        restart the human foundation in truth...
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>Kendall Andrew</h4>
-                      
-                        <h6 className={classes.cardCategory}>
-                          GRAPHIC DESIGNER
-                        </h6>
-                      
-                      <p className={classes.description}>
-                        Don{"'"}t be scared of the truth because we need to
-                        restart the human foundation in truth...
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="linkedin">
-                        <i className="fab fa-linkedin-in" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="dribbble">
-                        <i className="fab fa-dribbble" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>Gina Andrew</h4>
-                      
-                        <h6 className={classes.cardCategory}>WEB DESIGNER</h6>
-                      
-                      <p className={classes.description}>
-                        I love you like Kanye loves Kanye. Don{"'"}t be scared
-                        of the truth.
-                      </p>
-                    </CardBody>
-                    <CardFooter profile plain>
-                      <Button justIcon simple color="youtube">
-                        <i className="fab fa-youtube" />
-                      </Button>
-                      <Button justIcon simple color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      <Button justIcon simple color="instagram">
-                        <i className="fab fa-instagram" />
-                      </Button>
-                    </CardFooter>
-                  </GridItem>
-                </GridContainer>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
-              <Card profile plain className={classes.card3}>
-                <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
-                    <CardHeader image plain>
-                      <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
-                      </a>
-                      <div
-                        className={classes.coloredShadow}
-                        style={{
-                          backgroundImage: `url(${session1})`,
-                          opacity: "1"
-                        }}
-                      />
-                    </CardHeader>
-                  </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
-                    <CardBody plain>
-                      <h4 className={classes.cardTitle}>George West</h4>
-                      
-                        <h6 className={classes.cardCategory}>BACKEND HACKER</h6>
-                      
-                      <p className={classes.description}>
-                        I love you like Kanye loves Kanye. Don{"'"}t be scared
-                        of the truth.
+                      5 años de experiencia en terapia psicológica, 
+                        maestría en psicoanálisis.
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
