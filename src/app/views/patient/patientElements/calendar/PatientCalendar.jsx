@@ -111,6 +111,7 @@ const PatientCalendar = () => {
                 color="secondary"
                 onClick={() => {
                     openNewEventDialog({
+                        action: 'doubleClick',
                         start: new Date(),
                         end: new Date().addHours(1),
                     })

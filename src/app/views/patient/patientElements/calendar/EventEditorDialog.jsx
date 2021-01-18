@@ -15,7 +15,11 @@ Date.prototype.addHours= function(h){
 const EventEditorDialog = ({ event = {}, open, handleClose }) => {
     const [state, setState] = useState(event)
     const handleChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.value })
+        console.log(event.target.name)
+        setState({ 
+            ...state, 
+            [event.target.name]: event.target.value 
+        })
     }
 
     const handleFormSubmit = () => {
@@ -83,7 +87,6 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                         onChange={handleChange}
                         type="text"
                         name="Nombre"
-                        value={title || ''}
                         validators={['required']}
                         errorMessages={['Este campo es requerido']}
                     />
@@ -94,7 +97,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                                 <DateTimePicker
                                     margin="none"
                                     id="start-date"
-                                    label="Fecha del evento"
+                                    label="Fecha y hora de inicio"
                                     inputVariant="standard"
                                     type="text"
                                     autoOk={true}
@@ -111,7 +114,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                                 <DateTimePicker
                                     margin="none"
                                     id="end-date"
-                                    label="Fecha del evento"
+                                    label="Hora de final de sesion"
                                     inputVariant="standard"
                                     type="text"
                                     autoOk={true}
@@ -129,7 +132,6 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                         onChange={handleChange}
                         type="text"
                         name="descripción"
-                        value={location || ''}
                         validators={['required']}
                         errorMessages={['Este campo es requerido']}
                     />
@@ -140,7 +142,6 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                         onChange={handleChange}
                         type="text"
                         name="nota"
-                        value={note || ''}
                         rowsMax={2}
                         multiline={true}
                         validators={['required']}
