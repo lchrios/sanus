@@ -10,7 +10,7 @@ const BlogEntries = () => {
             <EntriesH1>Últimas entradas del blog</EntriesH1>
             <EntriesWrapper>
                 {blogs.map((blog, i) => (
-                    <EntriesCard key={i}>
+                    <EntriesCard  key={i}>
                         <EntriesIcon src={img} />
                         <EntriesH2>{blog.title}</EntriesH2>
                         <EntriesP>{blog.body.slice(0,40)}</EntriesP>

@@ -63,7 +63,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
         return id
     }
 
-    let { title, start, end, location, note } = state
+    let { nombre, start, end, location, note } = state
 
     return (
         <Dialog
@@ -86,9 +86,9 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                         label="Terapeuta"
                         onChange={handleChange}
                         type="text"
-                        name="Nombre"
-                        validators={['required']}
-                        errorMessages={['Este campo es requerido']}
+                        name="nombre"
+                        //validators={['required']}
+                        //errorMessages={['Este campo es requerido']}
                     />
 
                     <Grid container spacing={4}>
@@ -132,8 +132,8 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                         onChange={handleChange}
                         type="text"
                         name="descripción"
-                        validators={['required']}
-                        errorMessages={['Este campo es requerido']}
+                        //validators={['required']}
+                        //errorMessages={['Este campo es requerido']}
                     />
 
                     <TextValidator
@@ -144,8 +144,8 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                         name="nota"
                         rowsMax={2}
                         multiline={true}
-                        validators={['required']}
-                        errorMessages={['Este campo es requerido']}
+                        //validators={['required']}
+                        //errorMessages={['Este campo es requerido']}
                     />
 
                     <div className="flex justify-between items-center">
