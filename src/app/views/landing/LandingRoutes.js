@@ -2,6 +2,7 @@ import React from "react";
 
 const Home = React.lazy(() => import('./Home'))
 const Blog = React.lazy(() => import('./landingBlog/landingBlog'))
+const Psychologists = React.lazy(() => import('./psychologists/landingPsy'))
 
 const settings = {
   activeLayout: "layout1",
@@ -35,6 +36,10 @@ const landingRoutes = [
     path:'/landingBlog',
     component:Blog
   },
+  {
+    path:'/psychologists',
+    component: Psychologists
+  }
 ];
 
 export default landingRoutes;
