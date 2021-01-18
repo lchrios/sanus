@@ -2,9 +2,13 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Icon } from '@material-ui/core'
 import { useSelector } from 'react-redux'
+import firebase from 'firebase'
 
 const MatxHorizontalNav = ({ max }) => {
     let navigation = useSelector(({ navigations }) => navigations)
+
+    var uid = firebase.auth().currentUser?.uid
+
 
     if (!navigation || !navigation.length) {
         return null
@@ -40,7 +44,7 @@ const MatxHorizontalNav = ({ max }) => {
             } else {
                 return (
                     <li key={key}>
-                        <NavLink to={item.path}>
+                        <NavLink to={"/"+uid+item.path}>
                             {item.icon && (
                                 <Icon className="text-18 align-middle">
                                     {item.icon}

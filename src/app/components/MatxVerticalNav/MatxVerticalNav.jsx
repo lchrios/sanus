@@ -6,6 +6,7 @@ import MatxVerticalNavExpansionPanel from './MatxVerticalNavExpansionPanel'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import useSettings from 'app/hooks/useSettings'
+import firebase from 'firebase'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     navItem: {
@@ -44,6 +45,9 @@ const MatxVerticalNav = ({ items }) => {
     const { settings } = useSettings()
     const { mode } = settings.layout1Settings.leftSidebar
     const classes = useStyles()
+
+    var uid = firebase.auth().currentUser?.uid
+
 
     const renderLevels = (data) => {
         return data.map((item, index) => {
@@ -126,7 +130,7 @@ const MatxVerticalNav = ({ items }) => {
                 return (
                     <NavLink
                         key={index}
-                        to={item.path}
+                        to={"/"+uid+item.path}
                         activeClassName={classes.navItemActive}
                         className={clsx({
                             'flex justify-between h-44 border-radius-4 mb-2 compactNavItem whitespace-pre overflow-hidden': true,

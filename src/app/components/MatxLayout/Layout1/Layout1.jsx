@@ -36,6 +36,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
 const Layout1 = () => {
+
     const { settings, updateSettings } = useSettings()
     const { layout1Settings, secondarySidebar } = settings
     const {

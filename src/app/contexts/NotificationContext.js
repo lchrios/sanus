@@ -111,7 +111,7 @@ export const NotificationProvider = ({ settings, children }) => {
                 type: 'LOAD_NOTIFICATIONS',
                 payload: notification_data,
             }) 
-            console.log(notification_data)
+            //console.log(notification_data)
         } catch (e) {
             console.error(e)
         }

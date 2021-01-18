@@ -31,7 +31,6 @@ const TherapistInfoUser = () => {
         .then(doc => {
             const data = doc.data()
             setTherapist(data)
-            console.log(therapist)
         })
 
     return (

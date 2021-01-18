@@ -11,6 +11,7 @@ import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { MatxLogo, MatxDivider } from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
 import history from 'history.js'
+import firebase from 'firebase/app'
 import clsx from 'clsx'
 import {NavLogo} from '../../landing/components/Navbar_sc/NavbarElements';
 import useAuth from 'app/hooks/useAuth'
@@ -103,7 +104,8 @@ const FirebaseLogin = () => {
         // console.log(userInfo);
         try {
             await signInWithEmailAndPassword(userInfo.email, userInfo.password)
-            history.push('/dashboard/alternative')
+            var user = firebase.auth().currentUser
+            history.push('/'+user.uid+'/home')
         } catch (e) {
             console.log(e)
             setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
@@ -113,7 +115,8 @@ const FirebaseLogin = () => {
     const handleGoogleLogin = async (event) => {
         try {
             await signInWithGoogle()
-            history.push('/dashboard/alternative')
+            var user = firebase.auth().currentUser
+            history.push('/'+user.uid+'/home')
         } catch (e) {
             setMessage(e.message)
             setLoading(false)
