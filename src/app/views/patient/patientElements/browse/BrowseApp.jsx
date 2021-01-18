@@ -9,15 +9,32 @@ import firebase from 'firebase'
 const BrowseApp = () => {
     const [isAlive, setIsAlive] = useState(true)
     const [userList, setUserList] = useState([])
+    const [docRefs, setDocRefs] = useState([])
 
     const db = firebase.app().firestore()
+    var user = firebase.auth().currentUser
 
     useEffect(() => {
        /* Axios.get('/api/user/all').then(({ data }) => {
             if (isAlive) 
             console.log(data)
         })*/
-        setUserList(fakeDbTher)
+
+        var data = []
+        var data_ref = []
+
+        db.collection("therapists")
+            .get()
+            .then(querySnapshot => {
+                querySnapshot.forEach(doc => {
+                    data.push(doc.data())
+                    data_ref.push(doc.ref)
+                })
+                setUserList(data)
+                setDocRefs(data_ref)
+            })
+            
+        
         return () => setIsAlive(false)
     }, [isAlive])
 
@@ -358,7 +375,7 @@ const fakeDbTher = [
 
                     return (
                         <div className="flex items-center">
-                            <Avatar className="w-48 h-48" src={therapist?.imgUrl} />
+                            <Avatar className="w-48 h-48" src={therapist?.img} />
                             <div className="ml-3">
                                 <h5 className="my-0 text-15">{therapist?.name}</h5>
                                 <small className="text-muted">
@@ -375,23 +392,55 @@ const fakeDbTher = [
             label: 'Consultorio',
             options: {
                 filter: true,
-                // customBodyRenderLite: (dataIndex) => (
-                //   <span className="ellipsis">{userList[dataIndex].address}</span>
-                // ),
+                customBodyRenderLite: (dataIndex) => {
+                    let therapist = userList[dataIndex]
+
+                    return (
+                        <span className="ellipsis">{therapist?.address || "Sin direccion"}</span>
+                    )
+                },
             },
         },
         {
-            name: 'company',
+            name: 'exp',
             label: 'Experiencia',
             options: {
                 filter: true,
+                customBodyRenderLite: (dataIndex) => {
+                    let therapist = userList[dataIndex]
+
+                    return (
+                        <span className="ellipsis">{therapist?.exp}</span>
+                    )
+                },
             },
         },
         {
-            name: 'balance',
-            label: 'Precio',
+            name: 'ced',
+            label: 'Cedula',
             options: {
                 filter: true,
+                customBodyRenderLite: (dataIndex) => {
+                    let therapist = userList[dataIndex]
+
+                    return (
+                        <span className="ellipsis">{therapist?.cedula}</span>
+                    )
+                }
+            },
+        },
+        {
+            name: 'phone',
+            label: 'Telefono',
+            options: {
+                filter: true,
+                customBodyRenderLite: (dataIndex) => {
+                    let therapist = userList[dataIndex]
+
+                    return (
+                        <span className="ellipsis">{therapist?.phone}</span>
+                    )
+                }
             },
         },
         {
@@ -402,29 +451,19 @@ const fakeDbTher = [
                 customBodyRenderLite: (dataIndex) => (
                     <div className="flex items-center">
                         <div className="flex-grow"></div>
-                        <Link to="/:pid/changepaymethod" >
+                        <Link to={"/"+user.uid+"/home"} >
                             
                             <IconButton onClick={() => {
-                                console.log(userList[dataIndex])
+                                let therapist_ref = docRefs[dataIndex]
                                 const db = firebase.app().firestore()
 
-                                const dataRef = userList[dataIndex]
-                                var data = {
-                                    email: dataRef.email,
-                                    imgSrc: dataRef.imgUrl,
-                                    name: dataRef.name,
-                                    phrase: dataRef.company,
-                                    telefono: dataRef.phone,
-                                    therapist: dataIndex
-                                }
-
-                                db.collection("patients").doc("1")
-                                    .update(data)
+                                db.collection("patients").doc(user.uid)
+                                    .update({
+                                        therapist: therapist_ref
+                                    })
                                     .then(function() {
                                         console.log("Document successfully updated!")
                                     })
-
-
                                 }}>
                                 <Icon>control_point</Icon>
                             </IconButton>

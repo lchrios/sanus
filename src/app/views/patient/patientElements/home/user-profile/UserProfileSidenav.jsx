@@ -4,6 +4,7 @@ import { Avatar, Button, Card, Grid, Icon, IconButton } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
+import firebase from 'firebase'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     sidenav: {
@@ -17,7 +18,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 const UserProfileSidenav = () => {
     const classes = usestyles()
-    const { user } = useAuth()
+    var user = firebase.auth().currentUser
     return (
         <div className={clsx('flex-column items-center', classes.sidenav)}>
             <Avatar
@@ -39,12 +40,12 @@ const UserProfileSidenav = () => {
             </div>
             <div className="px-8 pt-2 bg-default">
                 <Grid container spacing={3}>
-                <Button onClick={() => history.push('/:pid/home')}>
+                <Button onClick={() => history.push('/'+user.uid+'/home')}>
                     <Grid item>
                     
                         <Card className="w-104 h-104 bg-primary flex justify-center items-center">
                             <div className="text-light-white text-center">
-                                <IconButton onClick={() => history.push("/:pid/home")}>
+                                <IconButton onClick={() => history.push("/"+user.uid+"/home")}>
                                     <Icon>sentiment_very_satisfied</Icon>
                                 </IconButton>
                                 <br />
@@ -55,7 +56,7 @@ const UserProfileSidenav = () => {
                     </Grid>
                 </Button>
                     {shortcutList.map((item, ind) => (
-                    <Button onClick={() => history.push(item.route)}>
+                    <Button onClick={() => history.push("/"+user.uid+item.route)}>
                         <Grid item key={ind}>
                             <Card className="w-104 h-104 flex items-center justify-center">
                                 <div className="text-muted text-center">
@@ -88,27 +89,27 @@ const shortcutList = [
     {
         title: 'diagnósticos',
         icon: 'content_paste',
-        route: '/:pid/home'
+        route: '/home'
     },
     {
         title: 'sesiones',
         icon: 'date_range',
-        route: '/:pid/sessions'
+        route: '/sessions'
     },
     {
         title: 'Buscar',
         icon: 'search',
-        route: '/:pid/browse'
+        route: '/browse'
     },
     {
         title: 'Configuración',
         icon: 'build',
-        route: '/:pid/sessions'
+        route: '/sessions'
     },
     {
         title: 'Terapeuta',
         icon: 'group',
-        route: '/:pid/sessions'
+        route: '/sessions'
     },
 ]
 

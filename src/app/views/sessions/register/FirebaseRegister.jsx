@@ -100,9 +100,9 @@ const FirebaseRegister = () => {
                 age: 18,
                 phone: "3314895548",
                 img: '/src/assets/images/faces/2.jpg',
-                therapist_id: "",
+                therapist: null,
                 sessions: [],
-                payment_met: [],
+                location: ["Guadalajara", "Jalisco", "Mexico"],
             }
 
             var db = firebase.firestore()
