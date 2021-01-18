@@ -4,6 +4,7 @@ import history from '../../../../../history';
 import { HeroContainer, HeroBg, VideoBg } from './HeroElements';
 import { HeroContent, HeroH1, HeroP, HeroBtnWrapper, ArrowForward, ArrowRight } from './HeroElements';
 import { Button } from '../buttonElement_sc';
+
 const HeroSection = () => {
     const [hover, setHover] = useState(false)
 

@@ -7,6 +7,7 @@ import {
     Button,
     CircularProgress,
 } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { MatxLogo, MatxDivider } from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
@@ -140,7 +141,7 @@ const FirebaseLogin = () => {
                             })}
                         >
                             <div className={classes.logo}>
-                                <IkneliaLogo>Iknelia</IkneliaLogo>
+                                    <IkneliaLogo to={"/home"}>Iknelia</IkneliaLogo>
                             </div>
                             <h1 className={classes.mainTitle}>
                                 La atención que mereces

@@ -24,15 +24,16 @@ const App = () => {
                             <AuthProvider>
                                 <MatxSuspense>
                                     <Switch>
-                                        <Route path="/home" component={landingRoutes[0].component} />
-                                        <Route path="/landingBlog" component={landingRoutes[1].component} />
-                                        <Route path="/psychologists" component={landingRoutes[2].component} />
+                                        <Route path="/home" exact={true} component={landingRoutes[0].component} />
+                                        <Route path="/landingBlog" exact={true} component={landingRoutes[1].component} />
+                                        <Route path="/psychologists" exact={true} component={landingRoutes[2].component} />
                                         {/* AUTHENTICATION PAGES (SIGNIN, SIGNUP ETC.) */}
                                         {sessionRoutes.map((item, i) => (
                                             <Route
                                                 key={i}
                                                 path={item.path}
                                                 component={item.component}
+                                                exact={true}
                                             />
                                         ))}
                                         

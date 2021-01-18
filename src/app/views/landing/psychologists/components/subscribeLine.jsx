@@ -7,10 +7,10 @@ import Mail from "@material-ui/icons/Mail";
 // core components
 import GridContainer from "./GridContainer";
 import GridItem from "./GridItem";
-import Card from "./card.js";
-import CardBody from "./cardBody.js";
-import Button from "./button.js";
-import CustomInput from './customImput.js'
+import Card from "./card.jsx";
+import CardBody from "./cardBody.jsx";
+import Button from "./button.jsx";
+import CustomInput from './customImput.jsx'
 
 
 import sectionSubscribeLineStyle from "./styles/subscriberLineStyle";

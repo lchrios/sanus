@@ -8,7 +8,7 @@ import Favorite from "@material-ui/icons/Favorite";
 // core components
 import GridContainer from "./components/GridContainer";
 import GridItem from "./components/GridItem";
-import Parallax from "./components/parallax.js";
+import Parallax from "./components/parallax.jsx";
 import Navbar from '../components/Navbar_sc/NavbarIndex'
 // sections for this page
 import BlogCards from "./components/BlogCards";

@@ -4,7 +4,7 @@ EntriesH2,EntriesP} from './entriesElements'
 import {blogs} from '../InfoSection/Data';
 import img from '../../../../../assets/images/schedule.svg'
 
-export const BlogEntries = () => {
+const BlogEntries = () => {
     return (
         <EntriesContainer id="blog_ent">
             <EntriesH1>Últimas entradas del blog</EntriesH1>
