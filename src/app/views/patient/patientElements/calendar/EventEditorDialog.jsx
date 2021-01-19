@@ -4,7 +4,10 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
+import firebase from 'firebase'
 import { addNewEvent, updateEvent, deleteEvent } from './CalendarService'
+import therapistRoutes from 'app/views/therapist/TherapistRoutes'
+import PaymentMenu from './PaymentMenu' 
 
 
 Date.prototype.addHours= function(h){
@@ -14,6 +17,8 @@ Date.prototype.addHours= function(h){
 
 const EventEditorDialog = ({ event = {}, open, handleClose }) => {
     const [state, setState] = useState(event)
+    const [user, setUser] = useState(firebase.auth().currentUser)
+    const [therapist, setTherapist] = useState()
     const handleChange = (event) => {
         console.log(event.target.name)
         setState({ 
@@ -64,6 +69,13 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
     }
 
     let { nombre, start, end, location, note } = state
+    let db = firebase.firestore()
+
+    db.collection("patients").doc(user.uid)
+        .get()
+        .then(doc => {
+            setTherapist(doc.data())
+        })
 
     return (
         <Dialog
@@ -87,6 +99,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                         onChange={handleChange}
                         type="text"
                         name="nombre"
+                        value={therapist?.name || ''}
                         //validators={['required']}
                         //errorMessages={['Este campo es requerido']}
                     />
@@ -126,6 +139,8 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                         </Grid>
                     </Grid>
                     <div className="py-2" />
+                    <PaymentMenu paymentOptions={paymentOptions} />
+                    
                     <TextValidator
                         className="mb-6 w-full"
                         label="Descripción"
@@ -148,6 +163,8 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                         //errorMessages={['Este campo es requerido']}
                     />
 
+                    
+
                     <div className="flex justify-between items-center">
                         <Button
                             variant="contained"
@@ -166,5 +183,24 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
         </Dialog>
     )
 }
+
+const paymentOptions = [
+    {
+        label: 'PayPal',
+        src: 'assets/images/payment-methods/paypal.png'
+    },
+    {
+        label: 'Visa',
+        src: 'assets/images/payment-methods/visa.png'
+    },
+    {
+        label: 'MasterCard',
+        src: 'assets/images/payment-methods/master-card.png'
+    },
+    {
+        label: 'Depósito en oxxo',
+        src: 'assets/images/payment-methods/oxxo.png'
+    },
+]
 
 export default EventEditorDialog
