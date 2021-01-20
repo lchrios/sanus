@@ -18,7 +18,8 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 const UserProfileSidenav = () => {
     const classes = usestyles()
-    var user = firebase.auth().currentUser
+    const { user } = useAuth()
+
     return (
         <div className={clsx('flex-column items-center', classes.sidenav)}>
             <Avatar

@@ -49,7 +49,7 @@ const FirebaseRegister = () => {
     const [state, setState] = useState({})
     const classes = useStyles()
     const [message, setMessage] = useState('')
-    const { createUserWithEmailAndPassword, signInWithGoogle } = useAuth()
+    const { createUserWithEmailAndPassword, signInWithGoogle, user } = useAuth()
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -61,7 +61,6 @@ const FirebaseRegister = () => {
         try {
             await signInWithGoogle()
 
-            var user = firebase.auth().currentUser
             console.log(user)
 
             const user_data = {
@@ -91,7 +90,6 @@ const FirebaseRegister = () => {
             setLoading(true)
             await createUserWithEmailAndPassword(state.email, state.password)
 
-            var user = firebase.auth().currentUser
             console.log(user)
 
             const user_data = {

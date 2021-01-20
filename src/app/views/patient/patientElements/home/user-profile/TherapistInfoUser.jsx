@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Avatar,
     Button,
@@ -13,6 +13,7 @@ import {
 import history from '../../../../../../history'
 import firebase from 'firebase'
 import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper'
+import useAuth from 'app/hooks/useAuth'
 
 
 
@@ -21,26 +22,27 @@ const db = firebase.firestore()
 
 
 
-
 const TherapistInfoUser = () => {
-
+    const { user } = useAuth()
     const [therapist, setTherapist] = useState()
 
-    var uid = firebase.auth().currentUser.uid
-
-    db.collection("patients").doc(uid)
-        .get()
-        .then(doc => {
-            const data = doc.data()
-            if (data.therapist != null) {
-                data.therapist
-                .get()
-                .then(doc => {
-                    const ther_data = doc.data()
-                    setTherapist(ther_data)
-                })
-            }
-        })
+    useEffect(() => {
+        db.collection("patients").doc(user.id)
+            .get()
+            .then(doc => {
+                const data = doc.data()
+                if (data.therapist != null) {
+                    data.therapist
+                    .get()
+                    .then(doc => {
+                        console.log("Carta terapeuta cargada :D")
+                        const ther_data = doc.data()
+                        setTherapist(ther_data)
+                    })
+                }
+            })
+    }, [user.id])   
+    
 
     return (
         <Card className="pt-6">
