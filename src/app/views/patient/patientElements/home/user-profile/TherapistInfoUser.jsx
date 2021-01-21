@@ -14,12 +14,7 @@ import history from '../../../../../../history'
 import firebase from 'firebase'
 import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper'
 import useAuth from 'app/hooks/useAuth'
-
-
-
-//const app = firebase.initializeApp(firebaseConfig)
-const db = firebase.firestore()
-
+import firebaseService from 'app/services/firebase/firebaseService'
 
 
 const TherapistInfoUser = () => {
@@ -27,7 +22,9 @@ const TherapistInfoUser = () => {
     const [therapist, setTherapist] = useState()
 
     useEffect(() => {
-        db.collection("patients").doc(user.id)
+        console.log(user.uid)
+        setTherapist(firebaseService.getTherapistByPatient(user.uid))
+        /*db.collection("patients").doc(user.uid)
             .get()
             .then(doc => {
                 const data = doc.data()
@@ -40,7 +37,7 @@ const TherapistInfoUser = () => {
                         setTherapist(ther_data)
                     })
                 }
-            })
+            })*/
     }, [user.id])   
     
 

@@ -58,7 +58,7 @@ const FirebaseRegister = () => {
     const [state, setState] = useState({})
     const classes = useStyles()
     const [message, setMessage] = useState('')
-    const { createUserWithEmailAndPassword, signInWithGoogle, user } = useAuth()
+    const { createUserWithEmailAndPassword, signInWithGoogle } = useAuth()
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -70,22 +70,25 @@ const FirebaseRegister = () => {
         try {
             await signInWithGoogle()
 
-            console.log(user)
+            let user = firebase.auth().currentUser
 
             const user_data = {
                 email: user.email,
-                name: user.displayName,
+                name: user.name || user.email,
                 age: 18,
                 phone: "3314895548",
                 img: '/src/assets/images/faces/2.jpg',
-                therapist_id: "",
+                therapist: null,
                 sessions: [],
                 payment_met: [],
+                location: ["Guadalajara", "Jalisco", "Mexico"],
             }
 
             var db = firebase.firestore()
 
-            db.collection("patients").doc(user.uid).set(user_data)
+            await db.collection("patients").doc(user.uid).set(user_data)
+            await db.collection('roles').doc(user.uid).set({role: "patients"})
+
             history.push('/'+user.uid+'/home')
         } catch (e) {
             setMessage(e.message)
@@ -97,24 +100,27 @@ const FirebaseRegister = () => {
     const handleFormSubmit = async () => {
         try {
             setLoading(true)
-            await createUserWithEmailAndPassword(state.email, state.password)
 
-            console.log(user)
+            await createUserWithEmailAndPassword(state.email, state.password) 
+
+            let user = firebase.auth().currentUser
 
             const user_data = {
                 email: user.email,
-                name: user.displayName,
+                name: user.name || user.email,
                 age: 18,
                 phone: "3314895548",
                 img: '/src/assets/images/faces/2.jpg',
                 therapist: null,
                 sessions: [],
+                payment_met: [],
                 location: ["Guadalajara", "Jalisco", "Mexico"],
             }
 
             var db = firebase.firestore()
 
-            db.collection("patients").doc(user.uid).set(user_data)
+            await db.collection("patients").doc(user.uid).set(user_data)
+            await db.collection('roles').doc(user.uid).set({role: "patients"})
 
             history.push('/'+user.uid+'/home')
         } catch (e) {
