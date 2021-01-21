@@ -3,9 +3,10 @@ import { authRoles } from '../../auth/authRoles'
 
 const dashboardRoutes = [
     {
-        path: '/dashboard/alternative',
+        path: '/:aid/analytics',
         component: React.lazy(() => import('./Analytics')),
         auth: authRoles.sa,
+        exact: false
     },
     {
         path: '/dashboard/default',

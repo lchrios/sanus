@@ -7,11 +7,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import GridContainer from "./GridContainer";
 import GridItem from "./GridItem";
 import Card from "./card";
-import CardAvatar from "./CardAvatar.js";
+import CardAvatar from "./CardAvatar.jsx";
 import CardHeader from "./cardHeader";
 import CardBody from "./cardBody";
-import CardFooter from "./cardFooter.js";
-import Button from "./button.js";
+import CardFooter from "./cardFooter.jsx";
+import Button from "./button.jsx";
 
 import landingPsyStyles from "./styles/landingPsyStyles";
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Avatar,
     Button,
@@ -13,36 +13,46 @@ import {
 import history from '../../../../../../history'
 import firebase from 'firebase'
 import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper'
+import useAuth from 'app/hooks/useAuth'
 
 
 
 //const app = firebase.initializeApp(firebaseConfig)
-const db = firebase.app().firestore()
-
+const db = firebase.firestore()
 
 
 
 const TherapistInfoUser = () => {
-
+    const { user } = useAuth()
     const [therapist, setTherapist] = useState()
 
-    db.collection("patients").doc("1")
-        .get()
-        .then(doc => {
-            const data = doc.data()
-            setTherapist(data)
-            console.log(therapist)
-        })
+    useEffect(() => {
+        db.collection("patients").doc(user.id)
+            .get()
+            .then(doc => {
+                const data = doc.data()
+                if (data.therapist != null) {
+                    data.therapist
+                    .get()
+                    .then(doc => {
+                        console.log("Carta terapeuta cargada :D")
+                        const ther_data = doc.data()
+                        setTherapist(ther_data)
+                    })
+                }
+            })
+    }, [user.id])   
+    
 
     return (
         <Card className="pt-6">
             <div className="flex-column items-center mb-6">
                 <Avatar
                     className="w-84 h-84"
-                    src={therapist?.imgSrc}
+                    src={therapist?.img}
                 />
-                <h5 className="mt-4 mb-2">{therapist?.name}</h5>
-                <small className="text-muted">{therapist?.phrase}</small>
+                <h5 className="mt-4 mb-2">{therapist?.name || "No tienes ningun terapeuta aun"}</h5>
+                <small className="text-muted">{therapist?.exp}</small>
             </div>
 
             <Divider />
@@ -53,22 +63,40 @@ const TherapistInfoUser = () => {
                         <TableCell>
                             <div>{therapist?.email}</div>
                             <small className="px-1 py-2px bg-light-green text-green border-radius-4">
-                                EMAIL VERIFICADO
-                            </small>
+                                 EMAIL VERIFICADO
+                             </small>
                         </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="pl-4">Telefono</TableCell>
                         <TableCell>
-                            <div>{therapist?.telefono}</div>
+                            <div>{therapist?.phone}</div>
                         </TableCell>
                     </TableRow>
-                    {customerInfo.map((item, ind) => (
-                        <TableRow key={ind}>
-                            <TableCell className="pl-4">{item.title}</TableCell>
-                            <TableCell>{item.value}</TableCell>
-                        </TableRow>
-                    ))}
+                    <TableRow>
+                        <TableCell className="pl-4">Ciudad, Estado/Region</TableCell>
+                        <TableCell>
+                            <div>{therapist?.location[0]}, {therapist?.location[1]}</div>
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className="pl-4">Pais</TableCell>
+                        <TableCell>
+                            <div>{therapist?.location[2]}</div>
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell className="pl-4">Direccion</TableCell>
+                        <TableCell>
+                            <div>{therapist?.address || "Sin direccion"}</div>
+                        </TableCell>
+                    </TableRow> 
+                    <TableRow>
+                        <TableCell className="pl-4">Direccion de consultorio</TableCell>
+                        <TableCell>
+                            <div>{therapist?.cons_add || "Sin direccion"}</div>
+                        </TableCell>
+                    </TableRow>
                 </TableBody>
             </Table>
 

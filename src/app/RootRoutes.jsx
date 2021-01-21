@@ -33,11 +33,6 @@ const redirectRoute = [
       exact: true,
       component: () => <Redirect to="/home" />
     },
-    {
-      path: "/dashboard",
-      exact: true,
-      component: () => <Redirect to="/dashboard/default" />
-    }
   ];
 
 const errorRoute = [

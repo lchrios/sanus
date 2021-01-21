@@ -58,7 +58,6 @@ export const getCartList = (uid) => (dispatch) => {
 
 export const addProductToCart = (uid, productId) => (dispatch) => {
     axios.post('/api/ecommerce/add-to-cart', { uid, productId }).then((res) => {
-        console.log(res.data)
         dispatch({
             type: ADD_PRODUCT_TO_CART,
             payload: res.data,

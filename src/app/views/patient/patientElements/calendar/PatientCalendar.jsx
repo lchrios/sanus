@@ -39,6 +39,11 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
+Date.prototype.addHours= function(h){
+    this.setHours(this.getHours()+h);
+    return this;
+}
+
 const localizer = globalizeLocalizer(globalize)
 
 const DragAndDropCalendar = withDragAndDrop(Calendar)
@@ -83,9 +88,10 @@ const PatientCalendar = () => {
 
     const openNewEventDialog = ({ action, ...event }) => {
         if (action === 'doubleClick') {
-            setNewEvent(event)
-            setShouldShowEventDialog(true)
+        setNewEvent(event)
+        setShouldShowEventDialog(true)
         }
+        
     }
 
     const openExistingEventDialog = (event) => {
@@ -104,11 +110,10 @@ const PatientCalendar = () => {
                 variant="contained"
                 color="secondary"
                 onClick={() => {
-                    history.push('/ecommerce/checkout')
                     openNewEventDialog({
                         action: 'doubleClick',
                         start: new Date(),
-                        end: new Date(),
+                        end: new Date().addHours(1),
                     })
                 }}
             >
@@ -148,9 +153,11 @@ const PatientCalendar = () => {
                     onSelectEvent={(event) => {
                         openExistingEventDialog(event)
                     }}
-                    onSelectSlot={(slotDetails) =>
+                    onSelectSlot={(slotDetails) => {
+                        slotDetails.end.addHours(1)
+                        console.log(slotDetails)
                         openNewEventDialog(slotDetails)
-                    }
+                    }}
                 />
             </div>
             {shouldShowEventDialog && (

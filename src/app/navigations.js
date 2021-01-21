@@ -12,11 +12,8 @@ export const navigations = [
     }, */
     {
         name: 'Administrador',
-        path: '/dashboard/alternative',
+        path: '/analytics',
         icon: 'analytics',
-    },
-    {
-        path:""
     },
     // Patient views
     {
@@ -24,19 +21,19 @@ export const navigations = [
         type: 'label',
     },
     { 
-        name: "Iinicio",
+        name: "Inicio",
         icon: "home",
-        path: "/:pid/home"
+        path: "/home"
     },
     { 
         name: "Navegar",
         icon: "search",
-        path: "/:pid/browse"
+        path: "/browse"
     },
     { 
         name: "Historial de sesiones",
         icon: "history",
-        path: "/:pid/sessions"
+        path: "/sessions"
     },
     /**
     {
@@ -47,27 +44,27 @@ export const navigations = [
        
     /*Therapist views */
     {
-        label: 'Therapist Views',
+        label: 'Vistas de terapeuta',
         type: 'label',
     },
     { 
         name: "Administrador de terapeuta",
         icon: "event",
-        path: "/:tid/dashboard"
+        path: "/dashboard"
     },
     {
         name: "Mis sesiones",
         icon: "event",
-        path: "/:tid/appointments"
+        path: "/appointments"
     },
     { 
         name: "Mis entradas de blog",
         icon: "text_snippet",
-        path: "/:tid/myblogs"
+        path: "/myblogs"
     },
     {
         name: 'Editor',
-        path: '/:tid/newblog',
+        path: '/newblog',
         icon: 'text_snippet',
     },
     /**{

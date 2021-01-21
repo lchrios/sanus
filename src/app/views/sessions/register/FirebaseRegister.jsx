@@ -10,6 +10,8 @@ import {
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 import { Link } from 'react-router-dom'
 import useAuth from 'app/hooks/useAuth'
 import history from 'history.js'
@@ -56,7 +58,7 @@ const FirebaseRegister = () => {
     const [state, setState] = useState({})
     const classes = useStyles()
     const [message, setMessage] = useState('')
-    const { createUserWithEmailAndPassword, signInWithGoogle } = useAuth()
+    const { createUserWithEmailAndPassword, signInWithGoogle, user } = useAuth()
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -67,8 +69,24 @@ const FirebaseRegister = () => {
     const handleGoogleRegister = async (event) => {
         try {
             await signInWithGoogle()
-            console.log("todo chido bro 8)")
-            history.push('/')
+
+            console.log(user)
+
+            const user_data = {
+                email: user.email,
+                name: user.displayName,
+                age: 18,
+                phone: "3314895548",
+                img: '/src/assets/images/faces/2.jpg',
+                therapist_id: "",
+                sessions: [],
+                payment_met: [],
+            }
+
+            var db = firebase.firestore()
+
+            db.collection("patients").doc(user.uid).set(user_data)
+            history.push('/'+user.uid+'/home')
         } catch (e) {
             setMessage(e.message)
             setLoading(false)
@@ -80,8 +98,25 @@ const FirebaseRegister = () => {
         try {
             setLoading(true)
             await createUserWithEmailAndPassword(state.email, state.password)
-            console.log("todo chido bro 8)")
-            history.push('/:pid/home')
+
+            console.log(user)
+
+            const user_data = {
+                email: user.email,
+                name: user.displayName,
+                age: 18,
+                phone: "3314895548",
+                img: '/src/assets/images/faces/2.jpg',
+                therapist: null,
+                sessions: [],
+                location: ["Guadalajara", "Jalisco", "Mexico"],
+            }
+
+            var db = firebase.firestore()
+
+            db.collection("patients").doc(user.uid).set(user_data)
+
+            history.push('/'+user.uid+'/home')
         } catch (e) {
             setLoading(false)
             console.log(e)

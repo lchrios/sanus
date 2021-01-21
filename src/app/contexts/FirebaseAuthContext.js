@@ -8,6 +8,7 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig)
 }
 
+
 const initialAuthState = {
     isAuthenticated: false,
     isInitialised: false,
@@ -50,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
     const signInWithGoogle = () => {
         const provider = new firebase.auth.GoogleAuthProvider()
-
+        
         return firebase.auth().signInWithPopup(provider)
     }
 

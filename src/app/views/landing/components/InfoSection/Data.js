@@ -7,7 +7,7 @@ import { SwapVerticalCircle } from '@material-ui/icons'
 import history from '../../../../../history'
 
 const clickObjOne = function() {
-    history.push('')
+    history.push('/psychologists')
 }
 
 export const homeObjOne = {

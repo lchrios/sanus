@@ -1,7 +1,7 @@
 import '../fake-db'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { Router, Switch, Route } from 'react-router-dom'
+import { Router, Switch, Route, Redirect } from 'react-router-dom'
 import AppContext from './contexts/AppContext'
 import history from 'history.js'
 import routes from './RootRoutes'
@@ -13,7 +13,9 @@ import AuthGuard from './auth/AuthGuard'
 import { AuthProvider } from 'app/contexts/FirebaseAuthContext'
 import { SettingsProvider } from 'app/contexts/SettingsContext'
 
+
 const App = () => {
+    
     return (
         <AppContext.Provider value={{ routes }}>
             <Provider store={Store}>
@@ -24,15 +26,17 @@ const App = () => {
                             <AuthProvider>
                                 <MatxSuspense>
                                     <Switch>
-                                        <Route path="/home" component={landingRoutes[0].component} />
-                                        <Route path="/landingBlog" component={landingRoutes[1].component} />
-                                        <Route path="/psychologists" component={landingRoutes[2].component} />
+                                        <Route path="/" exact={true} component={() => <Redirect to="/home" />}></Route>  
+                                        <Route path="/home" exact={true} component={landingRoutes[0].component} />
+                                        <Route path="/landingBlog" exact={true} component={landingRoutes[1].component} />
+                                        <Route path="/psychologists" exact={true} component={landingRoutes[2].component} />
                                         {/* AUTHENTICATION PAGES (SIGNIN, SIGNUP ETC.) */}
                                         {sessionRoutes.map((item, i) => (
                                             <Route
                                                 key={i}
                                                 path={item.path}
                                                 component={item.component}
+                                                exact={true}
                                             />
                                         ))}
                                         

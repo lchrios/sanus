@@ -12,19 +12,23 @@ const PatPayMeth = React.lazy(() => import("./patientElements/changePayMeth/chek
 const patientRoutes = [
   {
       path: "/:pid/home",
-      component: PatHome
+      component: PatHome,
+      exact: false
   },
   {
       path: "/:pid/browse",
-      component: PatBrowse
+      component: PatBrowse,
+      exact: false
   },
   {
       path: "/:pid/sessions",
-      component: PatSessions
+      component: PatSessions,
+      exact: false
   },
   {
       path:"/:pid/changepaymethod",
-      component: PatPayMeth
+      component: PatPayMeth,
+      exact: false
   },
 ];
 
