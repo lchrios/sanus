@@ -36,7 +36,7 @@ export const homeObjTwo = {
     id:'especialistas',
     lightBg: true,
     lightText: false,
-    lightTextDesc: false,
+    lightTextDesc: true,
     topLine: 'Escoge con quien te sientas comodo',
     headline: 'Selecciona cualquiera de nuestros profesionales, y cambia tu vida, ahora.',
     description: 'Comienza a trabajar en tu salud mental, ahora mismo.',

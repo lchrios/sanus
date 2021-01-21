@@ -7,7 +7,7 @@ import InfoSection from "./components/InfoSection/InfoIndex"
 import BlogEntries from "./components/BlogEntries/entriesIndex"
 import {homeObjOne,homeObjTwo,homeObjThree, blogs } from './components/InfoSection/Data'
 import Footer from './components/Footer/footerIndex'
-
+import PsySection from '../landing/components/psychologists/psychologists'
 
 
 const Home = () => {
@@ -23,10 +23,10 @@ const Home = () => {
       <Navbar toggle = {toggle}/>
       <HeroSection />
       <InfoSection id='inicio'{...homeObjOne}/>
-      <BlogEntries id='blog_ent' {...blogs}/>
+      <PsySection />
       <InfoSection id='prof'{...homeObjTwo}/>
-      {/*<Form />*/}
-      <InfoSection id='start'{...homeObjThree}/>
+      <BlogEntries id='blog_ent' {...blogs}/>
+      {/*<InfoSection id='start'{...homeObjThree}/>*/}
       <Footer />
       
       
