@@ -116,7 +116,7 @@ const UserProfileContent = ({ toggleSidenav }) => {
                     <Grid item lg={8} md={8} sm={12} xs={12}>
                         <Card className="pb-4 px-4">
                             <h4 className="font-medium text-muted px-4 pt-4 pb-0">
-                                Veamos como estás hoy
+                                Solicitar una cita
                             </h4>
                           <PatientTest/>
                         </Card>

@@ -10,7 +10,7 @@ import { Grid } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: 300 + 24 * 2,
+        width: 600 + 24 * 2,
         padding: 24,
     },
     margin: {
@@ -57,14 +57,17 @@ const marks = [
         value: 0,
     },
     {
-        value: 20,
+        value: 30,
     },
     {
-        value: 37,
+        value: 60,
     },
     {
-        value: 100,
+        value: 90,
     },
+    {
+        value: 100
+    }
 ]
 
 const IOSSlider = withStyles({
@@ -117,85 +120,6 @@ const IOSSlider = withStyles({
     },
 })(Slider)
 
-const PrettoSlider = withStyles({
-    root: {
-        color: '#52af77',
-        height: 8,
-    },
-    thumb: {
-        height: 24,
-        width: 24,
-        backgroundColor: '#fff',
-        border: '2px solid currentColor',
-        marginTop: -8,
-        marginLeft: -12,
-        '&:focus,&:hover,&$active': {
-            boxShadow: 'inherit',
-        },
-    },
-    active: {},
-    valueLabel: {
-        left: 'calc(-50% + 4px)',
-    },
-    track: {
-        height: 8,
-        borderRadius: 4,
-    },
-    rail: {
-        height: 8,
-        borderRadius: 4,
-    },
-})(Slider)
-
-const AirbnbSlider = withStyles({
-    root: {
-        color: '#3a8589',
-        height: 3,
-        padding: '13px 0',
-    },
-    thumb: {
-        height: 27,
-        width: 27,
-        backgroundColor: '#fff',
-        border: '1px solid currentColor',
-        marginTop: -12,
-        marginLeft: -13,
-        boxShadow: '#ebebeb 0px 2px 2px',
-        '&:focus,&:hover,&$active': {
-            boxShadow: '#ccc 0px 2px 3px 1px',
-        },
-        '& .bar': {
-            // display: inline-block !important;
-            height: 9,
-            width: 1,
-            backgroundColor: 'currentColor',
-            marginLeft: 1,
-            marginRight: 1,
-        },
-    },
-    active: {},
-    valueLabel: {
-        left: 'calc(-50% + 4px)',
-    },
-    track: {
-        height: 3,
-    },
-    rail: {
-        color: '#d8d8d8',
-        opacity: 1,
-        height: 3,
-    },
-})(Slider)
-
-function AirbnbThumbComponent(props) {
-    return (
-        <span {...props}>
-            <span className="bar" />
-            <span className="bar" />
-            <span className="bar" />
-        </span>
-    )
-}
 
 export default function SliderTest() {
     const classes = useStyles()
@@ -207,11 +131,11 @@ export default function SliderTest() {
         sm={12}
         xs={12}>
         <Paper className={classes.root}>
-            <Typography gutterBottom>¿Cómo te sientes hoy?</Typography>
+            <Typography gutterBottom>Del 1 al 100, ¿Cuánto afecta a tu rendimiento académico, laboral y/o la salud?</Typography>
             <div className="py-2"></div>
             <IOSSlider
                 aria-label="iOS slider"
-                defaultValue={60}
+                defaultValue={0}
                 marks={marks}
                 valueLabelDisplay="on"
             />

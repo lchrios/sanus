@@ -52,6 +52,7 @@ export const InfoSection = ({
                               dark={dark ? 1 : 0 }
                               dark2={dark2 ? 1 : 0 }
                               onClick={buttonClick}
+                              classname="elevation-z5"
                               >
                                 {buttonLabel}
                                 </Button>

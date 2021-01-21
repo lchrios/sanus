@@ -28,8 +28,8 @@ const UserProfileSidenav = () => {
             <div className="py-3" />
             <div className="flex flex-wrap w-full px-12 mb-11">
                 <div className="flex-grow">
-                    <p className="uppercase text-light-white mb-1">usuario</p>
-                    <h4 className="font-medium text-white">1266</h4>
+                    <p className="uppercase text-light-white mb-1">Edad</p>
+                    <h4 className="font-medium text-white">25 años</h4>
                 </div>
                 <div>
                     <p className="uppercase text-light-white mb-1">uso</p>

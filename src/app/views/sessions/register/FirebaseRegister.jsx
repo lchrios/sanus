@@ -13,6 +13,9 @@ import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import useAuth from 'app/hooks/useAuth'
 import history from 'history.js'
+import {NavLogo} from '../../landing/components/Navbar_sc/NavbarElements'
+
+
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -39,6 +42,12 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     labelLink: {
         color: palette.primary.main,
         textDecoration: 'underline',
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+    input: {
+        display: 'none',
     },
 }))
 
@@ -92,12 +101,17 @@ const FirebaseRegister = () => {
             <Card className={classes.card}>
                 <Grid container>
                     <Grid item lg={5} md={5} sm={5} xs={12}>
-                        <div className="p-8 flex justify-center bg-light-gray items-center h-full">
+                        <div className="p-8 mt-16 grid justify-center bg-light-gray items-center h-full">
                             <img
                                 className="w-full"
                                 src="/assets/images/illustrations/posting_photo.svg"
                                 alt=""
                             />
+                            <div className="justify-center ml-16">
+                                <Button onClick={() => history.push('/home')} color="primary" className={classes.button}>
+                                            VOLVER
+                                </Button>
+                            </div>
                         </div>
                     </Grid>
                     <Grid item lg={7} md={7} sm={7} xs={12}>

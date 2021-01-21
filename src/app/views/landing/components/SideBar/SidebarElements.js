@@ -8,8 +8,9 @@ position:fixed;
 z-index:999;
 width:100%;
 height:100%;
-background:#6C63FF;
+background:#00009C;
 display:grid;
+//justify-content:center;
 align-items:center;
 top:0;
 left:0;
@@ -33,16 +34,19 @@ export const Icon = styled.div`
 `
 
 export const SidebarWrapper = styled.div`
- color:white;
+//align-items:center;
+//justify-content:center;
 `;
 
 export const SidebarMenu = styled.ul`
  display:grid;
  grid-template-columns:1fr;
- grid-template-rows: repeat(6, 80px);
- text-align:center;
+ grid-template-rows: repeat(6, 100px);
+ margin-right:45px;
+ //text-align:center;
+ //justify-content:center;
     @media screen and ( max-width: 960px ) {
-    grid-template-rows: repeat(6,60px);
+    grid-template-rows: repeat(6,50px);
 };
 `;
 

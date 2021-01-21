@@ -137,7 +137,7 @@ const FirebaseLogin = () => {
                             })}
                         >
                             <div className={classes.logo}>
-                                <IkneliaLogo>Iknelia</IkneliaLogo>
+                                <IkneliaLogo onClick={() => history.push('/home')}>Iknelia</IkneliaLogo>
                             </div>
                             <h1 className={classes.mainTitle}>
                                 La atención que mereces
