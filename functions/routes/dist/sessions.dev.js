@@ -8,7 +8,8 @@ var ther = db.collection('therapists');
 var sess = db.collection('sessions');
 
 exports.getSession = function (req, res) {
+  res.set('Access-Control-Allow-Origin', '*');
   sess.doc(req.params.sid).get().then(function (doc) {
-    res.send(doc.data());
+    res.status(204).send(doc.data());
   });
 };

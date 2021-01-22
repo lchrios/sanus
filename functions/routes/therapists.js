@@ -5,28 +5,42 @@ const sess = db.collection('sessions');
 
 // Get therapist info
 exports.getAllTherapists = (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
     ther.get()
         .then((query) => {
-            var data = [];
-            const refs = [];
+            var datas = [];
             query.forEach((doc) => {
-                data.push(doc.data());
-                refs.push(doc.ref);
+                datas.push(doc.data());
             })
             
-            res.send({data: data, dbrefs: refs})
+            res.status(204).send(datas)
+        })
+}
+
+exports.getAllTherapistsRefs = (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    ther.get()
+        .then((query) => {
+            var datas = [];
+            query.forEach((doc) => {
+                datas.push(doc.ref);
+            })
+            
+            res.status(204).send(datas)
         })
 }
 
 exports.getTherapist = (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
     ther.doc(req.params.tid)
         .get()
         .then((doc) => {
-            res.send(doc.data())
+            res.status(204).send(doc.data())
         })
 }
 
 exports.getAllSessionsByTherapist = (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
     sess.where('therapist_id', '==', req.params.pid)
         .get()
         .then((query) => {
@@ -36,6 +50,6 @@ exports.getAllSessionsByTherapist = (req, res) => {
                 data.push(doc.data());
                 refs.push(doc.ref);
             })
-            res.send(data)
+            res.status(204).send(data)
         })
 }

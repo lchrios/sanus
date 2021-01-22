@@ -5,9 +5,10 @@ const sess = db.collection('sessions');
 
 
 exports.getSession = (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
     sess.doc(req.params.sid)
         .get()
         .then((doc) => {
-            res.send(doc.data())
+            res.status(204).send(doc.data())
         })
 }

@@ -44,7 +44,7 @@ const MatxHorizontalNav = ({ max }) => {
             } else {
                 return (
                     <li key={key}>
-                        <NavLink to={"/"+user.id+item.path}>
+                        <NavLink to={"/"+user.uid+item.path}>
                             {item.icon && (
                                 <Icon className="text-18 align-middle">
                                     {item.icon}

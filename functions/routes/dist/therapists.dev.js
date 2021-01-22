@@ -8,27 +8,36 @@ var ther = db.collection('therapists');
 var sess = db.collection('sessions'); // Get therapist info
 
 exports.getAllTherapists = function (req, res) {
+  res.set('Access-Control-Allow-Origin', '*');
   ther.get().then(function (query) {
-    var data = [];
-    var refs = [];
+    var datas = [];
     query.forEach(function (doc) {
-      data.push(doc.data());
-      refs.push(doc.ref);
+      datas.push(doc.data());
     });
-    res.send({
-      data: data,
-      dbrefs: refs
+    res.status(204).send(datas);
+  });
+};
+
+exports.getAllTherapistsRefs = function (req, res) {
+  res.set('Access-Control-Allow-Origin', '*');
+  ther.get().then(function (query) {
+    var datas = [];
+    query.forEach(function (doc) {
+      datas.push(doc.ref);
     });
+    res.status(204).send(datas);
   });
 };
 
 exports.getTherapist = function (req, res) {
+  res.set('Access-Control-Allow-Origin', '*');
   ther.doc(req.params.tid).get().then(function (doc) {
-    res.send(doc.data());
+    res.status(204).send(doc.data());
   });
 };
 
 exports.getAllSessionsByTherapist = function (req, res) {
+  res.set('Access-Control-Allow-Origin', '*');
   sess.where('therapist_id', '==', req.params.pid).get().then(function (query) {
     var data = [];
     var refs = [];
@@ -36,6 +45,6 @@ exports.getAllSessionsByTherapist = function (req, res) {
       data.push(doc.data());
       refs.push(doc.ref);
     });
-    res.send(data);
+    res.status(204).send(data);
   });
 };

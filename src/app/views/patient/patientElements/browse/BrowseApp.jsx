@@ -26,11 +26,12 @@ const BrowseApp = () => {
         var data = []
         var data_ref = []
 
-        const therapists_data = axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t')
-
-        
-        setUserList(therapists_data.data)
-        setDocRefs(therapists_data.dbref)
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t').then(res => {
+            setUserList(res.data)
+        })
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/ref').then(res => {
+            setDocRefs(res.data)
+        })
 
 
         /*db.collection("therapists")

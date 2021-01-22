@@ -23,10 +23,11 @@ const TherapistInfoUser = () => {
 
     useEffect(() => {
 
-        const therapist_id = await axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid, { params: { pid: user.uid } })
-        const therapist_data = await axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/'+therapist_id,  { params: { tid: therapist_id } })
-        console.log(therapist_data)
-        setTherapist(therapist_data)
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid+'/t', { params: { pid: user.uid } })
+            .then(res => {
+                setTherapist(res.data)
+                console.log(therapist)
+            })
 
     }, [user.uid])   
     
