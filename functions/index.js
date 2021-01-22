@@ -3,14 +3,20 @@ const express = require('express');
 const app = express();
 
 const { 
-        getAllTherapists, 
-        getAllPatients, 
-        getAllSessionsByPatient, 
-        getAllSessionsByTherapist, 
-        getTherapist, 
-        getPatient, 
-        getSession
-    } = require('./routes/patients');
+    getAllPatients, 
+    getAllSessionsByPatient, 
+    getPatient
+} = require('./routes/patients');
+
+const {
+    getAllTherapists,
+    getAllSessionsByTherapist,
+    getTherapist
+} = require('./routes/therapists');
+
+const {
+    getSession
+} = require('./routes/sessions');
 
 app.use(express.json())
 

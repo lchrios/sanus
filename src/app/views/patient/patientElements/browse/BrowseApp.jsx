@@ -6,7 +6,7 @@ import history from '../../../../../history'
 import { Link } from 'react-router-dom'
 import firebase from 'firebase'
 import useAuth from 'app/hooks/useAuth'
-import { getAllTherapists } from 'app/services/firebase/firebaseService'
+import axios from 'axios'
 
 //const db = firebase.app().firestore()
 
@@ -26,7 +26,7 @@ const BrowseApp = () => {
         var data = []
         var data_ref = []
 
-        const therapists_data = getAllTherapists()
+        const therapists_data = axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t')
 
         
         setUserList(therapists_data.data)

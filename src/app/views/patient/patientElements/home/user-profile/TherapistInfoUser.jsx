@@ -14,7 +14,7 @@ import history from '../../../../../../history'
 import firebase from 'firebase'
 import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper'
 import useAuth from 'app/hooks/useAuth'
-import { getTherapistByPatient } from 'app/services/firebase/firebaseService'
+import axios from 'axios'
 
 
 const TherapistInfoUser = () => {
@@ -22,21 +22,12 @@ const TherapistInfoUser = () => {
     const [therapist, setTherapist] = useState()    
 
     useEffect(() => {
-        setTherapist(getTherapistByPatient(user.uid))
-        /*firebase.firestore().collection("patients").doc(user.uid)
-            .get()
-            .then(doc => {
-                const data = doc.data()
-                if (data.therapist != null) {
-                    data.therapist
-                    .get()
-                    .then(doc => {
-                        console.log("Carta terapeuta cargada :D")
-                        const ther_data = doc.data()
-                        setTherapist(ther_data)
-                    })
-                }
-            })*/
+
+        const therapist_id = await axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid, { params: { pid: user.uid } })
+        const therapist_data = await axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/'+therapist_id,  { params: { tid: therapist_id } })
+        console.log(therapist_data)
+        setTherapist(therapist_data)
+
     }, [user.uid])   
     
 

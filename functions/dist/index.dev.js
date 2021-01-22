@@ -7,13 +7,17 @@ var express = require('express');
 var app = express();
 
 var _require = require('./routes/patients'),
-    getAllTherapists = _require.getAllTherapists,
     getAllPatients = _require.getAllPatients,
     getAllSessionsByPatient = _require.getAllSessionsByPatient,
-    getAllSessionsByTherapist = _require.getAllSessionsByTherapist,
-    getTherapist = _require.getTherapist,
-    getPatient = _require.getPatient,
-    getSession = _require.getSession;
+    getPatient = _require.getPatient;
+
+var _require2 = require('./routes/therapists'),
+    getAllTherapists = _require2.getAllTherapists,
+    getAllSessionsByTherapist = _require2.getAllSessionsByTherapist,
+    getTherapist = _require2.getTherapist;
+
+var _require3 = require('./routes/sessions'),
+    getSession = _require3.getSession;
 
 app.use(express.json());
 app.get('/t', getAllTherapists);
