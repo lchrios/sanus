@@ -67,6 +67,7 @@ const PatientCalendar = () => {
                     start: new Date(e.start),
                     end: new Date(e.end),
                 }))
+                console.log(events)
                 setEvents(events)
             })
     }

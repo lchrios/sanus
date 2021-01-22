@@ -1,4 +1,5 @@
-const { db } = require('../firestore')
+const firebase = require('firebase');
+const db = firebase.firestore();
 const pats = db.collection('patients');
 const ther = db.collection('therapists');
 const sess = db.collection('sessions');
@@ -17,6 +18,10 @@ exports.newSession = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     sess.add(req.body)
         .then((doc) => {
+            sess.doc(doc.id).set({
+                id: doc.id
+            }, { merge: true })
+
             // update patient sessions
             const patref = pats.doc(req.body.patient)
             patref.get()
@@ -35,4 +40,18 @@ exports.newSession = (req, res) => {
                     
                 })
         })
+}
+
+exports.updateSession = (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    sess.doc(req.params.sid).set(req.body).then(() => {
+        console.log("Sesion actualizada con exito!");
+    })
+}
+
+exports.deleteSession = (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    sess.doc(req.params.sid).delete().then(() => {
+        console.log("Sesion cancelada con exito!");
+    })
 }
