@@ -15,7 +15,7 @@ import {
     section: {
       backgroundPosition: "50%",
       backgroundSize: "cover",
-      padding: "70px 0"
+      padding: "40px 0"
     },
     description: {
       color: grayColor[0]

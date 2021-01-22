@@ -73,8 +73,7 @@ export const EntriesIcon = styled.img`
 export const EntriesH1 = styled.h1`
  font-size: 2.5rem;
  color: black;
- margin-bottom: 0px;
- margin-top: 20px;
+ margin-top: 40px;
 
  @media screen and (max-width: 480px) {
     font-size:2rem;

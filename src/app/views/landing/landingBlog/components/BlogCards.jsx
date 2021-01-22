@@ -10,7 +10,9 @@ import GridItem from "./GridItem";
 import Card from "./card";
 import CardBody from "./cardBody";
 import Button from "./button";
-import session1 from "assets/images/psychologists/session1.jpg";
+import terapia from "assets/images/blog/terapia1.jpg";
+import terapia2 from "assets/images/blog/terapia3.jpg";
+import terapia1 from 'assets/images/blog/terapia2.jpg'
 import blogCardsStyle from "../landingBlogStyles/blogCardsStyle";
 
 const useStyles = makeStyles(blogCardsStyle);
@@ -30,19 +32,19 @@ export default function BlogCards() {
           <Card
             raised
             background
-            style={{ backgroundImage: "url(" + session1 + ")" }}
+            style={{ backgroundImage: "url(" + terapia + ")" }}
           >
             <CardBody background>
-              <h6 className={classes.category}>DEPRESIÓN</h6>
+              <h6 className={classes.category}>DUDAS</h6>
               <a href="#pablo">
                 <h3 className={classes.cardTitle}>
-                  Título del artículo
+                ¿Cómo interpretar lo que me dice mi terapeuta?
                 </h3>
               </a>
               <p className={classes.category}>
-                Parrafo del blog, en el cual solo se mostraran algunas de las
-                palabras de la introducción del artículo completo, por lo que es 
-                importante ser conciso.
+              Cuando es la primera vez que vamos a terapia, normalmente
+                no sabemos que interpretar de la informaciónq nuestro 
+                terapeuta nos da, lo importante es...
               </p>
               <Button round href="#pablo" color="danger">
                 <FormatAlignLeft className={classes.icons} /> Leer Artículo
@@ -54,22 +56,22 @@ export default function BlogCards() {
           <Card
             raised
             background
-            style={{ backgroundImage: "url(" + session1 + ")" }}
+            style={{ backgroundImage: "url(" + terapia1 + ")" }}
           >
             <CardBody background>
-              <h6 className={classes.category}>ANGUSTIA</h6>
+              <h6 className={classes.category}>DUDAS</h6>
               <a href="#pablo">
                 <h3 className={classes.cardTitle}>
-                Título del artículo
+                ¿Cómo interpretar lo que me dice mi terapeuta?
                 </h3>
               </a>
               <p className={classes.category}>
-                Parrafo del blog, en el cual solo se mostraran algunas de las
-                palabras de la introducción del artículo completo, por lo que es 
-                importante ser conciso.
+              Cuando es la primera vez que vamos a terapia, normalmente
+                no sabemos que interpretar de la informaciónq nuestro 
+                terapeuta nos da, lo importante es...
               </p>
-              <Button round href="#pablo" color="primary">
-                <FormatAlignLeft className={classes.icons} /> Leer artículo
+              <Button round href="#pablo" color="danger">
+                <FormatAlignLeft className={classes.icons} /> Leer Artículo
               </Button>
             </CardBody>
           </Card>
@@ -78,33 +80,23 @@ export default function BlogCards() {
           <Card
             raised
             background
-            style={{ backgroundImage: "url(" + session1 + ")" }}
+            style={{ backgroundImage: "url(" + terapia2 + ")" }}
           >
             <CardBody background>
-              <h6 className={classes.category}>ANSIEDAD</h6>
+              <h6 className={classes.category}>DUDAS</h6>
               <a href="#pablo">
                 <h3 className={classes.cardTitle}>
-                Título del artículo
+                ¿Cómo interpretar lo que me dice mi terapeuta?
                 </h3>
               </a>
               <p className={classes.category}>
-                Parrafo del blog, en el cual solo se mostraran algunas de las
-                palabras de la introducción del artículo completo, por lo que es 
-                importante ser conciso.
+              Cuando es la primera vez que vamos a terapia, normalmente
+                no sabemos que interpretar de la informaciónq nuestro 
+                terapeuta nos da, lo importante es...
               </p>
-              <Button round href="#pablo" color="warning">
-                <FormatAlignLeft className={classes.icons} /> Leer artículo
+              <Button round href="#pablo" color="danger">
+                <FormatAlignLeft className={classes.icons} /> Leer Artículo
               </Button>
-              <Tooltip
-                id="tooltip-pocket"
-                title="Save to Pocket"
-                placement="top"
-                classes={{ tooltip: classes.tooltip }}
-              >
-                <Button color="white" simple justIcon>
-                  <i className="fab fa-get-pocket" />
-                </Button>
-              </Tooltip>
             </CardBody>
           </Card>
         </GridItem>

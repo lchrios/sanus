@@ -9,7 +9,11 @@ import GridItem from "../../landingBlog/components/GridItem";
 import Card from "../../landingBlog/components/card";
 import CardBody from "../../landingBlog/components/cardBody";
 import CardHeader from "../../landingBlog/components/cardHeader";
-import session1 from "assets/images/psychologists/session1.jpg";
+import terapia from "../../../../../assets/images/blog/terapia1.jpg";
+import terapia1 from "../../../../../assets/images/blog/terapia2.jpg";
+import terapia2 from "../../../../../assets/images/blog/terapia3.jpg";
+
+
 import InterestedSectionStyle from "./blogEntriesStyle";
 
 const useStyles = makeStyles(InterestedSectionStyle);
@@ -23,29 +27,31 @@ export default function BlogEntriesCards() {
           <Card plain blog>
             <CardHeader image plain>
               <a href="/landingblog">
-                <img src={session1} alt="..." />
+                <img src={terapia} alt="..." />
               </a>
               <div
                 className={classes.coloredShadow}
                 style={{
-                  backgroundImage: "url(" + session1 + ")",
+                  backgroundImage: "url(" + terapia + ")",
                   opacity: "1"
                 }}
               />
             </CardHeader>
             <CardBody plain>
               
-                <h6>DEPRESIÓN</h6>
+                <h6>DUDAS</h6>
               
               <h4 className={classes.cardTitle}>
                 <a href="/landingblog">
-                Título del artículo
+                  ¿Cómo interpretar lo que me dice mi terapeuta?
                 </a>
               </h4>
               <p className={classes.description}>
-                Parrafo del blog, en el cual solo se mostraran algunas de las
-                palabras de la introducción del artículo completo, por lo que es 
-                importante ser conciso.
+                Cuando es la primera vez que vamos a terapia, normalmente
+                no sabemos que interpretar de la informaciónq nuestro 
+                terapeuta nos da, lo importante es...
+                <br />
+                <br />
                 <a href="#pablo"> Leer artículo </a>
               </p>
             </CardBody>
@@ -55,29 +61,31 @@ export default function BlogEntriesCards() {
           <Card plain blog>
             <CardHeader plain image>
               <a href="/landingblog">
-                <img src={session1} alt="..." />
+                <img src={terapia1} alt="..." />
               </a>
               <div
                 className={classes.coloredShadow}
                 style={{
-                  backgroundImage: "url(" + session1 + ")",
+                  backgroundImage: "url(" + terapia1 + ")",
                   opacity: "1"
                 }}
               />
             </CardHeader>
             <CardBody plain>
               
-                <h6>ANSIEDAD</h6>
+              <h6>DUDAS</h6>
               
               <h4 className={classes.cardTitle}>
-                <a href="#pablo">
-                Título del artículo
+                <a href="/landingblog">
+                  ¿Cómo interpretar lo que me dice mi terapeuta?
                 </a>
               </h4>
               <p className={classes.description}>
-                Parrafo del blog, en el cual solo se mostraran algunas de las
-                palabras de la introducción del artículo completo, por lo que es 
-                importante ser conciso.
+                Cuando es la primera vez que vamos a terapia, normalmente
+                no sabemos que interpretar de la informaciónq nuestro 
+                terapeuta nos da, lo importante es...
+                <br />
+                <br />
                 <a href="#pablo"> Leer artículo </a>
               </p>
             </CardBody>
@@ -87,31 +95,31 @@ export default function BlogEntriesCards() {
           <Card plain blog>
             <CardHeader plain image>
               <a href="#pablo">
-                <img src={session1} alt="..." />
+                <img src={terapia2} alt="..." />
               </a>
               <div
                 className={classes.coloredShadow}
                 style={{
-                  backgroundImage: "url(" + session1 + ")",
+                  backgroundImage: "url(" + terapia2 + ")",
                   opacity: "1"
                 }}
               />
             </CardHeader>
             <CardBody plain>
               
-                <h6>
-                  <TrendingUp /> ANSIEDAD
-                </h6>
+              <h6>DUDAS</h6>
               
               <h4 className={classes.cardTitle}>
-                <a href="#pablo">
-                Título del artículo
+                <a href="/landingblog">
+                  ¿Cómo interpretar lo que me dice mi terapeuta?
                 </a>
               </h4>
               <p className={classes.description}>
-                Parrafo del blog, en el cual solo se mostraran algunas de las
-                palabras de la introducción del artículo completo, por lo que es 
-                importante ser conciso.
+                Cuando es la primera vez que vamos a terapia, normalmente
+                no sabemos que interpretar de la informaciónq nuestro 
+                terapeuta nos da, lo importante es...
+                <br />
+                <br />
                 <a href="#pablo"> Leer artículo </a>
               </p>
             </CardBody>

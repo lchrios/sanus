@@ -7,7 +7,7 @@ import img from '../../../../../assets/images/schedule.svg'
 
 const BlogEntries = () => {
     return (
-        <EntriesContainer id="blog_ent">
+        <EntriesContainer className=" mt-10 flex" id="blog_ent">
             <EntriesH1>Últimas entradas del blog</EntriesH1>
             <EntriesWrapper>
                 <BlogEntriesCards />

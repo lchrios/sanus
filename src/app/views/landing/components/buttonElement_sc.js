@@ -10,7 +10,7 @@ white-space:nowrap;
 padding: ${ ( {big} ) => (big ? '14px 48px' : '12px 30px') 
 };
 
-color: ${ ( {dark} ) => ( dark ? '#fff' : '#010606' )
+color: ${ ( {dark} ) => ( dark ? 'white' : 'black' )
 };
 
 font-size: ${ ( {fontBig} ) => (fontBig ? '20px' : '16px' ) 
@@ -26,7 +26,8 @@ transition: all 0.9 ease-in-out;
 
 &:hover {
     
-    background: ${ ( {primary} ) => (primary ? '#fff' : '#01bf71')};
+    background: ${ ( {primary} ) => (primary ? 'white' : '#00009C')};
+    color: ${ ( {dark} ) => (dark ? 'black' : 'white') };
     transition: all 0.9 ease-in-out;
 }
 `

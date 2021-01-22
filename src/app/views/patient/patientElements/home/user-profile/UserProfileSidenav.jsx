@@ -191,11 +191,6 @@ const UserProfileSidenav = () => {
 
 const shortcutList = [
     {
-        title: 'Notas',
-        icon: 'content_paste',
-        route: '/home'
-    },
-    {
         title: 'sesiones',
         icon: 'date_range',
         route: '/sessions'
