@@ -42,7 +42,7 @@ export default function PatientTest() {
             history.push('/'+ user.uid +'/browse')
         }
 
-        else if (therapist) {
+        else if (activeStep == 2 && therapist) {
             window.location = 'https://zoom.us/j/8510547499?pwd=SDdRaktUMnVRenJzTWUyVE9LZ004dz09'
         }
 
