@@ -13,7 +13,7 @@ exports.getAllTherapists = (req, res) => {
                 datas.push(doc.data());
             })
             
-            res.status(204).send(datas)
+            res.status(200).send(datas)
         })
 }
 
@@ -26,7 +26,7 @@ exports.getAllTherapistsRefs = (req, res) => {
                 datas.push(doc.ref);
             })
             
-            res.status(204).send(datas)
+            res.status(200).send(datas)
         })
 }
 
@@ -35,7 +35,7 @@ exports.getTherapist = (req, res) => {
     ther.doc(req.params.tid)
         .get()
         .then((doc) => {
-            res.status(204).send(doc.data())
+            res.status(200).send(doc.data())
         })
 }
 
@@ -50,6 +50,6 @@ exports.getAllSessionsByTherapist = (req, res) => {
                 data.push(doc.data());
                 refs.push(doc.ref);
             })
-            res.status(204).send(data)
+            res.status(200).send(data)
         })
 }

@@ -22,7 +22,8 @@ var _require2 = require('./routes/therapists'),
     getAllTherapistsRefs = _require2.getAllTherapistsRefs;
 
 var _require3 = require('./routes/sessions'),
-    getSession = _require3.getSession;
+    getSession = _require3.getSession,
+    newSession = _require3.newSession;
 
 app.use(express.json());
 app.use(function (req, res, next) {
@@ -41,4 +42,5 @@ app.get('/p', getAllPatients);
 app.get('/p/:pid', getPatient);
 app.get('/p/:pid/s', getAllSessionsByPatient);
 app.get('/p/:pid/s/:sid', getSession);
+app.post('/s/new', newSession);
 exports.api = functions.region('us-central1').https.onRequest(app);

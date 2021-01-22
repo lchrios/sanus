@@ -12,16 +12,16 @@ exports.getAllPatients = (req, res) => {
                 data.push(doc.data());
             })
             
-            res.status(204).send(data)
+            res.status(200).send(data)
         })
 }
 
-exports. getPatient = (req, res) => {
+exports.getPatient = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     pats.doc(req.params.pid)
         .get()
         .then((doc) => {
-            res.status(204).send(doc.data())
+            res.status(200).send(doc.data())
         })
 }
 
@@ -34,7 +34,7 @@ exports.getTherapistByPatient = (req, res) => {
             ther.doc(ther_id)
                 .get()
                 .then((docter) => {
-                    res.status(204).send(docter.data())
+                    res.status(200).send(docter.data())
                 })
         })
 }
@@ -50,9 +50,7 @@ exports.getAllSessionsByPatient = (req, res) => {
                 data.push(doc.data());
                 refs.push(doc.ref);
             })
-            res.status(204).send(data)
+            res.status(200).send(data)
         })
-}
-
 
 

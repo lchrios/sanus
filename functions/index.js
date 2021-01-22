@@ -18,7 +18,8 @@ const {
 } = require('./routes/therapists');
 
 const {
-    getSession
+    getSession, 
+    newSession
 } = require('./routes/sessions');
 
 app.use(express.json())
@@ -47,5 +48,6 @@ app.get('/p/:pid', getPatient)
 app.get('/p/:pid/s', getAllSessionsByPatient);
 app.get('/p/:pid/s/:sid', getSession);
 
+app.post('/s/new', newSession)
 
 exports.api = functions.region('us-central1').https.onRequest(app)

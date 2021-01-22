@@ -14,7 +14,7 @@ exports.getAllTherapists = function (req, res) {
     query.forEach(function (doc) {
       datas.push(doc.data());
     });
-    res.status(204).send(datas);
+    res.status(200).send(datas);
   });
 };
 
@@ -25,14 +25,14 @@ exports.getAllTherapistsRefs = function (req, res) {
     query.forEach(function (doc) {
       datas.push(doc.ref);
     });
-    res.status(204).send(datas);
+    res.status(200).send(datas);
   });
 };
 
 exports.getTherapist = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   ther.doc(req.params.tid).get().then(function (doc) {
-    res.status(204).send(doc.data());
+    res.status(200).send(doc.data());
   });
 };
 
@@ -45,6 +45,6 @@ exports.getAllSessionsByTherapist = function (req, res) {
       data.push(doc.data());
       refs.push(doc.ref);
     });
-    res.status(204).send(data);
+    res.status(200).send(data);
   });
 };

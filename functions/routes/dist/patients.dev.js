@@ -14,14 +14,14 @@ exports.getAllPatients = function (req, res) {
     query.forEach(function (doc) {
       data.push(doc.data());
     });
-    res.status(204).send(data);
+    res.status(200).send(data);
   });
 };
 
 exports.getPatient = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   pats.doc(req.params.pid).get().then(function (doc) {
-    res.status(204).send(doc.data());
+    res.status(200).send(doc.data());
   });
 };
 
@@ -30,7 +30,7 @@ exports.getTherapistByPatient = function (req, res) {
   pats.doc(req.params.pid).get().then(function (doc) {
     var ther_id = doc.data().therapist;
     ther.doc(ther_id).get().then(function (docter) {
-      res.status(204).send(docter.data());
+      res.status(200).send(docter.data());
     });
   });
 };
@@ -44,6 +44,6 @@ exports.getAllSessionsByPatient = function (req, res) {
       data.push(doc.data());
       refs.push(doc.ref);
     });
-    res.status(204).send(data);
+    res.status(200).send(data);
   });
 };
