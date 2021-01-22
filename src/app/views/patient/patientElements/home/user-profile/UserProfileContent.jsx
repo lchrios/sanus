@@ -119,14 +119,14 @@ const UserProfileContent = ({ toggleSidenav }) => {
                             <h4 className="font-medium text-muted px-4 pt-4 pb-0">
                                 Comenzar terapia
                             </h4>
-                          <FormTest/>
+                          <PatientTest/>
                         </Card>
-                        <Grid item lg={12} md={12} sm={12} xs={12}>
+                        {/*<Grid item lg={12} md={12} sm={12} xs={12}>
                             <div className="py-3"></div>
                             <Card className="py-4 elevation-z5">
                                 <PatientCalendar />
                             </Card>
-                        </Grid>
+                        </Grid>*/}
                     </Grid>
 
                     <Grid item lg={4} md={4} sm={12} xs={12}>
@@ -152,7 +152,7 @@ const UserProfileContent = ({ toggleSidenav }) => {
                                 <Button onClick={() => history.push("/:pid/changepaymethod")}>
                                     <div className="py-4 px-6 flex flex-wrap items-center justify-between">
                                        
-                                        <div  className="flex flex-wrap items-center">
+                                        <div  className="flex items-center">
                                             <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
                                                 <img
                                                     className="w-36 overflow-hidden"
@@ -208,9 +208,8 @@ const paymentList = [
     {
         img: '/assets/images/payment-methods/oxxo.png',
         type: 'Depósito',
-        product: 'Accede a una tienda, y deposita',
-        amount: 303,
-        route: '/:pid/changepaymethod'
+        product: 'Deposita donde quieras',
+        amount: 303
     },
     {
         img: '/assets/images/payment-methods/paypal.png',

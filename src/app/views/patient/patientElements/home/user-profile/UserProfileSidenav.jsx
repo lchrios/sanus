@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import history from '../../../../../../history';
-import { Avatar, Button, Card, Grid, Icon, IconButton } from '@material-ui/core'
+import { Avatar, Button, Card, Dialog, Grid, Icon, IconButton } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
@@ -17,8 +17,12 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
 const UserProfileSidenav = () => {
-    const classes = usestyles()
+
     const { user } = useAuth()
+    const [therapist, setTherapist] = useState()    
+
+    const classes = usestyles()
+    
 
     return (
         <div className={clsx('flex-column items-center', classes.sidenav)}>
@@ -88,7 +92,7 @@ const UserProfileSidenav = () => {
 
 const shortcutList = [
     {
-        title: 'diagnósticos',
+        title: 'Notas',
         icon: 'content_paste',
         route: '/home'
     },

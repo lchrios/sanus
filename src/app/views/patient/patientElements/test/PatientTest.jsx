@@ -9,21 +9,30 @@ import {
     Grid,
 } from '@material-ui/core'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
+import history from '../../../../../history'
+import FormTest from './FormTest'
+import FormTestSt2 from './FormTestSt2'
+import FormTestSt3 from './FormTestSt3'
 import SliderTest from './SliderTest';
 import SliderTest2 from './SliderTest2';
+import useAuth from 'app/hooks/useAuth'
 
 
 const getSteps = () => {
-    return ['Paso 1', 'Paso 2', 'Paso 3', 'Paso 4']
+    return ['Paso 1', 'Paso 2', 'Paso 3']
 }
 
 
 export default function PatientTest() {
 
     const [activeStep, setActiveStep] = useState(0)
+    const {user} = useAuth()
     const steps = getSteps()
 
     const handleNext = () => {
+        if(activeStep == 2 ) {
+            history.push('/'+ user.uid +'/browse')
+        }
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
     }
 
@@ -47,152 +56,20 @@ export default function PatientTest() {
     const getStepContent = (stepIndex) => {
         switch (stepIndex) {
             case 0:
-                return (<ValidatorForm 
+                return (
+                
+                <ValidatorForm 
                     onSubmit={handleNext}
                     onError={(errors) => null}
                     >
-                    <Grid container spacing={3}>
-                        <Grid item lg={6} md={6} sm={12} xs={12}>
-                            <TextValidator
-                                className="mb-6 w-full"
-                                variant="outlined"
-                                label="Motivo de tu solicitud"
-                                onChange={handleChange}
-                                type="text"
-                                name="res_1_1"
-                                size="small"
-                                validators={['required']}
-                                errorMessages={[
-                                    'este campo es obligatorio'
-                                ]}
-                            />
-                        </Grid>
-                        <Grid item lg={6} md={6} sm={12} xs={12}>
-                        <TextValidator
-                                className="mb-6 w-full"
-                                variant="outlined"
-                                label="¿Hace cuánto comenzó?"
-                                onChange={handleChange}
-                                type="text"
-                                name="res_1_2"
-                                size="small"                                
-                                validators={['required']}
-                                errorMessages={[
-                                    'este campo es obligatorio'
-                                ]}
-                            />
-                            </Grid>
-                        <Grid item lg={6} md={6} sm={12} xs={12}>
-                            <TextValidator
-                                className="mb-6 w-full"
-                                variant="outlined"
-                                label="Explica un evento asociado"
-                                onChange={handleChange}
-                                type="text"
-                                name="res_1_3"
-                                size="small"
-                                validators={['']}
-                                errorMessages={[
-                                    ''
-                                ]}
-                            />
-                        </Grid>
-                        <Grid item lg={6} md={6} sm={12} xs={12}>
-                            <TextValidator
-                                className="mb-6 w-full"
-                                variant="outlined"
-                                label="Más detalles"
-                                onChange={handleChange}
-                                type="text"
-                                name="res_1_3"
-                                size="small"
-                                validators={['']}
-                                errorMessages={[
-                                    ''
-                                ]}
-                            />
-                        </Grid>
-                      
-                    </Grid>
-                </ValidatorForm>)
+                    <FormTest />
+                </ValidatorForm>
+                )
                 
             case 1:
-                return <SliderTest />
+                return <FormTestSt2 />
             case 2:
-                return <SliderTest2 />           
-            case 3:
-                return <ValidatorForm 
-                        onSubmit={handleNext}
-                        onError={(errors) => null}
-                        >
-                        <Grid container spacing={3}>
-                            <Grid item lg={6} md={6} sm={12} xs={12}>
-                                <TextValidator
-                                    className="mb-6 w-full"
-                                    variant="outlined"
-                                    label="¿Cómo te has sentido hoy?"
-                                    onChange={handleChange}
-                                    type="text"
-                                    name="res_1_1"
-                                    size="small"
-                                    value={''}
-                                    validators={['required']}
-                                    errorMessages={[
-                                        'este campo es obligatorio'
-                                    ]}
-                                />
-                            </Grid>
-                            <Grid item lg={6} md={6} sm={12} xs={12}>
-                            <TextValidator
-                                    className="mb-6 w-full"
-                                    variant="outlined"
-                                    label="¿Como te has sentido ultimamente?"
-                                    onChange={handleChange}
-                                    type="text"
-                                    name="res_1_2"
-                                    size="small"
-                                    value={''}
-                                    validators={['required']}
-                                    errorMessages={[
-                                        'este campo es obligatorio'
-                                    ]}
-                                />
-                                </Grid>
-                            <Grid item lg={6} md={6} sm={12} xs={12}>
-                                <TextValidator
-                                    className="mb-6 w-full"
-                                    variant="outlined"
-                                    label="¿Cuáles serían 3 debilidades tuyas?"
-                                    onChange={handleChange}
-                                    type="text"
-                                    name="res_1_3"
-                                    size="small"
-                                    value={''}
-                                    validators={['required']}
-                                    errorMessages={[
-                                        'este campo es obligatorio'
-                                    ]}
-                                />
-                            </Grid>
-                            <Grid item lg={6} md={6} sm={12} xs={12}>
-                                <TextValidator
-                                    className="mb-6 w-full"
-                                    variant="outlined"
-                                    label="¿Y fortalezas?"
-                                    onChange={handleChange}
-                                    type="text"
-                                    name="res_1_3"
-                                    size="small"
-                                    value={''}
-                                    validators={['required']}
-                                    errorMessages={[
-                                        'este campo es obligatorio'
-                                    ]}
-                                />
-                            </Grid>
-                        </Grid>
-                    </ValidatorForm>
-
+                return <FormTestSt3 />          
             default:
                 return ''
         }
@@ -237,7 +114,7 @@ export default function PatientTest() {
                                 disabled={activeStep === 0}
                                 onClick={handleBack}
                             >
-                                Back
+                                Volver
                             </Button>
                             <Button
                                 className="ml-4"
@@ -246,8 +123,8 @@ export default function PatientTest() {
                                 onClick={handleNext}
                             >
                                 {activeStep === steps.length - 1
-                                    ? 'Finish'
-                                    : 'Next'}
+                                    ? 'Terminar y buscar terapeuta'
+                                    : 'SIguiente'}
                             </Button>
                         </div>
                     </div>

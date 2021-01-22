@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import Axios from 'axios'
 import MUIDataTable from 'mui-datatables'
-import { Avatar, Grow, Icon, IconButton, TextField } from '@material-ui/core'
+import { Avatar, Grow, Icon, IconButton, TextField, Button } from '@material-ui/core'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import history from '../../../../../history'
 import { Link } from 'react-router-dom'
 import firebase from 'firebase'
 import useAuth from 'app/hooks/useAuth'
 import firebaseService from 'app/services/firebase/firebaseService'
+import { truncate } from 'lodash'
 
 //const db = firebase.app().firestore()
+
 
 
 const BrowseApp = () => {
@@ -16,6 +23,8 @@ const BrowseApp = () => {
     const [userList, setUserList] = useState([])
     const [docRefs, setDocRefs] = useState([])
     const { user } = useAuth()
+
+   
 
 
     useEffect(() => {
@@ -145,7 +154,7 @@ const BrowseApp = () => {
 
                                 db.collection("patients").doc(user.uid)
                                     .update({
-                                        therapist: therapist_ref
+                                        therapist: therapist_ref.id
                                     })
                                     .then(function() {
                                         console.log("Document successfully updated!")
@@ -161,6 +170,7 @@ const BrowseApp = () => {
     ]
 
     return (
+    <div>
         <div className="m-sm-30">
             <div className="overflow-auto">
                 <div className="min-w-750">
@@ -226,6 +236,7 @@ const BrowseApp = () => {
                 </div>
             </div>
         </div>
+    </div>
     )
 }
 
