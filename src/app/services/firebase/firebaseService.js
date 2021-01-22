@@ -153,16 +153,11 @@ class FirebaseService {
         this.patients_coll
             .doc(patId)
             .get()
-            .then(doc => {
+            .then(doc => 
                 doc.data().therapist
                     .get()
-                    .then(docter => {
-                        this.therapist_data.push(docter.data())
-                        this.therapist_ref.push(docter.ref)
-                    })
-            })
-        return this.therapist_data
-        
+                    .then(docter => docter.data())
+            )
     }
 
     /*getPatientsByTherapist = (therId) => { 
