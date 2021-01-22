@@ -13,7 +13,9 @@ var app = express();
 var _require = require('./routes/patients'),
     getAllPatients = _require.getAllPatients,
     getAllSessionsByPatient = _require.getAllSessionsByPatient,
-    getPatient = _require.getPatient;
+    getPatient = _require.getPatient,
+    getTherapistByPatient = _require.getTherapistByPatient,
+    getTherapistRefByPatient = _require.getTherapistRefByPatient;
 
 var _require2 = require('./routes/therapists'),
     getAllTherapists = _require2.getAllTherapists,
@@ -23,7 +25,11 @@ var _require2 = require('./routes/therapists'),
 
 var _require3 = require('./routes/sessions'),
     getSession = _require3.getSession,
-    newSession = _require3.newSession;
+    newSession = _require3.newSession,
+    deleteSession = _require3.deleteSession;
+
+var _require4 = require("./routes/dist/sessions.dev"),
+    updateSession = _require4.updateSession;
 
 app.use(express.json());
 app.use(function (req, res, next) {
@@ -40,7 +46,11 @@ app.get('/t/:tid/s', getAllSessionsByTherapist);
 app.get('/t/:tid/s/:sid', getSession);
 app.get('/p', getAllPatients);
 app.get('/p/:pid', getPatient);
+app.get('/p/:pid/t', getTherapistByPatient);
+app.get('/p/:pid/t/ref', getTherapistRefByPatient);
 app.get('/p/:pid/s', getAllSessionsByPatient);
 app.get('/p/:pid/s/:sid', getSession);
 app.post('/s/new', newSession);
+app.post('/s/:sid', updateSession);
+app["delete"]('/s/:sid', deleteSession);
 exports.api = functions.region('us-central1').https.onRequest(app);

@@ -27,7 +27,6 @@ const TherapistInfoUser = () => {
         axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid+'/t')
             .then(res => {
                 setTherapist(res.data)
-                console.log(therapist)
             })
 
     }, [user.uid])   

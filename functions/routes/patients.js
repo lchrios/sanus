@@ -39,18 +39,29 @@ exports.getTherapistByPatient = (req, res) => {
         })
 }
 
+exports.getTherapistRefByPatient = (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    pats.doc(req.params.pid)
+        .get()
+        .then((doc) => {
+            const ther_id = doc.data().therapist;
+            ther.doc(ther_id)
+                .get()
+                .then((docter) => {
+                    res.status(200).send(docter.id)
+                })
+        })
+}
+
 exports.getAllSessionsByPatient = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     sess.where('patient_id', '==', req.params.pid)
         .get()
         .then((query) => {
             const data = [];
-            const refs = [];
             query.forEach((doc) => {
                 data.push(doc.data());
-                refs.push(doc.ref);
             })
             res.status(200).send(data)
         })
-
-
+}

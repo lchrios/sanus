@@ -1,6 +1,6 @@
 "use strict";
 
-var _require = require('../firestore'),
+var _require = require('../firestore.js'),
     db = _require.db;
 
 var pats = db.collection('patients');
@@ -35,14 +35,22 @@ exports.getTherapistByPatient = function (req, res) {
   });
 };
 
+exports.getTherapistRefByPatient = function (req, res) {
+  res.set('Access-Control-Allow-Origin', '*');
+  pats.doc(req.params.pid).get().then(function (doc) {
+    var ther_id = doc.data().therapist;
+    ther.doc(ther_id).get().then(function (docter) {
+      res.status(200).send(docter.id);
+    });
+  });
+};
+
 exports.getAllSessionsByPatient = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   sess.where('patient_id', '==', req.params.pid).get().then(function (query) {
     var data = [];
-    var refs = [];
     query.forEach(function (doc) {
       data.push(doc.data());
-      refs.push(doc.ref);
     });
     res.status(200).send(data);
   });
