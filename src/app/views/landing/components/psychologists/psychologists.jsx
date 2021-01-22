@@ -15,7 +15,7 @@ import CardFooter from "../eachComponent/components/Card/CardFooter";
 import Muted from "../eachComponent/components/Typography/Muted";
 import Button from "../eachComponent/components/CustomButtons/Button";
 
-import cardProfile1Square from "assets/images/faces/profile faces/card-profile1-square.jpg";
+import cardProfile1Square from "assets/images/psicólogos/Ivonne.jpg"
 import cardProfile2Square from "assets/images/faces/profile faces/card-profile2-square.jpg";
 import cardProfile4Square from "assets/images/faces/profile faces/card-profile4-square.jpg";
 import cardProfile6Square from "assets/images/faces/profile faces/card-profile6-square.jpg";
@@ -99,11 +99,11 @@ export default function PsySection() {
                   <CardBody plain>
                     <h4 className={classes.cardTitle}>Kendall Andrew</h4>
                     <Muted>
-                      <h6 className={classes.cardCategory}>GRAPHIC DESIGNER</h6>
+                      <h6 className={classes.cardCategory}>Psiquiatra</h6>
                     </Muted>
                     <p className={classes.description}>
-                      Don{"'"}t be scared of the truth because we need to
-                      restart the human foundation in truth...
+                    Conoce a uno de nuestros mejores terapeutas, sientete comodo de platicar 
+                      con el antes de agendar una cita.
                     </p>
                   </CardBody>
                   <CardFooter plain className={classes.justifyContentCenter}>
@@ -134,13 +134,13 @@ export default function PsySection() {
                 </GridItem>
                 <GridItem xs={12} sm={7} md={7}>
                   <CardBody plain>
-                    <h4 className={classes.cardTitle}>Gina Andrew</h4>
+                    <h4 className={classes.cardTitle}>José Carlos</h4>
                     <Muted>
-                      <h6 className={classes.cardCategory}>WEB DESIGNER</h6>
+                      <h6 className={classes.cardCategory}>Psicólogo profesional</h6>
                     </Muted>
                     <p className={classes.description}>
-                      I love you like Kanye loves Kanye. Don{"'"}t be scared of
-                      the truth.
+                    Conoce a uno de nuestros mejores terapeutas, sientete comodo de platicar 
+                      con el antes de agendar una cita.
                     </p>
                   </CardBody>
                   <CardFooter plain className={classes.justifyContentCenter}>
@@ -173,11 +173,11 @@ export default function PsySection() {
                   <CardBody plain>
                     <h4 className={classes.cardTitle}>George West</h4>
                     <Muted>
-                      <h6 className={classes.cardCategory}>BACKEND HACKER</h6>
+                      <h6 className={classes.cardCategory}>Psicólogo profesional</h6>
                     </Muted>
                     <p className={classes.description}>
-                      I love you like Kanye loves Kanye. Don{"'"}t be scared of
-                      the truth.
+                    Conoce a uno de nuestros mejores terapeutas, sientete comodo de platicar 
+                      con el antes de agendar una cita.
                     </p>
                   </CardBody>
                   <CardFooter plain className={classes.justifyContentCenter}>

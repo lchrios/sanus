@@ -140,7 +140,7 @@ export default function SliderTest() {
                 valueLabelDisplay="on"
             />
             <div className={classes.margin} />
-            <Typography gutterBottom>Segundo valor</Typography>
+            <Typography gutterBottom>¿Te sientes cómodo con una terapia en línea?</Typography>
             <div className="py-2"></div>
             <IOSSlider
                 aria-label="iOS slider"
@@ -149,7 +149,7 @@ export default function SliderTest() {
                 valueLabelDisplay="on"
             />
             <div className={classes.margin} />
-            <Typography gutterBottom>Tercer valor</Typography>
+            <Typography gutterBottom>¿Cuán dispuesto estás a mejorar la situación con la terapia?</Typography>
             <div className="py-2"></div>
             <IOSSlider
                 aria-label="iOS slider"

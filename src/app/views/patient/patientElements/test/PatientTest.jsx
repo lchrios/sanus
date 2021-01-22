@@ -56,7 +56,7 @@ export default function PatientTest() {
                             <TextValidator
                                 className="mb-6 w-full"
                                 variant="outlined"
-                                label="Explica brevemente el motivo de tu solicitud"
+                                label="Motivo de tu solicitud"
                                 onChange={handleChange}
                                 type="text"
                                 name="res_1_1"
@@ -71,7 +71,7 @@ export default function PatientTest() {
                         <TextValidator
                                 className="mb-6 w-full"
                                 variant="outlined"
-                                label="¿Hace cuanto identifica la situación o problema?"
+                                label="¿Hace cuánto comenzó?"
                                 onChange={handleChange}
                                 type="text"
                                 name="res_1_2"
@@ -86,7 +86,22 @@ export default function PatientTest() {
                             <TextValidator
                                 className="mb-6 w-full"
                                 variant="outlined"
-                                label="Describa un evento asociado con la problematica"
+                                label="Explica un evento asociado"
+                                onChange={handleChange}
+                                type="text"
+                                name="res_1_3"
+                                size="small"
+                                validators={['']}
+                                errorMessages={[
+                                    ''
+                                ]}
+                            />
+                        </Grid>
+                        <Grid item lg={6} md={6} sm={12} xs={12}>
+                            <TextValidator
+                                className="mb-6 w-full"
+                                variant="outlined"
+                                label="Más detalles"
                                 onChange={handleChange}
                                 type="text"
                                 name="res_1_3"

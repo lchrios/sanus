@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from 'react'
+import React, { createContext, useEffect, useReducer, useState } from 'react'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import { firebaseConfig } from 'config.js'
@@ -44,6 +44,7 @@ const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialAuthState)
+    const [dbRef, setDbRef] = useState()
 
     const signInWithEmailAndPassword = (email, password) => {
         return firebase.auth().signInWithEmailAndPassword(email, password)
@@ -66,15 +67,33 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
+
+                firebase.firestore()
+                    .collection('roles')
+                    .doc(user.uid)
+                    .get()
+                    .then(doc => {
+                        firebase.firestore()
+                            .collection(doc.data().role)
+                            .doc(user.uid)
+                            .get()
+                            .then(docRole => {
+                                setDbRef(docRole.ref)
+                            })
+                    })
+
                 dispatch({
                     type: 'FB_AUTH_STATE_CHANGED',
                     payload: {
                         isAuthenticated: true,
                         user: {
-                            id: user.uid,
+                            uid: user.uid,
                             name: user.displayName || user.email,
-                            avatar: user.photoURL,
+                            img: user.photoURL,
                             email: user.email,
+                            age: 18,
+                            phone: user.phoneNumber,
+                            db_ref: dbRef
                         },
                     },
                 })

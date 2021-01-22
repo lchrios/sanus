@@ -13,6 +13,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import history from '../../../../../../history';
 import clsx from 'clsx'
 import PatientTest from '../../test/PatientTest'
+import FormTest from '../../test/FormTest'
 import TherapistInfoUser from './TherapistInfoUser'
 import PatientCalendar from '../../calendar/PatientCalendar'
 import patientRoutes from 'app/views/patient/PatientRoutes';
@@ -116,9 +117,9 @@ const UserProfileContent = ({ toggleSidenav }) => {
                     <Grid item lg={8} md={8} sm={12} xs={12}>
                         <Card className="pb-4 px-4">
                             <h4 className="font-medium text-muted px-4 pt-4 pb-0">
-                                Solicitar una cita
+                                Comenzar terapia
                             </h4>
-                          <PatientTest/>
+                          <FormTest/>
                         </Card>
                         <Grid item lg={12} md={12} sm={12} xs={12}>
                             <div className="py-3"></div>
