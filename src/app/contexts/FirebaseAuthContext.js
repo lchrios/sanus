@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }) => {
                     .get()
                     .then(doc => {
                         firebase.firestore()
-                            .collection(doc.data().role)
+                            .collection('patients')
                             .doc(user.uid)
                             .get()
                             .then(docRole => {

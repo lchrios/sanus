@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     TextField,
     Icon,
@@ -9,6 +9,7 @@ import {
     Grid,
 } from '@material-ui/core'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
+import axios from 'axios'
 import history from '../../../../../history'
 import FormTest from './FormTest'
 import FormTestSt2 from './FormTestSt2'
@@ -25,14 +26,26 @@ const getSteps = () => {
 
 export default function PatientTest() {
 
+    const [therapist, setTherapistData] = useState()
+    useEffect(() => {
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid+'/t').then(res => {
+            setTherapistData(res.data)
+        })
+    })
+
     const [activeStep, setActiveStep] = useState(0)
     const {user} = useAuth()
     const steps = getSteps()
 
     const handleNext = () => {
-        if(activeStep == 2 ) {
+        if(activeStep == 2 && therapist == undefined ) {
             history.push('/'+ user.uid +'/browse')
         }
+
+        else if (therapist) {
+            window.location = 'https://zoom.us/j/8510547499?pwd=SDdRaktUMnVRenJzTWUyVE9LZ004dz09'
+        }
+
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
     }
 
