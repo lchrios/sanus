@@ -10,6 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import firebase from 'firebase'
+import Typography from '@material-ui/core/Typography'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     sidenav: {
@@ -21,9 +22,10 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
+    
+    //funciones de control abierto-cerrado
 
-
-
+const UserProfileSidenav = () => {
 
     const { user } = useAuth()
     const [therapist, setTherapist] = useState()    
@@ -35,8 +37,8 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
             .get()
             .then(doc => {
                 const data = doc.data()
-                if (data.therapist != null) {
-                    data.therapist
+                if (data.therapist != null && data.therapist != "") {
+                    firebase.firestore().collection("therapists").doc(data.therapist)
                     .get()
                     .then(doc => {
                         console.log("Carta terapeuta cargada :D")
@@ -47,10 +49,8 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
             })
     }, [user.uid])   
     const classes = usestyles()
-    
-    //funciones de control abierto-cerrado
-    const UserProfileSidenav = () => {
-        const [open, setOpen] = React.useState(true)
+
+    const [open, setOpen] = useState(false)
     
     function handleClickOpen() {
         setOpen(true)
@@ -66,38 +66,42 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
         {/*DIALOGO QUE SE DESPLIEZA EMPIEZA*/ }
         <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="form-dialog-title"
-            >
-                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        To subscribe to this website, please enter your email
-                        address here. We will send updates occasionally.
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        variant="outlined"
-                        color="secondary"
-                        onClick={handleClose}
+                    onClose={handleClose}
+                    aria-labelledby="customized-dialog-title"
+                    open={open}
+                >
+                    <DialogTitle
+                        id="customized-dialog-title"
+                        onClose={handleClose}
                     >
-                        Cancel
-                    </Button>
-                    <Button onClick={handleClose} color="primary">
-                        Subscribe
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                        Notas de mis sesiones
+                    </DialogTitle>
+                    <DialogContent dividers>
+                       <Button>
+                       <    Typography gutterBottom>
+                            Nota 1
+                            </Typography>
+
+                        </Button>
+                        
+                        <Button>
+                            <Typography gutterBottom>
+                                Nota 2
+                            </Typography>
+                        </Button>
+                       
+                       <Button>
+                            <Typography gutterBottom>
+                                Nota 3
+                            </Typography>
+                        </Button>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            Save changes
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             {/*DIALOGO QUE SE DESPLIEGA TERMINA*/ }
 
 

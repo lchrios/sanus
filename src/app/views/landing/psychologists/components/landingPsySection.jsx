@@ -1,4 +1,5 @@
 import React from "react";
+import history from '../../../../../history'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
@@ -16,11 +17,15 @@ import Button from "./button.jsx";
 import landingPsyStyles from "./styles/landingPsyStyles";
 
 
-import session1 from "assets/images/psychologists/session1.jpg";
+import Violeta from "assets/images/psicólogos/Violeta.PNG";
+import Sandra from "assets/images/psicólogos/Sandra.PNG";
+import Ivonne from 'assets/images/psicólogos/Ivonne.jpg'
+import fake1 from 'assets/images/faces/profile faces/card-profile5-square.jpg'
 
 const useStyles = makeStyles(landingPsyStyles);
 
 export default function LandingPsySection({ ...rest }) {
+ 
   const classes = useStyles();
   return (
     <div className="cd-section" {...rest}>
@@ -56,12 +61,12 @@ export default function LandingPsySection({ ...rest }) {
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
                       <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
+                        <img src={Violeta} alt="..." />
                       </a>
                       <div
                         className={classes.coloredShadow}
                         style={{
-                          backgroundImage: `url(${session1})`,
+                          backgroundImage: `url(${Violeta})`,
                           opacity: "1"
                         }}
                       />
@@ -69,24 +74,18 @@ export default function LandingPsySection({ ...rest }) {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Mark Zuckerberg</h4>
+                      <h4 className={classes.cardTitle}>Violeta Détré</h4>
                       
-                        <h6 className={classes.cardCategory}>Psicólogo</h6>
+                        <h6 className={classes.cardCategory}>Terapeuta familiar</h6>
                       
                       <p className={classes.description}>
-                        5 años de experiencia en terapia psicológica, 
-                        maestría en psicoanálisis.
+                      15 años de experiencia profesional en el ámbito clínico y
+                      empresarial.
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
-                      <Button justIcon simple color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
+                      <Button className="ml-2" color="twitter" onClick={() => history.push('/session/signin')}>
+                          Comenzar
                       </Button>
                     </CardFooter>
                   </GridItem>
@@ -99,12 +98,12 @@ export default function LandingPsySection({ ...rest }) {
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
                       <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
+                        <img src={Sandra} alt="..." />
                       </a>
                       <div
                         className={classes.coloredShadow}
                         style={{
-                          backgroundImage: `url(${session1})`,
+                          backgroundImage: `url(${Sandra})`,
                           opacity: "1"
                         }}
                       />
@@ -112,30 +111,20 @@ export default function LandingPsySection({ ...rest }) {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Mark Zuckerberg</h4>
+                      <h4 className={classes.cardTitle}>Mtra. TFSR Sandra Jaramillo Martínez</h4>
                       
                         <h6 className={classes.cardCategory}>
-                        Psicólogo
+                        Psicóloga y psicoterapeuta familiar sistémica,
                         </h6>
                       
                       <p className={classes.description}>
-                      5 años de experiencia en terapia psicológica, 
-                        maestría en psicoanálisis.
+                      11 años de experiencia en terapia psicológica.
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
-                      <Button justIcon simple color="linkedin">
-                        <i className="fab fa-linkedin-in" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="dribbble">
-                        <i className="fab fa-dribbble" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
-                      </Button>
+                    <Button className="ml-2" color="twitter" onClick={() => history.push('/session/signin')}>
+                          Comenzar
+                    </Button>
                     </CardFooter>
                   </GridItem>
                 </GridContainer>
@@ -147,12 +136,12 @@ export default function LandingPsySection({ ...rest }) {
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
                       <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
+                        <img src={fake1} alt="..." />
                       </a>
                       <div
                         className={classes.coloredShadow}
                         style={{
-                          backgroundImage: `url(${session1})`,
+                          backgroundImage: `url(${fake1})`,
                           opacity: "1"
                         }}
                       />
@@ -160,25 +149,19 @@ export default function LandingPsySection({ ...rest }) {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Mark Zuckerberg</h4>
+                      <h4 className={classes.cardTitle}>Maria Ana Magdalena Quiroz Pecina</h4>
                       
-                        <h6 className={classes.cardCategory}>Psicólogo</h6>
+                        <h6 className={classes.cardCategory}>Jefatura de Ciencias de la Salud</h6>
                       
                       <p className={classes.description}>
-                      5 años de experiencia en terapia psicológica, 
-                        maestría en psicoanálisis.
+                      5 años de experiencia en terapia psicológica y  
+                      maestría en psicoanálisis.
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
-                      <Button justIcon simple color="youtube">
-                        <i className="fab fa-youtube" />
-                      </Button>
-                      <Button justIcon simple color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      <Button justIcon simple color="instagram">
-                        <i className="fab fa-instagram" />
-                      </Button>
+                    <Button className="ml-2" color="twitter" onClick={() => history.push('/session/signin')}>
+                          Comenzar
+                    </Button>
                     </CardFooter>
                   </GridItem>
                 </GridContainer>
@@ -190,12 +173,12 @@ export default function LandingPsySection({ ...rest }) {
                   <GridItem xs={12} sm={5} md={5}>
                     <CardHeader image plain>
                       <a href="#pablo" onClick={e => e.preventDefault()}>
-                        <img src={session1} alt="..." />
+                        <img src={Ivonne} alt="..." />
                       </a>
                       <div
                         className={classes.coloredShadow}
                         style={{
-                          backgroundImage: `url(${session1})`,
+                          backgroundImage: `url(${Ivonne})`,
                           opacity: "1"
                         }}
                       />
@@ -203,25 +186,18 @@ export default function LandingPsySection({ ...rest }) {
                   </GridItem>
                   <GridItem xs={12} sm={7} md={7}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Mark Zuckerberg</h4>
+                      <h4 className={classes.cardTitle}>Sandra Jaramillo Martínez</h4>
                       
                         <h6 className={classes.cardCategory}>Psicólogo</h6>
                       
                       <p className={classes.description}>
-                      5 años de experiencia en terapia psicológica, 
-                        maestría en psicoanálisis.
+                      7 años de experiencia en terapia familiar y de pareja.
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
-                      <Button justIcon simple color="linkedin">
-                        <i className="fab fa-linkedin-in" />
-                      </Button>
-                      <Button justIcon simple color="facebook">
-                        <i className="fab fa-facebook-square" />
-                      </Button>
-                      <Button justIcon simple color="google">
-                        <i className="fab fa-google" />
-                      </Button>
+                    <Button className="ml-2" color="twitter" onClick={() => history.push('/session/signin')}>
+                          Comenzar
+                    </Button>
                     </CardFooter>
                   </GridItem>
                 </GridContainer>

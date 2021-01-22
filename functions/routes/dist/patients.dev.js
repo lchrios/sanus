@@ -1,49 +1,42 @@
 "use strict";
 
-var express = require('express');
-
-var firebase = require('firebase');
-
 var _require = require('../firestore'),
     db = _require.db;
 
 var pats = db.collection('patients');
 var ther = db.collection('therapists');
-var sess = db.collection('sessions'); // Get therapist info
-
-exports.getAllTherapists = function (req, res) {
-  ther.get().then(function (query) {
-    var data = [];
-    query.forEach(function (doc) {
-      data.push(doc.data());
-    });
-    res.send(data);
-  });
-};
+var sess = db.collection('sessions');
 
 exports.getAllPatients = function (req, res) {
+  res.set('Access-Control-Allow-Origin', '*');
   pats.get().then(function (query) {
     var data = [];
     query.forEach(function (doc) {
       data.push(doc.data());
     });
-    res.send(data);
-  });
-};
-
-exports.getTherapist = function (req, res) {
-  ther.doc(req.params.tid).get().then(function (doc) {
-    res.send(doc.data());
+    res.status(200).send(data);
   });
 };
 
 exports.getPatient = function (req, res) {
+  res.set('Access-Control-Allow-Origin', '*');
   pats.doc(req.params.pid).get().then(function (doc) {
-    res.send(doc.data());
+    res.status(200).send(doc.data());
+  });
+};
+
+exports.getTherapistByPatient = function (req, res) {
+  res.set('Access-Control-Allow-Origin', '*');
+  pats.doc(req.params.pid).get().then(function (doc) {
+    var ther_id = doc.data().therapist;
+    ther.doc(ther_id).get().then(function (docter) {
+      res.status(200).send(docter.data());
+    });
   });
 };
 
 exports.getAllSessionsByPatient = function (req, res) {
+  res.set('Access-Control-Allow-Origin', '*');
   sess.where('patient_id', '==', req.params.pid).get().then(function (query) {
     var data = [];
     var refs = [];
@@ -51,24 +44,6 @@ exports.getAllSessionsByPatient = function (req, res) {
       data.push(doc.data());
       refs.push(doc.ref);
     });
-    res.send(data);
-  });
-};
-
-exports.getAllSessionsByTherapist = function (req, res) {
-  sess.where('therapist_id', '==', req.params.pid).get().then(function (query) {
-    var data = [];
-    var refs = [];
-    query.forEach(function (doc) {
-      data.push(doc.data());
-      refs.push(doc.ref);
-    });
-    res.send(data);
-  });
-};
-
-exports.getSession = function (req, res) {
-  sess.doc(req.params.sid).get().then(function (doc) {
-    res.send(doc.data());
+    res.status(200).send(data);
   });
 };

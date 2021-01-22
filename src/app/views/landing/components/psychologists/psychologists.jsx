@@ -15,10 +15,10 @@ import CardFooter from "../eachComponent/components/Card/CardFooter";
 import Muted from "../eachComponent/components/Typography/Muted";
 import Button from "../eachComponent/components/CustomButtons/Button";
 
-import cardProfile1Square from "assets/images/psicólogos/Ivonne.jpg"
-import cardProfile2Square from "assets/images/faces/profile faces/card-profile2-square.jpg";
-import cardProfile4Square from "assets/images/faces/profile faces/card-profile4-square.jpg";
-import cardProfile6Square from "assets/images/faces/profile faces/card-profile6-square.jpg";
+import Violeta from "assets/images/psicólogos/Violeta.PNG";
+import Sandra from "assets/images/psicólogos/Sandra.PNG";
+import Ivonne from 'assets/images/psicólogos/Ivonne.jpg'
+import fake1 from 'assets/images/faces/profile faces/card-profile5-square.jpg'
 
 import teamsStyle from "../eachComponent/components/componentsStyle/componentsStyle/psySectionStyle";
 import teamStyle from "../eachComponent/components/componentsStyle/psyStyle";
@@ -39,157 +39,157 @@ export default function PsySection() {
   <div className={classNames(classes.main, classes.mainRaised)}>
     <div className={classes.section}>
       <h2 className={classes.title}> Terapeutas </h2>
-      <div>
-        <GridContainer className={classes.container} className="p-30">
-          <GridItem xs={12} sm={6} md={6}>
-            <Card profile plain className={classes.card3}>
-              <GridContainer>
-                <GridItem xs={12} sm={5} md={5}>
-                  <CardHeader image plain>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img src={cardProfile1Square} alt="..." />
-                    </a>
-                    <div
-                      className={classes.coloredShadow}
-                      style={{
-                        backgroundImage: `url(${cardProfile1Square})`,
-                        opacity: "1"
-                      }}
-                    />
-                  </CardHeader>
-                </GridItem>
-                <GridItem xs={12} sm={7} md={7}>
-                  <CardBody plain>
-                    <h4 className={classes.cardTitle}>Alec Thompson</h4>
-                    <Muted>
-                      <h6 className={classes.cardCategory}>Piscoanalista lacaniano</h6>
-                    </Muted>
-                    <p className={classes.description}>
-                      Conoce a uno de nuestros mejores terapeutas, sientete comodo de platicar 
-                      con el antes de agendar una cita. Continúa tu crecimiento personal con Alec.
-                    </p>
-                  </CardBody>
-                  <CardFooter plain className={classes.justifyContentCenter}>
-                    <Button onClick={() => history.push('/session/signin')} round color="twitter">
-                      Contactar
+      <div className={classes.container}>
+          <GridContainer>
+            <GridItem xs={12} sm={6} md={6}>
+              <Card profile plain className={classes.card3}>
+                <GridContainer>
+                  <GridItem xs={12} sm={5} md={5}>
+                    <CardHeader image plain>
+                      <a href="#pablo" onClick={e => e.preventDefault()}>
+                        <img src={Violeta} alt="..." />
+                      </a>
+                      <div
+                        className={classes.coloredShadow}
+                        style={{
+                          backgroundImage: `url(${Violeta})`,
+                          opacity: "1"
+                        }}
+                      />
+                    </CardHeader>
+                  </GridItem>
+                  <GridItem xs={12} sm={7} md={7}>
+                    <CardBody plain>
+                      <h4 className={classes.cardTitle}>Violeta Détré</h4>
+                      
+                        <h6 className={classes.cardCategory}>Terapeuta familiar</h6>
+                      
+                      <p className={classes.description}>
+                      15 años de experiencia profesional en el ámbito clínico y
+                      empresarial.
+                      </p>
+                    </CardBody>
+                    <CardFooter profile plain>
+                      <Button className="ml-2 x-center" color="twitter" onClick={() => history.push('/session/signin')}>
+                          Comenzar
+                      </Button>
+                    </CardFooter>
+                  </GridItem>
+                </GridContainer>
+              </Card>
+            </GridItem>
+            <GridItem xs={12} sm={6} md={6}>
+              <Card profile plain className={classes.card3}>
+                <GridContainer>
+                  <GridItem xs={12} sm={5} md={5}>
+                    <CardHeader image plain>
+                      <a href="#pablo" onClick={e => e.preventDefault()}>
+                        <img src={Sandra} alt="..." />
+                      </a>
+                      <div
+                        className={classes.coloredShadow}
+                        style={{
+                          backgroundImage: `url(${Sandra})`,
+                          opacity: "1"
+                        }}
+                      />
+                    </CardHeader>
+                  </GridItem>
+                  <GridItem xs={12} sm={7} md={7}>
+                    <CardBody plain>
+                      <h4 className={classes.cardTitle}>Mtra. TFSR Sandra Jaramillo Martínez</h4>
+                      
+                        <h6 className={classes.cardCategory}>
+                        Psicóloga y psicoterapeuta familiar sistémica,
+                        </h6>
+                      
+                      <p className={classes.description}>
+                      11 años de experiencia en terapia psicológica.
+                      </p>
+                    </CardBody>
+                    <CardFooter profile plain>
+                    <Button className="ml-2 x-center" color="twitter" onClick={() => history.push('/session/signin')}>
+                          Comenzar
                     </Button>
-                  </CardFooter>
-                </GridItem>
-              </GridContainer>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={6}>
-            <Card profile plain className={classes.card3}>
-              <GridContainer>
-                <GridItem xs={12} sm={5} md={5}>
-                  <CardHeader image plain>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img src={cardProfile6Square} alt="..." />
-                    </a>
-                    <div
-                      className={classes.coloredShadow}
-                      style={{
-                        backgroundImage: `url(${cardProfile6Square})`,
-                        opacity: "1"
-                      }}
-                    />
-                  </CardHeader>
-                </GridItem>
-                <GridItem xs={12} sm={7} md={7}>
-                  <CardBody plain>
-                    <h4 className={classes.cardTitle}>Kendall Andrew</h4>
-                    <Muted>
-                      <h6 className={classes.cardCategory}>Psiquiatra</h6>
-                    </Muted>
-                    <p className={classes.description}>
-                    Conoce a uno de nuestros mejores terapeutas, sientete comodo de platicar 
-                      con el antes de agendar una cita.
-                    </p>
-                  </CardBody>
-                  <CardFooter plain className={classes.justifyContentCenter}>
-                    <Button onClick={() => history.push('/session/signin')} round color="twitter">
-                      Contactar
+                    </CardFooter>
+                  </GridItem>
+                </GridContainer>
+              </Card>
+            </GridItem>
+            <GridItem xs={12} sm={6} md={6}>
+              <Card profile plain className={classes.card3}>
+                <GridContainer>
+                  <GridItem xs={12} sm={5} md={5}>
+                    <CardHeader image plain>
+                      <a href="#pablo" onClick={e => e.preventDefault()}>
+                        <img src={fake1} alt="..." />
+                      </a>
+                      <div
+                        className={classes.coloredShadow}
+                        style={{
+                          backgroundImage: `url(${fake1})`,
+                          opacity: "1"
+                        }}
+                      />
+                    </CardHeader>
+                  </GridItem>
+                  <GridItem xs={12} sm={7} md={7}>
+                    <CardBody plain>
+                      <h4 className={classes.cardTitle}>Maria Ana Magdalena Quiroz Pecina</h4>
+                      
+                        <h6 className={classes.cardCategory}>Jefatura de Ciencias de la Salud</h6>
+                      
+                      <p className={classes.description}>
+                      5 años de experiencia en terapia psicológica y  
+                      maestría en psicoanálisis.
+                      </p>
+                    </CardBody>
+                    <CardFooter profile plain>
+                    <Button className="ml-2 x-center" color="twitter" onClick={() => history.push('/session/signin')}>
+                          Comenzar
                     </Button>
-                  </CardFooter>
-                </GridItem>
-              </GridContainer>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={6}>
-            <Card profile plain className={classes.card3}>
-              <GridContainer>
-                <GridItem xs={12} sm={5} md={5}>
-                  <CardHeader image plain>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img src={cardProfile4Square} alt="..." />
-                    </a>
-                    <div
-                      className={classes.coloredShadow}
-                      style={{
-                        backgroundImage: `url(${cardProfile4Square})`,
-                        opacity: "1"
-                      }}
-                    />
-                  </CardHeader>
-                </GridItem>
-                <GridItem xs={12} sm={7} md={7}>
-                  <CardBody plain>
-                    <h4 className={classes.cardTitle}>José Carlos</h4>
-                    <Muted>
-                      <h6 className={classes.cardCategory}>Psicólogo profesional</h6>
-                    </Muted>
-                    <p className={classes.description}>
-                    Conoce a uno de nuestros mejores terapeutas, sientete comodo de platicar 
-                      con el antes de agendar una cita.
-                    </p>
-                  </CardBody>
-                  <CardFooter plain className={classes.justifyContentCenter}>
-                    <Button onClick={() => history.push('/session/signin')} round color="twitter">
-                      Contactar
+                    </CardFooter>
+                  </GridItem>
+                </GridContainer>
+              </Card>
+            </GridItem>
+            <GridItem xs={12} sm={6} md={6}>
+              <Card profile plain className={classes.card3}>
+                <GridContainer>
+                  <GridItem xs={12} sm={5} md={5}>
+                    <CardHeader image plain>
+                      <a href="#pablo" onClick={e => e.preventDefault()}>
+                        <img src={Ivonne} alt="..." />
+                      </a>
+                      <div
+                        className={classes.coloredShadow}
+                        style={{
+                          backgroundImage: `url(${Ivonne})`,
+                          opacity: "1"
+                        }}
+                      />
+                    </CardHeader>
+                  </GridItem>
+                  <GridItem xs={12} sm={7} md={7}>
+                    <CardBody plain>
+                      <h4 className={classes.cardTitle}>Sandra Jaramillo Martínez</h4>
+                      
+                        <h6 className={classes.cardCategory}>Psicólogo</h6>
+                      
+                      <p className={classes.description}>
+                      7 años de experiencia en terapia familiar y de pareja.
+                      </p>
+                    </CardBody>
+                    <CardFooter profile plain>
+                    <Button className="ml-2 x-center" color="twitter" onClick={() => history.push('/session/signin')}>
+                          Comenzar
                     </Button>
-                  </CardFooter>
-                </GridItem>
-              </GridContainer>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={6} md={6}>
-            <Card profile plain className={classes.card3}>
-              <GridContainer>
-                <GridItem xs={12} sm={5} md={5}>
-                  <CardHeader image plain>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img src={cardProfile2Square} alt="..." />
-                    </a>
-                    <div
-                      className={classes.coloredShadow}
-                      style={{
-                        backgroundImage: `url(${cardProfile2Square})`,
-                        opacity: "1"
-                      }}
-                    />
-                  </CardHeader>
-                </GridItem>
-                <GridItem xs={12} sm={7} md={7}>
-                  <CardBody plain>
-                    <h4 className={classes.cardTitle}>George West</h4>
-                    <Muted>
-                      <h6 className={classes.cardCategory}>Psicólogo profesional</h6>
-                    </Muted>
-                    <p className={classes.description}>
-                    Conoce a uno de nuestros mejores terapeutas, sientete comodo de platicar 
-                      con el antes de agendar una cita.
-                    </p>
-                  </CardBody>
-                  <CardFooter plain className={classes.justifyContentCenter}>
-                    <Button onClick={() => history.push('/session/signin')} round color="twitter">
-                      Contactar
-                    </Button>
-                  </CardFooter>
-                </GridItem>
-              </GridContainer>
-            </Card>
-          </GridItem>
-        </GridContainer>
+                    </CardFooter>
+                  </GridItem>
+                </GridContainer>
+              </Card>
+            </GridItem>
+          </GridContainer>
       </div>
     </div>
   </div>

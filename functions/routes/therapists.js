@@ -3,45 +3,45 @@ const pats = db.collection('patients');
 const ther = db.collection('therapists');
 const sess = db.collection('sessions');
 
-exports.getAllPatients = (req, res) => {
+// Get therapist info
+exports.getAllTherapists = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    pats.get()
+    ther.get()
         .then((query) => {
-            var data = [];
+            var datas = [];
             query.forEach((doc) => {
-                data.push(doc.data());
+                datas.push(doc.data());
             })
             
-            res.status(200).send(data)
+            res.status(200).send(datas)
         })
 }
 
-exports.getPatient = (req, res) => {
+exports.getAllTherapistsRefs = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    pats.doc(req.params.pid)
+    ther.get()
+        .then((query) => {
+            var datas = [];
+            query.forEach((doc) => {
+                datas.push(doc.ref);
+            })
+            
+            res.status(200).send(datas)
+        })
+}
+
+exports.getTherapist = (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    ther.doc(req.params.tid)
         .get()
         .then((doc) => {
             res.status(200).send(doc.data())
         })
 }
 
-exports.getTherapistByPatient = (req, res) => {
+exports.getAllSessionsByTherapist = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    pats.doc(req.params.pid)
-        .get()
-        .then((doc) => {
-            const ther_id = doc.data().therapist;
-            ther.doc(ther_id)
-                .get()
-                .then((docter) => {
-                    res.status(200).send(docter.data())
-                })
-        })
-}
-
-exports.getAllSessionsByPatient = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
-    sess.where('patient_id', '==', req.params.pid)
+    sess.where('therapist_id', '==', req.params.pid)
         .get()
         .then((query) => {
             const data = [];
@@ -52,5 +52,4 @@ exports.getAllSessionsByPatient = (req, res) => {
             })
             res.status(200).send(data)
         })
-
-
+}

@@ -11,7 +11,7 @@ import history from '../../../../../history'
 import { Link } from 'react-router-dom'
 import firebase from 'firebase'
 import useAuth from 'app/hooks/useAuth'
-
+import axios from 'axios'
 
 //const db = firebase.app().firestore()
 
@@ -32,11 +32,12 @@ const BrowseApp = () => {
         var data = []
         var data_ref = []
 
-        const therapists_data = getAllTherapists()
-
-        
-        setUserList(therapists_data.data)
-        setDocRefs(therapists_data.dbref)
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t').then(res => {
+            setUserList(res.data)
+        })
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/ref').then(res => {
+            setDocRefs(res.data)
+        })
 
 
         /*db.collection("therapists")
