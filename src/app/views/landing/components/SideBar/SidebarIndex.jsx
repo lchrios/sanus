@@ -10,13 +10,13 @@ export const Sidebar = ( { is0pen, toggle }) => {
             </Icon>
             <SidebarWrapper>
                 <SidebarMenu>
-                    <SidebarLink onClick={toggle}>
+                    <SidebarLink onClick={() => {toggle(); history.push('')}}>
                         Acerca de
                     </SidebarLink>
-                    <SidebarLink onClick={toggle}>
+                    <SidebarLink onClick={() => {toggle(); history.push('/landingblog')}}>
                         Blog
                     </SidebarLink>
-                    <SidebarLink onClick={toggle}>
+                    <SidebarLink onClick={() => {toggle(); history.push('/psychologists')}}>
                         Psicólogos
                     </SidebarLink>
                     <SidebarLink onClick={() => {toggle();  history.push('/session/signup')}}>
@@ -24,7 +24,7 @@ export const Sidebar = ( { is0pen, toggle }) => {
                     </SidebarLink>
                 </SidebarMenu>
                 <SideBtnWrap>
-                    <SidebarRoute onClick={toggle}>Iniciar Sesión</SidebarRoute>
+                    <SidebarRoute onClick={() => {toggle(); history.push('/session/signin')}}>Iniciar Sesión</SidebarRoute>
                 </SideBtnWrap>
             </SidebarWrapper>
         </SidebarContainer>

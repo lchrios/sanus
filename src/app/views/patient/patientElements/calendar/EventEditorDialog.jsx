@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Dialog, IconButton, Button, Icon, Grid } from '@material-ui/core'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
@@ -6,8 +6,10 @@ import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import firebase from 'firebase'
 import { addNewEvent, updateEvent, deleteEvent } from './CalendarService'
+import axios from 'axios'
+import useAuth from 'app/hooks/useAuth'
 import therapistRoutes from 'app/views/therapist/TherapistRoutes'
-import PaymentMenu from './PaymentMenu' 
+import PaymentMenu from './PaymentMenu'
 
 
 Date.prototype.addHours= function(h){
@@ -16,8 +18,10 @@ Date.prototype.addHours= function(h){
 }
 
 const EventEditorDialog = ({ event = {}, open, handleClose }) => {
+    const [therapistData, setTherapistData] = useState()
+    const [therRef, setTherRef] = useState()
     const [state, setState] = useState(event)
-    const [user, setUser] = useState(firebase.auth().currentUser)
+    const { user } = useAuth()
     const [therapist, setTherapist] = useState()
     const handleChange = (event) => {
         console.log(event.target.name)
@@ -26,6 +30,20 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
             [event.target.name]: event.target.value 
         })
     }
+
+    useEffect(() => {
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid+'/t').then(res => {
+            setTherapistData(res.data)
+        })
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid+'/t/ref').then(res => {
+            setTherRef(res.data)
+        })
+    }, [event])
+
+
+    const randomCost = () => {
+        return Math.floor((Math.random() * 10)) * 100 + Math.floor((Math.random() * 10)) * 10;
+    } 
 
     const handleFormSubmit = () => {
         let { id } = state
@@ -38,9 +56,20 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
             })
         } else {
             addNewEvent({
-                id: generateRandomId(),
-                ...state,
+                therapist: therRef,
+                thername: therapistData.name,
+                patient: user.uid,
+                patname: user.name,
+                start: state.start,
+                end: state.end,
+                note: descripcion,
+                tipo: 'Terapia adulto',
+                state: 'pendiente',
+                pay_met: 'PayPal',
+                cost: randomCost(),
+                id: "",
             }).then(() => {
+                window.location.reload()
                 handleClose()
             })
         }
@@ -48,7 +77,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
 
     const handleDeleteEvent = () => {
         if (state.id) {
-            deleteEvent(state).then(() => {
+            deleteEvent(state.id).then(() => {
                 handleClose()
             })
         }
@@ -62,20 +91,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
         })
     }
 
-    const generateRandomId = () => {
-        let tempId = Math.random().toString()
-        let id = tempId.substr(2, tempId.length - 1)
-        return id
-    }
-
-    let { nombre, start, end, location, note } = state
-    let db = firebase.firestore()
-
-    db.collection("patients").doc(user.uid)
-        .get()
-        .then(doc => {
-            setTherapist(doc.data())
-        })
+    let { therapist, start, end, descripcion, patient } = state
 
     return (
         <Dialog
@@ -99,7 +115,9 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                         onChange={handleChange}
                         type="text"
                         name="nombre"
-                        value={therapist?.name || ''}
+                        value={therapistData?.name || ''}
+                        disabled={true}
+
                         //validators={['required']}
                         //errorMessages={['Este campo es requerido']}
                     />
@@ -143,22 +161,10 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                     
                     <TextValidator
                         className="mb-6 w-full"
-                        label="Descripción"
+                        label="Nota"
                         onChange={handleChange}
                         type="text"
-                        name="descripción"
-                        //validators={['required']}
-                        //errorMessages={['Este campo es requerido']}
-                    />
-
-                    <TextValidator
-                        className="mb-9 w-full"
-                        label="Nota extra"
-                        onChange={handleChange}
-                        type="text"
-                        name="nota"
-                        rowsMax={2}
-                        multiline={true}
+                        name="descripcion"
                         //validators={['required']}
                         //errorMessages={['Este campo es requerido']}
                     />

@@ -25,7 +25,9 @@ const HeroSection = () => {
                 onMouseEnter = {onHover}
                 onMouseLeave = {onHover}
                 primary = 'true'
-                dark = 'true'>
+                dark = 'true'
+                fontBig = "true">
+                
                     Registrate { hover ? <ArrowForward /> : <ArrowRight />} 
                 </Button>
               </HeroBtnWrapper>

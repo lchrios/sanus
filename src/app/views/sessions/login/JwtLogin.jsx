@@ -13,6 +13,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import history from 'history.js'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
+import { NavLogo } from 'app/views/landing/components/Navbar_sc/NavbarElements'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -71,6 +72,7 @@ const JwtLogin = () => {
             <Card className={classes.card}>
                 <Grid container>
                     <Grid item lg={5} md={5} sm={5} xs={12}>
+                        <NavLogo>Iknelia</NavLogo>
                         <div className="p-8 flex justify-center items-center h-full">
                             <img
                                 className="w-200"

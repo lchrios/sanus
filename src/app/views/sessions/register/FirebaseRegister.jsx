@@ -15,6 +15,9 @@ import 'firebase/firestore'
 import { Link } from 'react-router-dom'
 import useAuth from 'app/hooks/useAuth'
 import history from 'history.js'
+import {NavLogo} from '../../landing/components/Navbar_sc/NavbarElements'
+
+
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -42,6 +45,12 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         color: palette.primary.main,
         textDecoration: 'underline',
     },
+    button: {
+        margin: theme.spacing(1),
+    },
+    input: {
+        display: 'none',
+    },
 }))
 
 const FirebaseRegister = () => {
@@ -61,23 +70,25 @@ const FirebaseRegister = () => {
         try {
             await signInWithGoogle()
 
-            var user = firebase.auth().currentUser
-            console.log(user)
+            let user = firebase.auth().currentUser
 
             const user_data = {
                 email: user.email,
-                name: user.displayName,
+                name: user.name || user.email,
                 age: 18,
                 phone: "3314895548",
                 img: '/src/assets/images/faces/2.jpg',
-                therapist_id: "",
+                therapist: null,
                 sessions: [],
                 payment_met: [],
+                location: ["Guadalajara", "Jalisco", "Mexico"],
             }
 
             var db = firebase.firestore()
 
-            db.collection("patients").doc(user.uid).set(user_data)
+            await db.collection("patients").doc(user.uid).set(user_data)
+            await db.collection('roles').doc(user.uid).set({role: "patients"})
+
             history.push('/'+user.uid+'/home')
         } catch (e) {
             setMessage(e.message)
@@ -89,25 +100,28 @@ const FirebaseRegister = () => {
     const handleFormSubmit = async () => {
         try {
             setLoading(true)
-            await createUserWithEmailAndPassword(state.email, state.password)
 
-            var user = firebase.auth().currentUser
-            console.log(user)
+            await createUserWithEmailAndPassword(state.email, state.password) 
+
+            let user = firebase.auth().currentUser
 
             const user_data = {
                 email: user.email,
-                name: user.displayName,
+                name: user.name || user.email,
                 age: 18,
                 phone: "3314895548",
                 img: '/src/assets/images/faces/2.jpg',
                 therapist: null,
                 sessions: [],
+                payment_met: [],
                 location: ["Guadalajara", "Jalisco", "Mexico"],
+                answered: false,
             }
 
             var db = firebase.firestore()
 
-            db.collection("patients").doc(user.uid).set(user_data)
+            await db.collection("patients").doc(user.uid).set(user_data)
+            await db.collection('roles').doc(user.uid).set({role: "patients"})
 
             history.push('/'+user.uid+'/home')
         } catch (e) {
@@ -129,12 +143,17 @@ const FirebaseRegister = () => {
             <Card className={classes.card}>
                 <Grid container>
                     <Grid item lg={5} md={5} sm={5} xs={12}>
-                        <div className="p-8 flex justify-center bg-light-gray items-center h-full">
+                        <div className="p-8 mt-16 grid justify-center bg-light-gray items-center h-full">
                             <img
                                 className="w-full"
                                 src="/assets/images/illustrations/posting_photo.svg"
                                 alt=""
                             />
+                            <div className="justify-center ml-16">
+                                <Button onClick={() => history.push('/home')} color="primary" className={classes.button}>
+                                            VOLVER
+                                </Button>
+                            </div>
                         </div>
                     </Grid>
                     <Grid item lg={7} md={7} sm={7} xs={12}>

@@ -39,7 +39,7 @@ const Navbar = ( {toggle} ) => {
         <>
           <Nav scrollNav = {scrollNav}>
               <NavbarContainer>
-                  <NavLogo onClick={toggleHome}>Iknelia</NavLogo>
+                  <NavLogo onClick={() => {toggleHome(); history.push('/home')}}>Iknelia</NavLogo>
                   <MobileIcon onClick={toggle}>
                       <FaBars />
                   </MobileIcon>
@@ -47,9 +47,9 @@ const Navbar = ( {toggle} ) => {
                       <NavItem>
                           <NavLinks onClick={() => {history.push('/home')}}> Inicio </NavLinks>
                       </NavItem>
-                      <NavItem>
+                      {/*<NavItem>
                           <NavLinks >Acerca de</NavLinks>
-                      </NavItem>
+                      </NavItem> */}
                       <NavItem>
                           <NavLinks onClick={() => {history.push('/landingBlog')}}>Blog</NavLinks>
                       </NavItem>

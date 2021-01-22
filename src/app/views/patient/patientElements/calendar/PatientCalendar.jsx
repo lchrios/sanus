@@ -13,6 +13,7 @@ import globalize from 'globalize'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import history from '../../../../../history'
+import useAuth from 'app/hooks/useAuth'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     calendar: {
@@ -58,15 +59,19 @@ const PatientCalendar = () => {
     const headerComponentRef = useRef(null)
     const classes = useStyles()
 
+    const { user } = useAuth()
+
     const updateCalendar = () => {
-        getAllEvents()
+        getAllEvents(user.uid)
             .then((res) => res.data)
             .then((events) => {
                 events = events?.map((e) => ({
                     ...e,
+                    title: e.note,
                     start: new Date(e.start),
                     end: new Date(e.end),
                 }))
+                console.log(events)
                 setEvents(events)
             })
     }

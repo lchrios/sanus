@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, makeStyles } from 'react'
 import {
     Avatar,
     Button,
@@ -12,35 +12,56 @@ import {
 } from '@material-ui/core'
 import history from '../../../../../../history'
 import firebase from 'firebase'
+import man from 'assets/images/avatars/001-man.svg'
 import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper'
-
-
-
-//const app = firebase.initializeApp(firebaseConfig)
-const db = firebase.firestore()
-
-
+import useAuth from 'app/hooks/useAuth'
+import axios from 'axios'
 
 
 const TherapistInfoUser = () => {
+    const { user } = useAuth()
+    const [therapist, setTherapist] = useState()    
 
-    const [therapist, setTherapist] = useState()
+    useEffect(() => {
 
-    var uid = firebase.auth().currentUser.uid
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid+'/t')
+            .then(res => {
+                setTherapist(res.data)
+            })
 
-    db.collection("patients").doc(uid)
-        .get()
-        .then(doc => {
-            const data = doc.data()
-            if (data.therapist != null) {
-                data.therapist
-                .get()
-                .then(doc => {
-                    const ther_data = doc.data()
-                    setTherapist(ther_data)
-                })
-            }
-        })
+    }, [user.uid])   
+    
+    if ( therapist == null) {
+
+        return (
+            
+            <Card className="pt-6">
+                <div className="flex-column items-center mb-6">
+                <Avatar
+                    className="w-84 h-84"
+                    src={man}
+                />
+                <h5 className="mt-4 mb-2">No tienes ningun terapeuta aun</h5>
+                <small className="text-muted">No hay experiencia</small>
+            </div>
+            
+            <Table className="mb-4">
+                <TableBody>
+                    <Button
+                     onClick={() => history.push('/'+ user.uid+'/browse') }
+                    variant="contained"
+                    color="primary"
+                    className="x-center"
+                    >
+
+                        Seleccionar terapeuta
+                    </Button>
+                </TableBody>
+            </Table>
+            </Card>
+            
+        )
+    }
 
     return (
         <Card className="pt-6">

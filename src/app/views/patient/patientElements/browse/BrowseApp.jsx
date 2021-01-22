@@ -1,368 +1,40 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import Axios from 'axios'
 import MUIDataTable from 'mui-datatables'
-import { Avatar, Grow, Icon, IconButton, TextField } from '@material-ui/core'
+import { Avatar, Grow, Icon, IconButton, TextField, Button } from '@material-ui/core'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import history from '../../../../../history'
 import { Link } from 'react-router-dom'
 import firebase from 'firebase'
+import useAuth from 'app/hooks/useAuth'
+import axios from 'axios'
+
+//const db = firebase.app().firestore()
+
+
 
 const BrowseApp = () => {
     const [isAlive, setIsAlive] = useState(true)
     const [userList, setUserList] = useState([])
     const [docRefs, setDocRefs] = useState([])
-
-    const db = firebase.app().firestore()
-    var user = firebase.auth().currentUser
+    const { user } = useAuth()
 
     useEffect(() => {
-       /* Axios.get('/api/user/all').then(({ data }) => {
-            if (isAlive) 
-            console.log(data)
-        })*/
-
-        var data = []
-        var data_ref = []
-
-        db.collection("therapists")
-            .get()
-            .then(querySnapshot => {
-                querySnapshot.forEach(doc => {
-                    data.push(doc.data())
-                    data_ref.push(doc.ref)
-                })
-                setUserList(data)
-                setDocRefs(data_ref)
-            })
-            
         
-        return () => setIsAlive(false)
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t').then(res => {
+            setUserList(res.data)
+        })
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/ref').then(res => {
+            setDocRefs(res.data)
+        })
+
+
+         return () => setIsAlive(false)
     }, [isAlive])
-
-const fakeDbTher = [
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-    {
-        adress:"",
-        age:"",
-        balance:"",
-        bd:"",
-        company:"",
-        email:"",
-        gender:"",
-        guid:"",
-        id:"",
-        imgUrl:"",
-        index:0,
-        isActive:false,
-        name:"Luis",
-        phone:""
-    },
-]
-    /**tenemos que cambiar la base de datos para que coincida el nombre que el usuario ve, con el nombre
-    que tenemos en base de datos, y no se muestre extraño o se preste a confuciones*/
-
     
     const columns = [
         {
@@ -451,23 +123,19 @@ const fakeDbTher = [
                 customBodyRenderLite: (dataIndex) => (
                     <div className="flex items-center">
                         <div className="flex-grow"></div>
-                        <Link to={"/"+user.uid+"/home"} >
-                            
                             <IconButton onClick={() => {
-                                let therapist_ref = docRefs[dataIndex]
                                 const db = firebase.app().firestore()
 
                                 db.collection("patients").doc(user.uid)
                                     .update({
-                                        therapist: therapist_ref
+                                        therapist: docRefs[dataIndex]
                                     })
                                     .then(function() {
-                                        console.log("Document successfully updated!")
+                                        history.push('/'+user.uid+'/home')
                                     })
                                 }}>
                                 <Icon>control_point</Icon>
                             </IconButton>
-                        </Link>
                     </div>
                 ),
             },
@@ -475,6 +143,7 @@ const fakeDbTher = [
     ]
 
     return (
+    <div>
         <div className="m-sm-30">
             <div className="overflow-auto">
                 <div className="min-w-750">
@@ -540,6 +209,7 @@ const fakeDbTher = [
                 </div>
             </div>
         </div>
+    </div>
     )
 }
 

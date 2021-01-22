@@ -2,10 +2,10 @@ import styled from 'styled-components'
 
 export const InfoContainer = styled.div `
     color:#fff;
-    background: ${ ( {lightBg} ) => (lightBg ? '#f9f9f9' : '#C3D4F0') } ; 
+    background: ${ ( {lightBg} ) => (lightBg ? '#AEDBF0' : '#6C63FF') } ; 
 
     @media screen and (max-width: 768px) { 
-        padding:100px 0;
+        padding:50px 0;
 
     }
 `
@@ -18,7 +18,6 @@ export const InfoWrapper = styled.div`
  max-width: 1100px;
  margin-right:auto;
  margin-left:auto;
- padding: 0 24px;
  justify-content: center;
 
 `
@@ -45,7 +44,6 @@ export const Column1 = styled.div`
 
 export const Column2 = styled.div`
  margin-bottom:15px;
- padding:0 15px;
  grid-area:col2;
  
 `
@@ -73,7 +71,7 @@ export const Heading = styled.h1`
  font-size:48px;
  line-height:1.1;
  font-weight:600;
- color: ${ ( {lightText} ) => (lightText ? '#f7f8fa' : '#6C63FF')  
+ color: ${ ( {lightText} ) => (lightText ? '#f7f8fa' : 'black')  
 }; 
 
  @media screen and (max-width: 480px) {
@@ -86,7 +84,7 @@ export const Subtitle = styled.p`
  margin-bottom:35px;
  font-size: 18px;
  line-height: 24px;
-  color: ${ ( {darkText} ) => (darkText ? '#010606' : '#6C63FF') }; 
+  color: ${ ( {darkText} ) => (darkText ? '#010606' : 'black') }; 
 `
 
 export const BtnWrapper = styled.div`

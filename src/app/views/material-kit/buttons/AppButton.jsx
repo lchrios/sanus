@@ -29,13 +29,13 @@ export default function AppButton() {
                 <Button variant="contained" className={classes.button}>
                     Default
                 </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                >
-                    Primary
-                </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                    >
+                        Primary
+                    </Button>
                 <Button
                     variant="contained"
                     color="secondary"

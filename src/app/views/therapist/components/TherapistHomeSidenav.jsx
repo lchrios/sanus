@@ -73,20 +73,7 @@ const TherapistHomeSidenav = () => {
                     </Button >
                     
                 </Card>
-                {/*<div className="py-4" />
-                <Card className="flex items-center justify-center text-primary">
-                    <Button className={classes.socialButton}
-                            startIcon={<AddCircle />}
-                            onClick={() => {
-                                var therapistRef = firebase.firestore().collection("therapists")
-                                for (var i = 0; i < therapist_data.length; i++) {
-                                    therapistRef.doc(generateRandomId()).set(therapist_data[i])    
-                                }
-                            }}
-                    >
-                            Subir terapeutas
-                    </Button>
-                </Card>*/}
+
                 <div className="py-2"></div>
             </div>
         </div>

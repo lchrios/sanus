@@ -1,4 +1,5 @@
 import React from 'react'
+import {makeStyles} from '@material-ui/core/styles'
 import {Button} from '../buttonElement_sc'
 import history from '../../../../../history'
 import {
@@ -14,6 +15,17 @@ import {
   BtnWrapper, 
   ImgWrap, 
   Img } from './InfoElements'
+
+  import terapia1 from '../../../../../../src/assets/images/blog/terapia2.jpg'
+
+  import InterestedSectionStyle from '../../../landing/landingBlog/landingBlogStyles/lessImpBlogStyles'
+
+  import Card from '../../../landing/landingBlog/components/card'
+  import GridItem from '../../../landing/landingBlog/components/GridItem'
+  import CardHeader from '../../../landing/landingBlog/components/cardHeader'
+  import CardBody from '../../../landing/landingBlog/components/cardBody'
+
+const useStyles = makeStyles(InterestedSectionStyle);
 
 export const InfoSection = ({
   lightText, 
@@ -31,6 +43,7 @@ export const InfoSection = ({
   primary,
   dark, 
   dark2 }) => {
+    const classes = useStyles();
     return (
         <>
           <InfoContainer lightBg = {lightBg } id={id} >
@@ -52,6 +65,7 @@ export const InfoSection = ({
                               dark={dark ? 1 : 0 }
                               dark2={dark2 ? 1 : 0 }
                               onClick={buttonClick}
+                              classname="elevation-z5"
                               >
                                 {buttonLabel}
                                 </Button>
@@ -59,9 +73,24 @@ export const InfoSection = ({
                         </TextWrapper>
                     </Column1>
                     <Column2>
-                        <ImgWrap>
-                          <Img src={img} alt={alt}/>
-                        </ImgWrap>
+                    
+                      <Card plain >
+                        <CardHeader plain image>
+                          <a href="/landingblog">
+                            <img src={terapia1} alt="..." />
+                          </a>
+                          <div
+                            className={classes.coloredShadow}
+                            style={{
+                              backgroundImage: "url(" + terapia1 + ")",
+                              opacity: "0"
+                            }}
+                          />
+                        </CardHeader>
+                        <CardBody plain>
+                        </CardBody>
+                      </Card>
+                    
                     </Column2>
                   </InfoRow>
               </InfoWrapper>
