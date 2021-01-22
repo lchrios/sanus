@@ -23,15 +23,8 @@ const BrowseApp = () => {
     const [docRefs, setDocRefs] = useState([])
     const { user } = useAuth()
 
-    /*useEffect(() => {
-       /* Axios.get('/api/user/all').then(({ data }) => {
-            if (isAlive) 
-            console.log(data)
-        })*/ 
-        /*let db = firebase.firestore()
-        var data = []
-        var data_ref = []
-
+    useEffect(() => {
+        
         axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t').then(res => {
             setUserList(res.data)
         })
@@ -40,21 +33,8 @@ const BrowseApp = () => {
         })
 
 
-        /*db.collection("therapists")
-            .get()
-            .then(querySnapshot => {
-                querySnapshot.forEach(doc => {
-                    data.push(doc.data())
-                    data_ref.push(doc.ref)
-                })
-                console.log("Terapeutas cargados :D")
-                setUserList(data)
-                setDocRefs(data_ref)
-            })*/
-            
-        
-    /*    return () => setIsAlive(false)
-    }, [isAlive]) */
+         return () => setIsAlive(false)
+    }, [isAlive])
     
     const columns = [
         {
@@ -143,23 +123,19 @@ const BrowseApp = () => {
                 customBodyRenderLite: (dataIndex) => (
                     <div className="flex items-center">
                         <div className="flex-grow"></div>
-                        <Link to={"/"+user.uid+"/home"} >
-                            
                             <IconButton onClick={() => {
-                                let therapist_ref = docRefs[dataIndex]
                                 const db = firebase.app().firestore()
 
                                 db.collection("patients").doc(user.uid)
                                     .update({
-                                        therapist: therapist_ref.id
+                                        therapist: docRefs[dataIndex]
                                     })
                                     .then(function() {
-                                        console.log("Document successfully updated!")
+                                        history.push('/'+user.uid+'/home')
                                     })
                                 }}>
                                 <Icon>control_point</Icon>
                             </IconButton>
-                        </Link>
                     </div>
                 ),
             },
