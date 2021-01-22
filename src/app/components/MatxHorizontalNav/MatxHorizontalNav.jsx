@@ -9,7 +9,6 @@ const MatxHorizontalNav = ({ max }) => {
     let navigation = useSelector(({ navigations }) => navigations)
 
     const { user } = useAuth()
-    console.log(user)
 
     if (!navigation || !navigation.length) {
         return null

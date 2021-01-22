@@ -6,8 +6,9 @@ import history from '../../../../../history'
 import { Link } from 'react-router-dom'
 import firebase from 'firebase'
 import useAuth from 'app/hooks/useAuth'
+import firebaseService from 'app/services/firebase/firebaseService'
 
-const db = firebase.app().firestore()
+//const db = firebase.app().firestore()
 
 
 const BrowseApp = () => {
@@ -21,12 +22,19 @@ const BrowseApp = () => {
        /* Axios.get('/api/user/all').then(({ data }) => {
             if (isAlive) 
             console.log(data)
-        })*/
-
+        })*/ 
+        let db = firebaseService.firestore
         var data = []
         var data_ref = []
 
-        db.collection("therapists")
+        const therapists_data = firebaseService.getAllTherapists()
+
+        
+        setUserList(therapists_data[0])
+        setDocRefs(therapists_data[1])
+
+
+        /*db.collection("therapists")
             .get()
             .then(querySnapshot => {
                 querySnapshot.forEach(doc => {
@@ -36,7 +44,7 @@ const BrowseApp = () => {
                 console.log("Terapeutas cargados :D")
                 setUserList(data)
                 setDocRefs(data_ref)
-            })
+            })*/
             
         
         return () => setIsAlive(false)

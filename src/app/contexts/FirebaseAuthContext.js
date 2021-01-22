@@ -56,6 +56,18 @@ export const AuthProvider = ({ children }) => {
         return firebase.auth().signInWithPopup(provider)
     }
 
+    const signInWithFacebook = () => {
+        const provider = new firebase.auth.FacebookAuthProvider()
+        
+        return firebase.auth().signInWithPopup(provider)
+    }
+
+    const signInWithTwitter = () => {
+        const provider = new firebase.auth.TwitterAuthProvider()
+        
+        return firebase.auth().signInWithPopup(provider)
+    }
+
     const createUserWithEmailAndPassword = async (email, password) => {
         return firebase.auth().createUserWithEmailAndPassword(email, password)
     }
@@ -67,21 +79,20 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-
                 firebase.firestore()
                     .collection('roles')
                     .doc(user.uid)
                     .get()
                     .then(doc => {
+                        let role = doc.data().role
                         firebase.firestore()
-                            .collection(doc.data().role)
+                            .collection(role)
                             .doc(user.uid)
                             .get()
                             .then(docRole => {
                                 setDbRef(docRole.ref)
-                            })
+                            })              
                     })
-
                 dispatch({
                     type: 'FB_AUTH_STATE_CHANGED',
                     payload: {

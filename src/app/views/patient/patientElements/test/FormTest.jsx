@@ -24,17 +24,18 @@ const FormTest = () => {
     return (
         <Card className="m-sm-30 p-6">
             <div className="max-w-600 mx-auto">
-                <h4>Property Listing Inquiry</h4>
+                <h4>Responde este formulario para comenzar</h4>
                 <p>
-                    Please fill the form below to know more about the property
+                    Por favor responde con honestidad
                 </p>
                 <Divider className="mb-8" />
 
                 <TextField
                     className="mb-4"
-                    label="Your Name"
+                    label="¿Porqué deseas comenzar una terapia?"
                     variant="outlined"
                     size="small"
+                    multiline
                     fullWidth
                 />
                 <TextField
@@ -42,6 +43,7 @@ const FormTest = () => {
                     label="Address 1"
                     variant="outlined"
                     size="small"
+                    multiline
                     fullWidth
                 />
                 <TextField

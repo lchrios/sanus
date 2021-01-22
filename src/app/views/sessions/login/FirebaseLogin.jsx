@@ -106,6 +106,7 @@ const FirebaseLogin = () => {
         try {
             await signInWithEmailAndPassword(userInfo.email, userInfo.password)
             var user = firebase.auth().currentUser
+            console.log(user)
             history.push('/'+user.uid+'/home')
         } catch (e) {
             console.log(e)
@@ -117,6 +118,7 @@ const FirebaseLogin = () => {
         try {
             await signInWithGoogle()
             var user = firebase.auth().currentUser
+            console.log(user)
             history.push('/'+user.uid+'/home')
         } catch (e) {
             setMessage(e.message)
