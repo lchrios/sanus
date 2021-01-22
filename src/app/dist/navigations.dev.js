@@ -7,20 +7,24 @@ exports.navigations = void 0;
 
 var _authRoles = require("./auth/authRoles");
 
-var navigations = [{
-  label: "Vista de administrador",
-  type: 'label'
-},
+var navigations = [
+/*{
+    label:"Vista de administrador",
+    type:'label',
+},*/
+
 /**{
     name: 'Dashboard',
     path: '/dashboard/default',
     icon: 'dashboard',
 }, */
-{
-  name: 'Administrador',
-  path: '/analytics',
-  icon: 'analytics'
-}, // Patient views
+
+/*{
+    name: 'Administrador',
+    path: '/analytics',
+    icon: 'analytics',
+},*/
+// Patient views
 {
   label: 'Vista de paciente',
   type: 'label'
@@ -36,7 +40,7 @@ var navigations = [{
   name: "Historial de sesiones",
   icon: "history",
   path: "/sessions"
-},
+}
 /**
 {
     name: 'Inventory Management',
@@ -45,26 +49,32 @@ var navigations = [{
 },
    
 /*Therapist views */
+
+/*{
+    label: 'Vistas de terapeuta',
+    type: 'label',
+},
+{ 
+    name: "Administrador de terapeuta",
+    icon: "event",
+    path: "/dashboard"
+},
 {
-  label: 'Vistas de terapeuta',
-  type: 'label'
-}, {
-  name: "Administrador de terapeuta",
-  icon: "event",
-  path: "/dashboard"
-}, {
-  name: "Mis sesiones",
-  icon: "event",
-  path: "/appointments"
-}, {
-  name: "Mis entradas de blog",
-  icon: "text_snippet",
-  path: "/myblogs"
-}, {
-  name: 'Editor',
-  path: '/newblog',
-  icon: 'text_snippet'
-}
+    name: "Mis sesiones",
+    icon: "event",
+    path: "/appointments"
+},
+{ 
+    name: "Mis entradas de blog",
+    icon: "text_snippet",
+    path: "/myblogs"
+},
+{
+    name: 'Editor',
+    path: '/newblog',
+    icon: 'text_snippet',
+},*/
+
 /**{
     name: 'Ecommerce',
     icon: 'shopping_basket',

@@ -5,6 +5,7 @@ export const getAllEvents = (uid) => {
 }
 
 export const addNewEvent = (event) => {
+    console.log('añadiendo nuewvo evento')
     return axios.post('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/s/new', event)
 }
 

@@ -1,20 +1,20 @@
 import { authRoles } from './auth/authRoles'
 
 export const navigations = [
-    {
+    /*{
         label:"Vista de administrador",
         type:'label',
-    },
+    },*/
     /**{
         name: 'Dashboard',
         path: '/dashboard/default',
         icon: 'dashboard',
     }, */
-    {
+    /*{
         name: 'Administrador',
         path: '/analytics',
         icon: 'analytics',
-    },
+    },*/
     // Patient views
     {
         label: 'Vista de paciente',
@@ -43,7 +43,7 @@ export const navigations = [
     },
        
     /*Therapist views */
-    {
+    /*{
         label: 'Vistas de terapeuta',
         type: 'label',
     },
@@ -66,7 +66,7 @@ export const navigations = [
         name: 'Editor',
         path: '/newblog',
         icon: 'text_snippet',
-    },
+    },*/
     /**{
         name: 'Ecommerce',
         icon: 'shopping_basket',

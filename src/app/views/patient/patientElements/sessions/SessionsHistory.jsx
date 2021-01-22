@@ -36,6 +36,11 @@ const SessionsHistory = () => {
             label: 'Terapeuta',
             options: {
                 filter: true,
+                customBodyRenderLite: (dataIndex) => (
+                    <span className="ellipsis">
+                        {orderList[dataIndex].thername}
+                    </span>
+                ),
             },
         },
         {
@@ -45,7 +50,7 @@ const SessionsHistory = () => {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => (
                     <span className="ellipsis">
-                        {orderList[dataIndex].thername}
+                        {orderList[dataIndex].tipo}
                     </span>
                 ),
             },
@@ -101,6 +106,11 @@ const SessionsHistory = () => {
             label: 'Método de pago',
             options: {
                 filter: true,
+                customBodyRenderLite: (dataIndex) => (
+                    <span className="ellipsis">
+                        {orderList[dataIndex].pay_met}
+                    </span>
+                ),
             },
         },
         {
@@ -128,7 +138,7 @@ const SessionsHistory = () => {
                                 </Icon>
                             </IconButton>
                         </Tooltip>
-                        <Link to={`/invoice/${orderList[dataIndex].id}`}>
+                        {/*<Link to={`/invoice/${orderList[dataIndex].id}`}>
                             <Tooltip title="View Order">
                                 <IconButton>
                                     <Icon fontSize="small">
@@ -136,7 +146,7 @@ const SessionsHistory = () => {
                                     </Icon>
                                 </IconButton>
                             </Tooltip>
-                        </Link>
+                        </Link>*/}
                     </div>
                 ),
             },
