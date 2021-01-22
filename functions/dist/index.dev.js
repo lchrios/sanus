@@ -2,24 +2,26 @@
 
 var functions = require("firebase-functions");
 
-var admin = require("firebase-admin");
+var express = require('express');
 
-admin.initializeApp(); // // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+var app = express();
 
-exports.getTherapists = functions.https.onRequest(function (req, res) {
-  admin.firestore().collection("therapists").get().then(function (querySnapshot) {
-    var therapists_data = [];
-    var therapists_refs = [];
-    querySnapshot.forEach(function (doc) {
-      therapists_data.push(doc.data());
-      therapists_refs.push(doc.ref);
-    });
-    return res.json(therapists_data);
-  });
-});
+var _require = require('./routes/patients'),
+    getAllTherapists = _require.getAllTherapists,
+    getAllPatients = _require.getAllPatients,
+    getAllSessionsByPatient = _require.getAllSessionsByPatient,
+    getAllSessionsByTherapist = _require.getAllSessionsByTherapist,
+    getTherapist = _require.getTherapist,
+    getPatient = _require.getPatient,
+    getSession = _require.getSession;
+
+app.use(express.json());
+app.get('/t', getAllTherapists);
+app.get('/t/:tid', getTherapist);
+app.get('/t/:tid/s', getAllSessionsByTherapist);
+app.get('/t/:tid/s/:sid', getSession);
+app.get('/p', getAllPatients);
+app.get('/p/:pid', getPatient);
+app.get('/p/:pid/s', getAllSessionsByPatient);
+app.get('/p/:pid/s/:sid', getSession);
+exports.api = functions.region('us-central1').https.onRequest(app);

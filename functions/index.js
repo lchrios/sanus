@@ -1,28 +1,29 @@
 const functions = require("firebase-functions");
-const admin = require("firebase-admin")
+const express = require('express');
+const app = express();
 
-admin.initializeApp()
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+const { 
+        getAllTherapists, 
+        getAllPatients, 
+        getAllSessionsByPatient, 
+        getAllSessionsByTherapist, 
+        getTherapist, 
+        getPatient, 
+        getSession
+    } = require('./routes/patients');
+
+app.use(express.json())
 
 
-exports.getTherapists = functions.https.onRequest((req, res) => {
-    admin
-        .firestore()
-        .collection("therapists")
-        .get()
-        .then((querySnapshot) => {
-            let therapists_data = []
-            let therapists_refs = []
-            querySnapshot.forEach((doc) => {
-                therapists_data.push(doc.data())
-                therapists_refs.push(doc.ref)
-            })
-            return res.json(therapists_data)
-        })
-})
+app.get('/t', getAllTherapists);
+app.get('/t/:tid', getTherapist);
+app.get('/t/:tid/s', getAllSessionsByTherapist);
+app.get('/t/:tid/s/:sid', getSession);
+
+app.get('/p', getAllPatients);
+app.get('/p/:pid', getPatient)
+app.get('/p/:pid/s', getAllSessionsByPatient);
+app.get('/p/:pid/s/:sid', getSession);
+
+
+exports.api = functions.region('us-central1').https.onRequest(app)
