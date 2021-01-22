@@ -55,7 +55,7 @@ exports.getTherapistRefByPatient = (req, res) => {
 
 exports.getAllSessionsByPatient = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    sess.where('patient_id', '==', req.params.pid)
+    sess.where('patient', '==', req.params.pid)
         .get()
         .then((query) => {
             const data = [];

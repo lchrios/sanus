@@ -17,10 +17,8 @@ exports.getSession = function (req, res) {
 exports.newSession = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   sess.add(req.body).then(function (doc) {
-    sess.doc(doc.id).set({
+    doc.ref.update({
       id: doc.id
-    }, {
-      merge: true
     }); // update patient sessions
 
     var patref = pats.doc(req.body.patient);

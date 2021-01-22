@@ -1,18 +1,33 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Grow, Icon, IconButton, TextField, Tooltip } from '@material-ui/core'
 import { format } from 'date-fns'
 import { Breadcrumb } from 'app/components'
 import MUIDataTable from 'mui-datatables'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import useAuth from 'app/hooks/useAuth'
 
 const SessionsHistory = () => {
+
+    const [orderList, setOrderList] = useState(order)
+    var { user } = useAuth()
+
+
+    useEffect(() => {
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid+'/s').then(res => {
+            console.log(res.data) 
+            setOrderList(res.data)
+        })    
+    }, [user])
+    
+
     const columns = [
         {
             name: '_id',
             label: 'Sesión No.',
             options: {
                 customBodyRenderLite: (dataIndex) => (
-                    <span className="ellipsis">{orderList[dataIndex]._id}</span>
+                    <span className="ellipsis">{orderList[dataIndex].id}</span>
                 ),
             },
         },
@@ -30,7 +45,7 @@ const SessionsHistory = () => {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => (
                     <span className="ellipsis">
-                        {orderList[dataIndex].productName}
+                        {orderList[dataIndex].thername}
                     </span>
                 ),
             },
@@ -42,7 +57,7 @@ const SessionsHistory = () => {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => (
                     <span className="ellipsis">
-                        {format(orderList[dataIndex].date, 'dd MMM, yyyy')}
+                        {orderList[dataIndex].start}
                     </span>
                 ),
             },
@@ -53,7 +68,7 @@ const SessionsHistory = () => {
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => {
-                    let status = orderList[dataIndex].status
+                    let status = orderList[dataIndex].state
 
                     switch (status) {
                         case 'tomada':
@@ -94,7 +109,7 @@ const SessionsHistory = () => {
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => (
-                    <span>${orderList[dataIndex].total.toFixed(2)}</span>
+                    <span>${orderList[dataIndex].cost}</span>
                 ),
             },
         },
@@ -113,7 +128,7 @@ const SessionsHistory = () => {
                                 </Icon>
                             </IconButton>
                         </Tooltip>
-                        <Link to={`/invoice/${orderList[dataIndex]._id}`}>
+                        <Link to={`/invoice/${orderList[dataIndex].id}`}>
                             <Tooltip title="View Order">
                                 <IconButton>
                                     <Icon fontSize="small">
@@ -191,7 +206,7 @@ const SessionsHistory = () => {
     )
 }
 
-const orderList = [
+const order = [
     {
         _id: 'lkfjdfjdsjdslgkfjdskjfds',
         date: new Date(),

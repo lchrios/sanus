@@ -8,7 +8,7 @@ import {
     IconButton,
     Button
 } from '@material-ui/core'
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import history from '../../../../../../history';
 import clsx from 'clsx'
@@ -17,6 +17,8 @@ import FormTest from '../../test/FormTest'
 import TherapistInfoUser from './TherapistInfoUser'
 import PatientCalendar from '../../calendar/PatientCalendar'
 import patientRoutes from 'app/views/patient/PatientRoutes';
+import useAuth from 'app/hooks/useAuth';
+import axios from 'axios';
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
@@ -74,6 +76,8 @@ const UserProfileContent = ({ toggleSidenav }) => {
         history.push("/:pid/sessions");
     }
 
+    var { user } = useAuth() 
+
     return (
         <Fragment>
             <div className={classes.profileContent}>
@@ -119,14 +123,12 @@ const UserProfileContent = ({ toggleSidenav }) => {
                             <h4 className="font-medium text-muted px-4 pt-4 pb-0">
                                 Comenzar terapia
                             </h4>
-                          <PatientTest/>
+                             <PatientTest/>
                         </Card>
-                        {/*<Grid item lg={12} md={12} sm={12} xs={12}>
-                            <div className="py-3"></div>
-                            <Card className="py-4 elevation-z5">
-                                <PatientCalendar />
-                            </Card>
-                        </Grid>*/}
+                        <div className="py-3"></div>
+                        <Card className="py-4 elevation-z5">
+                            <PatientCalendar />
+                        </Card>                             
                     </Grid>
 
                     <Grid item lg={4} md={4} sm={12} xs={12}>

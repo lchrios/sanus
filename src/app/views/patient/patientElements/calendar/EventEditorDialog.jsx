@@ -36,6 +36,11 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
         })
     }, [event])
 
+
+    const randomCost = () => {
+        return Math.floor((Math.random() * 10)) * 100 + Math.floor((Math.random() * 10)) * 10;
+    } 
+
     const handleFormSubmit = () => {
         let { id } = state
 
@@ -48,10 +53,17 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
         } else {
             addNewEvent({
                 therapist: therRef,
+                thername: therapistData.name,
                 patient: user.uid,
+                patname: user.name,
                 start: state.start,
                 end: state.end,
                 note: descripcion,
+                tipo: 'Terapia adulto',
+                state: 'pendiente',
+                pay_met: 'PayPal',
+                cost: randomCost(),
+                id: "",
             }).then(() => {
                 handleClose()
             })
@@ -60,7 +72,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
 
     const handleDeleteEvent = () => {
         if (state.id) {
-            deleteEvent(state).then(() => {
+            deleteEvent(state.id).then(() => {
                 handleClose()
             })
         }

@@ -1,6 +1,6 @@
 "use strict";
 
-var _require = require('../firestore.js'),
+var _require = require('../firestore'),
     db = _require.db;
 
 var pats = db.collection('patients');
@@ -47,7 +47,7 @@ exports.getTherapistRefByPatient = function (req, res) {
 
 exports.getAllSessionsByPatient = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
-  sess.where('patient_id', '==', req.params.pid).get().then(function (query) {
+  sess.where('patient', '==', req.params.pid).get().then(function (query) {
     var data = [];
     query.forEach(function (doc) {
       data.push(doc.data());
