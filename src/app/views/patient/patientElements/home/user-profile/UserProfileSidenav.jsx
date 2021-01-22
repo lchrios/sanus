@@ -143,7 +143,6 @@ const UserProfileSidenav = () => {
 
                 {/**BOTON QUE DEBERÍA DESPLEGAR EL DIALOGO */}    
                 <Button
-                    variant="outlined"
                     color="primary"
                     onClick={handleClickOpen}
                 >
