@@ -22,7 +22,6 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
     const [therRef, setTherRef] = useState()
     const [state, setState] = useState(event)
     const { user } = useAuth()
-    const [therapist, setTherapist] = useState()
     const handleChange = (event) => {
         console.log(event.target.name)
         setState({ 
