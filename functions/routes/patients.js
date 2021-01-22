@@ -48,7 +48,7 @@ exports.getTherapistRefByPatient = (req, res) => {
             ther.doc(ther_id)
                 .get()
                 .then((docter) => {
-                    res.status(200).send(docter.id)
+                    res.status(200).send(docter.id.toString())
                 })
         })
 }

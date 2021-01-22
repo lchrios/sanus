@@ -40,7 +40,7 @@ exports.getTherapistRefByPatient = function (req, res) {
   pats.doc(req.params.pid).get().then(function (doc) {
     var ther_id = doc.data().therapist;
     ther.doc(ther_id).get().then(function (docter) {
-      res.status(200).send(docter.id);
+      res.status(200).send(docter.id.toString());
     });
   });
 };
