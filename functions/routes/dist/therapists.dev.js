@@ -23,7 +23,7 @@ exports.getAllTherapistsRefs = function (req, res) {
   ther.get().then(function (query) {
     var datas = [];
     query.forEach(function (doc) {
-      datas.push(doc.ref);
+      datas.push(doc.id);
     });
     res.status(200).send(datas);
   });
