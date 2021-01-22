@@ -23,9 +23,8 @@ exports.getAllTherapistsRefs = (req, res) => {
         .then((query) => {
             var datas = [];
             query.forEach((doc) => {
-                datas.push(doc.ref);
-            })
-            
+                datas.push(doc.id);
+            })   
             res.status(200).send(datas)
         })
 }
