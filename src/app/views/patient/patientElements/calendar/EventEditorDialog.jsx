@@ -65,6 +65,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                 cost: randomCost(),
                 id: "",
             }).then(() => {
+                window.location.reload()
                 handleClose()
             })
         }
