@@ -19,10 +19,9 @@ import firebaseService from 'app/services/firebase/firebaseService'
 
 const TherapistInfoUser = () => {
     const { user } = useAuth()
-    const [therapist, setTherapist] = useState()
+    const [therapist, setTherapist] = useState(firebaseService.getTherapistByPatient(user.uid))
 
     useEffect(() => {
-        console.log(user.uid)
         setTherapist(firebaseService.getTherapistByPatient(user.uid))
         /*db.collection("patients").doc(user.uid)
             .get()
@@ -38,7 +37,7 @@ const TherapistInfoUser = () => {
                     })
                 }
             })*/
-    }, [user.id])   
+    }, [user.uid])   
     
 
     return (

@@ -15,6 +15,11 @@ class FirebaseService {
     facebookProvider
     twitterProvider
 
+    patients_coll
+    therapists_coll
+    sessions_coll
+    roles_coll
+
     patient_data
     therapist_data
     session_data
@@ -30,7 +35,7 @@ class FirebaseService {
     multiple_patient_ref
     multiple_therapist_ref
     multiple_session_ref
-
+    
     all_patient_data
     all_therapist_data
     all_session_data
@@ -38,8 +43,6 @@ class FirebaseService {
     all_patient_ref
     all_therapist_ref
     all_session_ref
-
-    
 
 
     // // ========= UNCOMMENT FOLLOWING LINES IF YOU WANT TO USE FIREBASE ===========
@@ -49,6 +52,20 @@ class FirebaseService {
         this.firestore = firebase.firestore()
         this.storage = firebase.storage()
 
+        this.patients_coll = this.firestore.collection('patients')
+        this.therapists_coll = this.firestore.collection('therapists')
+        this.sessions_coll = this.firestore.collection('sessions')
+        this.roles_coll = this.firestore.collection('roles')
+
+        
+        this.patient_data = []
+        this.therapist_data = null
+        this.session_data = []
+    
+        this.patient_ref = []
+        this.therapist_ref = null
+        this.session_ref = []
+
         this.multiple_patient_data = []
         this.multiple_session_data = []
         this.multiple_therapist_data = []
@@ -56,7 +73,7 @@ class FirebaseService {
         this.multiple_patient_ref = []
         this.multiple_session_ref = []
         this.multiple_therapist_ref = []
-
+        
 
         this.all_patient_data = []
         this.all_session_data = []
@@ -65,17 +82,30 @@ class FirebaseService {
         this.all_patient_ref = []
         this.all_session_ref = []
         this.all_therapist_ref = []
-
+        
+        
         /*
         const [patientData, setPatientData] = useState()
-        const [therpistData, setTherpistData] = useState()
+        const [therapistData, setTherapistData] = useState()
         const [sessionData, setSessionData] = useState()
 
-        const [allPatientsData, setAllPatientsData] = useState()
-        const [allTherapistsData, setAllTherapistsData] = useState()
+        const [allPatientsData, setAllPatientsData] = useState([])
+        const [allTherapistsData, setAllTherapistsData] = useState([])
         const [allSessionsData, setAllSessionsData] = useState()
         */
 
+        this.state = {
+            therapist: {
+                data: {},
+                dbref: null
+            },
+            patient: {
+                data: {},
+                dbref: null
+            },
+            pat_mult: [],   
+            ther_mult: [],
+        }
     }
 
     
@@ -100,7 +130,7 @@ class FirebaseService {
         
     }
 
-    getTherapistData = (docId) => {
+    /*getTherapistData = (docId) => {
         //   generally it's better to use uid for docId
         this.firestore
             .collection('therapists')
@@ -114,33 +144,32 @@ class FirebaseService {
 
         return this.therapist_data
             
-    }
+    }*/
 
     getTherapistByPatient = (patId) => {
-        this.therapist_data = null
+        this.therapist_data = []
+        this.therapist_ref = []
 
-        this.firestore
-            .collection('patients')
+        this.patients_coll
             .doc(patId)
             .get()
             .then(doc => {
-                let ther = doc.data().therapist
-                if (ther != null) {
-                    ther
-                        .get()
-                        .then(therDoc => {
-                            this.therapist_data = therDoc.data()
-                        })
-                }
+                doc.data().therapist
+                    .get()
+                    .then(docter => {
+                        this.therapist_data.push(docter.data())
+                        this.therapist_ref.push(docter.ref)
+                    })
             })
         return this.therapist_data
+        
     }
 
-    getPatientsByTherapist = (therId) => { 
+    /*getPatientsByTherapist = (therId) => { 
         this.multiple_patient_data = []
 
-        this.firestore
-            .collection('therapists')
+
+        
             .doc(therId)
             .get()
             .then(doc => {
@@ -167,7 +196,7 @@ class FirebaseService {
 
                 return this.multiple_patient_data
             })
-    }
+    }*/
 
 
     getAllTherapists = () => {
@@ -187,6 +216,7 @@ class FirebaseService {
 
         return [this.all_therapist_data, this.all_therapist_ref]
     }
+
 }
 
 const instance = new FirebaseService()
