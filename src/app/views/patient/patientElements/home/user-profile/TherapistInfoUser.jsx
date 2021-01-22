@@ -24,7 +24,7 @@ const TherapistInfoUser = () => {
     useEffect(() => {
         console.log(firebaseService.getTherapistByPatient(user.uid))
         //setTherapist(firebaseService.getTherapistByPatient(user.uid))
-        db.collection("patients").doc(user.uid)
+        firebase.firestore().collection("patients").doc(user.uid)
             .get()
             .then(doc => {
                 const data = doc.data()
