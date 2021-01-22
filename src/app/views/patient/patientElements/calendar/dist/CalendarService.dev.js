@@ -16,6 +16,7 @@ var getAllEvents = function getAllEvents(uid) {
 exports.getAllEvents = getAllEvents;
 
 var addNewEvent = function addNewEvent(event) {
+  console.log('añadiendo nuewvo evento');
   return _axios["default"].post('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/s/new', event);
 };
 

@@ -68,6 +68,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                 window.location.reload()
                 handleClose()
             })
+           
         }
     }
 

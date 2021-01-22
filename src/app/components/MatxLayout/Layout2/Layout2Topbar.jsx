@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import clsx from 'clsx'
 import useSettings from 'app/hooks/useSettings'
 import useAuth from 'app/hooks/useAuth'
+import { NavLogo } from 'app/views/landing/components/Navbar_sc/NavbarElements'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     root: {
@@ -62,28 +63,16 @@ const Layout2Topbar = () => {
         <div className={clsx('relative w-full', classes.root)}>
             <div className="flex justify-between items-center h-full">
                 <div className="flex items-center h-full">
-                    <img
-                        className="h-32"
-                        src="/assets/images/logo.svg"
-                        alt="company-logo"
-                    />
-                    <span
-                        className={clsx(
-                            'font-medium text-24 mx-4',
-                            classes.brandText
-                        )}
-                    >
-                        Matx
-                    </span>
+                    <NavLogo>Iknelia</NavLogo>
                 </div>
                 <div className="mx-auto"></div>
                 <div className="flex items-center">
                     <MatxToolbarMenu offsetTop="64px">
-                        <MatxSearchBox />
-                        <NotificationBar2 />
+                        {/*<MatxSearchBox />
+                        <NotificationBar2 />*/}
 
                         {/* <ShoppingCart /> */}
-
+                        <span className="pl-1"><h3>{user.name}</h3></span>
                         <MatxMenu
                             menuButton={
                                 <Avatar

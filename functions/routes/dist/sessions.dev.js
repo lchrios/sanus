@@ -17,24 +17,26 @@ exports.getSession = function (req, res) {
 exports.newSession = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   sess.add(req.body).then(function (doc) {
-    doc.ref.update({
+    console.log(doc.id);
+    sess.doc(doc.id).update({
       id: doc.id
-    }); // update patient sessions
-
-    var patref = pats.doc(req.body.patient);
-    patref.get().then(function (patdoc) {
-      var sessdata = patdoc.data().sessions;
-      sessdata.push(doc.id);
-      patref.update({
-        sessions: sessdata
-      });
-    });
-    var terref = pats.doc(req.body.therapist);
-    terref.get().then(function (terdoc) {
-      var data = terdoc.data().sessions;
-      data.push(doc.id);
-      patref.update({
-        sessions: data
+    }).then(function () {
+      var patref = pats.doc(req.body.patient);
+      patref.get().then(function (patdoc) {
+        var sessdata = patdoc.data().sessions;
+        sessdata.push(doc.id);
+        patref.update({
+          sessions: sessdata
+        }).then(function () {
+          var terref = ther.doc(req.body.therapist);
+          terref.get().then(function (terdoc) {
+            var data = terdoc.data().sessions;
+            data.push(doc.id);
+            patref.update({
+              sessions: data
+            });
+          });
+        });
       });
     });
   });
