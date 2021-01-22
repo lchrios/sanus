@@ -2,6 +2,11 @@ import React, {useState, useEffect} from 'react'
 import history from '../../../../../../history';
 import { Avatar, Button, Card, Dialog, Grid, Icon, IconButton } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import firebase from 'firebase'
@@ -16,15 +21,86 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const UserProfileSidenav = () => {
+
+
+
 
     const { user } = useAuth()
     const [therapist, setTherapist] = useState()    
 
+    useEffect(() => {
+        //console.log(firebaseService.getTherapistByPatient(user.uid))
+        //setTherapist(firebaseService.getTherapistByPatient(user.uid))
+        firebase.firestore().collection("patients").doc(user.uid)
+            .get()
+            .then(doc => {
+                const data = doc.data()
+                if (data.therapist != null) {
+                    data.therapist
+                    .get()
+                    .then(doc => {
+                        console.log("Carta terapeuta cargada :D")
+                        const ther_data = doc.data()
+                        setTherapist(ther_data)
+                    })
+                }
+            })
+    }, [user.uid])   
     const classes = usestyles()
+    
+    //funciones de control abierto-cerrado
+    const UserProfileSidenav = () => {
+        const [open, setOpen] = React.useState(true)
+    
+    function handleClickOpen() {
+        setOpen(true)
+    }
+    
+    function handleClose() {
+        setOpen(false)
+    }
     
 
     return (
+    <div>
+
+        {/*DIALOGO QUE SE DESPLIEZA EMPIEZA*/ }
+        <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="form-dialog-title"
+            >
+                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        To subscribe to this website, please enter your email
+                        address here. We will send updates occasionally.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Email Address"
+                        type="email"
+                        fullWidth
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={handleClose}
+                    >
+                        Cancel
+                    </Button>
+                    <Button onClick={handleClose} color="primary">
+                        Subscribe
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            {/*DIALOGO QUE SE DESPLIEGA TERMINA*/ }
+
+
         <div className={clsx('flex-column items-center', classes.sidenav)}>
             <Avatar
                 className="h-84 w-84 mb-5"
@@ -59,6 +135,23 @@ const UserProfileSidenav = () => {
                         </Card>
                     
                     </Grid>
+                    </Button>
+
+                {/**BOTON QUE DEBERÍA DESPLEGAR EL DIALOGO */}    
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={handleClickOpen}
+                >
+                    <Grid item >
+                            <Card className="w-104 h-104 flex items-center justify-center">
+                                <div className="text-muted text-center">
+                                    <Icon>content_paste</Icon>
+                                    <br />
+                                    <span className="pt-4">Notas</span>
+                                </div>
+                        </Card>
+                    </Grid>
                 </Button>
                     {shortcutList.map((item, ind) => (
                     <Button onClick={() => history.push("/"+user.uid+item.route)}>
@@ -73,6 +166,7 @@ const UserProfileSidenav = () => {
                         </Grid>
                     </Button>
                     ))}
+                    
                 </Grid>
                 <div className="py-4" />
                 <div className="flex items-center justify-center text-primary">
@@ -87,6 +181,7 @@ const UserProfileSidenav = () => {
                 <div className="py-2"></div>
             </div>
         </div>
+    </div>
     )
 }
 

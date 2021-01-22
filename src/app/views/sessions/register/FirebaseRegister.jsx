@@ -115,6 +115,7 @@ const FirebaseRegister = () => {
                 sessions: [],
                 payment_met: [],
                 location: ["Guadalajara", "Jalisco", "Mexico"],
+                answered: false,
             }
 
             var db = firebase.firestore()

@@ -11,8 +11,7 @@ import history from '../../../../../history'
 import { Link } from 'react-router-dom'
 import firebase from 'firebase'
 import useAuth from 'app/hooks/useAuth'
-import firebaseService from 'app/services/firebase/firebaseService'
-import { truncate } from 'lodash'
+
 
 //const db = firebase.app().firestore()
 
@@ -24,23 +23,20 @@ const BrowseApp = () => {
     const [docRefs, setDocRefs] = useState([])
     const { user } = useAuth()
 
-   
-
-
-    useEffect(() => {
+    /*useEffect(() => {
        /* Axios.get('/api/user/all').then(({ data }) => {
             if (isAlive) 
             console.log(data)
         })*/ 
-        let db = firebaseService.firestore
+        /*let db = firebase.firestore()
         var data = []
         var data_ref = []
 
-        const therapists_data = firebaseService.getAllTherapists()
+        const therapists_data = getAllTherapists()
 
         
-        setUserList(therapists_data[0])
-        setDocRefs(therapists_data[1])
+        setUserList(therapists_data.data)
+        setDocRefs(therapists_data.dbref)
 
 
         /*db.collection("therapists")
@@ -56,8 +52,8 @@ const BrowseApp = () => {
             })*/
             
         
-        return () => setIsAlive(false)
-    }, [isAlive])
+    /*    return () => setIsAlive(false)
+    }, [isAlive]) */
     
     const columns = [
         {

@@ -15,17 +15,15 @@ import firebase from 'firebase'
 import man from 'assets/images/avatars/001-man.svg'
 import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper'
 import useAuth from 'app/hooks/useAuth'
-import firebaseService from 'app/services/firebase/firebaseService'
 
 
 const TherapistInfoUser = () => {
     const { user } = useAuth()
     const [therapist, setTherapist] = useState()    
 
-    useEffect(() => {
-        //console.log(firebaseService.getTherapistByPatient(user.uid))
-        //setTherapist(firebaseService.getTherapistByPatient(user.uid))
-        firebase.firestore().collection("patients").doc(user.uid)
+//   useEffect(() => {
+      //  setTherapist(getTherapistByPatient(user.uid))
+        /*firebase.firestore().collection("patients").doc(user.uid)
             .get()
             .then(doc => {
                 const data = doc.data()
@@ -38,8 +36,8 @@ const TherapistInfoUser = () => {
                         setTherapist(ther_data)
                     })
                 }
-            })
-    }, [user.uid])   
+            })*/
+   // }, [user.uid])   
     
     if ( therapist == null) {
 
