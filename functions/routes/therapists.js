@@ -17,6 +17,19 @@ exports.getAllTherapists = (req, res) => {
         })
 }
 
+exports.newTherapist = (req, res) => {
+    ther.set(req.body.data)
+        .then(doc => {
+            firebase.firestore()
+                .collection('patients')
+                .doc(user.uid)
+                .get()
+                .then(docRole => {
+                    setDbRef(docRole.ref)
+                })              
+        })
+}
+
 exports.getAllTherapistsRefs = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     ther.get()
@@ -40,7 +53,7 @@ exports.getTherapist = (req, res) => {
 
 exports.getAllSessionsByTherapist = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    sess.where('therapist_id', '==', req.params.pid)
+    sess.where('therapist', '==', req.params.pid)
         .get()
         .then((query) => {
             const data = [];

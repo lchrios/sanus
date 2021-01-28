@@ -54,8 +54,12 @@ app.get('/p/:pid/t/ref', getTherapistRefByPatient);
 app.get('/p/:pid/s', getAllSessionsByPatient);
 app.get('/p/:pid/s/:sid', getSession);
 
+app.get('/b', getAllBlogs);
+app.get('/b/:bid', getBlog);
+
 app.post('/s/new', newSession);
-app.post('/s/:sid', updateSession);
+app.put('/s/:sid', updateSession);
+app.get('/s/:sid', getSession);
 app.delete('/s/:sid', deleteSession);
 
 exports.api = functions.region('us-central1').https.onRequest(app)
