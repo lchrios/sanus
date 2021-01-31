@@ -100,6 +100,6 @@ exports.deleteSession = (req, res) => {
         .delete()
         .then(() => {
             console.log('Sesion cancelada con exito!');
-            resturn res.status(204);
+            return res.status(204);
         })        
 }
