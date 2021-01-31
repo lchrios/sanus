@@ -7,7 +7,7 @@ var users = db.collection('users');
 var ther = db.collection('therapists');
 var sess = db.collection('sessions');
 
-exports.getAllPatients = function (req, res) {
+exports.getAllUsers = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   users.get().then(function (query) {
     var data = [];
@@ -18,14 +18,14 @@ exports.getAllPatients = function (req, res) {
   });
 };
 
-exports.getPatient = function (req, res) {
+exports.getUser = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   users.doc(req.params.pid).get().then(function (doc) {
     res.status(200).send(doc.data());
   });
 };
 
-exports.getTherapistByPatient = function (req, res) {
+exports.getTherapistByUser = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   users.doc(req.params.pid).get().then(function (doc) {
     var ther_id = doc.data().therapist;
@@ -35,7 +35,7 @@ exports.getTherapistByPatient = function (req, res) {
   });
 };
 
-exports.getTherapistRefByPatient = function (req, res) {
+exports.getTherapistRefByUser = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   users.doc(req.params.pid).get().then(function (doc) {
     var ther_id = doc.data().therapist;
@@ -45,7 +45,7 @@ exports.getTherapistRefByPatient = function (req, res) {
   });
 };
 
-exports.getAllSessionsByPatient = function (req, res) {
+exports.getAllSessionsByUser = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   sess.where('patient', '==', req.params.pid).get().then(function (query) {
     var data = [];

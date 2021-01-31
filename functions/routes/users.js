@@ -1,11 +1,11 @@
 const { db } = require('../firestore')
-const pats = db.collection('patients');
+const users = db.collection('users');
 const ther = db.collection('therapists');
 const sess = db.collection('sessions');
 
-exports.getAllPatients = (req, res) => {
+exports.getAllUsers = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    pats.get()
+    users.get()
         .then((query) => {
             var data = [];
             query.forEach((doc) => {
@@ -16,18 +16,18 @@ exports.getAllPatients = (req, res) => {
         })
 }
 
-exports.getPatient = (req, res) => {
+exports.getUser = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    pats.doc(req.params.pid)
+    users.doc(req.params.pid)
         .get()
         .then((doc) => {
             res.status(200).send(doc.data())
         })
 }
 
-exports.getTherapistByPatient = (req, res) => {
+exports.getTherapistByUser = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    pats.doc(req.params.pid)
+    users.doc(req.params.pid)
         .get()
         .then((doc) => {
             const ther_id = doc.data().therapist;
@@ -39,9 +39,9 @@ exports.getTherapistByPatient = (req, res) => {
         })
 }
 
-exports.getTherapistRefByPatient = (req, res) => {
+exports.getTherapistRefByUser = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    pats.doc(req.params.pid)
+    users.doc(req.params.pid)
         .get()
         .then((doc) => {
             const ther_id = doc.data().therapist;
@@ -53,7 +53,7 @@ exports.getTherapistRefByPatient = (req, res) => {
         })
 }
 
-exports.getAllSessionsByPatient = (req, res) => {
+exports.getAllSessionsByUser = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     sess.where('patient', '==', req.params.pid)
         .get()

@@ -23,6 +23,7 @@
     "echarts-for-react": "^2.0.16",
     "firebase": "^6.6.1",
     "firebase-admin": "^9.4.2",
+    "firebase-tools": "^9.2.2",
     "formik": "^2.1.5",
     "globalize": "^0.1.1",
     "history": "^4.10.0",
