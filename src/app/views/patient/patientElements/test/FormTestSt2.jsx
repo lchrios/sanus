@@ -11,17 +11,10 @@ import {
     Checkbox,
     Button,
 } from '@material-ui/core'
-import history from '../../../../../history'
-import { countries } from '../../../ecommerce/Country'
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-} from '@material-ui/pickers'
-import DateFnsUtils from '@date-io/date-fns'
 
 const FormTestSt2 = () => {
     
-    const [date, setDate] = useState(new Date())
+   
 
     return (
         <Card className="m-sm-30 p-6">

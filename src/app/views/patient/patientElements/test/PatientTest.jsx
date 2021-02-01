@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {
-    TextField,
     Icon,
     Button,
     StepLabel,
@@ -8,14 +7,13 @@ import {
     Stepper,
     Grid,
 } from '@material-ui/core'
-import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
+import { ValidatorForm } from 'react-material-ui-form-validator'
 import axios from 'axios'
 import history from '../../../../../history'
 import FormTest from './FormTest'
 import FormTestSt2 from './FormTestSt2'
 import FormTestSt3 from './FormTestSt3'
-import SliderTest from './SliderTest';
-import SliderTest2 from './SliderTest2';
+
 import useAuth from 'app/hooks/useAuth'
 
 

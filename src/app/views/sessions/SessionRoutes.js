@@ -2,11 +2,16 @@ import FirebaseLogin from './login/FirebaseLogin'
 import NotFound from './NotFound'
 import ForgotPassword from './ForgotPassword'
 import FirebaseRegister from './register/FirebaseRegister'
+import UserDataForm from './register/getUserData'
 
 const sessionRoutes = [
     {
         path: '/session/signup',
         component: FirebaseRegister,
+    },
+    {
+        path: '/session/dataform',
+        component:UserDataForm,
     },
     {
         path: '/session/signin',

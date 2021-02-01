@@ -14,7 +14,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     root: {
         backgroundColor: palette.primary.main,
         borderColor: palette.divider,
-        // display: "table",
+        display: "table",
         height: 'var(--topbar-height)',
         borderBottom: '1px solid transparent',
         paddingTop: '1rem',

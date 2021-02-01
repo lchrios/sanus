@@ -14,9 +14,12 @@ import UserProfileSidenav from './UserProfileSidenav'
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     headerBG: {
         height: 345,
+        '@media only screen and (max-width: 768px)': {
+            height: 300,
+        },
         '@media only screen and (max-width: 959px)': {
             height: 400,
-        },
+        }
     },
 }))
 
@@ -27,13 +30,17 @@ const PatientProfile = () => {
     const classes = usestyles()
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
+    const openSideNav = () => {
+        setOpen(open)
+    }
+
     const toggleSidenav = () => {
         setOpen(!open)
     }
 
     useEffect(() => {
-        if (isMobile) setOpen(false)
-        else setOpen(true)
+        if (isMobile) setOpen(true)
+        else setOpen(false)
     }, [isMobile])
 
     return (
@@ -52,17 +59,18 @@ const PatientProfile = () => {
                     >
                         <Hidden smUp>
                             <IconButton onClick={toggleSidenav}>
-                                <Icon className="text-white">clear</Icon>
+                                <Icon className="mt-3 text-white justify-end">clear</Icon>
                             </IconButton>
                         </Hidden>
                     </div>
                     <UserProfileSidenav />
                 </MatxSidenav>
-                <MatxSidenavContent open={open}>
-                    <div className={clsx('bg-primary', classes.headerBG)} />
-                    <UserProfileContent toggleSidenav={toggleSidenav} />
-                </MatxSidenavContent>
+                    <MatxSidenavContent open={open}>
+                        <div className={clsx('bg-primary', classes.headerBG)} />
+                        <UserProfileContent toggleSidenav={toggleSidenav} />
+                    </MatxSidenavContent>
             </MatxSidenavContainer>
+            
         </div>
     )
 }

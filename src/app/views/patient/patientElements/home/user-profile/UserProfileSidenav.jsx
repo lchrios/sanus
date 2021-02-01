@@ -23,8 +23,6 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
     
-    //funciones de control abierto-cerrado
-
 const UserProfileSidenav = () => {
 
     const { user } = useAuth()
@@ -49,7 +47,8 @@ const UserProfileSidenav = () => {
             })
     }, [user.uid])   
     const classes = usestyles()
-
+    
+//funciones de control abierto-cerrado
     const [open, setOpen] = useState(false)
     
     function handleClickOpen() {

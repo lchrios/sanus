@@ -43,7 +43,10 @@ import {
           hexToRgb(blackColor) +
           ", 0.24), 0 8px 10px -5px rgba(" +
           hexToRgb(blackColor) +
-          ", 0.2)"
+          ", 0.2)",
+        "@media screen and (max-width: 768px)": {
+          
+       }
       },
       "& a": {
         display: "block"
