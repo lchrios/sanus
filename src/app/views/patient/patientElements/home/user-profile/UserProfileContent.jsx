@@ -1,24 +1,19 @@
 import {
-    Badge,
     Card,
     Divider,
-    Fab,
     Grid,
     Icon,
     IconButton,
     Button
 } from '@material-ui/core'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import history from '../../../../../../history';
-import clsx from 'clsx'
 import PatientTest from '../../test/PatientTest'
-import FormTest from '../../test/FormTest'
 import TherapistInfoUser from './TherapistInfoUser'
 import PatientCalendar from '../../calendar/PatientCalendar'
-import patientRoutes from 'app/views/patient/PatientRoutes';
 import useAuth from 'app/hooks/useAuth';
-import axios from 'axios';
+
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
@@ -31,18 +26,20 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
             display: 'none',
         },
 
-        '@media only screen and (max-width: 959px)': {
+        '@media screen and (max-width: 959px)': {
+            display:'block',
+            position:'absolute',
             marginTop: -390,
             paddingTop: 24,
             paddingRight: 16,
             paddingLeft: 16,
+            '& .menu-button': {
+                display:'flex'
+            }
         },
 
-        '@media only screen and (max-width: 767px)': {
-            marginTop: -410,
-            paddingTop: 16,
-            paddingRight: 16,
-            paddingLeft: 16,
+        '@media screen and (max-width: 499px)': {
+            width:'100%',
             '& .menu-button': {
                 display: 'flex',
             },
@@ -79,7 +76,7 @@ const UserProfileContent = ({ toggleSidenav }) => {
     var { user } = useAuth() 
 
     return (
-        <Fragment>
+        <Fragment className={classes.profileContent}>
             <div className={classes.profileContent}>
                 <div className="flex justify-end menu-button">
                     <IconButton onClick={toggleSidenav}>

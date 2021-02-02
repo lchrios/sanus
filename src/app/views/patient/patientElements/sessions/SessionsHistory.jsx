@@ -164,6 +164,11 @@ const SessionsHistory = () => {
                         options={{
                             filterType: 'textField',
                             responsive: 'standard',
+                            selectableRows: "none",
+                            filter: false,
+                            download: false,
+                            print: false,
+                            viewColumns:false,
                             elevation: 0,
                             rowsPerPageOptions: [10, 20, 40, 80, 100],
                             onRowsDelete: (data) => console.log(data),

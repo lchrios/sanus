@@ -6,9 +6,6 @@ import PatientHistory from './patientElements/PatientHistory'
 import UserPlanCard from "./patientElements/UserPlanCard";
 import SessionsHistory from "./patientElements/sessions/SessionsHistory";
 
-/**Como le puedo añadir una función para que dependiendo de el plan que tenga, muestre el plan que tiene y además cambie el texto del 
- botón y por lo tanto la ruta
- */
 class PatientSessions extends Component {
     state = {};
     render() {

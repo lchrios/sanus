@@ -1,6 +1,6 @@
 import  React  from "react";
 
-const PatHome = React.lazy(() => import('./PatientHome'))
+const PatHome = React.lazy(() => import('./patientElements/home/user-profile/PatientProfile'))
 
 const PatBrowse = React.lazy(() => import("./PatientBrowse"))
 

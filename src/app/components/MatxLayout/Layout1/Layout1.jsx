@@ -21,9 +21,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
             verticalAlign: 'top',
             marginLeft: width,
             transition: 'all 0.3s ease',
-            // [theme.breakpoints.up("sm")]: {
+            [theme.breakpoints.up("sm")]: {
             marginRight: secondarySidebar.open ? 50 : 0,
-            // },
+            },
         }
     },
     topbar: {
