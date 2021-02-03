@@ -85,8 +85,8 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 const FirebaseLogin = () => {
     const [loading, setLoading] = useState(false)
     const [userInfo, setUserInfo] = useState({
-        email: 'jason@ui-lib.com',
-        password: 'dummyPass',
+        email: '',
+        password: '',
         remember: true,
     })
     const [message, setMessage] = useState('')
