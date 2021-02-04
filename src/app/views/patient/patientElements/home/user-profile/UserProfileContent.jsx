@@ -7,7 +7,7 @@ import {
     Button
 } from '@material-ui/core'
 import React, { Fragment } from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import { makeStyles} from '@material-ui/core/styles'
 import history from '../../../../../../history';
 import PatientTest from '../../test/PatientTest'
 import TherapistInfoUser from './TherapistInfoUser'
@@ -18,6 +18,7 @@ import useAuth from 'app/hooks/useAuth';
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
+        zIndex:1,
         marginTop: -345,
         paddingTop: 74,
         paddingRight: 30,
@@ -27,8 +28,8 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
         },
 
         '@media screen and (max-width: 959px)': {
-            display:'block',
-            position:'absolute',
+            // display:'block',
+            //position:'absolute',
             marginTop: -390,
             paddingTop: 24,
             paddingRight: 16,
@@ -39,6 +40,8 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
         },
 
         '@media screen and (max-width: 499px)': {
+            display:'block',
+            position:'absolute',
             width:'100%',
             '& .menu-button': {
                 display: 'flex',
@@ -67,7 +70,6 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 const UserProfileContent = ({ toggleSidenav }) => {
     const classes = usestyles()
-    const theme = useTheme()
 
     const onClick1 = () => {
         history.push("/:pid/sessions");
@@ -76,7 +78,7 @@ const UserProfileContent = ({ toggleSidenav }) => {
     var { user } = useAuth() 
 
     return (
-        <Fragment className={classes.profileContent}>
+        <Fragment >
             <div className={classes.profileContent}>
                 <div className="flex justify-end menu-button">
                     <IconButton onClick={toggleSidenav}>

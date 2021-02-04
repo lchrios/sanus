@@ -17,9 +17,6 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
         '@media only screen and (max-width: 959px)': {
             height: 400,
         },
-        '@media only screen and (max-width: 499px)': {
-            
-        }
     },
 }))
 

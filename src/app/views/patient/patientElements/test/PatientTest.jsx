@@ -13,6 +13,7 @@ import history from '../../../../../history'
 import FormTest from './FormTest'
 import FormTestSt2 from './FormTestSt2'
 import FormTestSt3 from './FormTestSt3'
+import PreTest from './preTest'
 
 import useAuth from 'app/hooks/useAuth'
 
@@ -41,7 +42,7 @@ export default function PatientTest() {
         }
 
         else if (therapist) {
-            window.location = 'https://zoom.us/j/8510547499?pwd=SDdRaktUMnVRenJzTWUyVE9LZ004dz09'
+            window.location = '/'
         }
 
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
@@ -66,16 +67,22 @@ export default function PatientTest() {
 
     const getStepContent = (stepIndex) => {
         switch (stepIndex) {
-            case 0:
+            case 0: 
+            if (activeStep == 0 && therapist == undefined) {
                 return (
-                
+                    <PreTest />
+                )
+            }
+            else if (therapist) {
+                return (
                 <ValidatorForm 
                     onSubmit={handleNext}
                     onError={(errors) => null}
-                    >
+                >
                     <FormTest />
                 </ValidatorForm>
                 )
+            }
                 
             case 1:
                 return <FormTestSt2 />
@@ -122,7 +129,7 @@ export default function PatientTest() {
                             <Button
                                 variant="contained"
                                 color="secondary"
-                                disabled={activeStep === 0}
+                                // disabled={activeStep === 0}
                                 onClick={handleBack}
                             >
                                 Volver
@@ -131,6 +138,7 @@ export default function PatientTest() {
                                 className="ml-4"
                                 variant="contained"
                                 color="primary"
+                                disabled={activeStep === 0}
                                 onClick={handleNext}
                             >
                                 {activeStep === steps.length - 1

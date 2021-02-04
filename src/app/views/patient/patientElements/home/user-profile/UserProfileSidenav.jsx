@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     sidenav: {
+        zIndex:91,
         marginTop: -345,
         paddingTop: 74,
         [theme.breakpoints.down('sm')]: {
@@ -61,7 +62,7 @@ const UserProfileSidenav = () => {
     return (
     <div>
 
-        {/*DIALOGO QUE SE DESPLIEZA EMPIEZA*/ }
+        {/*DIALOGO DE NOTAS EMPIEZA*/ }
         <Dialog
                     onClose={handleClose}
                     aria-labelledby="customized-dialog-title"

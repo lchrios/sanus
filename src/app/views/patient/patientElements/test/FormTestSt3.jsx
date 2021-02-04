@@ -9,25 +9,23 @@ const FormTestSt3 = () => {
     
 
     return (
-        <Card className="m-sm-30 p-6">
+        <Card className="m-sm-30 ">
             <div className="max-w-600 mx-auto">
-                <div className="flex mb-4">
+                
                     <TextField
-                        className="mr-2"
+                        className="mr-1 mb-4"
                         label="¿Qué enfermedades padece o ha padecido?"
                         variant="outlined"
-                        size="small"
                         multiline
                         fullWidth
                     />
                     <TextField
-                        className="ml-2"
+                        className="mr-1 mb-4"
                         label="¿Toma algún medicamento?"
                         variant="outlined"
-                        size="small"
                         fullWidth
                     />
-                </div>
+                
             </div>
         </Card> 
     )

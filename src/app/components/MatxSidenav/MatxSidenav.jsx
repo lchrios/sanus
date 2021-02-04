@@ -9,21 +9,21 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         width: (props) => props.width,
         transition: 'width 250ms ease',
         overflow: 'hidden',
-        zIndex: 91,
+        zIndex: 90,
 
         [theme.breakpoints.down('sm')]: {
             position: 'absolute',
             top: 0,
             left: 0,
-            bottom: 0,
+            
         },
     },
     sidenavOverlay: {
-        position: 'absolute',
+        position: 'fixed',
         width: '100%',
         height: '100%',
         background: 'rgba(0, 0, 0, 0.74)',
-        zIndex: 90,
+        zIndex: 3,
     },
 }))
 
