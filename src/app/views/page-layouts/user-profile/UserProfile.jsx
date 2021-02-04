@@ -58,7 +58,7 @@ const UserProfile = () => {
                     </div>
                     <UserProfileSidenav />
                 </MatxSidenav>
-                <MatxSidenavContent open={open}>
+                <MatxSidenavContent>
                     <div className={clsx('bg-primary', classes.headerBG)} />
                     <UserProfileContent toggleSidenav={toggleSidenav} />
                 </MatxSidenavContent>

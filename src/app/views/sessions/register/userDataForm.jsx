@@ -5,10 +5,10 @@ import {
     Divider,
     MenuItem,
 } from '@material-ui/core'
-const FormTest = () => {
+const UserDataForm = () => {
 
     return (
-        <Card className="m-sm-30 p-6">
+        <Card className="m-sm-30">
             <div className="max-w-600 mx-auto">
                 <h4>Responde este formulario para comenzar</h4>
                 <p>
@@ -64,4 +64,4 @@ const stayDurationList = [
 
 
 
-export default FormTest
+export default UserDataForm

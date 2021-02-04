@@ -5,6 +5,7 @@ import { MatxVerticalNav } from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import useSettings from 'app/hooks/useSettings'
+import { Icon, IconButton } from '@material-ui/core'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     scrollable: {
@@ -53,6 +54,9 @@ const Sidenav = ({ children }) => {
                 className={clsx('relative px-4', classes.scrollable)}
             >
                 {children}
+                <IconButton>
+                    <Icon>clear</Icon>
+                </IconButton>
                 <MatxVerticalNav items={navigations} />
             </Scrollbar>
 

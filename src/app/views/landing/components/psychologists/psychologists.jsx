@@ -6,8 +6,8 @@ import classNames from 'classnames'
 // @material-ui/icons
 // import  from "@material-ui/icons/";
 // core components
-import GridContainer from "../eachComponent/components/Grid/GridContainer";
-import GridItem from "../eachComponent/components/Grid/GridItem";
+import GridContainer from "./elements/GridContainer";
+import GridItem from "./elements/GidItem";
 import Card from "../eachComponent/components/Card/Card";
 import CardHeader from "../eachComponent/components/Card/CardHeader";
 import CardBody from "../eachComponent/components/Card/CardBody";
@@ -20,12 +20,13 @@ import Sandra from "assets/images/psicólogos/Sandra.PNG";
 import Ivonne from 'assets/images/psicólogos/Ivonne.jpg'
 import fake1 from 'assets/images/faces/profile faces/card-profile5-square.jpg'
 
-import teamsStyle from "../eachComponent/components/componentsStyle/componentsStyle/psySectionStyle";
-import teamStyle from "../eachComponent/components/componentsStyle/psyStyle";
+import psyCardsStyle from "./styles/psyCardsStyles.js";
+import psyCardStyle from "./styles/psyCardStyle";
+
 
 const style = {
-  ...teamsStyle,
-  ...teamStyle,
+  ...psyCardsStyle,
+  ...psyCardStyle,
   justifyContentCenter: {
     justifyContent: "center"
   }
@@ -38,13 +39,13 @@ export default function PsySection() {
   return (
   <div className={classNames(classes.main, classes.mainRaised)}>
     <div className={classes.section}>
-      <h2 className={classes.title}> Terapeutas </h2>
+      <h2 className={classes.title}> Conoce a nuestro equipo de profesionales </h2>
       <div className={classes.container}>
           <GridContainer>
-            <GridItem xs={12} sm={6} md={6}>
+            <GridItem xs={12} sm={12} md={6}>
               <Card profile plain className={classes.card3}>
                 <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
+                  <GridItem xs={12} sm={12} md={6}>
                     <CardHeader image plain>
                       <a href="#pablo" onClick={e => e.preventDefault()}>
                         <img src={Violeta} alt="..." />
@@ -58,7 +59,7 @@ export default function PsySection() {
                       />
                     </CardHeader>
                   </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
+                  <GridItem xs={12} sm={12} md={6}>
                     <CardBody plain>
                       <h4 className={classes.cardTitle}>Violeta Détré</h4>
                       
@@ -70,18 +71,15 @@ export default function PsySection() {
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
-                      <Button className="ml-2 x-center" color="twitter" onClick={() => history.push('/session/signin')}>
-                          Comenzar
-                      </Button>
                     </CardFooter>
                   </GridItem>
                 </GridContainer>
               </Card>
             </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
+            <GridItem xs={12} sm={12} md={6}>
               <Card profile plain className={classes.card3}>
                 <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
+                  <GridItem xs={12} sm={12} md={6}>
                     <CardHeader image plain>
                       <a href="#pablo" onClick={e => e.preventDefault()}>
                         <img src={Sandra} alt="..." />
@@ -95,7 +93,7 @@ export default function PsySection() {
                       />
                     </CardHeader>
                   </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
+                  <GridItem xs={12} sm={12} md={6}>
                     <CardBody plain>
                       <h4 className={classes.cardTitle}>Mtra. TFSR Sandra Jaramillo Martínez</h4>
                       
@@ -108,18 +106,15 @@ export default function PsySection() {
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
-                    <Button className="ml-2 x-center" color="twitter" onClick={() => history.push('/session/signin')}>
-                          Comenzar
-                    </Button>
                     </CardFooter>
                   </GridItem>
                 </GridContainer>
               </Card>
             </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
+            <GridItem xs={12} sm={12} md={6}>
               <Card profile plain className={classes.card3}>
                 <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
+                  <GridItem xs={12} sm={12} md={6}>
                     <CardHeader image plain>
                       <a href="#pablo" onClick={e => e.preventDefault()}>
                         <img src={fake1} alt="..." />
@@ -133,7 +128,7 @@ export default function PsySection() {
                       />
                     </CardHeader>
                   </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
+                  <GridItem xs={12} sm={12} md={6}>
                     <CardBody plain>
                       <h4 className={classes.cardTitle}>Maria Ana Magdalena Quiroz Pecina</h4>
                       
@@ -145,18 +140,15 @@ export default function PsySection() {
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
-                    <Button className="ml-2 x-center" color="twitter" onClick={() => history.push('/session/signin')}>
-                          Comenzar
-                    </Button>
                     </CardFooter>
                   </GridItem>
                 </GridContainer>
               </Card>
             </GridItem>
-            <GridItem xs={12} sm={6} md={6}>
+            <GridItem xs={12} sm={12} md={6}>
               <Card profile plain className={classes.card3}>
                 <GridContainer>
-                  <GridItem xs={12} sm={5} md={5}>
+                  <GridItem xs={12} sm={12} md={6}>
                     <CardHeader image plain>
                       <a href="#pablo" onClick={e => e.preventDefault()}>
                         <img src={Ivonne} alt="..." />
@@ -170,7 +162,7 @@ export default function PsySection() {
                       />
                     </CardHeader>
                   </GridItem>
-                  <GridItem xs={12} sm={7} md={7}>
+                  <GridItem xs={12} sm={12} md={6}>
                     <CardBody plain>
                       <h4 className={classes.cardTitle}>Sandra Jaramillo Martínez</h4>
                       
@@ -181,15 +173,14 @@ export default function PsySection() {
                       </p>
                     </CardBody>
                     <CardFooter profile plain>
-                    <Button className="ml-2 x-center" color="twitter" onClick={() => history.push('/session/signin')}>
-                          Comenzar
-                    </Button>
                     </CardFooter>
                   </GridItem>
                 </GridContainer>
               </Card>
             </GridItem>
+            <Button className="x-center mt-10" color="twitter" onClick={() => history.push('/therapists')}>Ver todos los terapeutas</Button>
           </GridContainer>
+          
       </div>
     </div>
   </div>

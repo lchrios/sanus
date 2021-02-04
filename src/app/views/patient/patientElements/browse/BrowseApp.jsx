@@ -1,14 +1,7 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import Axios from 'axios'
+import React, { useState, useEffect} from 'react'
 import MUIDataTable from 'mui-datatables'
-import { Avatar, Grow, Icon, IconButton, TextField, Button } from '@material-ui/core'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
+import { Avatar, Grow, Icon, IconButton, TextField} from '@material-ui/core'
 import history from '../../../../../history'
-import { Link } from 'react-router-dom'
 import firebase from 'firebase'
 import useAuth from 'app/hooks/useAuth'
 import axios from 'axios'
@@ -154,13 +147,13 @@ const BrowseApp = () => {
                         options={{
                             filterType: 'textField',
                             responsive: 'standard',
-                            // selectableRows: "none", // set checkbox for each row
-                            // search: false, // set search option
-                            // filter: false, // set data filter option
-                            // download: false, // set download option
-                            // print: false, // set print option
-                            // pagination: true, //set pagination option
-                            // viewColumns: false, // set column option
+                            selectableRows: "none", // set checkbox for each row
+                            //search: false, // set search option
+                            filter: false, // set data filter option
+                            download: false, // set download option
+                            print: false, // set print option
+                            pagination: true, //set pagination option
+                            viewColumns: false, // set column option
                             elevation: 0,
                             rowsPerPageOptions: [10, 20, 40, 80, 100],
                             customSearchRender: (
@@ -185,7 +178,7 @@ const BrowseApp = () => {
                                                 startAdornment: (
                                                     <Icon
                                                         className="mr-2"
-                                                        fontSize="small"
+                                                        fontSize="large"
                                                     >
                                                         search
                                                     </Icon>

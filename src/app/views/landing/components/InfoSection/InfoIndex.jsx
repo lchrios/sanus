@@ -1,5 +1,6 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 import {Button} from '../buttonElement_sc'
 import history from '../../../../../history'
 import {
@@ -45,57 +46,61 @@ export const InfoSection = ({
   dark2 }) => {
     const classes = useStyles();
     return (
-        <>
           <InfoContainer lightBg = {lightBg } id={id} >
-              <InfoWrapper>
-                  <InfoRow imgStart={imgStart}>
-                    <Column1>
-                        <TextWrapper>
-                          <TopLine >{topLine}</TopLine>
-                          <Heading lightText = {lightText}> {headline} </Heading>
-                          <Subtitle darkText = {darkText}> {description} </Subtitle>
-                          <BtnWrapper>
-                              <Button
-                              smooth={true}
-                              duration={500}
-                              spy={true}
-                              exact="true"
-                              offset={-80}
-                              primary={primary ? 1 : 0}
-                              dark={dark ? 1 : 0 }
-                              dark2={dark2 ? 1 : 0 }
-                              onClick={buttonClick}
-                              classname="elevation-z5"
-                              >
-                                {buttonLabel}
-                                </Button>
-                          </BtnWrapper>
-                        </TextWrapper>
-                    </Column1>
-                    <Column2>
-                    
-                      <Card plain >
-                        <CardHeader plain image>
-                          <a href="/landingblog">
-                            <img src={terapia1} alt="..." />
-                          </a>
-                          <div
-                            className={classes.coloredShadow}
-                            style={{
-                              backgroundImage: "url(" + terapia1 + ")",
-                              opacity: "0"
-                            }}
-                          />
-                        </CardHeader>
-                        <CardBody plain>
-                        </CardBody>
-                      </Card>
-                    
-                    </Column2>
-                  </InfoRow>
-              </InfoWrapper>
-          </InfoContainer>  
-        </>
+
+                <InfoWrapper>
+
+                      <Grid lg={12} md={12} >
+
+                        <InfoRow imgStart={imgStart}>
+                          <Column1>
+                              <TextWrapper>
+                                <TopLine >{topLine}</TopLine>
+                                <Heading lightText = {lightText}> {headline} </Heading>
+                                <Subtitle darkText = {darkText}> {description} </Subtitle>
+                                <BtnWrapper>
+                                    <Button
+                                    smooth={true}
+                                    duration={500}
+                                    spy={true}
+                                    exact="true"
+                                    offset={-80}
+                                    primary={primary ? 1 : 0}
+                                    dark={dark ? 1 : 0 }
+                                    dark2={dark2 ? 1 : 0 }
+                                    onClick={buttonClick}
+                                    classname="elevation-z5"
+                                    >
+                                      {buttonLabel}
+                                      </Button>
+                                </BtnWrapper>
+                              </TextWrapper>
+                          </Column1>
+                          <Column2>
+                          
+                            <Card plain >
+                              <CardHeader plain image >
+                                <a href="/landingblog">
+                                  <img src={terapia1} alt="..." />
+                                </a>
+                                <div
+                                  className={classes.coloredShadow}
+                                  style={{
+                                    backgroundImage: "url(" + terapia1 + ")",
+                                    opacity: "0"
+                                  }}
+                                />
+                              </CardHeader>
+                            </Card>
+                          
+                          </Column2>
+                        </InfoRow>
+
+                      </Grid>
+
+                 </InfoWrapper>
+
+          </InfoContainer>    
     )
 }
 

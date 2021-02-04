@@ -11,9 +11,7 @@ import {
     TableRow,
 } from '@material-ui/core'
 import history from '../../../../../../history'
-import firebase from 'firebase'
 import man from 'assets/images/avatars/001-man.svg'
-import { componentDidMount } from 'react-google-maps/lib/utils/MapChildHelper'
 import useAuth from 'app/hooks/useAuth'
 import axios from 'axios'
 

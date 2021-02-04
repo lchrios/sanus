@@ -17,6 +17,9 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
         '@media only screen and (max-width: 959px)': {
             height: 400,
         },
+        '@media only screen and (max-width: 499px)': {
+            
+        }
     },
 }))
 
@@ -37,7 +40,7 @@ const PatientProfile = () => {
     }, [isMobile])
 
     return (
-        <div className="relative">
+        <div className="relative ">
             <MatxSidenavContainer>
                 <MatxSidenav
                     width="300px"
@@ -58,11 +61,12 @@ const PatientProfile = () => {
                     </div>
                     <UserProfileSidenav />
                 </MatxSidenav>
-                <MatxSidenavContent open={open}>
-                    <div className={clsx('bg-primary', classes.headerBG)} />
-                    <UserProfileContent toggleSidenav={toggleSidenav} />
-                </MatxSidenavContent>
+                    <MatxSidenavContent >
+                        <div className={clsx('bg-primary', classes.headerBG)} />
+                        <UserProfileContent toggleSidenav={toggleSidenav} />
+                    </MatxSidenavContent>
             </MatxSidenavContainer>
+            
         </div>
     )
 }

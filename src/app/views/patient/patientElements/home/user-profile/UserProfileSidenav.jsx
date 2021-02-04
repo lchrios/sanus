@@ -2,10 +2,8 @@ import React, {useState, useEffect} from 'react'
 import history from '../../../../../../history';
 import { Avatar, Button, Card, Dialog, Grid, Icon, IconButton } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
@@ -23,8 +21,6 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
     
-    //funciones de control abierto-cerrado
-
 const UserProfileSidenav = () => {
 
     const { user } = useAuth()
@@ -49,7 +45,8 @@ const UserProfileSidenav = () => {
             })
     }, [user.uid])   
     const classes = usestyles()
-
+    
+//funciones de control abierto-cerrado
     const [open, setOpen] = useState(false)
     
     function handleClickOpen() {
