@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RichTextEditor, Breadcrumb } from "app/components/index";
 import {
     Button,
   Grid,
     Icon,
 } from "@material-ui/core";
-import firebase from 'firebase';
 import { makeStyles } from '@material-ui/core/styles'
 import useAuth from "app/hooks/useAuth";
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import clsx from "clsx";
 import axios from "axios";
 import history from "../../../../history";
+import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -22,84 +22,85 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const BlogEntryForm = () => {
+const EditBlogForm = () => {
     const classes = useStyles()
-    const [state, setState] = useState({
+    const [entry, setEntry] = useState(/*{
       title: "",
-      img : "",
-      imgBlob: "",
-      content: `<h1>Iknelia | Crea tu propio post</h1><p><a href="http://localhost:3000/dashboard/analytics" target="_blank">en Iknelia</a><p>`,
-    });
-
-
-    
+      content: "",
+      id: "",
+      date: null,
+      author: "",
+      likes: [],
+      comments: [],
+      img: ""
+    }*/{});
 
     const { user } = useAuth()
 
+    useEffect(() => {        
+        axios.get("http://localhost:9999/iknelia-3cd8e/us-central1/api/b/" + bid)
+            .then(res => {
+                setEntry(res.data)
+            })
+            .then(() => {
+                console.log(entry)
+            })
+    }, [])
+
+
     var imgPreview = (<div className="image-container">Seleccione una imagen para la vista previa</div>)
 
-    if (state.img) {
-      imgPreview = (<div className="image-container" ><img src={state.img} alt="icon" width="200" /> </div>);
+    if (entry?.img) {
+      imgPreview = (<div className="image-container" ><img src={entry.img} alt="icon" width="200" /> </div>);
     }
+    const search = useLocation().search
+    const bid = new URLSearchParams(search).get("bid")
 
-    const handleSubmitNewBlog = () => {
+  
+    const handleUpdateBlog = () => {
       // TODO: upload and update state.img with new image
       
-      const demoimg = [
-        "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/blogs%2F1.jpg?alt=media&token=514d6471-8353-421c-9b8e-f9d51216eaf4",
-        "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/blogs%2F2.jpg?alt=media&token=b62b18d7-c8f4-434e-9b47-3dd5b87769e7",
-        "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/blogs%2F3.jpg?alt=media&token=763f7190-0993-4f72-a20f-cbc0a1130cbf",
-      ]
-      var blogdata = {
-        title: state.title, 
-        content: state.content, 
-        date: firebase.firestore.Timestamp.fromDate(new Date()), 
-        author: user.uid, 
-        likes: [], 
-        comments: [], 
-        img: demoimg[Math.floor(Math.random() * 3)],
-      }
 
       // TODO: Cambiar direccion a la de la api
-      axios.post("http://localhost:9999/iknelia-3cd8e/us-central1/api/b/new", {blogdata: {...blogdata}})
-        .then(() => {
-          history.push("/" + user.uid + "/myblogs");
-        });
+      console.log(entry)
+      axios.put("http://localhost:9999/iknelia-3cd8e/us-central1/api/b/" + bid, {blogdata: {...entry}})
+      history.push("/" + user.uid + "/myblogs");
 
     }
 
     const handleImgChange = event => {
-      setState({
-        ...state,
+      setEntry({
+        ...entry,
         imgBlob: event.target.files[0],
       })
 
       let reader = new FileReader();
 
       reader.onloadend = () => {
-        setState({
-          ...state,
+          console.log(entry)
+        setEntry({
+          ...entry,
           img: reader.result,
         });
       }
       reader.readAsDataURL(event.target.files[0])
-      imgPreview = (<div className="image-container" ><img src={state.img} alt="icon" width="200" /> </div>);
+      imgPreview = (<div className="image-container" ><img src={entry.img} alt="icon" width="200" /> </div>);
     }
 
     const handleTitleChange = event => {
-      setState({
-        ...state,
-        title: event.target.value,
-      })
+        setEntry({
+            ...entry,
+            title: event.target.value,
+        })
     }
 
     const handleContentChange = contentHtml => {
-      setState({
-        ...state,
+      setEntry({
+        ...entry,
         content: contentHtml,
       });
     };
-
+    
     return (
       <div className="m-sm-30">
         <div  className="mb-sm-30">
@@ -110,9 +111,9 @@ const BlogEntryForm = () => {
             ]}
           />
         </div>
-        <ValidatorForm>
-          <Grid flex justify="flex-end"  container spacing={1}>
-            <Grid  item lg={12} md={12} sm={12} xs={12}>
+        <ValidatorForm onSubmit={handleUpdateBlog}>
+          <Grid container spacing={1}>
+            <Grid item lg={12} md={12} sm={12} xs={12}>
 
               {/* 
                 // TODO: Hacer más grande el texto del título
@@ -121,13 +122,14 @@ const BlogEntryForm = () => {
                 className="mb-4 w-full"
                 label="Titulo de la nueva entrada"
                 onChange={handleTitleChange}
+                value={entry?.title}
                 type="text"
                 name="title"
               />
             </Grid>
             <Grid item lg={12} md={12} sm={12} xs={12}>
               <RichTextEditor
-                content={state.content}
+                content={"" || entry?.content}
                 handleContentChange={handleContentChange}
                 placeholder="Escribe aquí..."
               />
@@ -162,10 +164,6 @@ const BlogEntryForm = () => {
                 color="primary" 
                 variant="contained" 
                 type="submit"
-                onClick={() => {
-                  // TODO: subir a bd
-                  handleSubmitNewBlog()
-                }}
                 >
                 <Icon>send</Icon>
                 <span className="pl-8 capitalize">Publicar</span>
@@ -177,4 +175,4 @@ const BlogEntryForm = () => {
     )
 }
 
-export default BlogEntryForm;
+export default EditBlogForm;

@@ -9,11 +9,7 @@ import {
     Button,
     Fab,
 } from '@material-ui/core'
-import { useSelector, useDispatch } from 'react-redux'
-import {
-    deleteProductFromCart,
-    updateCartAmount,
-} from 'app/redux/actions/EcommerceActions'
+import history from "../../../history"
 import { useHistory, Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
@@ -40,6 +36,7 @@ const titles_data = [
 const TherapistBlogs = () => {
     const [blogs_data, setBlogs] = useState([])
     const [titles, setTitles] = useState(titles_data)
+    const [image, setImage] = useState()
 
     const { user } = useAuth()
     const history = useHistory()
@@ -47,7 +44,7 @@ const TherapistBlogs = () => {
 
     useEffect(() => {
         axios
-            .get("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/b")
+            .get("http://localhost:9999/iknelia-3cd8e/us-central1/api/t/" + user.uid + "/b")
             .then(res => setBlogs(res.data))
             .then(() => console.log("Blogs descargados"))
     }, [])
@@ -132,7 +129,9 @@ const TherapistBlogs = () => {
                                 <div className="px-4">
                                     <img
                                         className="border-radius-4 w-full"
-                                        src={blog_entry.imgUrl}
+                                        height="200"
+                                        width="200"
+                                        src={blog_entry.img}
                                         alt={blog_entry.title}
                                     />
                                 </div>
@@ -141,7 +140,7 @@ const TherapistBlogs = () => {
                         <Grid item lg={4} md={4} sm={4} xs={4}>
                             <h6 className="m-0">{blog_entry.title}</h6>
                             <p className="mt-2 m-0 text-muted">
-                                {blog_entry.description}
+                                {blog_entry.content}
                             </p>
                         </Grid>
                         <Grid
@@ -176,9 +175,25 @@ const TherapistBlogs = () => {
                                 size="small"
                                 color="secondary"
                                 aria-label="Edit"
+                                onClick={() => {
+                                    console.log("/" + user.uid + "/editblog?bid=" + blog_entry.id)
+                                    history.push("/" + user.uid + "/editblog?bid=" + blog_entry.id)
+                                }}
                                 className={classes.button}
                             >
                                 <Icon>edit_icon</Icon>
+                            </Fab>
+                            <Fab
+                                size="small"
+                                color="error"
+                                aria-label="Delete"
+                                onClick={() => {
+                                    axios.delete("http://localhost:9999/iknelia-3cd8e/us-central1/api/b/"+blog_entry.id)
+                                    window.location.reload()
+                                }}
+                                className={classes.button}
+                            >
+                                <Icon>delete</Icon>
                             </Fab>
                         </Grid>
                     </Grid>

@@ -1,5 +1,7 @@
 import  React  from "react";
 
+const EditBlogForm = React.lazy(() => import("./components/EditBlogForm"))
+
 const TherapistHome = React.lazy(() => import('./TherapistHome'))
 
 const TherapistBlogs = React.lazy(() => import('./TherapistBlogs'))
@@ -28,9 +30,13 @@ const therapistRoutes = [
       component: BlogEntryForm
   },
   {
-      path: "/tid:/patients",
+      path: "/:tid/patients",
       component: PatientsList
-  }
+  },
+  {
+      path: "/:tid/editblog/",
+      component: EditBlogForm
+  },
 ];
 
 export default therapistRoutes;

@@ -1,4 +1,4 @@
-const { db } = require('../firestore');
+const { db, firebase } = require('../firestore');
 const ther = db.collection('therapists');
 const blogs = db.collection('blogs');
 
@@ -22,7 +22,7 @@ exports.getAllBlogs = (req, res) => {
 exports.getAllBlogsByTherapist = (req, res) => {
     blogs
         .where('author', '==', req.params.tid)
-        .orderBy('date', 'desc')
+        //.orderBy('date', 'desc')
         .get()
         .then(query => {
             var data = [];
@@ -52,17 +52,38 @@ exports.getBlog = (req, res) => {
 }
 
 exports.newBlog = (req, res) => {
+
     blogs
         .add(req.body.blogdata)
         .then(blogdoc => {
+
+            /*
+                // subir imagen
+            const toUpload = req.body.blogdata.img;
+            const metadata = { contentType: file.type };
+
+            var imgurl = "";
+            firebase.storage().ref("/blogs/" + blogdoc.id)
+                .put(toUpload, metadata)
+                .then(snapshot => {
+                    imgurl = snapshot.ref.getDownloadURL()                    
+                })
+                .then(url => {
+                    console.log(url);
+                }) 
+                */      
+
             // actualizar campo de id
             blogdoc
-                .update({id: blogdoc.id})
+                .update({
+                    id: blogdoc.id
+                })
                 .then(() => {
-                    console.log('Campo ID: actualizado!')
+                    console.log('Campo ID: actualizado!\nCampo IMG: actualizado!')
                 })
                 .catch(error => {
                     console.log('Error actualizando blog document', error);
+                    return res.status(404).send(error);
                 })
             
             // actualiar campos de terapeuta
@@ -70,6 +91,7 @@ exports.newBlog = (req, res) => {
             author
                 .get()
                 .then(doc => {
+                    console.log(doc.data());
                     upblogs = doc.data().blogs;
                     upblogs.push(blogdoc.id);
                     author.update({blogs: upblogs}).then(() => {
@@ -108,9 +130,12 @@ exports.deleteBlog = (req, res) => {
 exports.updateBlog = (req, res) => {
     blogs
         .doc(req.params.bid)
-        .set(req.body.blogdata)
+        .update(req.body.blogdata)
         .then(() => {
-            console.log('Acutalización del blog docucment exitosa!');
+            console.log('Acutalización del blog document exitosa!');
             return res.status(204);
+        })
+        .catch(error => {
+            return res.status(404).send('Error al actualizar el blog document', error);
         })
 }

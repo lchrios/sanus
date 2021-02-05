@@ -15,6 +15,12 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+var EditBlogForm = _react["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require("./components/EditBlogForm"));
+  });
+});
+
 var TherapistHome = _react["default"].lazy(function () {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require('./TherapistHome'));
@@ -39,6 +45,12 @@ var TherapistCalendar = _react["default"].lazy(function () {
   });
 });
 
+var PatientsList = _react["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./TherapistPatients'));
+  });
+});
+
 var therapistRoutes = [{
   path: "/:tid/dashboard",
   component: TherapistHome
@@ -51,6 +63,12 @@ var therapistRoutes = [{
 }, {
   path: "/:tid/newblog",
   component: BlogEntryForm
+}, {
+  path: "/:tid/patients",
+  component: PatientsList
+}, {
+  path: "/:tid/editblog/",
+  component: EditBlogForm
 }];
 var _default = therapistRoutes;
 exports["default"] = _default;

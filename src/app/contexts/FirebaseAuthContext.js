@@ -79,19 +79,6 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                firebase.firestore()
-                    .collection('roles')
-                    .doc(user.uid)
-                    .get()
-                    .then(doc => {
-                        firebase.firestore()
-                            .collection('patients')
-                            .doc(user.uid)
-                            .get()
-                            .then(docRole => {
-                                setDbRef(docRole.ref)
-                            })              
-                    })
                 dispatch({
                     type: 'FB_AUTH_STATE_CHANGED',
                     payload: {
@@ -103,7 +90,6 @@ export const AuthProvider = ({ children }) => {
                             email: user.email,
                             age: 18,
                             phone: user.phoneNumber,
-                            db_ref: dbRef
                         },
                     },
                 })
