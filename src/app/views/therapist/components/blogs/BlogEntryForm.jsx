@@ -103,12 +103,13 @@ const BlogEntryForm = () => {
     return (
       <div className="m-sm-30">
         <div  className="mb-sm-30">
-          <Breadcrumb
-            routeSegments={[
-              { name: "Blogs", path: "/" + user.uid + "/myblogs" },
-              { name: "Nueva entrada" }
-            ]}
-          />
+          <Button 
+          variant="contained" 
+          color="secondary"
+          onClick={() => history.push('/' + user.uid + '/dashboard')}
+          >
+              Volver al escritorio
+          </Button>
         </div>
         <ValidatorForm>
           <Grid flex justify="flex-end"  container spacing={1}>
