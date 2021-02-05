@@ -2,9 +2,10 @@ import React, { Component, Fragment } from "react";
 import { Breadcrumb, SimpleCard } from "app/components/index";
 import { Card, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
-import SessionsHistory from "./patientElements/sessions/SessionsHistory";
+import SessionsHistory from './components/SessionsComponent'
 
-class PatientSessions extends Component {
+
+class TherapistHistory extends Component {
     state = {};
     render() {
         let { theme } = this.props; 
@@ -30,4 +31,4 @@ class PatientSessions extends Component {
     }
 }
 
-export default withStyles({}, { withTheme: true })(PatientSessions);
+export default withStyles({}, { withTheme: true })(TherapistHistory);

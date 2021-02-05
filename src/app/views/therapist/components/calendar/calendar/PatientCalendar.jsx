@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Button } from '@material-ui/core'
 import { Calendar, Views, globalizeLocalizer } from 'react-big-calendar'
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
-import CalendarHeader from './CalendarHeader'
+import CalendarHeader from './PatientCalendarHeader'
 import * as ReactDOM from 'react-dom'
 import { Breadcrumb } from 'app/components'
 import { getAllEvents, updateEvent } from './CalendarService'
@@ -12,6 +12,8 @@ import EventEditorDialog from './EventEditorDialog'
 import globalize from 'globalize'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
+import history from '../../../../../history'
+import useAuth from 'app/hooks/useAuth'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     calendar: {
@@ -38,13 +40,18 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
+Date.prototype.addHours= function(h){
+    this.setHours(this.getHours()+h);
+    return this;
+}
+
 const localizer = globalizeLocalizer(globalize)
 
 const DragAndDropCalendar = withDragAndDrop(Calendar)
 
 let viewList = Object.keys(Views).map((key) => Views[key])
 
-const MatxCalendar = () => {
+const PatientCalendar = () => {
     const [events, setEvents] = useState([])
     const [newEvent, setNewEvent] = useState(null)
     const [shouldShowEventDialog, setShouldShowEventDialog] = useState(false)
@@ -52,15 +59,19 @@ const MatxCalendar = () => {
     const headerComponentRef = useRef(null)
     const classes = useStyles()
 
+    const { user } = useAuth()
+
     const updateCalendar = () => {
-        getAllEvents()
+        getAllEvents(user.uid)
             .then((res) => res.data)
             .then((events) => {
                 events = events?.map((e) => ({
                     ...e,
+                    title: e.note,
                     start: new Date(e.start),
                     end: new Date(e.end),
                 }))
+                console.log(events)
                 setEvents(events)
             })
     }
@@ -82,9 +93,10 @@ const MatxCalendar = () => {
 
     const openNewEventDialog = ({ action, ...event }) => {
         if (action === 'doubleClick') {
-            setNewEvent(event)
-            setShouldShowEventDialog(true)
+        setNewEvent(event)
+        setShouldShowEventDialog(true)
         }
+        
     }
 
     const openExistingEventDialog = (event) => {
@@ -98,26 +110,22 @@ const MatxCalendar = () => {
 
     return (
         <div className="m-sm-30">
-            <div className="mb-sm-30">
-                <Breadcrumb routeSegments={[{ name: 'Calendar' }]} />
-            </div>
-
             <Button
                 className="mb-4"
                 variant="contained"
                 color="secondary"
-                onClick={() =>
+                onClick={() => {
                     openNewEventDialog({
                         action: 'doubleClick',
                         start: new Date(),
-                        end: new Date(),
+                        end: new Date().addHours(1),
                     })
-                }
+                }}
             >
-                Add Event
+                Agenda una sesión
             </Button>
             <div
-                className={clsx('h-full-screen flex-columnw ', classes.calendar)}
+                className={clsx('h-full-screen flex-column', classes.calendar)}
             >
                 <div ref={headerComponentRef} />
                 <DragAndDropCalendar
@@ -150,9 +158,11 @@ const MatxCalendar = () => {
                     onSelectEvent={(event) => {
                         openExistingEventDialog(event)
                     }}
-                    onSelectSlot={(slotDetails) =>
+                    onSelectSlot={(slotDetails) => {
+                        slotDetails.end.addHours(1)
+                        console.log(slotDetails)
                         openNewEventDialog(slotDetails)
-                    }
+                    }}
                 />
             </div>
             {shouldShowEventDialog && (
@@ -166,4 +176,4 @@ const MatxCalendar = () => {
     )
 }
 
-export default MatxCalendar
+export default PatientCalendar
