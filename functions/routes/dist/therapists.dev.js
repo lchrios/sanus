@@ -18,6 +18,14 @@ exports.getAllTherapists = function (req, res) {
   });
 };
 
+exports.newTherapist = function (req, res) {
+  ther.set(req.body.data).then(function (doc) {
+    firebase.firestore().collection('patients').doc(user.uid).get().then(function (docRole) {
+      setDbRef(docRole.ref);
+    });
+  });
+};
+
 exports.getAllTherapistsRefs = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   ther.get().then(function (query) {
@@ -38,7 +46,7 @@ exports.getTherapist = function (req, res) {
 
 exports.getAllSessionsByTherapist = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
-  sess.where('therapist_id', '==', req.params.pid).get().then(function (query) {
+  sess.where('therapist', '==', req.params.pid).get().then(function (query) {
     var data = [];
     var refs = [];
     query.forEach(function (doc) {
