@@ -55,6 +55,16 @@ exports.newBlog = (req, res) => {
     blogs
         .add(req.body.blogdata)
         .then(blogdoc => {
+            // actualizar campo de id
+            blogdoc
+                .update({id: blogdoc.id})
+                .then(() => {
+                    console.log('Campo ID: actualizado!')
+                })
+                .catch(error => {
+                    console.log('Error actualizando blog document', error);
+                })
+            
             // actualiar campos de terapeuta
             author = ther.doc(req.body.blogdata.author);
             author
