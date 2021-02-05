@@ -30,7 +30,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
             paddingLeft: 16,
         },
 
-        '@media only screen and (max-width: 767px)': {
+        '@media only screen and (max-width: 768px)': {
             marginTop: -410,
             paddingTop: 16,
             paddingRight: 16,

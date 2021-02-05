@@ -77,7 +77,7 @@ const FirebaseRegister = () => {
                 name: user.name || user.email,
                 age: 18,
                 phone: "3314895548",
-                img: '/src/assets/images/faces/2.jpg',
+                img: '',
                 therapist: null,
                 sessions: [],
                 payment_met: [],
@@ -236,6 +236,7 @@ const FirebaseRegister = () => {
                                 )}
                                 <div className="flex items-center">
                                     <div className="relative">
+                                    <Link to='/session/dataform'>
                                         <Button
                                             variant="contained"
                                             color="primary"
@@ -252,6 +253,7 @@ const FirebaseRegister = () => {
                                                 }
                                             />
                                         )}
+                                    </Link>
                                     </div>
                                     <span className="mx-2 ml-5">o</span>
                                     <Link to="/session/signin">

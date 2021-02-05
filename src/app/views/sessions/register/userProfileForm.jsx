@@ -5,7 +5,7 @@ import {
     Divider,
     MenuItem,
 } from '@material-ui/core'
-const FormTest = () => {
+const UserProfileForm = () => {
 
     return (
         <Card className="m-sm-30 p-6">
@@ -64,4 +64,4 @@ const stayDurationList = [
 
 
 
-export default FormTest
+export default UserProfileForm

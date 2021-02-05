@@ -36,7 +36,10 @@ import {
       fontSize: ".875rem",
       // some jss/css to make the cards look a bit better on Internet Explorer
       "@media all and (-ms-high-contrast: none), (-ms-high-contrast: active)": {
-        display: "inline-block !important"
+        display: "inline-block !important",
+      },
+      "@media screen and (max-width: 768px)": {
+        
       }
     },
     cardPlain: {

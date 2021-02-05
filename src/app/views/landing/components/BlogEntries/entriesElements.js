@@ -7,14 +7,18 @@ export const EntriesContainer = styled.div`
     background:white;
     justify-content:center;
     align-items:center;
+    margin-left:auto;
+    margin-right:auto;
 
     @media screen and (max-width:768px) {
-        height:1200px;
+        display:inherit;
+        height:2000px;
 
     }
 
     @media screen and (max-width: 480px) {
-        height: 1400px;
+        height: 2000px;
+        display:inherit;
 
     }
     
@@ -23,17 +27,24 @@ export const EntriesContainer = styled.div`
 
 export const EntriesWrapper = styled.div`
  max-width: 1000px;
- margin: 0 auto;
+ margin:auto;
  display:flex;
  align-items:center;
  padding:0 50px;
 
+ @media screen and (max-width: 768px ) {
+    margin-left:auto;
+    margin-right:auto;
+}
 
- @media screen and (max-width: 768px) {
-     grid-template-columns:1fr 1fr;
- }
+@media screen and (max-width: 960px ) {
+    margin-left:auto;
+    margin-right:auto;
+
+}
+
  @media screen and (max-width: 480px) {
-     grid-template-columns:1fr;
+     /* grid-template-columns:1fr; */
      padding:0 20px;
 
  }
@@ -70,8 +81,11 @@ export const EntriesIcon = styled.img`
 
 `
 
+
 export const EntriesH1 = styled.h1`
  font-size: 2.5rem;
+ margin-left:30px;
+ margin-right:30px;
  color: black;
  margin-top: 40px;
 

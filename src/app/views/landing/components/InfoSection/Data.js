@@ -21,7 +21,7 @@ export const homeObjOne = {
     buttonLabel: 'Conoce más',
     buttonClick: clickObjOne,
     imgStart: false,
-    img: imgOne,
+    // img: imgOne,
     alt: 'healthy brain',
     dark:true,
     primary: true,
