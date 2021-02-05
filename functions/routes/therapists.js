@@ -85,7 +85,9 @@ exports.getTherapist = (req, res) => {
 
 exports.getAllSessionsByTherapist = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    sess.where('therapist', '==', req.params.pid)
+
+    // * function exclusiva de terapeuta
+    sess.where('therapist', '==', req.params.tid)
         .get()
         .then((query) => {
             const data = [];
