@@ -17,6 +17,9 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import NextSessions from './NextSessions'
 import NextSessionsEmpty from './NextSessionsEmpty'
+import { useEffect } from 'react'
+import axios from 'axios'
+import useAuth from 'app/hooks/useAuth'
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
         marginTop: -345,
@@ -70,12 +73,30 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
 const TherapistHomeContent = ({ toggleSidenav }) => {
+    const { user} = useAuth()
+    const [sessions, setSessions] = useState()
+    const [patients, setPatients] = useState()
+
+    useEffect(() => {
+        axios.get('http://localhost:9999/iknelia-3cd8e/us-central1/api/t/' + user.uid + '/u') 
+        .then(res => {
+            setPatients(res.data)
+        }) 
+    }, [])
+    
+    useEffect(() => {
+        axios.get('http://localhost:9999/iknelia-3cd8e/us-central1/api/api/t/' + user.uid + '/s') 
+        .then(res => {
+            setSessions(res.data)
+        })
+    }, [])
+
+
+     
     const classes = usestyles()
     const theme = useTheme()
-    const [patientList, setPatientList] = useState()
-    console.log(patientList)
 
-    if (patientList?.length) {
+    if (patients?.length>0) {
         return (
             <Fragment>
                 <div className={classes.profileContent}>
@@ -136,35 +157,35 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                     <Icon>group</Icon> Pacientes
                                     </h4>
                                     <div style={{maxHeight: 400, overflow: 'auto'}}>
-                                        {patientList.map((patient, index) => {
+                                        {patients.map((patient, index) => {
                                             return patient.isNew ?
                                             <div className="flex items-center mb-4"  style={{marginTop: '15px'}}>
-                                                <Badge badgeContent="Nuevo" color={patient.color}>
-                                                    <Fab className={patient.bg}>
-                                                        <h4 className={patient.min}>
-                                                            {patient.initials}
+                                                <Badge badgeContent="Nuevo" color='info'>
+                                                    <Fab className='primary'>
+                                                        <h4 className='text-error m-0 font-normal'>
+                                                            {patients?.name.slice(0,2)}
                                                         </h4>
                                                     </Fab>
                                                 </Badge>
                                                 <div className="ml-4">
                                                     <h5 className="m-0 mb-1 font-medium">
-                                                        {patient.name}
+                                                        {patients.name}
                                                     </h5>
-                                                    <p className="m-0 text-muted">{patient.place}</p>
+                                                    <p className="m-0 text-muted">{patient.location[2]}</p>
                                                 </div>
                                             </div>
                                             :
                                             <div className="flex items-center mb-4">
-                                                <Fab className={patient.bg}>
-                                                    <h4 className={patient.min}>
-                                                        {patient.initials}
+                                                <Fab className='primary'>
+                                                    <h4 className='text-error m-0 font-normal'>
+                                                    {patients?.name.slice(0,2)}
                                                     </h4>
                                                 </Fab>
                                                 <div className="ml-4">
                                                     <h5 className="m-0 mb-1 font-medium">
-                                                        {patient.name}
+                                                    {patients?.name}
                                                     </h5>
-                                                    <p className="m-0 text-muted">{patient.place}</p>
+                                                    <p className="m-0 text-muted">{patients.place[2]}</p>
                                                 </div>
                                             </div>
                                         })}

@@ -22,6 +22,26 @@ exports.getAllTherapists = (req, res) => {
         })
 }
 
+exports.getPatientsbyTherapists = (req,res) => {
+    users
+        .where("therapist", "==", req.params.tid)
+        .get()
+        .then(query => {
+            var data = [];
+            console.log('SIMON SIMON');
+
+            query.forEach(doc => {
+                data.push(doc.data());
+            })
+
+            return res.status(200).send(data)
+        })
+        .catch(error => {
+            console.log('No fue posible obtener la información de usuarios asignados')
+            return res.status(404).send(error)
+        })
+}
+
 exports.newTherapist = (req, res) => {
     ther.set(req.body.data)
         .then(doc => {

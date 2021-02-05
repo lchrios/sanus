@@ -24,6 +24,7 @@ const {
     getAllSessionsByTherapist,
     getTherapist,
     getAllTherapistsRefs,
+    getPatientsbyTherapists
 } = require('./routes/therapists');
 
 const {
@@ -67,6 +68,7 @@ app.get('/t/:tid', getTherapist);
 app.get('/t/:tid/s', getAllSessionsByTherapist);
 app.get('/t/:tid/s/:sid', getSession);
 app.get('/t/:tid/b', getAllBlogsByTherapist);
+app.get('/t/:tid/u', getPatientsbyTherapists)
 
 // rutas de usuario
 app.get('/u', getAllUsers);
