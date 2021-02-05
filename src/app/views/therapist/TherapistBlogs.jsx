@@ -51,6 +51,14 @@ const TherapistBlogs = () => {
     return (
         <Card elevation={3} className={clsx('m-sm-30', classes.cart)}>
             <div className="py-4 px-4">
+                <Button 
+                    variant="contained" 
+                    color="secondary" 
+                    className="mb-4 x-center"
+                    onClick={() => history.push('/' + user.uid + '/dashboard')}
+                    >
+                        Volver al escritorio
+                    </Button>
                 <div className="flex items-center mb-4 px-4">
                         <TextField
                             variant="outlined"
