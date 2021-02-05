@@ -3,7 +3,7 @@ const ther = db.collection('therapists');
 const blogs = db.collection('blogs');
 
 exports.getAllBlogs = (req, res) => {
-    ther
+    blogs
         .orderBy('date', 'desc')
         .get()
         .then(query => {

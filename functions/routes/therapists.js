@@ -1,7 +1,8 @@
 const { db } = require('../firestore')
-const pats = db.collection('patients');
+const users = db.collection('users');
 const ther = db.collection('therapists');
 const sess = db.collection('sessions');
+const blogs = db.collection('blogs');
 
 // Get therapist info
 exports.getAllTherapists = (req, res) => {
