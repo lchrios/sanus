@@ -18,7 +18,7 @@ exports.getAllUsers = (req, res) => {
 
 exports.getUser = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    users.doc(req.params.pid)
+    users.doc(req.params.uid)
         .get()
         .then((doc) => {
             res.status(200).send(doc.data())
@@ -27,7 +27,7 @@ exports.getUser = (req, res) => {
 
 exports.getTherapistByUser = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    users.doc(req.params.pid)
+    users.doc(req.params.uid)
         .get()
         .then((doc) => {
             const ther_id = doc.data().therapist;
@@ -41,7 +41,7 @@ exports.getTherapistByUser = (req, res) => {
 
 exports.getTherapistRefByUser = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    users.doc(req.params.pid)
+    users.doc(req.params.uid)
         .get()
         .then((doc) => {
             const ther_id = doc.data().therapist;
@@ -55,7 +55,7 @@ exports.getTherapistRefByUser = (req, res) => {
 
 exports.getAllSessionsByUser = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    sess.where('patient', '==', req.params.pid)
+    sess.where('patient', '==', req.params.uid)
         .get()
         .then((query) => {
             const data = [];

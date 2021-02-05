@@ -20,14 +20,14 @@ exports.getAllUsers = function (req, res) {
 
 exports.getUser = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
-  users.doc(req.params.pid).get().then(function (doc) {
+  users.doc(req.params.uid).get().then(function (doc) {
     res.status(200).send(doc.data());
   });
 };
 
 exports.getTherapistByUser = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
-  users.doc(req.params.pid).get().then(function (doc) {
+  users.doc(req.params.uid).get().then(function (doc) {
     var ther_id = doc.data().therapist;
     ther.doc(ther_id).get().then(function (docter) {
       res.status(200).send(docter.data());
@@ -37,7 +37,7 @@ exports.getTherapistByUser = function (req, res) {
 
 exports.getTherapistRefByUser = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
-  users.doc(req.params.pid).get().then(function (doc) {
+  users.doc(req.params.uid).get().then(function (doc) {
     var ther_id = doc.data().therapist;
     ther.doc(ther_id).get().then(function (docter) {
       res.status(200).send(docter.id.toString());
@@ -47,7 +47,7 @@ exports.getTherapistRefByUser = function (req, res) {
 
 exports.getAllSessionsByUser = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
-  sess.where('patient', '==', req.params.pid).get().then(function (query) {
+  sess.where('patient', '==', req.params.uid).get().then(function (query) {
     var data = [];
     query.forEach(function (doc) {
       data.push(doc.data());

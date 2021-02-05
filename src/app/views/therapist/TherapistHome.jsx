@@ -9,8 +9,8 @@ import {
 } from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import TherapistHomeContent from './components/TherapistHomeContent'
-import TherapistHomeSidenav from './components/TherapistHomeSidenav'
+import TherapistHomeContent from './components/home/TherapistHomeContent'
+import TherapistHomeSidenav from './components/home/TherapistHomeSidenav'
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({

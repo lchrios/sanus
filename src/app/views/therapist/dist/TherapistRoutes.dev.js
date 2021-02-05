@@ -17,7 +17,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var EditBlogForm = _react["default"].lazy(function () {
   return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require("./components/EditBlogForm"));
+    return _interopRequireWildcard(require("./components/blogs/EditBlogForm"));
   });
 });
 
@@ -35,7 +35,7 @@ var TherapistBlogs = _react["default"].lazy(function () {
 
 var BlogEntryForm = _react["default"].lazy(function () {
   return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require('./components/BlogEntryForm'));
+    return _interopRequireWildcard(require('./components/blogs/BlogEntryForm'));
   });
 });
 
@@ -47,7 +47,19 @@ var TherapistCalendar = _react["default"].lazy(function () {
 
 var PatientsList = _react["default"].lazy(function () {
   return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require('./TherapistPatients'));
+    return _interopRequireWildcard(require('./PatientList'));
+  });
+});
+
+var CompletedSessions = _react["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./TherapistsSessionsHistory'));
+  });
+});
+
+var Comments = _react["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./CommentsApp'));
   });
 });
 
@@ -69,6 +81,12 @@ var therapistRoutes = [{
 }, {
   path: "/:tid/editblog/",
   component: EditBlogForm
+}, {
+  path: "/:tid/completedApp",
+  component: CompletedSessions
+}, {
+  path: "/:tid/comments",
+  component: Comments
 }];
 var _default = therapistRoutes;
 exports["default"] = _default;

@@ -55,23 +55,28 @@ var navigations = [
 {
   label: 'Vistas de terapeuta',
   type: 'label'
-}, {
-  name: "Administrador de terapeuta",
-  icon: "event",
-  path: "/dashboard"
-}, {
-  name: "Mis sesiones",
-  icon: "event",
-  path: "/appointments"
-}, {
-  name: "Mis entradas de blog",
-  icon: "text_snippet",
-  path: "/myblogs"
-}, {
-  name: 'Nuevo blog',
-  path: '/newblog',
-  icon: 'text_snippet'
 }
+/*{ 
+    name: "Administrador de terapeuta",
+    icon: "event",
+    path: "/dashboard"
+},
+{
+    name: "Mis sesiones",
+    icon: "event",
+    path: "/appointments"
+},
+{ 
+    name: "Mis entradas de blog",
+    icon: "text_snippet",
+    path: "/myblogs"
+},
+{
+    name: 'Nuevo blog',
+    path: '/newblog',
+    icon: 'text_snippet',
+},*/
+
 /**{
     name: 'Ecommerce',
     icon: 'shopping_basket',

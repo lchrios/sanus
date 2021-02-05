@@ -10,7 +10,7 @@ import useAuth from "app/hooks/useAuth";
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import clsx from "clsx";
 import axios from "axios";
-import history from "../../../../history";
+import history from "../../../../../history";
 import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +38,7 @@ const EditBlogForm = () => {
     const { user } = useAuth()
 
     useEffect(() => {        
-        axios.get("http://localhost:9999/iknelia-3cd8e/us-central1/api/b/" + bid)
+        axios.get("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/b/" + bid)
             .then(res => {
                 setEntry(res.data)
             })
@@ -63,7 +63,7 @@ const EditBlogForm = () => {
 
       // TODO: Cambiar direccion a la de la api
       console.log(entry)
-      axios.put("http://localhost:9999/iknelia-3cd8e/us-central1/api/b/" + bid, {blogdata: {...entry}})
+      axios.put("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/b/" + bid, {blogdata: {...entry}})
       history.push("/" + user.uid + "/myblogs");
 
     }

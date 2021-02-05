@@ -44,7 +44,7 @@ const TherapistBlogs = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:9999/iknelia-3cd8e/us-central1/api/t/" + user.uid + "/b")
+            .get("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/" + user.uid + "/b")
             .then(res => setBlogs(res.data))
             .then(() => console.log("Blogs descargados"))
     }, [])
@@ -188,7 +188,7 @@ const TherapistBlogs = () => {
                                 color="error"
                                 aria-label="Delete"
                                 onClick={() => {
-                                    axios.delete("http://localhost:9999/iknelia-3cd8e/us-central1/api/b/"+blog_entry.id)
+                                    axios.delete("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/b/"+blog_entry.id)
                                     window.location.reload()
                                 }}
                                 className={classes.button}

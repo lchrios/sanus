@@ -1,12 +1,12 @@
 import  React  from "react";
 
-const EditBlogForm = React.lazy(() => import("./components/EditBlogForm"))
+const EditBlogForm = React.lazy(() => import("./components/blogs/EditBlogForm"))
 
 const TherapistHome = React.lazy(() => import('./TherapistHome'))
 
 const TherapistBlogs = React.lazy(() => import('./TherapistBlogs'))
 
-const BlogEntryForm = React.lazy(() => import('./components/BlogEntryForm'))
+const BlogEntryForm = React.lazy(() => import('./components/blogs/BlogEntryForm'))
 
 const TherapistCalendar = React.lazy(() => import('./TherapistCalendar'))
 
