@@ -78,8 +78,6 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
 
-        const uns = 
-
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 
