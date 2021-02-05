@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const getAllEvents = (uid) => {
-    return axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+uid+'/s')
+    return axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+uid+'/s')
 }
 
 export const addNewEvent = (event) => {

@@ -117,14 +117,14 @@ const TherapistCalendar = () => {
 
     useEffect(() => {
         updateCalendar()
-/*        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u').then(res => {
-            console.log(res.data)
-            setUserList(res.data)
-        })*/
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/' + user.uid + '/u') 
+        axios.get('http://localhost:9999/iknelia-3cd8e/us-central1/api/t/' + user.uid + '/u') 
         .then(res => {
             setUserList(res.data)
         }) 
+        axios.get('http://localhost:9999/iknelia-3cd8e/us-central1/api/t/' + user.uid + '/s')
+        .then(res => {
+            setEvents(res.data)
+        })
     }, [])
 
 

@@ -28,7 +28,6 @@ exports.getPatientsbyTherapists = (req,res) => {
         .get()
         .then(query => {
             var data = [];
-            console.log('SIMON SIMON');
 
             query.forEach(doc => {
                 data.push(doc.data());

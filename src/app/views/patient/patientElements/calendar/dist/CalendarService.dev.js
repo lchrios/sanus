@@ -10,7 +10,7 @@ var _axios = _interopRequireDefault(require("axios"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var getAllEvents = function getAllEvents(uid) {
-  return _axios["default"].get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/' + uid + '/s');
+  return _axios["default"].get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/' + uid + '/s');
 };
 
 exports.getAllEvents = getAllEvents;

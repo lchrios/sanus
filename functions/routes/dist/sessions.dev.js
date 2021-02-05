@@ -62,7 +62,6 @@ exports.newSession = function (req, res) {
       console.log('Error obteniendo los datos del terapeuta', error);
       return res.status(404).send(error);
     });
-  }).then(function () {
     return res.status(201).send(doc.id);
   })["catch"](function (error) {
     console.log("Unable to create new blog", error);

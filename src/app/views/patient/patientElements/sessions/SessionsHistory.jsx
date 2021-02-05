@@ -14,7 +14,7 @@ const SessionsHistory = () => {
 
 
     useEffect(() => {
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid+'/s').then(res => {
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/s').then(res => {
             console.log(res.data) 
             setOrderList(res.data)
         })    

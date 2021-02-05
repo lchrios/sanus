@@ -69,8 +69,7 @@ exports.newSession = (req, res) => {
                     console.log('Error obteniendo los datos del terapeuta', error);
                     return res.status(404).send(error);
                 })
-        })
-        .then(() => {
+                
             return res.status(201).send(doc.id);
         })
         .catch(error => {

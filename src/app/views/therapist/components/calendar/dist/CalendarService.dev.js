@@ -16,7 +16,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var getAllEvents = function getAllEvents(uid) {
-  return _axios["default"].get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/' + uid + '/s');
+  return _axios["default"].get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/' + uid + '/s');
 };
 
 exports.getAllEvents = getAllEvents;

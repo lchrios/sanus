@@ -25,7 +25,6 @@ exports.getAllTherapists = function (req, res) {
 exports.getPatientsbyTherapists = function (req, res) {
   users.where("therapist", "==", req.params.tid).get().then(function (query) {
     var data = [];
-    console.log('SIMON SIMON');
     query.forEach(function (doc) {
       data.push(doc.data());
     });

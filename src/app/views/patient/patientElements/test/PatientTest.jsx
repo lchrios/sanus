@@ -27,7 +27,7 @@ export default function PatientTest() {
 
     const [therapist, setTherapistData] = useState()
     useEffect(() => {
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid+'/t').then(res => {
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t').then(res => {
             setTherapistData(res.data)
         })
     })

@@ -31,10 +31,10 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
     }
 
     useEffect(() => {
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid+'/t').then(res => {
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t').then(res => {
             setTherapistData(res.data)
         })
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/p/'+user.uid+'/t/ref').then(res => {
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t/ref').then(res => {
             setTherRef(res.data)
         })
     }, [event])
