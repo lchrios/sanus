@@ -3,11 +3,11 @@ import {
     MatxSidenavContainer,
     MatxSidenavContent,
 } from 'app/components'
-import InboxTopBar from './components/comments/InboxTopbar'
-import { getAllMessage } from './components/comments/InboxService'
+import InboxTopBar from './components/Comments/InboxTopbar'
+import { getAllMessage } from './components/Comments/InboxService'
 import { useMediaQuery, Card, Button } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
-import CommentsList from './components/comments/CommentsList'
+import CommentsList from './components/Comments/CommentsList'
 import useAuth from 'app/hooks/useAuth'
 import history from 'history.js'
 

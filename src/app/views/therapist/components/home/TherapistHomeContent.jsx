@@ -115,7 +115,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                             {project.title}
                                         </span>
                                         <h4 className="font-normal text-white m-0 pt-2">
-                                            {project.amount}
+                                            0
                                         </h4>
                                     </div>
                                     <div  className="w-56 h-36">
