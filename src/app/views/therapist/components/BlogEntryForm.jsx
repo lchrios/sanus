@@ -11,6 +11,7 @@ import useAuth from "app/hooks/useAuth";
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import clsx from "clsx";
 import axios from "axios";
+import history from "../../../../history";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -43,17 +44,22 @@ const BlogEntryForm = () => {
 
     const handleSubmitNewBlog = () => {
       // TODO: upload and update state.img with new image
-      var data = {
+      var blogdata = {
         title: state.title, 
         content: state.content, 
         date: firebase.firestore.Timestamp.fromDate(new Date()), 
         author: user.uid, 
         likes: [], 
         comments: [], 
-        img: state.imgBlob,
+        img: state.img,
       }
 
-      axios.post("")
+      axios.post("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/b/new", blogdata)
+        .then(res => {
+          console.log(res)
+          history.push("/" + user.uid + "/myblogs");
+        });
+
     }
 
     const handleImgChange = event => {

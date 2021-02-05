@@ -17,7 +17,6 @@ exports.getSession = function (req, res) {
 exports.newSession = function (req, res) {
   res.set('Access-Control-Allow-Origin', '*');
   sess.add(req.body).then(function (doc) {
-    console.log(doc.id);
     sess.doc(doc.id).update({
       id: doc.id
     }).then(function () {

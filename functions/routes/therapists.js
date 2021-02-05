@@ -1,7 +1,8 @@
 const { db } = require('../firestore')
-const pats = db.collection('patients');
+const users = db.collection('users');
 const ther = db.collection('therapists');
 const sess = db.collection('sessions');
+const blogs = db.collection('blogs');
 
 // Get therapist info
 exports.getAllTherapists = (req, res) => {
@@ -15,6 +16,22 @@ exports.getAllTherapists = (req, res) => {
             
             res.status(200).send(datas)
         })
+        .catch(error => {
+            console.log('Error al obtener terapeutas!', error);
+            return res.status(404).send(error)
+        })
+}
+
+exports.newTherapist = (req, res) => {
+    ther.set(req.body.data)
+        .then(doc => {
+            console.log('Terapeuta agregado a la base de datos');
+            return res.status(201).send(doc.id);
+        })
+        .catch(error => {
+            console.log('Error al crear terapeuta!', error);
+            return res.status(404).send(error)
+        })
 }
 
 exports.getAllTherapistsRefs = (req, res) => {
@@ -27,6 +44,10 @@ exports.getAllTherapistsRefs = (req, res) => {
             })   
             res.status(200).send(datas)
         })
+        .catch(error => {
+            console.log('Error al obtener terapeutas!', error);
+            return res.status(404).send(error)
+        })
 }
 
 exports.getTherapist = (req, res) => {
@@ -36,11 +57,15 @@ exports.getTherapist = (req, res) => {
         .then((doc) => {
             res.status(200).send(doc.data())
         })
+        .catch(error => {
+            console.log('Error al obtener terapeuta!', error);
+            return res.status(404).send(error)
+        })
 }
 
 exports.getAllSessionsByTherapist = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    sess.where('therapist_id', '==', req.params.pid)
+    sess.where('therapist', '==', req.params.pid)
         .get()
         .then((query) => {
             const data = [];
@@ -50,5 +75,9 @@ exports.getAllSessionsByTherapist = (req, res) => {
                 refs.push(doc.ref);
             })
             res.status(200).send(data)
+        })
+        .catch(error => {
+            console.log('Error al obtener sesiones terapeuta!', error);
+            return res.status(404).send(error)
         })
 }
