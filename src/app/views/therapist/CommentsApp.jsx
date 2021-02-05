@@ -3,16 +3,17 @@ import {
     MatxSidenavContainer,
     MatxSidenavContent,
 } from 'app/components'
-import InboxTopBar from './components/Comments/InboxTopbar'
-import { getAllMessage } from './components/Comments/InboxService'
+import InboxTopBar from './components/comments/InboxTopbar'
+import { getAllMessage } from './components/comments/InboxService'
 import { useMediaQuery, Card, Button } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
-import CommentsList from './components/Comments/CommentsList'
+import CommentsList from './components/comments/CommentsList'
 import useAuth from 'app/hooks/useAuth'
-import history from 'history.js'
+import history from '../../../history'
+import { Link, Redirect } from 'react-router-dom'
 
 const Comments = () => {
-    const {user} = useAuth()
+    const { user } = useAuth()
     const [isAlive, setIsAlive] = useState(true)
     const [open, setOpen] = useState(false)
     const [masterCheckbox, setMasterCheckbox] = useState(false)
@@ -64,20 +65,28 @@ const Comments = () => {
         return () => setIsAlive(false)
     }, [])
 
+    var obj = '/' + user.uid + '/dashboard'
+
     return (
         <div className="flex m-sm-30">
             <div className="w-full">
                 <MatxSidenavContainer>
                     <MatxSidenavContent>
                     <div className="mb-10">
+                        <Link to={obj}>
                         <Button
                             variant="contained"
                             color="secondary" 
                             className="x-center"
-                            onClick={() => history.push('/' + user.uid + '/dashboard')}
+                            onClick={() => {
+                                console.log("HICISTE CLICK PUTO")
+                                history.push(obj)
+
+                            }}
                         >
                             Volver al escritorio
                         </Button>
+                        </Link>
                     </div>
                     
                         <InboxTopBar

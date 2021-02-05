@@ -16,7 +16,7 @@ import Typography from '@material-ui/core/Typography'
 import Axios from 'axios'
 import PatientProfileCard1 from './components/PatientProfileCard'
 import useAuth from 'app/hooks/useAuth'
-import history from 'history.js'
+import history from '../../../history'
 import axios from 'axios'
 
 const PatientList = () => {

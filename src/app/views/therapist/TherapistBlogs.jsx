@@ -39,7 +39,6 @@ const TherapistBlogs = () => {
     const [image, setImage] = useState()
 
     const { user } = useAuth()
-    const history = useHistory()
     const classes = useStyles()
 
     useEffect(() => {

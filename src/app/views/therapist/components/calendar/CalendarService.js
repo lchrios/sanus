@@ -7,11 +7,11 @@ export const getAllEvents = (uid) => {
 export const addNewEvent = (event) => {
     console.log('añadiendo nuevo evento')
     console.log(event)
-    return axios.post('http://localhost:9999/iknelia-3cd8e/us-central1/api/s/new', {sessiondata: {...event}})
+    return axios.post('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/s/new', {sessiondata: {...event}})
 }
 
 export const updateEvent = (event) => {
-    return axios.post('http://localhost:9999/iknelia-3cd8e/us-central1/api/s/'+event.id, {sessiondata: {...event}})
+    return axios.post('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/s/'+event.id, {sessiondata: {...event}})
 }
 
 export const deleteEvent = (id) => {

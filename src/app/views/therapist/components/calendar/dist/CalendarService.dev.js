@@ -24,7 +24,7 @@ exports.getAllEvents = getAllEvents;
 var addNewEvent = function addNewEvent(event) {
   console.log('añadiendo nuevo evento');
   console.log(event);
-  return _axios["default"].post('http://localhost:9999/iknelia-3cd8e/us-central1/api/s/new', {
+  return _axios["default"].post('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/s/new', {
     sessiondata: _objectSpread({}, event)
   });
 };
@@ -32,7 +32,7 @@ var addNewEvent = function addNewEvent(event) {
 exports.addNewEvent = addNewEvent;
 
 var updateEvent = function updateEvent(event) {
-  return _axios["default"].post('http://localhost:9999/iknelia-3cd8e/us-central1/api/s/' + event.id, {
+  return _axios["default"].post('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/s/' + event.id, {
     sessiondata: _objectSpread({}, event)
   });
 };
