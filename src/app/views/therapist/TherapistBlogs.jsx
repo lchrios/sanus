@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Grid,
     Divider,
@@ -38,7 +38,7 @@ const titles_data = [
 ];
 
 const TherapistBlogs = () => {
-    const [blogs_data, setBlogs] = useState()
+    const [blogs_data, setBlogs] = useState([])
     const [titles, setTitles] = useState(titles_data)
 
     const { user } = useAuth()
@@ -46,8 +46,11 @@ const TherapistBlogs = () => {
     const classes = useStyles()
 
     useEffect(() => {
-        axios.get()
-    }, [blogs_data])
+        axios
+            .get("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/b")
+            .then(res => setBlogs(res.data))
+            .then(() => console.log("Blogs descargados"))
+    }, [])
 
     return (
         <Card elevation={3} className={clsx('m-sm-30', classes.cart)}>
@@ -126,14 +129,6 @@ const TherapistBlogs = () => {
                     <Grid container alignItems="center">
                         <Grid item lg={3} md={3} sm={3} xs={3}>
                             <div className="flex items-center">
-                                <IconButton
-                                    size="small"
-                                    onClick={() =>
-                                        handleDeleteFromCart(blog_entry.id)
-                                    }
-                                >
-                                    <Icon fontSize="small">clear</Icon>
-                                </IconButton>
                                 <div className="px-4">
                                     <img
                                         className="border-radius-4 w-full"
@@ -157,7 +152,7 @@ const TherapistBlogs = () => {
                             xs={true}
                             className="text-center"
                         >
-                            <h6 className="m-0">{blog_entry.likes}</h6>
+                            <h6 className="m-0">{blog_entry.likes.length}</h6>
                         </Grid>
                         <Grid
                             item
@@ -178,6 +173,7 @@ const TherapistBlogs = () => {
                             className="text-center"
                         >
                             <Fab
+                                size="small"
                                 color="secondary"
                                 aria-label="Edit"
                                 className={classes.button}
