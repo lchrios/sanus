@@ -17,6 +17,7 @@ import Axios from 'axios'
 import PatientProfileCard1 from './components/PatientProfileCard'
 import useAuth from 'app/hooks/useAuth'
 import history from 'history.js'
+import axios from 'axios'
 
 const PatientList = () => {
     const [isAlive, setIsAlive] = useState(true)
@@ -52,6 +53,15 @@ const PatientList = () => {
     }, [isAlive])
 
     const {user} = useAuth()
+    const [patients, setPatients] = useState()
+
+    useEffect(() => {
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/' + user.uid + '/u')
+        .then(res => {
+            setPatients(res.data)
+        })
+        
+    }, [])
 
     return (
         <div>
@@ -99,7 +109,7 @@ const PatientList = () => {
                 className="x-center pb-2 mb-2" 
                 color="secondary" 
                 variant="contained"
-                onCick={() => history.push('/' + user.uid + 'dashboard')}
+                onCick={() => history.push('/' + user.uid + '/dashboard')}
                 >
                     Volver al escritorio
                 </Button>
