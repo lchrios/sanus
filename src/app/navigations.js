@@ -40,10 +40,9 @@ export const navigations = [
         name: 'Inventory Management',
         path: '/dashboard/inventory-management',
         icon: 'store',
-    },
+    },*/
        
-    /*Therapist views */
-    /*{
+    {
         label: 'Vistas de terapeuta',
         type: 'label',
     },
@@ -66,7 +65,7 @@ export const navigations = [
         name: 'Editor',
         path: '/newblog',
         icon: 'text_snippet',
-    },*/
+    },
     /**{
         name: 'Ecommerce',
         icon: 'shopping_basket',

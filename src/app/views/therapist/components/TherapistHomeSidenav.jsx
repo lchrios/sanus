@@ -29,11 +29,12 @@ const TherapistHomeSidenav = () => {
             <div className="py-3" />
             <div className="flex flex-wrap w-full px-12 mb-11">
                 <div className="flex-grow">
-                    <p className="uppercase text-light-white mb-1">balance</p>
+                    {/* Debería mostrar los ingresos mensuales. Conectar base de datos. */}
+                    <p className="uppercase text-light-white mb-1">Ingresos</p>
                     <h4 className="font-medium text-white">$ 20,495</h4>
                 </div>
                 <div>
-                    <p className="uppercase text-light-white mb-1">estrellas</p>
+                    <p className="uppercase text-light-white mb-1">Calificación</p>
                     <h4 className="font-medium text-white"><Icon>star_rate</Icon> 4.75</h4>
                 </div>
                 <div />
@@ -45,7 +46,7 @@ const TherapistHomeSidenav = () => {
                             <div className="text-light-white text-center">
                                 <Icon>sentiment_very_satisfied</Icon>
                                 <br />
-                                <span className="pt-4">Dashboard</span>
+                                <span className="pt-4">Escritorio</span>
                             </div>
                         </Card>
                     </Grid>
@@ -66,9 +67,9 @@ const TherapistHomeSidenav = () => {
                     <Button 
                         className={classes.socialButton}
                         >
-                        <Icon>note_add</Icon>
+                        <Icon>exit_to_app</Icon>
                         <h5 className="ml-8 text-primary font-medium mb-0">
-                            Escribir una entrada al blog
+                            Comenzar la próxima sesión
                         </h5>
                     </Button >
                     

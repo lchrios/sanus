@@ -52,7 +52,7 @@ const PatientProfile = () => {
                     >
                         <Hidden smUp>
                             <IconButton onClick={toggleSidenav}>
-                                <Icon className="text-white">clear</Icon>
+                                <Icon className="text-white mt-2">clear</Icon>
                             </IconButton>
                         </Hidden>
                     </div>

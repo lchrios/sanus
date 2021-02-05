@@ -9,8 +9,7 @@ import {
     IconButton,
 } from '@material-ui/core'
 import React, { Fragment, useState } from 'react'
-import DummyChart from './DummyChart'
-import ProfileBarChart from './ProfileBarChart'
+import history from 'history.js'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import NextSessions from './NextSessions'
@@ -81,7 +80,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                     </IconButton>
                 </div>
                 <div className={classes.headerCardHolder}>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={6}>
                         {projectSummery.map((project) => (
                             <Grid
                                 item
@@ -100,8 +99,10 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                             {project.amount}
                                         </h4>
                                     </div>
-                                    <div className="w-56 h-36">
-                                        <DummyChart height="40px" />
+                                    <div  className="w-56 h-36">
+                                        <IconButton onClick={() => history.push('/tid:/patients')}>
+                                            <Icon className="text-white">{project.icon}</Icon>
+                                        </IconButton>
                                     </div>
                                 </Card>
                             </Grid>
@@ -413,14 +414,17 @@ const projectSummery = [
     {
         title: 'Pacientes',
         amount: 11,
+        icon:'person'
     },
     {
         title: 'Sesiones agendadas',
         amount: 15,
+        icon:'event'
     },
     {
         title: 'Sesiones completadas',
         amount: 25,
+        icon:'offline_pin'
     },
 ]
 

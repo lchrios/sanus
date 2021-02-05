@@ -8,6 +8,8 @@ const BlogEntryForm = React.lazy(() => import('./components/BlogEntryForm'))
 
 const TherapistCalendar = React.lazy(() => import('./TherapistCalendar'))
 
+const PatientsList = React.lazy(() => import('./TherapistPatients'))
+
 const therapistRoutes = [
   {
       path: "/:tid/dashboard",
@@ -24,6 +26,10 @@ const therapistRoutes = [
   {
       path: "/:tid/newblog",
       component: BlogEntryForm
+  },
+  {
+      path: "/tid:/patients",
+      component: PatientsList
   }
 ];
 

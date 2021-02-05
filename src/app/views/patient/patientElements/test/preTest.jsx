@@ -7,7 +7,7 @@ const PreTest = () => {
     return (
         <Card className="m-sm-30">
             <div className="max-w-600 mx-10">
-                <h3>Antes de realizar el test, por favor selecciona un terapeuta</h3>
+                <h3>Antes de comenzar, por favor selecciona un terapeuta</h3>
                 <Button
                 className="mt-2 mb-2" 
                 variant="contained"

@@ -29,7 +29,7 @@ const TherapistInfoUser = () => {
 
     }, [user.uid])   
     
-    if ( therapist == null) {
+    if ( therapist == undefined) {
 
         return (
             
@@ -61,7 +61,9 @@ const TherapistInfoUser = () => {
         )
     }
 
+   
     return (
+
         <Card className="pt-6">
             <div className="flex-column items-center mb-6">
                 <Avatar
@@ -135,6 +137,9 @@ const TherapistInfoUser = () => {
             </div>
         </Card>
     )
+   
+   
+   
 }
 
 const customerInfo = [
