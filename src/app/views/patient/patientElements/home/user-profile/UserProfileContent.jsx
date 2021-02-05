@@ -138,10 +138,10 @@ const UserProfileContent = ({ toggleSidenav }) => {
                                 </h4>
                                  <PatientTest/>
                             </Card>
-                            {/* <div className="py-3"></div>
+                            <div className="py-3"></div>
                             <Card className="py-4 elevation-z5">
                                  <PatientCalendar /> 
-                            </Card>                              */}
+                            </Card>                             
                         </Grid>
     
                         <Grid item lg={4} md={4} sm={12} xs={12}>

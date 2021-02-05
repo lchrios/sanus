@@ -1,19 +1,12 @@
 import React from 'react'
 import {
     Card,
-    Button,
     Avatar,
     Grid,
-    LinearProgress,
-    Divider,
     Icon,
     MenuItem
 } from '@material-ui/core'
-import { GoogleIcon } from 'app/components'
-import { Link } from 'react-router-dom'
-import { Twitter, Edit } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
-import clsx from 'clsx'
 import { MatxMenu } from 'app/components'
 
 Date.prototype.addHours = function(h) {

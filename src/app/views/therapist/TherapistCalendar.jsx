@@ -1,6 +1,6 @@
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
-import React, { Fragment, useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Button } from '@material-ui/core'
 import { Calendar, Views, globalizeLocalizer } from 'react-big-calendar'
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
@@ -12,11 +12,10 @@ import EventEditorDialog from './components/EventEditorDialog'
 import globalize from 'globalize'
 import Axios from 'axios'
 import PatientCard from './components/PatientCard'
+import PatientCardEmpty from './components/PatientCardEmpty'
 import {
     Card,
     Grid,
-    Icon,
-    Avatar,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
@@ -118,6 +117,115 @@ const TherapistCalendar = () => {
         return () => setIsAlive(false)
     }, [isAlive])
 
+
+    {/**Añadir validación de paciente con base de datos */}
+    if ( false ) {
+        return (
+            <div className="m-sm-30">
+                <div className="mb-sm-30">
+                    <Breadcrumb routeSegments={[{ name: 'Mis citas' }]} />
+                </div>
+                <Card elevation={3} className={clsx('m-sm-45', classes.cart)}>
+                    <Grid container spacing={2} style={{marginLeft: '10px', marginRight: '10px', marginTop: '10px', marginBottom: '10px'}}>
+                        <Grid item lg={9} md={9} sm={12} xs={12}>
+                            <Card className="bg-ligh bg-default flex items-center justify-between p-4">
+                                <Button
+                                    className="mb-4"
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() =>
+                                        openNewEventDialog({
+                                            action: 'doubleClick',
+                                            start: new Date(),
+                                            end: new Date(),
+                                        })  
+                                    }
+                                >
+                                    Añadir evento
+                                </Button>
+                            </Card>
+                            <div
+                                className={clsx('h-full-screen flex-column', classes.calendar)}
+                            >
+                                <div ref={headerComponentRef} />
+                                <DragAndDropCalendar
+                                    selectable
+                                    localizer={localizer}
+                                    events={events}
+                                    onEventDrop={handleEventMove}
+                                    resizable
+                                    onEventResize={handleEventResize}
+                                    defaultView={Views.MONTH}
+                                    defaultDate={new Date()}
+                                    startAccessor="start"
+                                    endAccessor="end"
+                                    views={viewList}
+                                    step={60}
+                                    showMultiDayTimes
+                                    components={{
+                                        toolbar: (props) => {
+                                            return headerComponentRef.current ? (
+                                                ReactDOM.createPortal(
+                                                    <CalendarHeader {...props} />,
+                                                    headerComponentRef.current
+                                                )
+                                            ) : (
+                                                <div>Header component not found</div>
+                                            )
+                                        },
+                                    }}
+                                    // onNavigate={handleNavigate}
+                                    onSelectEvent={(event) => {
+                                        openExistingEventDialog(event)
+                                    }}
+                                    onSelectSlot={(slotDetails) =>
+                                        openNewEventDialog(slotDetails)
+                                    }
+                                />
+                            </div>
+                            {shouldShowEventDialog && (
+                                <EventEditorDialog
+                                    handleClose={handleDialogClose}
+                                    open={shouldShowEventDialog}
+                                    event={newEvent}
+                                />
+                            )}     
+                        </Grid>
+                        <Grid item lg={3} md={3} sm={12} xs={12}
+                            direction="column"
+                            justify="center"
+                            alignItems=""
+                        >
+                            <Card style={{maxWidth: 'full'}}>
+                                <div className="bg-light bg-default p-6 flex flex-wrap mx-0">
+                                    <h1>Próximos pacientes</h1>
+                                    <div className="py-1"></div>
+                                </div>
+                                <Grid container spacing={1}
+                                justify="space-evenly"
+                                alignItems="stretch"
+                                direction="column"
+                                className="bg-default flex items-center justify-between p-4"
+                                >
+                                    {userList
+                                        .slice(
+                                            page * rowsPerPage,
+                                            page * rowsPerPage + rowsPerPage
+                                        )
+                                        .map((user) => (
+                                            <PatientCard user={user} />
+                                    ))}
+                                </Grid>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                </Card>
+            </div>
+        )
+    }
+
+    else
+
     return (
         <div className="m-sm-30">
             <div className="mb-sm-30">
@@ -136,7 +244,7 @@ const TherapistCalendar = () => {
                                         action: 'doubleClick',
                                         start: new Date(),
                                         end: new Date(),
-                                    })
+                                    })  
                                 }
                             >
                                 Añadir evento
@@ -192,10 +300,10 @@ const TherapistCalendar = () => {
                     <Grid item lg={3} md={3} sm={12} xs={12}
                         direction="column"
                         justify="center"
-                        alignItems="2-end"
+                        alignItems=""
                     >
-                        <Card style={{maxWidth: 250}}>
-                            <div className="bg-light bg-default p-6 flex flex-wrap justify-between items-center">
+                        <Card style={{maxWidth: 'full'}}>
+                            <div className="bg-light bg-default p-6 flex flex-wrap mx-0">
                                 <h1>Próximos pacientes</h1>
                                 <div className="py-1"></div>
                             </div>
@@ -205,14 +313,9 @@ const TherapistCalendar = () => {
                             direction="column"
                             className="bg-default flex items-center justify-between p-4"
                             >
-                                {userList
-                                    .slice(
-                                        page * rowsPerPage,
-                                        page * rowsPerPage + rowsPerPage
-                                    )
-                                    .map((user) => (
-                                        <PatientCard user={user} />
-                                ))}
+                               
+                                        <PatientCardEmpty  />
+                                
                             </Grid>
                         </Card>
                     </Grid>
@@ -220,6 +323,7 @@ const TherapistCalendar = () => {
             </Card>
         </div>
     )
+    
 }
 
 export default TherapistCalendar

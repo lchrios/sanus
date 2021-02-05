@@ -5,8 +5,6 @@ import {
     Avatar,
     Grid,
     Icon,
-    LinearProgress,
-    Divider,
     MenuItem,
 } from '@material-ui/core'
 import { Link } from 'react-router-dom'
@@ -59,8 +57,10 @@ const NextSessions = () => {
 
     const [userList, setUserList] = useState(patients)
 
+    const numberSession = 0
 
     return (
+        /**Añadir un contador para que cuando la sesión sea la más próxima muestre los botones correctos */
         <Grid container spacing={3} direction="column">
             {userList.map((user) => (
                 <Grid
@@ -79,27 +79,34 @@ const NextSessions = () => {
                                         <Icon className="cursor-pointer">more_horiz</Icon>
                                     }
                                 >
+
+
+                                    {/* 
+                                    * TODO: AÑADIR ACTUALIZACIÓN DE HISTORIAL DE SESIONES */}
                                     <MenuItem>
                                         <Icon fontSize="small"> done </Icon>
                                         <span className="pl-4"> Marcar como terminado </span>
                                     </MenuItem>
                                     <MenuItem>
                                         <Icon fontSize="small"> account_circle </Icon>
-                                        <span className="pl-4"> Ver perfil </span>
+                                        <span className="pl-4"> Ver paciente</span>
                                     </MenuItem>
-                                    <MenuItem>
+                                    {/* <MenuItem>
                                         <Icon fontSize="small"> edit </Icon>
                                         <span className="pl-4"> Editar sesion </span>
-                                    </MenuItem>
+                                    </MenuItem> */}
 
                                 </MatxMenu>
                             </div>
                         </div>
                         <div>
                             <h5 className="m-0 capitalize">{user?.name}</h5>
-                            <p className="text-muted">
-                                {user.time.toString()}
-                            </p>
+                            <Grid item>
+                                <h4 className="text-muted mt-2">Fecha pactada:</h4>
+                                <p className="text-muted">
+                                    {user.time.toString()}
+                                </p>
+                            </Grid>
                             <div className="mb-4">
                                 <Link className="flex mb-1 items-center" to="/">
                                     <GoogleIcon
@@ -110,21 +117,24 @@ const NextSessions = () => {
                                 </Link>
                             </div>
                             <div className="flex flex-wrap ">
-                                
                                 <Button
                                     variant="contained"
                                     size="small"
-                                    startIcon={<CheckCircle />}
+                                    startIcon={numberSession == 1 ? <CheckCircle /> : <Icon>face</Icon>}
                                     className={clsx("bg-light-primary hover-bg-primary text-primary px-5", classes.button)}
                                 >
-                                    Marcar sesion completada
+                                    {numberSession == 1 ? 'Comenzar sesión' : 'Contactar paciente'}
+                                    
                                 </Button>
                                 <Button
                                     size="small"
                                     variant="contained"
+                                    startIcon={numberSession == 1 ? <Icon>watch_later</Icon> : <Icon>visibility</Icon>}
                                     className={clsx("bg-light-primary hover-bg-primary text-primary px-5 mr-1", classes.button)}
                                 >
-                                    Perfil
+
+                                    {numberSession == 1 ? 'Posponer sesión' : 'Ver perfil de usuario'}
+                                    
                                 </Button>
                             </div>
                         </div>

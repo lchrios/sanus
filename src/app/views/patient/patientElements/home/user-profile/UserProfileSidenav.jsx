@@ -118,7 +118,7 @@ const UserProfileSidenav = () => {
                             </DialogContent>
                             <DialogActions>
                                 <Button onClick={handleClose} color="primary">
-                                    Save changes
+                                    Cerrar
                                 </Button>
                             </DialogActions>
                         </Dialog>
