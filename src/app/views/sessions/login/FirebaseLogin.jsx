@@ -107,7 +107,7 @@ const FirebaseLogin = () => {
             await signInWithEmailAndPassword(userInfo.email, userInfo.password)
             var user = firebase.auth().currentUser
             console.log(user)
-            history.push('/'+user.uid+'/home')
+            history.push('/'+user.uid+'/dashboard')
         } catch (e) {
             console.log(e)
             setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
@@ -119,7 +119,7 @@ const FirebaseLogin = () => {
             await signInWithGoogle()
             var user = firebase.auth().currentUser
             console.log(user)
-            history.push('/'+user.uid+'/home')
+            history.push('/'+user.uid+'/dashboard')
         } catch (e) {
             setMessage(e.message)
             setLoading(false)

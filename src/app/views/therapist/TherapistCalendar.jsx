@@ -19,6 +19,8 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
+import axios from 'axios'
+import firebase from 'firebase'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     calendar: {
@@ -111,15 +113,15 @@ const TherapistCalendar = () => {
 
     useEffect(() => {
         updateCalendar()
-        Axios.get('/api/user/all').then(({ data }) => {
-            if (isAlive) setUserList(data)
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u').then(res => {
+            console.log(res.data)
+            setUserList(res.data)
         })
-        return () => setIsAlive(false)
-    }, [isAlive])
+    }, [])
 
 
     {/**Añadir validación de paciente con base de datos */}
-    if ( false ) {
+    if ( userList.length == 0 ) {
         return (
             <div className="m-sm-30">
                 <div className="mb-sm-30">

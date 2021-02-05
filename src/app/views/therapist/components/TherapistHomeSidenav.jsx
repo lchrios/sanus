@@ -82,8 +82,8 @@ const TherapistHomeSidenav = () => {
                                 </Button>
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleClose} color="primary">
-                                    Save changes
+                                <Button onClick={handleClose} className="bg-error" variant="contained">
+                                    <Icon>clear</Icon>Cerrar
                                 </Button>
                             </DialogActions>
                         </Dialog>

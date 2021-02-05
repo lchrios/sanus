@@ -10,6 +10,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import { MatxMenu } from 'app/components'
 import history from 'history.js'
+import useAuth from 'app/hooks/useAuth'
 
 Date.prototype.addHours = function(h) {
   this.setTime(this.getTime() + (h*60*60*1000));
@@ -25,8 +26,9 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const PatientCardEmpty = ({ user }) => {
+const PatientCardEmpty = () => {
     const classes = useStyles()
+    const {user} = useAuth()
 
     return (
         <Grid item lg={12} md={12} sm={12} xs={12} style={{width: 'full' }}>

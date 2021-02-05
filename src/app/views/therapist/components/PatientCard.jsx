@@ -28,15 +28,15 @@ const PatientCard = ({ user }) => {
 
     return (
         <Grid item lg={12} md={12} sm={12} xs={12} style={{maxWidth: 250}}>
-            <Card className="bg-secondary mb-2 pb-2">
+            <Card className="bg-secondary mb-2 pb-1">
                 <div className="p-3">
-                    <div className="flex justify-between items-center m-2">
+                    <div className="flex justify-left items-center m-2">
                         <div className="flex items-center m-2">
-                            <Avatar className="h-56 w-56" src={user.imgUrl} />
+                            <Avatar className="h-56 w-56" src={user.img} />
                             <div className="ml-4">
                                 <h5 className="m-0">{user.name}</h5>
                                 <p className="mb-0 mt-2 text-muted font-normal capitalize">
-                                    {user.company?.toLowerCase()}
+                                    {user.location[1]?.toLowerCase()}
                                 </p>
                             </div>
                         </div>
