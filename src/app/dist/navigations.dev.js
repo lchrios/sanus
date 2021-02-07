@@ -25,36 +25,38 @@ var navigations = [
     icon: 'analytics',
 },*/
 // Patient views
-{
-  label: 'Vista de paciente',
-  type: 'label'
-}, {
-  name: "Inicio",
-  icon: "home",
-  path: "/home"
-}, {
-  name: "Navegar",
-  icon: "search",
-  path: "/browse"
-}, {
-  name: "Historial de sesiones",
-  icon: "history",
-  path: "/sessions"
-}
-/**
+
+/*{
+    label: 'Vista de paciente',
+    type: 'label',
+},
+{ 
+    name: "Inicio",
+    icon: "home",
+    path: "/home"
+},
+{ 
+    name: "Navegar",
+    icon: "search",
+    path: "/browse"
+},
+{ 
+    name: "Historial de sesiones",
+    icon: "history",
+    path: "/sessions"
+},*/
+
+/*
 {
     name: 'Inventory Management',
     path: '/dashboard/inventory-management',
     icon: 'store',
-},
-   
-/*Therapist views */
-
-/*{
-    label: 'Vistas de terapeuta',
-    type: 'label',
-},
-{ 
+},*/
+{
+  label: 'Vistas de terapeuta',
+  type: 'label'
+}
+/*{ 
     name: "Administrador de terapeuta",
     icon: "event",
     path: "/dashboard"
@@ -70,7 +72,7 @@ var navigations = [
     path: "/myblogs"
 },
 {
-    name: 'Editor',
+    name: 'Nuevo blog',
     path: '/newblog',
     icon: 'text_snippet',
 },*/

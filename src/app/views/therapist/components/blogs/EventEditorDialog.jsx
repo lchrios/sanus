@@ -1,17 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Dialog, IconButton, Button, Icon, Grid } from '@material-ui/core'
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
-import { addNewEvent, updateEvent, deleteEvent } from './CalendarService'
+import { addNewEvent, updateEvent, deleteEvent } from '../calendar/CalendarService'
+import useAuth from 'app/hooks/useAuth'
+import axios from 'axios'
 
 const EventEditorDialog = ({ event = {}, open, handleClose }) => {
     const [state, setState] = useState(event)
+    const [therapistData, setTherapistData] = useState()
+    const [therRef, setTherRef] = useState()
+    const { user } = useAuth()
 
     const handleChange = (event) => {
-        setState({ ...state, [event.target.name]: event.target.value })
+        setState({ 
+            ...state, 
+            [event.target.name]: event.target.value 
+        })
     }
+
+    const randomCost = () => {
+        return Math.floor((Math.random() * 10)) * 100 + Math.floor((Math.random() * 10)) * 10;
+    } 
+
+    useEffect(() => {
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t').then(res => {
+            setTherapistData(res.data)
+        })
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t/ref').then(res => {
+            setTherRef(res.data)
+        })
+    }, [])
 
     const handleFormSubmit = () => {
         let { id } = state
@@ -24,8 +45,19 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
             })
         } else {
             addNewEvent({
-                id: generateRandomId(),
                 ...state,
+                therapist: therRef,
+                thername: therapistData.name,
+                patient: user.uid,
+                patname: user.name,
+                start: state.start,
+                end: state.end,
+                note: note,
+                tipo: 'Terapia adulto',
+                state: 'pendiente',
+                pay_met: 'PayPal',
+                cost: randomCost(),
+                id: "",
             }).then(() => {
                 handleClose()
             })

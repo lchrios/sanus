@@ -36,7 +36,7 @@ export const NavLogo = styled(LinkRouter)`
  justify-self: flex-start;
  cursor:pointer;
  font-family: 'Dancing Script', cursive;
- font-size:1.5rem;
+ font-size:36px;
  display:flex;
  align-items:center;
  margin-left:24px;

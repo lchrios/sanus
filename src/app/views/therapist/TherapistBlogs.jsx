@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Grid,
     Divider,
@@ -7,20 +7,22 @@ import {
     IconButton,
     Icon,
     Button,
+    Fab,
 } from '@material-ui/core'
-import { useSelector, useDispatch } from 'react-redux'
-import {
-    deleteProductFromCart,
-    updateCartAmount,
-} from 'app/redux/actions/EcommerceActions'
+import history from "../../../history"
 import { useHistory, Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
+import useAuth from 'app/hooks/useAuth'
+import axios from 'axios'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cart: {
         minWidth: 900,
         overflowX: 'scroll',
+    },
+    button: {
+        margin: theme.spacing(1),
     },
 }))
 
@@ -32,57 +34,65 @@ const titles_data = [
 ];
 
 const TherapistBlogs = () => {
-    const { cartList = [] } = useSelector((state) => state.ecommerce)
-    const user = useSelector((state) => state.user)
-
+    const [blogs_data, setBlogs] = useState([])
     const [titles, setTitles] = useState(titles_data)
+    const [image, setImage] = useState()
 
-    const dispatch = useDispatch()
-    const history = useHistory()
+    const { user } = useAuth()
     const classes = useStyles()
 
-    const getTotalCost = () => {
-        let totalCost = 0
-        cartList.forEach((product) => {
-            totalCost += product.amount * product.price
-        })
-        return totalCost
-    }
-
-    const handleChange = (event, productId) => {
-        let amount = event.target.value
-        dispatch(updateCartAmount(user.userId, productId, Math.abs(amount)))
-    }
-
-    const handleDeleteFromCart = (productId) => {
-        dispatch(deleteProductFromCart(user.userId, productId))
-    }
+    useEffect(() => {
+        axios
+            .get("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/" + user.uid + "/b")
+            .then(res => setBlogs(res.data))
+            .then(() => console.log("Blogs descargados"))
+    }, [])
 
     return (
         <Card elevation={3} className={clsx('m-sm-30', classes.cart)}>
             <div className="py-4 px-4">
+                <Button 
+                    variant="contained" 
+                    color="secondary" 
+                    className="mb-4 x-center"
+                    onClick={() => history.push('/' + user.uid + '/dashboard')}
+                    >
+                        Volver al escritorio
+                    </Button>
                 <div className="flex items-center mb-4 px-4">
                         <TextField
                             variant="outlined"
-                            placeholder="Título de nueva entrada"
+                            placeholder="Buscar por título"
                             className="flex-grow"
                             size="small"
                         ></TextField>
-                            <Button
-                                className="mx-3"
-                                variant="contained"
-                                color="secondary"
-                                onClick={() => {history.push("/:tid/newblog")}}
-                            >
-                                Crear
-                            </Button>
+                        <Button
+                            className="mx-3"
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                                // TODO: search function
+                            }}
+                        >
+                            <Icon className="mr-3">search</Icon>
+                            Buscar
+                        </Button>
+                        <Button
+                            className="mx-3"
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => {history.push("/" + user.uid + "/newblog")}}
+                        >
+                            <Icon className="mr-3">note_add</Icon>
+                            Escribir nueva entrada
+                        </Button>
                 </div>
                 <Divider></Divider>
                 <div className="py-2"></div>
                 <Grid container>
                     <Grid item lg={3} md={3} sm={3} xs={3}></Grid>
                     <Grid item lg={4} md={4} sm={4} xs={4}>
-                        <h6 className="m-0">Descripción</h6>
+                        <h6 className="m-0">Contenido</h6>
                     </Grid>
                     <Grid
                         item
@@ -102,7 +112,7 @@ const TherapistBlogs = () => {
                         xs={true}
                         className="text-center"
                     >
-                        <h6 className="m-0">Personas alcanzadas</h6>
+                        <h6 className="m-0">Comentarios</h6>
                     </Grid>
                     <Grid
                         item
@@ -118,32 +128,26 @@ const TherapistBlogs = () => {
             </div>
             <Divider></Divider>
 
-            {cartList.map((product) => (
-                <div key={product.id} className="py-4 px-4">
+            {blogs_data.map((blog_entry) => (
+                <div key={blog_entry.id} className="py-4 px-4">
                     <Grid container alignItems="center">
                         <Grid item lg={3} md={3} sm={3} xs={3}>
                             <div className="flex items-center">
-                                <IconButton
-                                    size="small"
-                                    onClick={() =>
-                                        handleDeleteFromCart(product.id)
-                                    }
-                                >
-                                    <Icon fontSize="small">clear</Icon>
-                                </IconButton>
                                 <div className="px-4">
                                     <img
                                         className="border-radius-4 w-full"
-                                        src={product.imgUrl}
-                                        alt={product.title}
+                                        height="200"
+                                        width="200"
+                                        src={blog_entry.img}
+                                        alt={blog_entry.title}
                                     />
                                 </div>
                             </div>
                         </Grid>
                         <Grid item lg={4} md={4} sm={4} xs={4}>
-                            <h6 className="m-0">{product.title}</h6>
+                            <h6 className="m-0">{blog_entry.title}</h6>
                             <p className="mt-2 m-0 text-muted">
-                                {product.description}
+                                {blog_entry.content}
                             </p>
                         </Grid>
                         <Grid
@@ -154,7 +158,7 @@ const TherapistBlogs = () => {
                             xs={true}
                             className="text-center"
                         >
-                            <h6 className="m-0">${product.price}</h6>
+                            <h6 className="m-0">{blog_entry.likes.length}</h6>
                         </Grid>
                         <Grid
                             item
@@ -164,32 +168,40 @@ const TherapistBlogs = () => {
                             xs={true}
                             className="text-center"
                         >
-                            <TextField
-                                variant="outlined"
-                                name="amount"
-                                type="number"
+                            <h6 className="m-0">{blog_entry.comments.length}</h6>
+                        </Grid>
+                        <Grid
+                            item
+                            lg={true}
+                            md={true}
+                            sm={true}
+                            xs={true}
+                            className="text-center"
+                        >
+                            <Fab
                                 size="small"
-                                value={product.amount}
-                                onChange={(e) => handleChange(e, product.id)}
-                                inputProps={{
-                                    style: {
-                                        // padding: "10px",
-                                        width: '60px',
-                                    },
+                                color="secondary"
+                                aria-label="Edit"
+                                onClick={() => {
+                                    console.log("/" + user.uid + "/editblog?bid=" + blog_entry.id)
+                                    history.push("/" + user.uid + "/editblog?bid=" + blog_entry.id)
                                 }}
-                            ></TextField>
-                        </Grid>
-                        <Grid
-                            item
-                            lg={true}
-                            md={true}
-                            sm={true}
-                            xs={true}
-                            className="text-center"
-                        >
-                            <h6 className="m-0">
-                                ${product.price * product.amount}
-                            </h6>
+                                className={classes.button}
+                            >
+                                <Icon>edit_icon</Icon>
+                            </Fab>
+                            <Fab
+                                size="small"
+                                color="error"
+                                aria-label="Delete"
+                                onClick={() => {
+                                    axios.delete("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/b/"+blog_entry.id)
+                                    window.location.reload()
+                                }}
+                                className={classes.button}
+                            >
+                                <Icon>delete</Icon>
+                            </Fab>
                         </Grid>
                     </Grid>
                 </div>

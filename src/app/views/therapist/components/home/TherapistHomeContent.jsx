@@ -7,14 +7,19 @@ import {
     Icon,
     Button,
     IconButton,
+    Table,
+    TableBody,
+    Avatar
 } from '@material-ui/core'
 import React, { Fragment, useState } from 'react'
-import DummyChart from './DummyChart'
-import ProfileBarChart from './ProfileBarChart'
+import history from 'history.js'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import NextSessions from './NextSessions'
-
+import NextSessionsEmpty from './NextSessionsEmpty'
+import { useEffect } from 'react'
+import axios from 'axios'
+import useAuth from 'app/hooks/useAuth'
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
         marginTop: -345,
@@ -68,10 +73,23 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
 const TherapistHomeContent = ({ toggleSidenav }) => {
+    const { user} = useAuth()
+    const [sessions, setSessions] = useState()
+    const [patients, setPatients] = useState()
+
+    useEffect(() => {
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/' + user.uid + '/u') 
+        .then(res => {
+            setPatients(res.data)
+        }) 
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/' + user.uid + '/s') 
+        .then(res => {
+            setSessions(res.data)
+        })
+    }, [])
+     
     const classes = usestyles()
     const theme = useTheme()
-    const [patientList, setPatientList] = useState(patients)
-
     return (
         <Fragment>
             <div className={classes.profileContent}>
@@ -81,7 +99,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                     </IconButton>
                 </div>
                 <div className={classes.headerCardHolder}>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={6}>
                         {projectSummery.map((project) => (
                             <Grid
                                 item
@@ -97,11 +115,13 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                             {project.title}
                                         </span>
                                         <h4 className="font-normal text-white m-0 pt-2">
-                                            {project.amount}
+                                            0
                                         </h4>
                                     </div>
-                                    <div className="w-56 h-36">
-                                        <DummyChart height="40px" />
+                                    <div  className="w-56 h-36">
+                                        <IconButton onClick={() => history.push(project.route)}>
+                                            <Icon className="text-white">{project.icon}</Icon>
+                                        </IconButton>
                                     </div>
                                 </Card>
                             </Grid>
@@ -112,57 +132,88 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                 <Grid container spacing={3}>
                     <Grid item lg={8} md={8} sm={12} xs={12}>
                         <Card className="pb-4">
-                            <h4 className="font-medium text-muted px-4 pt-4 pb-0">
-                                Próximas citas
+                            <h4 className="text-32 px-4 pt-4 pb-0">
+                                Tus próximas citas
                             </h4>
                             <NextSessions />
                         </Card>
                     </Grid>
+
+                    {/**LISTA DE PACIENTES QUE CAMBIA CON LA CONDICIONAL DE PACIENTES ASIGNADOS O NO */}
                     <Grid item lg={4} md={4} sm={12} xs={12} container spacing={1}>
                         <Grid item lg={12}
                                 md={12}
                                 sm={12}
                                 xs={12}>
                             <Card className="p-4 h-full">
-                                <h4 className="font-medium text-muted">
+                                {patients?.length > 0 ? 
+                                <div><h4 className="font-medium text-muted">
                                 <Icon>group</Icon> Pacientes
                                 </h4>
                                 <div style={{maxHeight: 400, overflow: 'auto'}}>
-                                    {patientList.map((patient, index) => {
+                                    {patients.map((patient, index) => {
                                         return patient.isNew ?
                                         <div className="flex items-center mb-4"  style={{marginTop: '15px'}}>
-                                            <Badge badgeContent="Nuevo" color={patient.color}>
-                                                <Fab className={patient.bg}>
-                                                    <h4 className={patient.min}>
-                                                        {patient.initials}
+                                            <Badge badgeContent="Nuevo" color='info'>
+                                                <Fab className='primary'>
+                                                    <h4 className='text-error m-0 font-normal'>
+                                                        {patient?.name}
                                                     </h4>
                                                 </Fab>
                                             </Badge>
                                             <div className="ml-4">
                                                 <h5 className="m-0 mb-1 font-medium">
-                                                    {patient.name}
+                                                    {patient?.name}
                                                 </h5>
-                                                <p className="m-0 text-muted">{patient.place}</p>
+                                                <p className="m-0 text-muted">{patient?.location[2]}</p>
                                             </div>
                                         </div>
                                         :
                                         <div className="flex items-center mb-4">
-                                            <Fab className={patient.bg}>
-                                                <h4 className={patient.min}>
-                                                    {patient.initials}
+                                            <Fab className='primary'>
+                                                <h4 className='text-error m-0 font-normal'>
+                                                {patients?.name}
                                                 </h4>
                                             </Fab>
                                             <div className="ml-4">
                                                 <h5 className="m-0 mb-1 font-medium">
-                                                    {patient.name}
+                                                {patient?.name}
                                                 </h5>
-                                                <p className="m-0 text-muted">{patient.place}</p>
+                                                <p className="m-0 text-muted">{patient?.location[2]}</p>
                                             </div>
                                         </div>
                                     })}
-                                </div>
+                                </div> </div>
+                                :
+                                <div className="mt-12">
+                                    <div className="flex-column items-center mb-6">
+                                        <Avatar
+                                            className="w-84 h-84"
+                                            src={''}
+                                        />
+                                        <h5 className="mt-4 mb-2">Aún no atiendes a ningún paciente</h5>
+                                        <small className="text-muted">Promociona tu perfil</small>
+                                    </div>
+                                    
+                                    <Table className="mb-6">
+                                        <TableBody>
+                                            <Button
+                                            onClick={''}
+                                            variant="contained"
+                                            color="primary"
+                                            className="x-center"
+                                            >
+
+                                                Promocionar perfil
+                                            </Button>
+                                        </TableBody>
+                                    </Table>
+                                </div>}
                             </Card>
                         </Grid>
+                        {/**TERMINA LISTA DE PACIENTES */}
+
+
                         <Grid item lg={12}
                                 md={12}
                                 sm={12}
@@ -413,14 +464,20 @@ const projectSummery = [
     {
         title: 'Pacientes',
         amount: 11,
+        icon:'person',
+        route:'/tid:/patients'
     },
     {
         title: 'Sesiones agendadas',
         amount: 15,
+        icon:'event',
+        route:'/:tid/appointments'
     },
     {
         title: 'Sesiones completadas',
         amount: 25,
+        icon:'offline_pin',
+        route: '/tid:/completedApp'
     },
 ]
 

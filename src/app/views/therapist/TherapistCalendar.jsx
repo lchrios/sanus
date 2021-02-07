@@ -1,25 +1,28 @@
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
-import React, { Fragment, useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Button } from '@material-ui/core'
 import { Calendar, Views, globalizeLocalizer } from 'react-big-calendar'
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
-import CalendarHeader from './components/CalendarHeader'
+import CalendarHeader from './components/calendar/CalendarHeader'
 import * as ReactDOM from 'react-dom'
 import { Breadcrumb } from 'app/components'
-import { getAllEvents, updateEvent } from './components/CalendarService'
-import EventEditorDialog from './components/EventEditorDialog'
+import { getAllEvents, updateEvent } from './components/calendar/CalendarService'
+import EventEditorDialog from './components/blogs/EventEditorDialog'
 import globalize from 'globalize'
 import Axios from 'axios'
 import PatientCard from './components/PatientCard'
+import PatientCardEmpty from './components/PatientCardEmpty'
 import {
     Card,
     Grid,
-    Icon,
-    Avatar,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
+import axios from 'axios'
+import firebase from 'firebase'
+import useAuth from 'app/hooks/useAuth'
+import history from '../../../history'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     calendar: {
@@ -61,6 +64,8 @@ const TherapistCalendar = () => {
     const [shouldShowEventDialog, setShouldShowEventDialog] = useState(false)
     const [isAlive, setIsAlive] = useState(true)
     const [userList, setUserList] = useState([])
+    const { user } = useAuth()
+
 
     const [rowsPerPage, setRowsPerPage] = useState(5)
     const [page, setPage] = useState(0)
@@ -69,7 +74,7 @@ const TherapistCalendar = () => {
     const classes = useStyles()
 
     const updateCalendar = () => {
-        getAllEvents()
+        getAllEvents(user.uid)
             .then((res) => res.data)
             .then((events) => {
                 events = events?.map((e) => ({
@@ -112,18 +117,27 @@ const TherapistCalendar = () => {
 
     useEffect(() => {
         updateCalendar()
-        Axios.get('/api/user/all').then(({ data }) => {
-            if (isAlive) setUserList(data)
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/' + user.uid + '/u') 
+        .then(res => {
+            setUserList(res.data)
+        }) 
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/' + user.uid + '/s')
+        .then(res => {
+            setEvents(res.data)
         })
-        return () => setIsAlive(false)
-    }, [isAlive])
+    }, [])
+
+
+    {/**Añadir validación de paciente con base de datos */}
+    
+    // TODO: Hacer responisva esta vista
 
     return (
         <div className="m-sm-30">
             <div className="mb-sm-30">
                 <Breadcrumb routeSegments={[{ name: 'Mis citas' }]} />
             </div>
-            <Card elevation={3} className={clsx('m-sm-45', classes.cart)}>
+            <Card elevation={3} className={clsx('m-sm-45')}>
                 <Grid container spacing={2} style={{marginLeft: '10px', marginRight: '10px', marginTop: '10px', marginBottom: '10px'}}>
                     <Grid item lg={9} md={9} sm={12} xs={12}>
                         <Card className="bg-ligh bg-default flex items-center justify-between p-4">
@@ -136,10 +150,20 @@ const TherapistCalendar = () => {
                                         action: 'doubleClick',
                                         start: new Date(),
                                         end: new Date(),
-                                    })
+                                    })  
                                 }
                             >
                                 Añadir evento
+                            </Button>
+                            <Button
+                                className="mb-4"
+                                variant="contained"
+                                color="primary"
+                                onClick={() =>
+                                    history.push('/'+user.uid + '/dashboard')
+                                }
+                            >
+                                Volver al escritorio
                             </Button>
                         </Card>
                         <div
@@ -192,10 +216,10 @@ const TherapistCalendar = () => {
                     <Grid item lg={3} md={3} sm={12} xs={12}
                         direction="column"
                         justify="center"
-                        alignItems="2-end"
+                        alignItems=""
                     >
-                        <Card style={{maxWidth: 250}}>
-                            <div className="bg-light bg-default p-6 flex flex-wrap justify-between items-center">
+                        <Card style={{maxWidth: 'full'}}>
+                            <div className="bg-light bg-default p-6 flex flex-wrap mx-0">
                                 <h1>Próximos pacientes</h1>
                                 <div className="py-1"></div>
                             </div>
@@ -205,14 +229,15 @@ const TherapistCalendar = () => {
                             direction="column"
                             className="bg-default flex items-center justify-between p-4"
                             >
-                                {userList
+                                {userList.length == 0 ? <PatientCardEmpty  /> : userList
                                     .slice(
                                         page * rowsPerPage,
                                         page * rowsPerPage + rowsPerPage
                                     )
                                     .map((user) => (
                                         <PatientCard user={user} />
-                                ))}
+                                    )) 
+                                }
                             </Grid>
                         </Card>
                     </Grid>
@@ -220,6 +245,7 @@ const TherapistCalendar = () => {
             </Card>
         </div>
     )
+    
 }
 
 export default TherapistCalendar

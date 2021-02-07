@@ -8,7 +8,7 @@ import {
 const FormTest = () => {
 
     return (
-        <Card className="m-sm-30 p-6">
+        <Card className="m-sm-30" >
             <div className="max-w-600 mx-auto">
                 <h4>Responde este formulario para comenzar</h4>
                 <p>
@@ -20,7 +20,6 @@ const FormTest = () => {
                     className="mb-4"
                     label="¿Porqué deseas comenzar una terapia?"
                     variant="outlined"
-                    size="small"
                     multiline
                     fullWidth
                 />
@@ -28,22 +27,24 @@ const FormTest = () => {
                     className="mb-4"
                     label="¿Hace cuanto identificas la situación?"
                     variant="outlined"
-                    size="small"
+                    helperText="Selecciona un periodo"
                     fullWidth
-                    defaultValue=""
                     select
+                    SelectProps= {
+                        {native:true}
+                    }
                 >
                     {stayDurationList.map((duration) => (
-                        <MenuItem key={duration} value={duration}>
+                        <option key={duration} value={duration}>
                             {duration}
-                        </MenuItem>
+                        </option>
                     ))}
                 </TextField>
                 <TextField
                     className="mb-4"
                     label="Describe un evento específico asociado a la situación"
                     variant="outlined"
-                    size="small"
+                    rows={4}
                     multiline
                     fullWidth
                 />

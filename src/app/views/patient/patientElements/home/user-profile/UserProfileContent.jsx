@@ -6,18 +6,21 @@ import {
     IconButton,
     Button
 } from '@material-ui/core'
-import React, { Fragment } from 'react'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+import React, { Fragment, useEffect, useState} from 'react'
+import { makeStyles} from '@material-ui/core/styles'
 import history from '../../../../../../history';
 import PatientTest from '../../test/PatientTest'
 import TherapistInfoUser from './TherapistInfoUser'
 import PatientCalendar from '../../calendar/PatientCalendar'
+import axios from 'axios'
 import useAuth from 'app/hooks/useAuth';
+import { NavLogo } from 'app/views/landing/components/Navbar_sc/NavbarElements';
 
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
+        zIndex:1,
         marginTop: -345,
         paddingTop: 74,
         paddingRight: 30,
@@ -27,8 +30,8 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
         },
 
         '@media screen and (max-width: 959px)': {
-            display:'block',
-            position:'absolute',
+            // display:'block',
+            //position:'absolute',
             marginTop: -390,
             paddingTop: 24,
             paddingRight: 16,
@@ -39,6 +42,8 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
         },
 
         '@media screen and (max-width: 499px)': {
+            display:'block',
+            position:'absolute',
             width:'100%',
             '& .menu-button': {
                 display: 'flex',
@@ -65,136 +70,254 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
+
+
 const UserProfileContent = ({ toggleSidenav }) => {
+    const { user } = useAuth()
+    const [therapist, setTherapist] = useState()    
+
+    useEffect(() => {
+
+        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t')
+            .then(res => {
+                setTherapist(res.data)
+            })
+
+    }, [user.uid])   
+
     const classes = usestyles()
-    const theme = useTheme()
 
     const onClick1 = () => {
         history.push("/:pid/sessions");
     }
 
-    var { user } = useAuth() 
+    // var { user } = useAuth() 
+    if (therapist == undefined) {
+
+        return (
+            <Fragment >
+                <div className={classes.profileContent}>
+                    <div className="flex justify-end menu-button">
+                        <IconButton onClick={toggleSidenav}>
+                            <Icon className="text-white">menu</Icon>
+                        </IconButton>
+                    </div>
+                    <div className={classes.headerCardHolder}>
+                        <Grid container spacing={3}>
+                                <Grid
+                                    item
+                                    lg={4}
+                                    md={4}
+                                    sm={12}
+                                    xs={12}
+                                    className="items-center "
+                                >
+                                    <Card className="h-150 bg-primary flex items-center justify-between ">
+                                        <div className="m-auto">
+                                                
+                                                <h4 className="m-auto font-normal text-white ">
+                                                Este es tu perfil. Para comenzar navega por nuestro buscador, y selecciona un terapeuta.
+                                                </h4>
+                                        </div>
+                                        <div className="mx-auto">
+                                            <Button variant="contained" color="secondary" className="">
+                                                ¿Necesitas ayuda?
+                                            </Button>
+                                        </div>
+                                    </Card>
+                                    
+                                </Grid>
+                        </Grid>
+                    </div>
+                    <div className="py-8" />
+                    <Grid container spacing={3}>
+                        <Grid item lg={8} md={8} sm={12} xs={12}>
+                            <Card className="pb-4 px-4">
+                                <h4 className="font-medium text-muted px-4 pt-4 pb-0">
+                                    Comenzar terapia
+                                </h4>
+                                 <PatientTest/>
+                            </Card>
+                            <div className="py-3"></div>
+                            <Card className="py-4 elevation-z5">
+                                 <PatientCalendar /> 
+                            </Card>                             
+                        </Grid>
+    
+                        <Grid item lg={4} md={4} sm={12} xs={12}>
+                            <Card className="p-4 h-1500 elevation-z5 mb-10">
+                                <h4 className="font-medium text-muted pb-6 pb-0 mb-6">
+                                    Tu terapeuta
+                                </h4>
+                                <div className="flex items-center mb-4">
+                                    <TherapistInfoUser />
+                                </div>
+                                <div className="flex items-center">
+                                </div>
+                            </Card>
+                            <Card className="elevation-z5 p-4">
+                                <div>
+                                    <h5 className="font-medium text-muted pb-6 pb-0 mb-6">
+                                        Cambia tu metodo de pago
+                                    </h5>
+                                </div>
+                                
+                                {paymentList.map((method, index) => (
+                                    <Fragment key={index}>
+                                    <Button onClick={() => history.push("/:pid/changepaymethod")}>
+                                        <div className="py-4 px-6 flex flex-wrap items-center justify-between">
+                                           
+                                            <div  className="flex items-center">
+                                                <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
+                                                    <img
+                                                        className="w-36 overflow-hidden"
+                                                        src={method.img}
+                                                        alt="master card"
+                                                    />
+                                                </div>
+                                                <div className="ml-4">
+                                                    <h5 className="mb-1 font-medium">
+                                                        {method.type}
+                                                    </h5>
+                                                    <span className="text-muted">
+                                                        {method.product}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                         
+                                    
+                                        </div>
+                                        {index !== paymentList.length - 1 && (
+                                            <Divider />
+                                        )}
+                                    </Button>
+                                    </Fragment>
+                                ))}
+                            </Card>
+                        </Grid>
+                    </Grid>
+                    <div className="py-2"></div>
+                </div>
+            </Fragment>
+        )
+
+    }
 
     return (
-        <Fragment className={classes.profileContent}>
-            <div className={classes.profileContent}>
-                <div className="flex justify-end menu-button">
-                    <IconButton onClick={toggleSidenav}>
-                        <Icon className="text-white">menu</Icon>
-                    </IconButton>
-                </div>
-                <div className={classes.headerCardHolder}>
-                    <Grid container spacing={3}>
-                        {sessionsSummery.map((sessions) => (
-                            <Grid
-                                item
-                                lg={4}
-                                md={4}
-                                sm={12}
-                                xs={12}
-                                key={sessions.title}
-                            >
-                                <Card className="h-96 bg-gray bg-default flex items-center justify-between p-4">
-                                    <div>
-                                        <span className="text-light-white uppercase">
-                                            {sessions.title}
-                                        </span>
-                                        <h4 className="font-normal text-white m-0 pt-2">
-                                            {sessions.amount}
-                                        </h4>
-                                    </div>
-                                    <div className="w-56 h-36">
-                                        <IconButton onClick={onClick1} className="text-white">
-                                            <Icon> visibility </Icon>
-                                        </IconButton>
-                                    </div>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </div>
-                <div className="py-8" />
-                <Grid container spacing={3}>
-                    <Grid item lg={8} md={8} sm={12} xs={12}>
-                        <Card className="pb-4 px-4">
-                            <h4 className="font-medium text-muted px-4 pt-4 pb-0">
-                                Comenzar terapia
-                            </h4>
-                             <PatientTest/>
-                        </Card>
-                        <div className="py-3"></div>
-                        <Card className="py-4 elevation-z5">
-                            <PatientCalendar />
-                        </Card>                             
-                    </Grid>
-
-                    <Grid item lg={4} md={4} sm={12} xs={12}>
-                        <Card className="p-4 h-1500 elevation-z5 mb-10">
-                            <h4 className="font-medium text-muted pb-6 pb-0 mb-6">
-                                Tu terapeuta
-                            </h4>
-                            <div className="flex items-center mb-4">
-                                <TherapistInfoUser />
-                            </div>
-                            <div className="flex items-center">
-                            </div>
-                        </Card>
-                        <Card className="elevation-z5 p-4">
-                            <div>
-                                <h5 className="font-medium text-muted pb-6 pb-0 mb-6">
-                                    Cambia tu metodo de pago
-                                </h5>
-                            </div>
-                            
-                            {paymentList.map((method, index) => (
-                                <Fragment key={index}>
-                                <Button onClick={() => history.push("/:pid/changepaymethod")}>
-                                    <div className="py-4 px-6 flex flex-wrap items-center justify-between">
-                                       
-                                        <div  className="flex items-center">
-                                            <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
-                                                <img
-                                                    className="w-36 overflow-hidden"
-                                                    src={method.img}
-                                                    alt="master card"
-                                                />
-                                            </div>
-                                            <div className="ml-4">
-                                                <h5 className="mb-1 font-medium">
-                                                    {method.type}
-                                                </h5>
-                                                <span className="text-muted">
-                                                    {method.product}
-                                                </span>
-                                            </div>
-                                        </div>
-                                     
-                                
-                                    </div>
-                                    {index !== paymentList.length - 1 && (
-                                        <Divider />
-                                    )}
-                                </Button>
-                                </Fragment>
-                            ))}
-                        </Card>
-                    </Grid>
-                </Grid>
-                <div className="py-2"></div>
+        <Fragment >
+        <div className={classes.profileContent}>
+            <div className="flex justify-end menu-button">
+                <IconButton onClick={toggleSidenav}>
+                    <Icon className="text-white">menu</Icon>
+                </IconButton>
             </div>
-        </Fragment>
+            <div className={classes.headerCardHolder}>
+                <Grid container spacing={3}>
+                    {sessionsSummery.map((sessions) => (
+                        <Grid
+                            item
+                            lg={4}
+                            md={4}
+                            sm={12}
+                            xs={12}
+                            key={sessions.title}
+                        >
+                            <Card className="h-96 bg-gray bg-default flex items-center justify-between p-4">
+                                <div>
+                                    <span className="text-light-white uppercase">
+                                        {sessions?.title }
+                                    </span>
+                                    <h4 className="font-normal text-white m-0 pt-2">
+                                        {sessions?.amount}
+                                    </h4>
+                                </div>
+                                <div className="w-56 h-36">
+                                    <IconButton onClick={onClick1} className="text-white">
+                                        <Icon> visibility </Icon>
+                                    </IconButton>
+                                </div>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </div>
+            <div className="py-8" />
+            <Grid container spacing={3}>
+                <Grid item lg={8} md={8} sm={12} xs={12}>
+                    <Card className="pb-4 px-4">
+                        <h4 className="font-medium text-muted px-4 pt-4 pb-0">
+                            Comenzar terapia
+                        </h4>
+                         <PatientTest/>
+                    </Card>
+                    <div className="py-3"></div>
+                    <Card className="py-4 elevation-z5">
+                        <PatientCalendar />
+                    </Card>                             
+                </Grid>
+
+                <Grid item lg={4} md={4} sm={12} xs={12}>
+                    <Card className="p-4 h-1500 elevation-z5 mb-10">
+                        <h4 className="font-medium text-muted pb-6 pb-0 mb-6">
+                            Tu terapeuta
+                        </h4>
+                        <div className="flex items-center mb-4">
+                            <TherapistInfoUser />
+                        </div>
+                        <div className="flex items-center">
+                        </div>
+                    </Card>
+                    <Card className="elevation-z5 p-4">
+                        <div>
+                            <h5 className="font-medium text-muted pb-6 pb-0 mb-6">
+                                Cambia tu metodo de pago
+                            </h5>
+                        </div>
+                        
+                        {paymentList.map((method, index) => (
+                            <Fragment key={index}>
+                            <Button onClick={() => history.push("/:pid/changepaymethod")}>
+                                <div className="py-4 px-6 flex flex-wrap items-center justify-between">
+                                   
+                                    <div  className="flex items-center">
+                                        <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
+                                            <img
+                                                className="w-36 overflow-hidden"
+                                                src={method.img}
+                                                alt="master card"
+                                            />
+                                        </div>
+                                        <div className=" ml-4">
+                                            <h5 className="mb-1 font-medium">
+                                                {method.type}
+                                            </h5>
+                                            <span className="text-muted">
+                                                {method.product}
+                                            </span>
+                                        </div>
+                                    </div>
+                                 
+                            
+                                </div>
+                                {index !== paymentList.length - 1 && (
+                                    <Divider />
+                                )}
+                            </Button>
+                            </Fragment>
+                        ))}
+                    </Card>
+                </Grid>
+            </Grid>
+            <div className="py-2"></div>
+        </div>
+    </Fragment>
     )
+    
 }
 
-const sessionsSummery = [
-    {
-        title: 'Próximas sesiones',
-        amount: 11,
-    },
-    {
-        title: 'Sesiones completadas',
-        amount: 15,
-    }
+
+
+    const sessionsSummery = [
 ]
 
 const paymentList = [
@@ -207,7 +330,7 @@ const paymentList = [
     {
         img: '/assets/images/payment-methods/oxxo.png',
         type: 'Depósito',
-        product: 'Deposita donde quieras',
+        product: 'Deposita en tu oxxo cercano',
         amount: 303
     },
     {

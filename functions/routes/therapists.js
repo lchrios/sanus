@@ -22,6 +22,25 @@ exports.getAllTherapists = (req, res) => {
         })
 }
 
+exports.getPatientsbyTherapists = (req,res) => {
+    users
+        .where("therapist", "==", req.params.tid)
+        .get()
+        .then(query => {
+            var data = [];
+
+            query.forEach(doc => {
+                data.push(doc.data());
+            })
+
+            return res.status(200).send(data)
+        })
+        .catch(error => {
+            console.log('No fue posible obtener la información de usuarios asignados')
+            return res.status(404).send(error)
+        })
+}
+
 exports.newTherapist = (req, res) => {
     ther.set(req.body.data)
         .then(doc => {
@@ -65,7 +84,9 @@ exports.getTherapist = (req, res) => {
 
 exports.getAllSessionsByTherapist = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    sess.where('therapist', '==', req.params.pid)
+
+    // * function exclusiva de terapeuta
+    sess.where('therapist', '==', req.params.tid)
         .get()
         .then((query) => {
             const data = [];

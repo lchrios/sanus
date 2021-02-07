@@ -20,7 +20,8 @@ exports.getSession = (req, res) => {
 
 exports.newSession = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    sess.add(req.body)
+    console.log(req.body.sessiondata)
+    sess.add(req.body.sessiondata)
         .then( doc => {
             // actualizar el id del documento
             sess
@@ -68,8 +69,7 @@ exports.newSession = (req, res) => {
                     console.log('Error obteniendo los datos del terapeuta', error);
                     return res.status(404).send(error);
                 })
-        })
-        .then(() => {
+                
             return res.status(201).send(doc.id);
         })
         .catch(error => {
@@ -82,7 +82,7 @@ exports.updateSession = (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
     sess
         .doc(req.params.sid)
-        .set(req.body)
+        .set(req.body.sessiondata)
         .then(() => {
             console.log('Sesion actualizada con exito!');
             return res.status(204);

@@ -19,7 +19,7 @@ export default function SimpleSnackbar() {
         setOpen(true)
     }
 
-    function handleClose(event, reason) {
+    function handleCloseSnack(event, reason) {
         if (reason === 'clickaway') {
             return
         }
@@ -37,7 +37,7 @@ export default function SimpleSnackbar() {
                 }}
                 open={open}
                 autoHideDuration={6000}
-                onClose={handleClose}
+                onClose={handleCloseSnack}
                 ContentProps={{
                     'aria-describedby': 'message-id',
                 }}
@@ -47,7 +47,7 @@ export default function SimpleSnackbar() {
                         key="undo"
                         color="secondary"
                         size="small"
-                        onClick={handleClose}
+                        onClick={handleCloseSnack}
                     >
                         UNDO
                     </Button>,
@@ -56,7 +56,7 @@ export default function SimpleSnackbar() {
                         aria-label="Close"
                         color="inherit"
                         className={classes.close}
-                        onClick={handleClose}
+                        onClick={handleCloseSnack}
                     >
                         <CloseIcon />
                     </IconButton>,

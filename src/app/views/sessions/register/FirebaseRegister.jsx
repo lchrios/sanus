@@ -82,14 +82,16 @@ const FirebaseRegister = () => {
                 sessions: [],
                 payment_met: [],
                 location: ["Guadalajara", "Jalisco", "Mexico"],
+                blogs: []
             }
 
             var db = firebase.firestore()
 
-            await db.collection("patients").doc(user.uid).set(user_data)
+            await db.collection("users").doc(user.uid).set(user_data)
+            await db.collection("therapists").doc(user.uid).set({blogs: []});
             await db.collection('roles').doc(user.uid).set({role: "patients"})
 
-            history.push('/'+user.uid+'/home')
+            history.push('/'+user.uid+'/dashboard')
         } catch (e) {
             setMessage(e.message)
             setLoading(false)
@@ -116,14 +118,16 @@ const FirebaseRegister = () => {
                 payment_met: [],
                 location: ["Guadalajara", "Jalisco", "Mexico"],
                 answered: false,
+                blogs: [],
             }
 
             var db = firebase.firestore()
 
             await db.collection("patients").doc(user.uid).set(user_data)
+            await db.collection("therapists").doc(user.uid).set({blogs: []});
             await db.collection('roles').doc(user.uid).set({role: "patients"})
 
-            history.push('/'+user.uid+'/home')
+            history.push('/'+user.uid+'/dashboard')
         } catch (e) {
             setLoading(false)
             console.log(e)
@@ -236,7 +240,7 @@ const FirebaseRegister = () => {
                                 )}
                                 <div className="flex items-center">
                                     <div className="relative">
-                                    <Link to='/session/dataform'>
+                                    {/*<Link to='/session/dataform'>*/}
                                         <Button
                                             variant="contained"
                                             color="primary"
@@ -253,7 +257,7 @@ const FirebaseRegister = () => {
                                                 }
                                             />
                                         )}
-                                    </Link>
+                                    {/*</Link>*/}
                                     </div>
                                     <span className="mx-2 ml-5">o</span>
                                     <Link to="/session/signin">

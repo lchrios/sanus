@@ -45,16 +45,6 @@ const BlogEntryItem = ({ blog }) => {
     const { cartList } = useSelector((state) => state.ecommerce)
     const dispatch = useDispatch()
 
-    const amount = cartList?.find((p) => p.id === product.id)?.amount || 0
-
-    const handleUpdateCart = (productAmount) => {
-        dispatch(updateCartAmount(user.id, product.id, productAmount))
-    }
-
-    const handleAddProduct = () => {
-        dispatch(addProductToCart(user.id, product.id))
-    }
-
     return (
         <div key={product.id} className="py-4 px-4">
             <Grid container alignItems="center">

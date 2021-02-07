@@ -36,19 +36,11 @@ const Footer = () => {
         <ThemeProvider theme={footerTheme}>
             <AppBar
                 color="primary"
-                position="static"
+                position="fixed"
                 className={classes.appbar}
             >
                 <Toolbar className={clsx('flex items-center', classes.footer)}>
                     <div className="flex items-center container w-full">
-                        {/* <a
-              href="https://github.com/uilibrary/matx-react"
-              target="_blank"
-              className="mr-2"
-              rel="noopener noreferrer"
-            >
-              <Button variant="contained">Download Free version</Button>
-            </a> */}
                         <span className="m-auto"></span>
                         <p className="m-0">
                             Desarrollado por{' '}

@@ -16,7 +16,7 @@ export const navigations = [
         icon: 'analytics',
     },*/
     // Patient views
-    {
+    /*{
         label: 'Vista de paciente',
         type: 'label',
     },
@@ -34,20 +34,19 @@ export const navigations = [
         name: "Historial de sesiones",
         icon: "history",
         path: "/sessions"
-    },
-    /**
+    },*/
+    /*
     {
         name: 'Inventory Management',
         path: '/dashboard/inventory-management',
         icon: 'store',
-    },
+    },*/
        
-    /*Therapist views */
-    /*{
+    {
         label: 'Vistas de terapeuta',
         type: 'label',
     },
-    { 
+    /*{ 
         name: "Administrador de terapeuta",
         icon: "event",
         path: "/dashboard"
@@ -63,7 +62,7 @@ export const navigations = [
         path: "/myblogs"
     },
     {
-        name: 'Editor',
+        name: 'Nuevo blog',
         path: '/newblog',
         icon: 'text_snippet',
     },*/

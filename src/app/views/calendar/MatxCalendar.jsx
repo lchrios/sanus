@@ -117,7 +117,7 @@ const MatxCalendar = () => {
                 Add Event
             </Button>
             <div
-                className={clsx('h-full-screen flex-column', classes.calendar)}
+                className={clsx('h-full-screen flex-columnw ', classes.calendar)}
             >
                 <div ref={headerComponentRef} />
                 <DragAndDropCalendar
