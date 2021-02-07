@@ -1,4 +1,4 @@
-"use strict";
+  "use strict";
 
 var _require = require('../firestore'),
     db = _require.db;
@@ -42,6 +42,14 @@ exports.newTherapist = function (req, res) {
   })["catch"](function (error) {
     console.log('Error al crear terapeuta!', error);
     return res.status(404).send(error);
+  });
+};
+
+exports.newTherapist = function (req, res) {
+  ther.set(req.body.data).then(function (doc) {
+    firebase.firestore().collection('patients').doc(user.uid).get().then(function (docRole) {
+      setDbRef(docRole.ref);
+    });
   });
 };
 
