@@ -10,21 +10,21 @@ export const Sidebar = ( { is0pen, toggle }) => {
             </Icon>
             <SidebarWrapper>
                 <SidebarMenu>
-                    <SidebarLink onClick={() => {toggle(); history.push('')}}>
+                    <SidebarLink onClick={() => {toggle();}} to=''>
                         Acerca de
                     </SidebarLink>
-                    <SidebarLink onClick={() => {toggle(); history.push('/landingblog')}}>
+                    <SidebarLink onClick={() => {toggle();}} to='/landingblog'>
                         Blog
                     </SidebarLink>
-                    <SidebarLink onClick={() => {toggle(); history.push('/psychologists')}}>
+                    <SidebarLink onClick={() => {toggle();}} to='/psychologists'>
                         Psicólogos
                     </SidebarLink>
-                    <SidebarLink onClick={() => {toggle();  history.push('/session/signup')}}>
+                    <SidebarLink onClick={() => {history.push('/session/signup')}} to='/session/signup'>
                         Comienza ya
                     </SidebarLink>
                 </SidebarMenu>
                 <SideBtnWrap>
-                    <SidebarRoute onClick={() => {toggle(); history.push('/session/signin')}}>Iniciar Sesión</SidebarRoute>
+                    <SidebarRoute onClick={() => {history.push('/session/signin')}} to='/session/signin'>Iniciar Sesión</SidebarRoute>
                 </SideBtnWrap>
             </SidebarWrapper>
         </SidebarContainer>

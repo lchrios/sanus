@@ -45,13 +45,14 @@ export const InfoSection = ({
   dark, 
   dark2 }) => {
     const classes = useStyles();
+
+    // TODO: Wrappear las columnas en un grid item
+    // TODO: Acomodar el grid general como container
+
     return (
           <InfoContainer lightBg = {lightBg } id={id} >
-
-                <InfoWrapper>
-
+                <InfoWrapper> {/* // TODO: Representa el grid container */}
                       <Grid lg={12} md={12} >
-
                         <InfoRow imgStart={imgStart}>
                           <Column1>
                               <TextWrapper>
@@ -69,7 +70,7 @@ export const InfoSection = ({
                                     dark={dark ? 1 : 0 }
                                     dark2={dark2 ? 1 : 0 }
                                     onClick={buttonClick}
-                                    classname="elevation-z5"
+                                    className="elevation-z5"
                                     >
                                       {buttonLabel}
                                       </Button>
