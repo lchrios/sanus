@@ -1,4 +1,5 @@
-const { db } = require('../firestore')
+const { admin } = require('../firebase');
+var db = admin.firestore();
 const users = db.collection('users');
 const ther = db.collection('therapists');
 const sess = db.collection('sessions');

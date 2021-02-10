@@ -60,7 +60,7 @@ app.use( (req, res, next) => {
 });
 
 
-// rutas de terapeuta
+// * rutas de terapeuta
 app.get('/t', getAllTherapists);
 app.get('/t/ref', getAllTherapistsRefs);
 app.get('/t/:tid', getTherapist);
@@ -69,7 +69,7 @@ app.get('/t/:tid/s/:sid', getSession);
 app.get('/t/:tid/b', getAllBlogsByTherapist);
 app.get('/t/:tid/u', getPatientsbyTherapists)
 
-// rutas de usuario
+// * rutas de usuario
 app.get('/u', getAllUsers);
 app.get('/u/:uid', getUser);
 app.get('/u/:uid/t', getTherapistByUser);
@@ -77,23 +77,24 @@ app.get('/u/:uid/t/ref', getTherapistRefByUser);
 app.get('/u/:uid/s', getAllSessionsByUser);
 app.get('/u/:uid/s/:sid', getSession);
 
-// rutas de blogs
+// * rutas de blogs
 app.get('/b', getAllBlogs);
 app.get('/b/:bid', getBlog);
 app.post('/b/new', newBlog);
 app.delete('/b/:bid', deleteBlog);
 app.put('/b/:bid', updateBlog);
 
-// rutas de sesiones
+// * rutas de sesiones
 app.post('/s/new', newSession);
 app.put('/s/:sid', updateSession);
 app.get('/s/:sid', getSession);
 app.delete('/s/:sid', deleteSession);
 
-// rutas de autenticacion
+// * rutas de autenticacion
 app.post('/auth/login', signInWithEmailAndPassword);
 app.post('/auth/signin', createUserWithEmailAndPassword);
 app.post('/auth/login-google', signInWithGoogle);
 app.post('/auth/:uid/logout', logout);
 
+// * export de la api 
 exports.api = functions.region('us-central1').https.onRequest(app)

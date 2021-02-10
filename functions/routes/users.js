@@ -1,11 +1,12 @@
-const { db } = require('../firestore')
-const users = db.collection('users');
-const ther = db.collection('therapists');
-const sess = db.collection('sessions');
+const { admin } = require('../firebase');
+var db = admin.firestore();
+var users = db.collection('users');
+var ther = db.collection('therapists');
+var sess = db.collection('sessions');
 
 exports.getAllUsers = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
-    users.get()
+    users
+        .get()
         .then((query) => {
             var data = [];
             query.forEach((doc) => {
@@ -13,11 +14,23 @@ exports.getAllUsers = (req, res) => {
             })
             
             res.status(200).send(data)
-        })
+        });
+}
+
+exports.getAllUsers = function (req, res) {
+    users
+        .get()
+        .then((query) => {
+            var data = [];
+            query.forEach((doc) => {
+                data.push(doc.data());
+            })
+            
+            res.status(200).send(data)
+        });
 }
 
 exports.getUser = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     users.doc(req.params.uid)
         .get()
         .then((doc) => {
@@ -26,7 +39,6 @@ exports.getUser = (req, res) => {
 }
 
 exports.getTherapistByUser = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     users.doc(req.params.uid)
         .get()
         .then((doc) => {
@@ -40,7 +52,6 @@ exports.getTherapistByUser = (req, res) => {
 }
 
 exports.getTherapistRefByUser = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     users.doc(req.params.uid)
         .get()
         .then((doc) => {
@@ -54,7 +65,6 @@ exports.getTherapistRefByUser = (req, res) => {
 }
 
 exports.getAllSessionsByUser = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     sess.where('patient', '==', req.params.uid)
         .get()
         .then((query) => {
