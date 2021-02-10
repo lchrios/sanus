@@ -20,7 +20,7 @@ import { IkneliaLogo } from 'app/components/Brand/Brand'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
-        background: '#1A2038',
+        background: '#00009C',
     },
     card: {
         maxWidth: 800,
@@ -33,7 +33,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         display: 'flex',
         flexDirection: 'column',
         [theme.breakpoints.down('sm')]: {
-            minWidth: 200,
+            minWidth: 400,
         },
     },
     logo: {
@@ -138,16 +138,16 @@ const FirebaseLogin = () => {
                     <Grid item lg={6} md={6} sm={5} xs={12}>
                         <div
                             className={clsx({
-                                'py-8 px-14 h-full': true,
+                                'py-8 px-7 h-full': true,
                                 [classes.cardLeft]: true,
                             })}
                         >
                             <div className={classes.logo}>
                                     <IkneliaLogo to={"/home"}>Iknelia</IkneliaLogo>
                             </div>
-                            <h1 className={classes.mainTitle}>
+                            {/* <h1 className={classes.mainTitle}>
                                 La atención que mereces
-                            </h1>
+                            </h1> */}
                             <div className={classes.features}>
                                 <div className="item">
                                     Crea tu cuenta 

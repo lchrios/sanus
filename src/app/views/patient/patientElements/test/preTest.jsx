@@ -5,13 +5,13 @@ import { Card, Button } from '@material-ui/core'
 const PreTest = () => {
 
     return (
-        <Card className="m-sm-30">
-            <div className="max-w-600 mx-10">
+        <Card className="m-sm-30 ">  
+            <div className="max-w-600 mx-auto">
                 <h3>Antes de comenzar, por favor selecciona un terapeuta</h3>
                 <Button
-                className="mt-2 mb-2" 
+                className="mt-2 mb-2 x-center" 
                 variant="contained"
-                color="primary"
+                color="secondary"
                 onClick={() => history.push('/:pid/browse')}
 
                 >

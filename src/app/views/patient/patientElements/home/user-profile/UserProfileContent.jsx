@@ -14,8 +14,6 @@ import TherapistInfoUser from './TherapistInfoUser'
 import PatientCalendar from '../../calendar/PatientCalendar'
 import axios from 'axios'
 import useAuth from 'app/hooks/useAuth';
-import { NavLogo } from 'app/views/landing/components/Navbar_sc/NavbarElements';
-
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
@@ -140,7 +138,11 @@ const UserProfileContent = ({ toggleSidenav }) => {
                             </Card>
                             <div className="py-3"></div>
                             <Card className="py-4 elevation-z5">
-                                 <PatientCalendar /> 
+                                <h4 className="font-medium text-muted px-4 pt-4 pb-0">
+                                    Calendario de sesiones
+                                </h4>
+                                 <h2 className='px-4'>No tienes ninguna sesión, para generar una sesión, primero deberás seleccionar un terapeuta.</h2>
+                                 <Button className="x-center mt-4" variant="contained" color="secondary">Seleccionar terapeuta</Button>
                             </Card>                             
                         </Grid>
     

@@ -153,11 +153,10 @@ const FirebaseRegister = () => {
                                 src="/assets/images/illustrations/posting_photo.svg"
                                 alt=""
                             />
-                            <div className="justify-center ml-16">
-                                <Button onClick={() => history.push('/home')} color="primary" className={classes.button}>
+                            <Button onClick={() => history.push('/home')} color="secondary" variant="contained" className="x-center">
                                             VOLVER
-                                </Button>
-                            </div>
+                            </Button>
+                            
                         </div>
                     </Grid>
                     <Grid item lg={7} md={7} sm={7} xs={12}>

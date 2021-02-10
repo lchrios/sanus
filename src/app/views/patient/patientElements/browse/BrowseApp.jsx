@@ -10,7 +10,7 @@ import axios from 'axios'
 
 
 
-const BrowseApp = () => {
+const BrowseApp = ({toggleSidenav}) => {
     const [isAlive, setIsAlive] = useState(true)
     const [userList, setUserList] = useState([])
     const [docRefs, setDocRefs] = useState([])
@@ -75,7 +75,7 @@ const BrowseApp = () => {
                     let therapist = userList[dataIndex]
 
                     return (
-                        <span className="ellipsis">{therapist?.exp}</span>
+                        <span className="">{therapist?.exp}</span>
                     )
                 },
             },
@@ -110,12 +110,12 @@ const BrowseApp = () => {
         },
         {
             name: 'action',
-            label: ' ',
+            label: 'Seleccionar terapeuta ',
             options: {
                 filter: false,
                 customBodyRenderLite: (dataIndex) => (
-                    <div className="flex items-center">
-                        <div className="flex-grow"></div>
+                    <div className="flex">
+                        <div className=""></div>
                             <IconButton onClick={() => {
                                 const db = firebase.app().firestore()
 
@@ -127,7 +127,9 @@ const BrowseApp = () => {
                                         history.push('/'+user.uid+'/home')
                                     })
                                 }}>
-                                <Icon>control_point</Icon>
+                                    
+                                    <Icon>control_point</Icon>
+
                             </IconButton>
                     </div>
                 ),
@@ -139,20 +141,25 @@ const BrowseApp = () => {
     <div>
         <div className="m-sm-30">
             <div className="overflow-auto">
-                <div className="min-w-750">
+            <div className="hide-on-pc flex justify-end menu-button">
+                        <IconButton onClick={toggleSidenav}>
+                            <Icon className="">menu</Icon>
+                        </IconButton>
+            </div>
+                <div className="min-w-300">
                     <MUIDataTable
                         title={'Todos los terapeutas'}
                         data={userList}
                         columns={columns}
                         options={{
                             filterType: 'textField',
-                            responsive: 'standard',
+                            responsive: 'simple',
                             selectableRows: "none", // set checkbox for each row
                             //search: false, // set search option
                             filter: false, // set data filter option
                             download: false, // set download option
                             print: false, // set print option
-                            pagination: true, //set pagination option
+                            pagination: false, //set pagination option
                             viewColumns: false, // set column option
                             elevation: 0,
                             rowsPerPageOptions: [10, 20, 40, 80, 100],

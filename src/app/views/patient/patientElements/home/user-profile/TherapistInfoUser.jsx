@@ -48,7 +48,7 @@ const TherapistInfoUser = () => {
                     <Button
                      onClick={() => history.push('/'+ user.uid+'/browse') }
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     className="x-center"
                     >
 

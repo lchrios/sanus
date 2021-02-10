@@ -1,0 +1,22 @@
+Fase 1:
+	-Introducción a a prueba:
+
+		-(NESTOR)Presentar proyecto (Iknelia)
+			-¿Quienes son?
+			-Nombre del proyecto y que es
+		-(CHRIVIAS)Instrucciones a usuarios
+
+Fase 2:
+	-(CHRIVIAS)UX Test:
+		-Pedirles que entren al link 
+		-Explicarles el objetivo que tendrán que conseguir:
+			-Navegar por la pagina web
+			-Tendrás que crear una cuenta en la plataforma
+			-Navegar, y seleccionar un terapeuta de tu agrado. (aun no son reales)
+			-Agendar una sesión con el terapeuta (Explicar porque manda al checkout)
+			-Iniciar sesión de zoom de prueba
+			
+Fase 3
+	-Retroalimentación:
+		-En vivo
+		-Google forms

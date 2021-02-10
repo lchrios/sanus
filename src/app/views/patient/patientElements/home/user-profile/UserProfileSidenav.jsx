@@ -77,10 +77,9 @@ const UserProfileSidenav = () => {
         setOpen(false)
     }
 
-    {/**El terapeuta es nulo, y aún así no muestra el contenido que la condición contiene}
+    {/**El terapeuta es nulo, y aún así no muestra el contenido que la condición contiene
         el contenido de los return, debe ser modificado, por motivos de desarrollo se mantiene el display harcodeado */}
     if (therapist == null) {
-        console.log(therapist)
 
         return (
             <div>
@@ -97,23 +96,20 @@ const UserProfileSidenav = () => {
                                 Notas de mis sesiones
                             </DialogTitle>
                             <DialogContent dividers>
-                               <Button>
+                                <div>
+                                    <h3 className="ml-2">
+                                        No tienes ninguna nota porque nunca has tomado una sesión
+                                    </h3>
+                                </div>
+                               <Button
+                                className="x-center" 
+                                variant="contained" 
+                                color="secondary"
+                                onClick={() => history.push('/' + user.uid + '/browse')}>
                                <    Typography gutterBottom>
-                                    Nota 1
+                                    Seleccionar terapeuta
                                     </Typography>
         
-                                </Button>
-                                
-                                <Button>
-                                    <Typography gutterBottom>
-                                        Nota 2
-                                    </Typography>
-                                </Button>
-                               
-                               <Button>
-                                    <Typography gutterBottom>
-                                        Nota 3
-                                    </Typography>
                                 </Button>
                             </DialogContent>
                             <DialogActions>
@@ -149,8 +145,8 @@ const UserProfileSidenav = () => {
                         <Button onClick={() => history.push('/'+user.uid+'/home')}>
                             <Grid item>
                             
-                                <Card className="w-104 h-104 bg-primary flex justify-center items-center">
-                                    <div className="text-light-white text-center">
+                                <Card className="w-104 h-104 flex justify-center items-center">
+                                    <div className="text-muted text-center">
                                         <IconButton onClick={() => history.push("/"+user.uid+"/home")}>
                                             <Icon>sentiment_very_satisfied</Icon>
                                         </IconButton>
@@ -194,13 +190,6 @@ const UserProfileSidenav = () => {
                         </Grid>
                         <div className="py-4" />
                         <div className="flex items-center justify-center text-primary">
-                            <Button onClick={() => window.location.href="https://zoom.us/j/95739401999?pwd=dkh2NGQxcXBTYWJWRHlRM3U4UnVPQT09"
-                        }>
-                                <Icon>sentiment_very_satisfied</Icon>
-                                <h5 className="ml-8 text-primary font-medium mb-0">
-                                    Iniciar terapia
-                                </h5>
-                            </Button>
                         </div>
                         <div className="py-2"></div>
                     </div>

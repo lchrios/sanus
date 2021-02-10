@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import useAuth from 'app/hooks/useAuth'
 
-const SessionsHistory = () => {
+const SessionsHistory = ({toggleSidenav}) => {
 
     const [orderList, setOrderList] = useState(order)
     var { user } = useAuth()
@@ -24,7 +24,7 @@ const SessionsHistory = () => {
     const columns = [
         {
             name: '_id',
-            label: 'Sesión No.',
+            label: 'ID de la Sesión',
             options: {
                 customBodyRenderLite: (dataIndex) => (
                     <span className="ellipsis">{orderList[dataIndex].id}</span>
@@ -107,7 +107,7 @@ const SessionsHistory = () => {
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => (
-                    <span className="ellipsis">
+                    <span className="">
                         {orderList[dataIndex].pay_met}
                     </span>
                 ),
@@ -156,20 +156,26 @@ const SessionsHistory = () => {
     return (
         <div className="m-sm-30">
             <div className="overflow-auto">
-                <div className="min-w-750">
+                <div className="hide-on-pc flex justify-end menu-button">
+                        <IconButton onClick={toggleSidenav}>
+                            <Icon className="">menu</Icon>
+                        </IconButton>
+                </div>
+                <div className="min-w-300">
                     <MUIDataTable
                         title={'Mis sesiones'}
                         data={orderList}
                         columns={columns}
                         options={{
                             filterType: 'textField',
-                            responsive: 'standard',
+                            responsive: 'vertical',
                             selectableRows: "none",
                             filter: false,
                             download: false,
                             print: false,
                             viewColumns:false,
                             elevation: 0,
+                            pagination:false,
                             rowsPerPageOptions: [10, 20, 40, 80, 100],
                             onRowsDelete: (data) => console.log(data),
                             customSearchRender: (
