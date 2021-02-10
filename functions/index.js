@@ -24,8 +24,7 @@ const {
   getAllTherapists,
   getAllSessionsByTherapist,
   getTherapist,
-  getAllTherapistsRefs,
-  getPatientsbyTherapists,
+  getPatientsbyTherapist,
 } = require("./routes/therapists");
 
 
@@ -72,12 +71,11 @@ const roles = {
 
 // * rutas de terapeuta
 app.get("/t", isAuthenticated, isAuthorized(roles.user), getAllTherapists);
-app.get("/t/ref", isAuthenticated, isAuthorized(roles.user), getAllTherapistsRefs);
 app.get("/t/:tid", isAuthenticated, isAuthorized(roles.user), getTherapist);
 app.get("/t/:tid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByTherapist);
 app.get("/t/:tid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
 app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByTherapist);
-app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapists);
+app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist);
 
 // * rutas de usuario
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);

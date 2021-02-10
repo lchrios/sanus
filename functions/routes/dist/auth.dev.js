@@ -14,6 +14,12 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var _require = require('../firebase'),
     admin = _require.admin;
 
@@ -35,7 +41,6 @@ exports.isAuthorized = function (hasRole, allowSameUser) {
   return function (req, res, next) {
     var _res$locals = res.locals,
         role = _res$locals.role,
-        email = _res$locals.email,
         uid = _res$locals.uid;
     var id = req.headers.uid;
 
@@ -88,6 +93,10 @@ exports.isAuthenticated = function (req, res, next) {
   auth.verifyIdToken(idToken).then(function (decodedIdToken) {
     // * Obtenemos el decodedIDToken como resultado de una operación exitosa
     console.log('ID Token verificado!');
+    res.locals = _objectSpread({}, res.locals, {
+      uid: decodedIdToken.uid,
+      role: decodedIdToken.role
+    });
     next();
     return;
   })["catch"](function (error) {
@@ -113,6 +122,15 @@ exports.isAuthenticated = function (req, res, next) {
   */
 };
 
+exports.setAdmin = function (req, res) {
+  auth.setCustomUserClaims(req.params.uid, {
+    admin: true
+  }).then(function () {
+    console.log('Usuario hecho admin exitosamente');
+    return res.status(201);
+  });
+};
+
 exports.createUserWithEmailAndPassword = function (req, res) {
   auth.createUserWithEmailAndPassword(req.body.email, req.body.password).then(function (user) {
     // * Sube el usuario creado a colleccion de usuarios
@@ -136,21 +154,19 @@ exports.createUserWithEmailAndPassword = function (req, res) {
 exports.createTherapistWithEmailAndPassword = function (req, res) {
   auth.createUserWithEmailAndPassword(req.body.email, req.body.password).then(function (user) {
     // subir a colleccion de usuarios
-    thers.doc(user.uid).withConverter(userConverter).set(_construct(User, _toConsumableArray(req.body.userdata))).then(function () {
-      console.log('Collection: Users - Listo!');
+    thers.doc(user.uid).withConverter(therapistConverter).set(_construct(Therapist, _toConsumableArray(req.body.therapistdata))).then(function () {
+      console.log('Collection: Therapist- Listo!');
     }).then(function () {
-      // subir a colleccion de roles
-      roles.doc(user.uid).set({
-        role: 'users'
+      // * Actualizar el rol del usuario a 'user'
+      auth.setCustomUserClaims(user.uid, {
+        therapist: true
       }).then(function () {
-        console.log('Collection: Roles - Listo!');
+        console.log('Usuario registrado con rol "therapist" correctamente!');
+        return res.status(201).send(user);
       });
-    }).then(function () {
-      console.log('Usuario registrado correctamente!');
-      return res.status(201).send(user);
     });
   })["catch"](function (error) {
-    console.log('Error creando usuario!', error);
+    console.log('Error creando terapeuta!', error);
     return res.status(404).send(error);
   });
 };

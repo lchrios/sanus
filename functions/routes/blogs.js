@@ -9,10 +9,12 @@ exports.getAllBlogs = (req, res) => {
         .get()
         .then(query => {
             var data = [];
+            var refs = [];
             query.forEach(doc => {
                 data.push(doc.data());
+                refs.push(doc.id.toString());
             })
-            return res.status(200).send(data);
+            return res.status(200).send([refs, data]);
         })
         .catch(error => {
             console.log('Error obteniendo todos los blog documents', error);
@@ -27,10 +29,12 @@ exports.getAllBlogsByTherapist = (req, res) => {
         .get()
         .then(query => {
             var data = [];
+            var refs = [];
             query.forEach(doc => {
                 data.push(doc.data());
+                refs.push(doc.id.toString());
             })
-            return res.status(200).send(data);
+            return res.status(200).send([refs, data]);
         })
         .catch(error => {
             console.log('Error obteniendo los blog documents del terapeuta', error);

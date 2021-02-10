@@ -19,10 +19,8 @@ const BrowseApp = () => {
     useEffect(() => {
         
         axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t').then(res => {
-            setUserList(res.data)
-        })
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/ref').then(res => {
-            setDocRefs(res.data)
+            setUserList(res.data[1])
+            setDocRefs(res.data[0])
         })
 
 

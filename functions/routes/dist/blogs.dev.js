@@ -1,19 +1,21 @@
 "use strict";
 
-var _require = require('../firestore'),
-    db = _require.db,
-    firebase = _require.firebase;
+var _require = require('../firebase'),
+    admin = _require.admin;
 
+var db = admin.firestore();
 var ther = db.collection('therapists');
 var blogs = db.collection('blogs');
 
 exports.getAllBlogs = function (req, res) {
   blogs.orderBy('date', 'desc').get().then(function (query) {
     var data = [];
+    var refs = [];
     query.forEach(function (doc) {
       data.push(doc.data());
+      refs.push(doc.id.toString());
     });
-    return res.status(200).send(data);
+    return res.status(200).send([refs, data]);
   })["catch"](function (error) {
     console.log('Error obteniendo todos los blog documents', error);
     return res.status(404).send(error);
@@ -24,10 +26,12 @@ exports.getAllBlogsByTherapist = function (req, res) {
   blogs.where('author', '==', req.params.tid) //.orderBy('date', 'desc')
   .get().then(function (query) {
     var data = [];
+    var refs = [];
     query.forEach(function (doc) {
       data.push(doc.data());
+      refs.push(doc.id.toString());
     });
-    return res.status(200).send(data);
+    return res.status(200).send([refs, data]);
   })["catch"](function (error) {
     console.log('Error obteniendo los blog documents del terapeuta', error);
     return res.status(404).send(error);
