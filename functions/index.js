@@ -50,7 +50,6 @@ const { authRoles } = require("app/auth/authRoles");
 // * uso de transformacion a json
 app.use(express.json());
 
-/* eslint max-len: ["error", { "ignoreStrings": true }] */
 // * permisos del CORS
 app.use( (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "iknelia.netlify.app");
