@@ -8,6 +8,7 @@ const {
   signInWithEmailAndPassword,
   isAuthenticated,
   isAuthorized,
+  createTherapistWithEmailAndPassword,
 } = require("./routes/auth");
 
 // * Funciones relativas al usuario
@@ -45,7 +46,6 @@ const {
   updateBlog,
   getAllBlogsByTherapist,
 } = require("./routes/blogs");
-const { authRoles } = require("app/auth/authRoles");
 
 // * uso de transformacion a json
 app.use(express.json());
@@ -54,6 +54,7 @@ app.use(express.json());
 app.use( (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "iknelia.netlify.app");
   res.header("Access-Control-Allow-Origin", "localhost:3000");
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
@@ -80,7 +81,6 @@ app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatients
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
 app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
 app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
-app.get("/u/:uid/t/ref", isAuthenticated, isAuthorized(roles.user), getTherapistRefByUser);
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
 
@@ -99,8 +99,8 @@ app.delete("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession);
 // TODO: confirmSession function
 
 // * rutas de autenticacion
-app.post("/auth/login", signInWithEmailAndPassword);
-app.post("/auth/signin", createUserWithEmailAndPassword);
+app.post("/auth/signuser", createUserWithEmailAndPassword);
+app.post("/auth/signtherapist", createTherapistWithEmailAndPassword)
 
 // * export de la api
 exports.api = functions.region("us-central1").https.onRequest(app);

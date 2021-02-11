@@ -15,7 +15,10 @@ exports.getAllBlogs = function (req, res) {
       data.push(doc.data());
       refs.push(doc.id.toString());
     });
-    return res.status(200).send([refs, data]);
+    return res.status(200).send({
+      id: refs,
+      data: data
+    });
   })["catch"](function (error) {
     console.log('Error obteniendo todos los blog documents', error);
     return res.status(404).send(error);
@@ -31,7 +34,10 @@ exports.getAllBlogsByTherapist = function (req, res) {
       data.push(doc.data());
       refs.push(doc.id.toString());
     });
-    return res.status(200).send([refs, data]);
+    return res.status(200).send({
+      id: refs,
+      data: data
+    });
   })["catch"](function (error) {
     console.log('Error obteniendo los blog documents del terapeuta', error);
     return res.status(404).send(error);

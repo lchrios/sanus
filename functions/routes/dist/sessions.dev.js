@@ -1,8 +1,9 @@
 "use strict";
 
-var firebase = require('firebase');
+var _require = require('../firebase'),
+    admin = _require.admin;
 
-var db = firebase.firestore();
+var db = admin.firestore();
 var users = db.collection('users');
 var ther = db.collection('therapists');
 var sess = db.collection('sessions');

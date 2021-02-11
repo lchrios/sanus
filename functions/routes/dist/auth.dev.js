@@ -38,6 +38,7 @@ var _require3 = require('../schema/therapist'),
     therapistConverter = _require3.therapistConverter;
 
 exports.isAuthorized = function (hasRole, allowSameUser) {
+  // TODO Corregir lectura de roles
   return function (req, res, next) {
     var _res$locals = res.locals,
         role = _res$locals.role,
@@ -132,18 +133,31 @@ exports.setAdmin = function (req, res) {
 };
 
 exports.createUserWithEmailAndPassword = function (req, res) {
-  auth.createUserWithEmailAndPassword(req.body.email, req.body.password).then(function (user) {
-    // * Sube el usuario creado a colleccion de usuarios
-    users.doc(user.uid).withConverter(userConverter).set(_construct(User, _toConsumableArray(req.body.userdata))).then(function () {
-      console.log('Collection: Users - Listo!');
-    }).then(function () {
-      // * Actualizar el rol del usuario a 'user'
-      auth.setCustomUserClaims(user.uid, {
-        user: true
+  auth.createUser({
+    email: req.body.email,
+    emailVerified: false,
+    password: req.body.password,
+    displayName: req.body.userdata.name,
+    photoURL: req.body.userdata.img,
+    disabled: false
+  }).then(function (userRecord) {
+    console.log('Auth: Usuario creado exitosamene!'); // * Sube el usuario creado a colleccion de usuarios
+
+    users.doc(userRecord.uid).withConverter(userConverter).set(req.body.userdata).then(function () {
+      console.log('Collection: Users - Listo!', userRecord.uid); // * Actualizar el rol del usuario a 'user'
+
+      auth.setCustomUserClaims(userRecord.uid, {
+        role: "user"
       }).then(function () {
         console.log('Usuario registrado con rol "user" correctamente!');
-        return res.status(201).send(user);
+        return res.status(201).send(userRecord.uid);
+      })["catch"](function (error) {
+        console.error('Error asignando el rol de "user" al usuario', eror);
+        return res.status(404).send(error);
       });
+    })["catch"](function (error) {
+      console.error('Error registrando el usuario en collection "users"', error);
+      return res.status(404).send(error);
     });
   })["catch"](function (error) {
     console.log('Error creando usuario!', error);
@@ -155,11 +169,10 @@ exports.createTherapistWithEmailAndPassword = function (req, res) {
   auth.createUserWithEmailAndPassword(req.body.email, req.body.password).then(function (user) {
     // subir a colleccion de usuarios
     thers.doc(user.uid).withConverter(therapistConverter).set(_construct(Therapist, _toConsumableArray(req.body.therapistdata))).then(function () {
-      console.log('Collection: Therapist- Listo!');
-    }).then(function () {
-      // * Actualizar el rol del usuario a 'user'
+      console.log('Collection: Therapist- Listo!'); // * Actualizar el rol del usuario a 'user'
+
       auth.setCustomUserClaims(user.uid, {
-        therapist: true
+        role: "therapist"
       }).then(function () {
         console.log('Usuario registrado con rol "therapist" correctamente!');
         return res.status(201).send(user);

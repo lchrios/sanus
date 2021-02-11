@@ -8,7 +8,7 @@ var { User, userConverter } = require('../schema/user');
 var { Therapist, therapistConverter } = require('../schema/therapist');
 
  
-exports.isAuthorized = (hasRole, allowSameUser) => {
+exports.isAuthorized = (hasRole, allowSameUser) => { // TODO Corregir lectura de roles
     return (req, res, next) => {
         const { role, uid } = res.locals;
         const id  = req.headers.uid;
@@ -96,32 +96,47 @@ exports.setAdmin = (req, res) => {
     auth
         .setCustomUserClaims(req.params.uid, { admin: true} )
         .then(() => {
-            console.log('Usuario hecho admin exitosamente')
+            console.log('Usuario hecho admin exitosamente');
             return res.status(201);
         })
 }
 
 exports.createUserWithEmailAndPassword = (req, res) => {
     auth
-        .createUserWithEmailAndPassword(req.body.email, req.body.password)
-        .then( user => {
+        .createUser({
+            email: req.body.email,
+            emailVerified: false,
+            password: req.body.password,
+            displayName: req.body.userdata.name,
+            photoURL: req.body.userdata.img,
+            disabled: false,
+        })
+        .then( userRecord => {
+
+            console.log('Auth: Usuario creado exitosamene!');
             // * Sube el usuario creado a colleccion de usuarios
             users
-                .doc(user.uid)
+                .doc(userRecord.uid)
                 .withConverter(userConverter)
-                .set(new User(...req.body.userdata))
+                .set(req.body.userdata)
                 .then(() => {
-                    console.log('Collection: Users - Listo!');
-                })
-                .then(() => {
+                    console.log('Collection: Users - Listo!', userRecord.uid);
                     // * Actualizar el rol del usuario a 'user'
                     auth
-                        .setCustomUserClaims(user.uid, { user: true })
+                        .setCustomUserClaims(userRecord.uid, { role: "user" })
                         .then(() => {
                             console.log('Usuario registrado con rol "user" correctamente!');
-                            return res.status(201).send(user);
-                        });
-                });
+                            return res.status(201).send(userRecord.uid);
+                        })
+                        .catch( error => {
+                            console.error('Error asignando el rol de "user" al usuario', eror)
+                            return res.status(404).send(error);
+                        })
+                })
+                .catch( error => {
+                    console.error('Error registrando el usuario en collection "users"', error);
+                    return res.status(404).send(error);
+                })
         })
         .catch(error => {
             console.log('Error creando usuario!', error);
@@ -140,11 +155,9 @@ exports.createTherapistWithEmailAndPassword = (req, res) => {
                 .set(new Therapist(...req.body.therapistdata))
                 .then(() => {
                     console.log('Collection: Therapist- Listo!');
-                })
-                .then(() => {
                     // * Actualizar el rol del usuario a 'user'
                     auth
-                        .setCustomUserClaims(user.uid, { therapist: true })
+                        .setCustomUserClaims(user.uid, { role: "therapist" })
                         .then(() => {
                             console.log('Usuario registrado con rol "therapist" correctamente!');
                             return res.status(201).send(user);
