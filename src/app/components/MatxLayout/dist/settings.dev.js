@@ -14,7 +14,7 @@ var _initThemes = require("../MatxTheme/initThemes");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var MatxLayoutSettings = {
-  activeLayout: 'layout1',
+  activeLayout: 'layout2',
   // layout1, layout2
   activeTheme: 'blue',
   // View all valid theme colors inside MatxTheme/themeColors.js
