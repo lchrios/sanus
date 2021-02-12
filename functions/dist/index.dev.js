@@ -8,17 +8,18 @@ var app = express(); // * Funciones de autenticacion
 
 var _require = require("./routes/auth"),
     createUserWithEmailAndPassword = _require.createUserWithEmailAndPassword,
-    signInWithEmailAndPassword = _require.signInWithEmailAndPassword,
     isAuthenticated = _require.isAuthenticated,
     isAuthorized = _require.isAuthorized,
-    createTherapistWithEmailAndPassword = _require.createTherapistWithEmailAndPassword; // * Funciones relativas al usuario
+    createTherapistWithEmailAndPassword = _require.createTherapistWithEmailAndPassword,
+    setAdmin = _require.setAdmin,
+    setTherapist = _require.setTherapist,
+    setUser = _require.setUser; // * Funciones relativas al usuario
 
 
 var _require2 = require("./routes/users"),
     getAllSessionsByUser = _require2.getAllSessionsByUser,
     getUser = _require2.getUser,
     getTherapistByUser = _require2.getTherapistByUser,
-    getTherapistRefByUser = _require2.getTherapistRefByUser,
     getAllUsers = _require2.getAllUsers,
     assignTherapist = _require2.assignTherapist; // * Funciones relativas al terapeuta
 
@@ -49,8 +50,9 @@ var _require5 = require("./routes/blogs"),
 app.use(express.json()); // * permisos del CORS
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "iknelia.netlify.app");
-  res.header("Access-Control-Allow-Origin", "localhost:3000");
+  res.header("Access-Control-Allow-Origin", "http://iknelia.netlify.app");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", "http://localhost:9999");
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
@@ -79,7 +81,7 @@ app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
 app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
-app.put("/u/:uid/assign/:tid", isAuthorized, isAuthorized(roles.user), assignTherapist); // * rutas de blogs
+app.put("/u/:uid/t/:tid", assignTherapist); // * rutas de blogs
 
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
 app.get("/b/:bid", isAuthenticated, isAuthorized(roles.user), getBlog);
@@ -94,6 +96,10 @@ app["delete"]("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSessio
 // * rutas de autenticacion
 
 app.post("/auth/signuser", createUserWithEmailAndPassword);
-app.post("/auth/signtherapist", createTherapistWithEmailAndPassword); // * export de la api
+app.post("/auth/signtherapist", createTherapistWithEmailAndPassword); // * rutas de autorizacion
+
+app.put("/auth/:uid/admin", setAdmin);
+app.put("/auth/:uid/therapist", setTherapist);
+app.put("/auth/:uid/user", setUser); // * export de la api
 
 exports.api = functions.region("us-central1").https.onRequest(app);

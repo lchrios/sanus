@@ -38,6 +38,7 @@ exports.getUser = function (req, res) {
 };
 
 exports.getTherapistByUser = function (req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
   users.doc(req.params.uid).get().then(function (doc) {
     var ther_id = doc.data().therapist;
     ther.doc(ther_id).get().then(function (docther) {
@@ -73,6 +74,7 @@ exports.getAllSessionsByUser = function (req, res) {
 };
 
 exports.assignTherapist = function (req, res) {
+  console.log("Reasignando terapeuta ".concat(req.params.tid));
   users.doc(req.params.uid).update({
     therapist: req.params.tid
   }).then(function () {

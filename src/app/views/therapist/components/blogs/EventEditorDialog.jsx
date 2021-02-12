@@ -6,7 +6,8 @@ import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
 import { addNewEvent, updateEvent, deleteEvent } from '../calendar/CalendarService'
 import useAuth from 'app/hooks/useAuth'
-import axios from 'axios'
+import api from 'app/services/api'
+
 
 const EventEditorDialog = ({ event = {}, open, handleClose }) => {
     const [state, setState] = useState(event)
@@ -26,9 +27,9 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
     } 
 
     useEffect(() => {
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t').then(res => {
-            setTherapistData(res.data[1])
-            setTherRef(res.data[0])
+        api.get('/u/'+user.uid+'/t').then(res => {
+            setTherapistData(res.data.data)
+            setTherRef(res.data.data)
         })
     }, [event])
 

@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.deleteEvent = exports.updateEvent = exports.addNewEvent = exports.getAllEvents = void 0;
 
+var _api = _interopRequireDefault(require("app/services/api"));
+
 var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -16,7 +18,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var getAllEvents = function getAllEvents(uid) {
-  return _axios["default"].get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/' + uid + '/s');
+  return _api["default"].get('/u/' + uid + '/s');
 };
 
 exports.getAllEvents = getAllEvents;
@@ -24,7 +26,7 @@ exports.getAllEvents = getAllEvents;
 var addNewEvent = function addNewEvent(event) {
   console.log('añadiendo nuevo evento');
   console.log(event);
-  return _axios["default"].post('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/s/new', {
+  return _api["default"].post('/s/new', {
     sessiondata: _objectSpread({}, event)
   });
 };
@@ -32,7 +34,7 @@ var addNewEvent = function addNewEvent(event) {
 exports.addNewEvent = addNewEvent;
 
 var updateEvent = function updateEvent(event) {
-  return _axios["default"].post('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/s/' + event.id, {
+  return _api["default"].post('/s/' + event.id, {
     sessiondata: _objectSpread({}, event)
   });
 };
@@ -40,7 +42,7 @@ var updateEvent = function updateEvent(event) {
 exports.updateEvent = updateEvent;
 
 var deleteEvent = function deleteEvent(id) {
-  return _axios["default"]["delete"]('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/s/' + id);
+  return _api["default"]["delete"]('/s/' + id);
 };
 
 exports.deleteEvent = deleteEvent;

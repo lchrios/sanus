@@ -14,6 +14,7 @@ import TherapistInfoUser from './TherapistInfoUser'
 import PatientCalendar from '../../calendar/PatientCalendar'
 import axios from 'axios'
 import useAuth from 'app/hooks/useAuth';
+import api from 'app/services/api';
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
@@ -76,21 +77,22 @@ const UserProfileContent = ({ toggleSidenav }) => {
 
     useEffect(() => {
 
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t')
+        console.log("pidiendo info desde userprofile content")
+        api.get('/u/'+user.uid+'/t')
             .then(res => {
-                setTherapist(res.data)
+                setTherapist(res.data.data)
             })
 
-    }, [user.uid])   
+    }, [])   
 
     const classes = usestyles()
 
     const onClick1 = () => {
-        history.push("/:pid/sessions");
+        history.push("/"+user.uid+"/sessions");
     }
 
     // var { user } = useAuth() 
-    if (therapist == undefined) {
+    if (therapist === undefined) {
 
         return (
             <Fragment >
@@ -264,7 +266,7 @@ const UserProfileContent = ({ toggleSidenav }) => {
                             Tu terapeuta
                         </h4>
                         <div className="flex items-center mb-4">
-                            <TherapistInfoUser />
+                            <TherapistInfoUser therapist={therapist} />
                         </div>
                         <div className="flex items-center">
                         </div>

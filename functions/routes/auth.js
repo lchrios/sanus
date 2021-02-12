@@ -107,9 +107,35 @@ exports.isAuthenticated = (req, res, next) => {
 
 exports.setAdmin = (req, res) => {
     auth
-        .setCustomUserClaims(req.params.uid, { admin: true} )
+        .setCustomUserClaims(req.params.uid, { role: "admin" } )
         .then(() => {
             console.log('Usuario hecho admin exitosamente');
+            return res.status(201);
+        })
+        .catch( error => {
+            console.error('Error cambiando el rol del usuario', error);
+            return res.status(404).send(error);
+        })
+}
+
+exports.setTherapist = (req, res) => {
+    auth
+        .setCustomUserClaims(req.params.uid, { role: "therapist" } )
+        .then(() => {
+            console.log('Usuario hecho therapist exitosamente');
+            return res.status(201);
+        })
+        .catch( error => {
+            console.error('Error cambiando el rol del usuario', error);
+            return res.status(404).send(error);
+        })
+}
+
+exports.setUser = (req, res) => {
+    auth
+        .setCustomUserClaims(req.params.uid, { role: "user" } )
+        .then(() => {
+            console.log('Usuario hecho user exitosamente');
             return res.status(201);
         })
         .catch( error => {

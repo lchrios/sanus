@@ -16,6 +16,7 @@ import FormTestSt3 from './steps/FormTestSt3'
 import PreTest from './steps/preTest'
 import SessionValidatorForm from './steps/SessionValidatorForm'
 import useAuth from 'app/hooks/useAuth'
+import api from 'app/services/api'
 
 
 const getSteps = () => {
@@ -27,8 +28,8 @@ export default function PatientTest() {
 
     const [therapist, setTherapistData] = useState()
     useEffect(() => {
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t').then(res => {
-            setTherapistData(res.data)
+        api.get('/u/'+user.uid+'/t').then(res => {
+            setTherapistData(res.data.data)
         })
     })
 

@@ -5,10 +5,12 @@ const app = express();
 // * Funciones de autenticacion
 const {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   isAuthenticated,
   isAuthorized,
   createTherapistWithEmailAndPassword,
+  setAdmin,
+  setTherapist,
+  setUser,
 } = require("./routes/auth");
 
 // * Funciones relativas al usuario
@@ -16,7 +18,6 @@ const {
   getAllSessionsByUser,
   getUser,
   getTherapistByUser,
-  getTherapistRefByUser,
   getAllUsers,
   assignTherapist,
 } = require("./routes/users");
@@ -53,8 +54,9 @@ app.use(express.json());
 
 // * permisos del CORS
 app.use( (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "iknelia.netlify.app");
-  res.header("Access-Control-Allow-Origin", "localhost:3000");
+  res.header("Access-Control-Allow-Origin", "http://iknelia.netlify.app");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", "http://localhost:9999");
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
@@ -84,7 +86,7 @@ app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
 app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
-app.put("/u/:uid/assign/:tid", isAuthorized, isAuthorized(roles.user), assignTherapist)
+app.put("/u/:uid/t/:tid", assignTherapist)
 
 // * rutas de blogs
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
@@ -103,6 +105,11 @@ app.delete("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession);
 // * rutas de autenticacion
 app.post("/auth/signuser", createUserWithEmailAndPassword);
 app.post("/auth/signtherapist", createTherapistWithEmailAndPassword)
+
+// * rutas de autorizacion
+app.put("/auth/:uid/admin", setAdmin);
+app.put("/auth/:uid/therapist", setTherapist);
+app.put("/auth/:uid/user", setUser);
 
 // * export de la api
 exports.api = functions.region("us-central1").https.onRequest(app);

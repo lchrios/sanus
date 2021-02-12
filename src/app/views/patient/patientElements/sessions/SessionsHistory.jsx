@@ -6,6 +6,7 @@ import MUIDataTable from 'mui-datatables'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import useAuth from 'app/hooks/useAuth'
+import api from 'app/services/api'
 
 const SessionsHistory = ({toggleSidenav}) => {
 
@@ -14,11 +15,11 @@ const SessionsHistory = ({toggleSidenav}) => {
 
 
     useEffect(() => {
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/s').then(res => {
-            console.log(res.data) 
-            setOrderList(res.data)
+        api.get('/u/'+user.uid+'/s').then(res => {
+            console.log(res.data.data) 
+            setOrderList(res.data.data)
         })    
-    }, [user])
+    }, [])
     
 
     const columns = [

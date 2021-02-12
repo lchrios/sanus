@@ -3,14 +3,11 @@ import MUIDataTable from 'mui-datatables'
 import { Avatar, Grow, Icon, IconButton, TextField} from '@material-ui/core'
 import history from '../../../../../history'
 import useAuth from 'app/hooks/useAuth'
-import axios from 'app/services/api'
 import api from 'app/services/api'
 
-//const db = firebase.app().firestore()
 
 
-
-const BrowseApp = () => {
+const BrowseApp = ({ toggleSidenav }) => {
 
     const [therapistList, setTherapistList] = useState([])
     const [docRefs, setDocRefs] = useState([])
@@ -18,9 +15,9 @@ const BrowseApp = () => {
 
     useEffect(() => {
         
-        axios.get('/t').then(res => {
-            setTherapistList(res.data[1])
-            setDocRefs(res.data[0])
+        api.get('/t').then(res => {
+            setTherapistList(res.data.data)
+            setDocRefs(res.data.id)
         })
 
     }, [])
@@ -113,7 +110,7 @@ const BrowseApp = () => {
                     <div className="flex">
                         <div className=""></div>
                             <IconButton onClick={() => {
-                                api.put(`/u/${user.uid}/assign/${docRefs[dataIndex]}`)
+                                api.put(`/u/${user.uid}/t/${docRefs[dataIndex]}`)
                                     .then( res => {
                                         console.log('Terapeutas reasignados', res.status);
                                         history.push(`/${user.uid}/home`)
@@ -121,7 +118,7 @@ const BrowseApp = () => {
                                     .catch( error => {
                                         console.error(error);
                                     })
-                                }}>
+                            }}>
                                     
                                     <Icon>control_point</Icon>
 

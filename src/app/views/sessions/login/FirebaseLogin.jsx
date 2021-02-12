@@ -34,15 +34,27 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         flexDirection: 'column',
         [theme.breakpoints.down('sm')]: {
             minWidth: 400,
+            alignItems: 'center'
+        },
+        [theme.breakpoints.down('xs')]: {
+            minWidth: 400,
+            alignItems: 'start'
         },
     },
     logo: {
         display: 'flex',
-        alignItems: 'center',
         '& span': {
             fontSize: 26,
             lineHeight: 1.3,
             fontWeight: 800,
+            '@media screen and (max-width: 943px)' : {
+                fontSize: 40,
+                
+            },
+            '@media screen and (max-width: 480px)' : {
+                fontSize: 20,
+                
+            }
         },
     },
     mainTitle: {
@@ -65,6 +77,23 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
                 top: 7,
                 backgroundColor: palette.error.main,
             },
+            '@media screen and (max-width: 943px)' : {
+                fontSize: 25,
+                '&::after': {
+                    position: 'absolute',
+                    content: '""',
+                    width: 4,
+                    height: 4,
+                    borderRadius: 4,
+                    left: 2,
+                    top: 7,
+                    backgroundColor: palette.error.main,
+                },
+            },
+            '@media screen and (max-width: 480px)' : {
+                fontSize: 15,
+                paddingLeft: 0,
+            }
         },
     },
     buttonProgress: {
@@ -106,8 +135,33 @@ const FirebaseLogin = () => {
         try {
             await signInWithEmailAndPassword(userInfo.email, userInfo.password)
             var user = firebase.auth().currentUser
-            console.log(user)
-            history.push('/'+user.uid+'/dashboard')
+            //console.log(user)
+
+            user.getIdTokenResult()
+                .then( decodedToken => {
+                    switch (decodedToken.claims.role) {
+                        case "user":
+                            history.push(`/${user.uid}/home`)
+                            break;
+
+                        case "therapist":
+                            history.push(`/${user.uid}/dashboard`)
+                            break;
+
+                        case "admin":
+                            history.push(`/${user.uid}/analytics`)
+                            break;
+                
+                        default:
+                            console.error('No role was detected')
+                            history.push(`/${user.uid}/home`)
+                            break;
+                    }
+                })
+                .catch( error => {
+                    console.error("Error al obtener el decodedToken del user", error)
+                })
+            //history.push('/'+user.uid+'/dashboard')
         } catch (e) {
             console.log(e)
             setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
@@ -135,7 +189,7 @@ const FirebaseLogin = () => {
         >
             <Card className={classes.card}>
                 <Grid container>
-                    <Grid item lg={6} md={6} sm={5} xs={12}>
+                    <Grid item lg={6} md={6} sm={12} xs={12}>
                         <div
                             className={clsx({
                                 'py-8 px-7 h-full': true,
@@ -170,7 +224,7 @@ const FirebaseLogin = () => {
                             </div>
                         </div>
                     </Grid>
-                    <Grid item lg={6} md={6} sm={6} xs={12}>
+                    <Grid item lg={6} md={6} sm={12} xs={12}>
                         <div className="px-8 pt-8">
                             <Button
                                 onClick={handleGoogleLogin}

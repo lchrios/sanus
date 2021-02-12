@@ -15,6 +15,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import axios from 'axios'
+import api from 'app/services/api'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cart: {
@@ -42,8 +43,7 @@ const TherapistBlogs = () => {
     const classes = useStyles()
 
     useEffect(() => {
-        axios
-            .get("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/" + user.uid + "/b")
+        api.get("/t/" + user.uid + "/b")
             .then(res => setBlogs(res.data))
             .then(() => console.log("Blogs descargados"))
     }, [])
@@ -195,7 +195,7 @@ const TherapistBlogs = () => {
                                 color="error"
                                 aria-label="Delete"
                                 onClick={() => {
-                                    axios.delete("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/b/"+blog_entry.id)
+                                    api.delete("/b/"+blog_entry.id)
                                     window.location.reload()
                                 }}
                                 className={classes.button}

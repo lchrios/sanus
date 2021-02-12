@@ -39,6 +39,7 @@ exports.getUser = (req, res) => {
 }
 
 exports.getTherapistByUser = (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*");
     users
         .doc(req.params.uid)
         .get()
@@ -80,6 +81,7 @@ exports.getAllSessionsByUser = (req, res) => {
 }
 
 exports.assignTherapist = (req, res) => {
+    console.log(`Reasignando terapeuta ${req.params.tid}`)
     users
         .doc(req.params.uid)
         .update({ therapist: req.params.tid })
@@ -90,6 +92,5 @@ exports.assignTherapist = (req, res) => {
         .catch( error => {
             console.error('Error actualizando el terapeuta del usuario', error);
             return res.status(404).send(error);
-        })
-        
+        })      
 }

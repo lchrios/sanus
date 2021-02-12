@@ -14,7 +14,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import { Link } from 'react-router-dom'
 import useAuth from 'app/hooks/useAuth'
-import history from 'history.js'
+import history from '../../../../history'
 import {NavLogo} from '../../landing/components/Navbar_sc/NavbarElements'
 import axios from 'axios'
 
@@ -67,49 +67,62 @@ const FirebaseRegister = () => {
             [name]: value,
         })
     }
-    const handleGoogleRegister = async (event) => {
-        try {
-            await signInWithGoogle()
 
-            let user = firebase.auth().currentUser
+    const handleGoogleRegister = (event) => {
+        signInWithGoogle()
+            .then( result => {
+                var { credential, accessToken, user } = result;
 
-            const user_data = {
-                email: user.email,
-                name: user.name || user.email,
-                age: 18,
-                phone: "3314895548",
-                img: '',
-                therapist: null,
-                sessions: [],
-                payment_met: [],
-                location: ["Guadalajara", "Jalisco", "Mexico"],
-                blogs: []
-            }
-
-            var db = firebase.firestore()
-
-            await db.collection("users").doc(user.uid).set(user_data)
-            await db.collection("therapists").doc(user.uid).set({blogs: []});
-            await db.collection('roles').doc(user.uid).set({role: "patients"})
-
-            history.push('/'+user.uid+'/dashboard')
-        } catch (e) {
-            setMessage(e.message)
-            setLoading(false)
-            console.log(e)
-        }
+                // TODO: enviar a formulario pasando parametros
+                history.push({
+                    pathname: '/session/register',
+                    state: {
+                        user: user,
+                        email: state.email,
+                        password: state.email,
+                        withProvider: true,
+                        credential: credential,
+                        token: accessToken
+                    }
+                });
+            })
+            .catch( error => {
+                console.error(error);
+                setMessage(error.message)
+                setLoading(false)
+            })
     }
 
-    const handleFormSubmit = async () => {
-        try {
+    const handleFormSubmit = () => {
+        if (state.agreement) {
             setLoading(true)
+            console.log("De camino al formulario de datos");
+            history.push({
+                pathname: '/session/register',
+                state: {
+                    email: state.email,
+                    password: state.email,
+                    withProvider: "false",
+                }
+            });
+        } else {
+            setMessage('Debes aceptar los términos y condiciones para proceder con el registro.');
+        }
+        
+        
+
+
+        /*try {
+            setLoading(true)
+
+            const imageURL = getRandomPlaceholderImage();
 
             const user_data = {
                 email: state.email,
                 name: state.email,
                 age: 18,
                 phone: "+5213114895548",
-                img: "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/usuarios/memerevflash.png?alt=media&token=46df4dfe-edc4-4b11-9b8a-33a74dae4535",
+                img: imageURL,
                 therapist: null,
                 sessions: [],
                 payment_met: [],
@@ -155,7 +168,7 @@ const FirebaseRegister = () => {
             setLoading(false)
             console.log(e)
             setMessage(e.message)
-        }
+        }*/
     }
 
     let { email, password, agreement } = state
@@ -176,7 +189,7 @@ const FirebaseRegister = () => {
                                 src="/assets/images/illustrations/posting_photo.svg"
                                 alt=""
                             />
-                            <Button onClick={() => history.push('/home')} color="secondary" variant="contained" className="x-center">
+                            <Button onClick={() => history.push('/home')} color="secondary" variant="contained" className="x-center" style={{"marginTop": 10}}>
                                             VOLVER
                             </Button>
                             
@@ -229,8 +242,6 @@ const FirebaseRegister = () => {
                                 <FormControlLabel
                                     className="mb-4"
                                     name="agreement"
-                                    validators={['required']}
-                                    errorMessages={['Este campo es obligatorio']}
                                     onChange={(e) =>
                                         handleChange({
                                             target: {
@@ -262,7 +273,14 @@ const FirebaseRegister = () => {
                                 )}
                                 <div className="flex items-center">
                                     <div className="relative">
-                                    <Link to='/session/dataform'>
+                                    <Link to={{
+                                            pathname: '/session/register',
+                                            state: {
+                                                email: state.email,
+                                                password: state.password,
+                                            }
+                                        }}
+                                    >
                                         <Button
                                             variant="contained"
                                             color="primary"

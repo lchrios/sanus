@@ -3,6 +3,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import { firebaseConfig } from 'config.js'
 import { MatxLoading } from 'app/components'
+import api from 'app/services/api'
 
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig)
@@ -69,7 +70,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const createUserWithEmailAndPassword = async (email, password) => {
-        return firebase.auth().createUserWithEmailAndPassword(email, password)
+        return api.post('/auth/signuser', { email: email, password: password })
     }
 
     const logout = () => {

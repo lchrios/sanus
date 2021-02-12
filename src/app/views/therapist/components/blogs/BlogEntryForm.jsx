@@ -12,6 +12,7 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import clsx from "clsx";
 import axios from "axios";
 import history from "../../../../../history";
+import api from "app/services/api";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -61,7 +62,7 @@ const BlogEntryForm = () => {
       }
 
       // TODO: Cambiar direccion a la de la api
-      axios.post("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/b/new", {blogdata: {...blogdata}})
+      api.post("/b/new", {blogdata: {...blogdata}})
         .then(() => {
           history.push("/" + user.uid + "/myblogs");
         });

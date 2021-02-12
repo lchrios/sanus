@@ -18,6 +18,7 @@ import PatientProfileCard1 from './components/PatientProfileCard'
 import useAuth from 'app/hooks/useAuth'
 import history from '../../../history'
 import axios from 'axios'
+import api from 'app/services/api'
 
 const PatientList = () => {
     const [isAlive, setIsAlive] = useState(true)
@@ -56,9 +57,9 @@ const PatientList = () => {
     const [patients, setPatients] = useState()
 
     useEffect(() => {
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/' + user.uid + '/u')
+        api.get('/t/' + user.uid + '/u')
         .then(res => {
-            setPatients(res.data)
+            setPatients(res.data.data)
         })
         
     }, [])

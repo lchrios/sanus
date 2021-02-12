@@ -6,7 +6,6 @@ import MatxVerticalNavExpansionPanel from './MatxVerticalNavExpansionPanel'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import useSettings from 'app/hooks/useSettings'
-import firebase from 'firebase'
 import useAuth from 'app/hooks/useAuth'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({

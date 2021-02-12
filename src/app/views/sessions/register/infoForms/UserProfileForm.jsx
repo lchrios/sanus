@@ -8,17 +8,32 @@ import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      '& > *': {
-        margin: theme.spacing(1),
-      },
+        '& > *': {
+            margin: theme.spacing(1),
+        },
     },
     input: {
-      display: 'none',
+        display: 'none',
     },
-  }));
+}));
 
-const UserProfileForm = () => {
-const classes = useStyles()
+const UserProfileForm = ({ handleChange }) => {
+    const classes = useStyles()
+
+
+    /*const userdata = {
+        email: state.email,
+        name: state.name,
+        age: state.age,
+        phone: state.phone,
+        img: state.img,
+        therapist: null,
+        sessions: [],
+        payment_met: [],
+        location: ["Guadalajara", "Jalisco", "Mexico"],
+        blogs: []
+    }*/
+
     return (
         <Card className="m-sm-30 p-6">
             <div className="max-w-600 mx-auto">

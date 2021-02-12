@@ -23,6 +23,7 @@ import axios from 'axios'
 import firebase from 'firebase'
 import useAuth from 'app/hooks/useAuth'
 import history from '../../../history'
+import api from 'app/services/api'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     calendar: {
@@ -117,13 +118,13 @@ const TherapistCalendar = () => {
 
     useEffect(() => {
         updateCalendar()
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/' + user.uid + '/u') 
+        api.get('/t/' + user.uid + '/u') 
         .then(res => {
-            setUserList(res.data)
+            setUserList(res.data.data)
         }) 
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/' + user.uid + '/s')
+        api.get('/t/' + user.uid + '/s')
         .then(res => {
-            setEvents(res.data)
+            setEvents(res.data.data)
         })
     }, [])
 

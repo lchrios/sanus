@@ -42,10 +42,10 @@ export const navigations = [
         icon: 'store',
     },*/
        
-    {
+    /*{
         label: 'Vistas de terapeuta',
         type: 'label',
-    },
+    },*/
     /*{ 
         name: "Administrador de terapeuta",
         icon: "event",
