@@ -18,12 +18,12 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var MatxLayouts = {
   layout1: _react["default"].lazy(function () {
     return Promise.resolve().then(function () {
-      return _interopRequireWildcard(require('./Layout2/Layout2'));
+      return _interopRequireWildcard(require('./Layout1/Layout1'));
     });
   }),
   layout2: _react["default"].lazy(function () {
     return Promise.resolve().then(function () {
-      return _interopRequireWildcard(require('./Layout1/Layout1'));
+      return _interopRequireWildcard(require('./Layout2/Layout2'));
     });
   })
 };

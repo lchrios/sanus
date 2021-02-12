@@ -22,12 +22,12 @@ const TherapistInfoUser = () => {
 
     useEffect(() => {
 
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t')
+        axios.get('u/'+user.uid+'/t')
             .then(res => {
-                setTherapist(res.data)
-            })
+                setTherapist(res.data);
+            });
 
-    }, [user.uid])   
+    }, []);   
     
     if ( therapist == undefined) {
 

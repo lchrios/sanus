@@ -1,39 +1,44 @@
 const functions = require("firebase-functions");
-const express = require('express');
-const cors = require('cors')({origin: true});
+const express = require("express");
 const app = express();
-// importacion de funciones 
+
+// * Funciones de autenticacion
 const {
   createUserWithEmailAndPassword,
-  logout,
   signInWithEmailAndPassword,
-  signInWithGoogle,
-  validateIdToken
-} = require('./routes/auth');
+  isAuthenticated,
+  isAuthorized,
+  createTherapistWithEmailAndPassword,
+} = require("./routes/auth");
 
+// * Funciones relativas al usuario
 const {
-    getAllSessionsByUser, 
-    getUser,
-    getTherapistByUser,
-    getTherapistRefByUser,
-    getAllUsers,
-} = require('./routes/users');
+  getAllSessionsByUser,
+  getUser,
+  getTherapistByUser,
+  getTherapistRefByUser,
+  getAllUsers,
+  assignTherapist,
+} = require("./routes/users");
 
+// * Funciones relativas al terapeuta
 const {
-    getAllTherapists,
-    getAllSessionsByTherapist,
-    getTherapist,
-    getAllTherapistsRefs,
-    getPatientsbyTherapists
-} = require('./routes/therapists');
+  getAllTherapists,
+  getAllSessionsByTherapist,
+  getTherapist,
+  getPatientsbyTherapist,
+} = require("./routes/therapists");
 
+
+// * Funcions relativas a las sesiones
 const {
-    getSession, 
-    newSession,
-    deleteSession,
-    updateSession,
-} = require('./routes/sessions');
+  getSession,
+  newSession,
+  deleteSession,
+  updateSession,
+} = require("./routes/sessions");
 
+// * Funciones relativas a los blogs
 const {
   getAllBlogs,
   getBlog,
@@ -41,60 +46,63 @@ const {
   deleteBlog,
   updateBlog,
   getAllBlogsByTherapist,
-} = require('./routes/blogs');
+} = require("./routes/blogs");
 
-// uso de transformacion a json
-app.use(express.json())
+// * uso de transformacion a json
+app.use(express.json());
 
-// evitar problemas de control de acceso del CORS
-app.use(function(req, res, next) {
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "X-Requested-With,content-type"
-    );
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-      "Access-Control-Allow-Methods",
-      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-    );
-    res.setHeader("Access-Control-Allow-Credentials", true);
-    next();
+// * permisos del CORS
+app.use( (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "iknelia.netlify.app");
+  res.header("Access-Control-Allow-Origin", "localhost:3000");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
 
-// rutas de terapeuta
-app.get('/t', getAllTherapists);
-app.get('/t/ref', getAllTherapistsRefs);
-app.get('/t/:tid', getTherapist);
-app.get('/t/:tid/s', getAllSessionsByTherapist);
-app.get('/t/:tid/s/:sid', getSession);
-app.get('/t/:tid/b', getAllBlogsByTherapist);
-app.get('/t/:tid/u', getPatientsbyTherapists)
+// * Niveles de permisos por roles 
+const roles = {
+  admin: ['admin'], // Only SA & Admin has access
+  therapist: ['admin', 'therapist'], // Only SA & Admin & Editor has access
+  user: ['admin', 'therapist', 'user'], // Everyone has access
+}
 
-// rutas de usuario
-app.get('/u', getAllUsers);
-app.get('/u/:uid', getUser);
-app.get('/u/:uid/t', getTherapistByUser);
-app.get('/u/:uid/t/ref', getTherapistRefByUser);
-app.get('/u/:uid/s', getAllSessionsByUser);
-app.get('/u/:uid/s/:sid', getSession);
+// - La ventaja de esta modalidad de autorizacion es que así podemos
+// - definir los permisos de acceso individualmente por ruta
 
-// rutas de blogs
-app.get('/b', getAllBlogs);
-app.get('/b/:bid', getBlog);
-app.post('/b/new', newBlog);
-app.delete('/b/:bid', deleteBlog);
-app.put('/b/:bid', updateBlog);
+// * rutas de terapeuta
+app.get("/t", isAuthenticated, isAuthorized(roles.user), getAllTherapists);
+app.get("/t/:tid", isAuthenticated, isAuthorized(roles.user), getTherapist);
+app.get("/t/:tid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByTherapist);
+app.get("/t/:tid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
+app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByTherapist);
+app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist);
 
-// rutas de sesiones
-app.post('/s/new', newSession);
-app.put('/s/:sid', updateSession);
-app.get('/s/:sid', getSession);
-app.delete('/s/:sid', deleteSession);
+// * rutas de usuario
+app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
+app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
+app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
+app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
+app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
+app.put("/u/:uid/assign/:tid", isAuthorized, isAuthorized(roles.user), assignTherapist)
 
-// rutas de autenticacion
-app.post('/auth/login', signInWithEmailAndPassword);
-app.post('/auth/signin', createUserWithEmailAndPassword);
-app.post('/auth/login-google', signInWithGoogle);
-app.post('/auth/:uid/logout', logout);
+// * rutas de blogs
+app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
+app.get("/b/:bid", isAuthenticated, isAuthorized(roles.user), getBlog);
+app.post("/b/new", isAuthenticated, isAuthorized(roles.therapist), newBlog);
+app.delete("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), deleteBlog);
+app.put("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), updateBlog);
 
-exports.api = functions.region('us-central1').https.onRequest(app)
+// * rutas de sesiones
+app.post("/s/new", isAuthenticated, isAuthorized(roles.user), newSession);
+app.put("/s/:sid", isAuthenticated, isAuthorized(roles.user), updateSession);
+app.get("/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
+app.delete("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession);
+// TODO: confirmSession function
+
+// * rutas de autenticacion
+app.post("/auth/signuser", createUserWithEmailAndPassword);
+app.post("/auth/signtherapist", createTherapistWithEmailAndPassword)
+
+// * export de la api
+exports.api = functions.region("us-central1").https.onRequest(app);

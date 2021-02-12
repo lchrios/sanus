@@ -2,88 +2,98 @@
 
 var functions = require("firebase-functions");
 
-var express = require('express');
+var express = require("express");
 
-var cors = require('cors')({
-  origin: true
-});
+var app = express(); // * Funciones de autenticacion
 
-var app = express(); // importacion de funciones 
-
-var _require = require('./routes/auth'),
+var _require = require("./routes/auth"),
     createUserWithEmailAndPassword = _require.createUserWithEmailAndPassword,
-    logout = _require.logout,
     signInWithEmailAndPassword = _require.signInWithEmailAndPassword,
-    signInWithGoogle = _require.signInWithGoogle,
-    validateIdToken = _require.validateIdToken;
+    isAuthenticated = _require.isAuthenticated,
+    isAuthorized = _require.isAuthorized,
+    createTherapistWithEmailAndPassword = _require.createTherapistWithEmailAndPassword; // * Funciones relativas al usuario
 
-var _require2 = require('./routes/users'),
+
+var _require2 = require("./routes/users"),
     getAllSessionsByUser = _require2.getAllSessionsByUser,
     getUser = _require2.getUser,
     getTherapistByUser = _require2.getTherapistByUser,
     getTherapistRefByUser = _require2.getTherapistRefByUser,
-    getAllUsers = _require2.getAllUsers;
+    getAllUsers = _require2.getAllUsers,
+    assignTherapist = _require2.assignTherapist; // * Funciones relativas al terapeuta
 
-var _require3 = require('./routes/therapists'),
+
+var _require3 = require("./routes/therapists"),
     getAllTherapists = _require3.getAllTherapists,
     getAllSessionsByTherapist = _require3.getAllSessionsByTherapist,
     getTherapist = _require3.getTherapist,
-    getAllTherapistsRefs = _require3.getAllTherapistsRefs,
-    getPatientsbyTherapists = _require3.getPatientsbyTherapists;
+    getPatientsbyTherapist = _require3.getPatientsbyTherapist; // * Funcions relativas a las sesiones
 
-var _require4 = require('./routes/sessions'),
+
+var _require4 = require("./routes/sessions"),
     getSession = _require4.getSession,
     newSession = _require4.newSession,
     deleteSession = _require4.deleteSession,
-    updateSession = _require4.updateSession;
+    updateSession = _require4.updateSession; // * Funciones relativas a los blogs
 
-var _require5 = require('./routes/blogs'),
+
+var _require5 = require("./routes/blogs"),
     getAllBlogs = _require5.getAllBlogs,
     getBlog = _require5.getBlog,
     newBlog = _require5.newBlog,
     deleteBlog = _require5.deleteBlog,
     updateBlog = _require5.updateBlog,
-    getAllBlogsByTherapist = _require5.getAllBlogsByTherapist; // uso de transformacion a json
+    getAllBlogsByTherapist = _require5.getAllBlogsByTherapist; // * uso de transformacion a json
 
 
-app.use(express.json()); // evitar problemas de control de acceso del CORS
+app.use(express.json()); // * permisos del CORS
 
 app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type");
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
-  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Origin", "iknelia.netlify.app");
+  res.header("Access-Control-Allow-Origin", "localhost:3000");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
-}); // rutas de terapeuta
+}); // * Niveles de permisos por roles 
 
-app.get('/t', getAllTherapists);
-app.get('/t/ref', getAllTherapistsRefs);
-app.get('/t/:tid', getTherapist);
-app.get('/t/:tid/s', getAllSessionsByTherapist);
-app.get('/t/:tid/s/:sid', getSession);
-app.get('/t/:tid/b', getAllBlogsByTherapist);
-app.get('/t/:tid/u', getPatientsbyTherapists); // rutas de usuario
+var roles = {
+  admin: ['admin'],
+  // Only SA & Admin has access
+  therapist: ['admin', 'therapist'],
+  // Only SA & Admin & Editor has access
+  user: ['admin', 'therapist', 'user'] // Everyone has access
 
-app.get('/u', getAllUsers);
-app.get('/u/:uid', getUser);
-app.get('/u/:uid/t', getTherapistByUser);
-app.get('/u/:uid/t/ref', getTherapistRefByUser);
-app.get('/u/:uid/s', getAllSessionsByUser);
-app.get('/u/:uid/s/:sid', getSession); // rutas de blogs
+}; // - La ventaja de esta modalidad de autorizacion es que así podemos
+// - definir los permisos de acceso individualmente por ruta
+// * rutas de terapeuta
 
-app.get('/b', getAllBlogs);
-app.get('/b/:bid', getBlog);
-app.post('/b/new', newBlog);
-app["delete"]('/b/:bid', deleteBlog);
-app.put('/b/:bid', updateBlog); // rutas de sesiones
+app.get("/t", isAuthenticated, isAuthorized(roles.user), getAllTherapists);
+app.get("/t/:tid", isAuthenticated, isAuthorized(roles.user), getTherapist);
+app.get("/t/:tid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByTherapist);
+app.get("/t/:tid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
+app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByTherapist);
+app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist); // * rutas de usuario
 
-app.post('/s/new', newSession);
-app.put('/s/:sid', updateSession);
-app.get('/s/:sid', getSession);
-app["delete"]('/s/:sid', deleteSession); // rutas de autenticacion
+app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
+app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
+app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
+app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
+app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
+app.put("/u/:uid/assign/:tid", isAuthorized, isAuthorized(roles.user), assignTherapist); // * rutas de blogs
 
-app.post('/auth/login', signInWithEmailAndPassword);
-app.post('/auth/signin', createUserWithEmailAndPassword);
-app.post('/auth/login-google', signInWithGoogle);
-app.post('/auth/:uid/logout', logout);
-exports.api = functions.region('us-central1').https.onRequest(app);
+app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
+app.get("/b/:bid", isAuthenticated, isAuthorized(roles.user), getBlog);
+app.post("/b/new", isAuthenticated, isAuthorized(roles.therapist), newBlog);
+app["delete"]("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), deleteBlog);
+app.put("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), updateBlog); // * rutas de sesiones
+
+app.post("/s/new", isAuthenticated, isAuthorized(roles.user), newSession);
+app.put("/s/:sid", isAuthenticated, isAuthorized(roles.user), updateSession);
+app.get("/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
+app["delete"]("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession); // TODO: confirmSession function
+// * rutas de autenticacion
+
+app.post("/auth/signuser", createUserWithEmailAndPassword);
+app.post("/auth/signtherapist", createTherapistWithEmailAndPassword); // * export de la api
+
+exports.api = functions.region("us-central1").https.onRequest(app);

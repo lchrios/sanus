@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom'
 import useAuth from 'app/hooks/useAuth'
 import history from 'history.js'
 import {NavLogo} from '../../landing/components/Navbar_sc/NavbarElements'
+import axios from 'axios'
 
 
 
@@ -103,16 +104,12 @@ const FirebaseRegister = () => {
         try {
             setLoading(true)
 
-            await createUserWithEmailAndPassword(state.email, state.password) 
-
-            let user = firebase.auth().currentUser
-
             const user_data = {
-                email: user.email,
-                name: user.name || user.email,
+                email: state.email,
+                name: state.email,
                 age: 18,
-                phone: "3314895548",
-                img: '/src/assets/images/faces/2.jpg',
+                phone: "+5213114895548",
+                img: "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/usuarios/memerevflash.png?alt=media&token=46df4dfe-edc4-4b11-9b8a-33a74dae4535",
                 therapist: null,
                 sessions: [],
                 payment_met: [],
@@ -121,13 +118,39 @@ const FirebaseRegister = () => {
                 blogs: [],
             }
 
-            var db = firebase.firestore()
+            console.log({ 
+                email: state.email, 
+                password: state.password, 
+                userdata: {...user_data} 
+            })
+           
+            axios.post('http://localhost:9999/iknelia-3cd8e/us-central1/api/auth/signuser', 
+                { 
+                    email: state.email, 
+                    password: state.password, 
+                    userdata: {...user_data} 
+                })
+                .then( () => {
 
-            await db.collection("patients").doc(user.uid).set(user_data)
-            await db.collection("therapists").doc(user.uid).set({blogs: []});
-            await db.collection('roles').doc(user.uid).set({role: "patients"})
+                    firebase.auth().signInWithEmailAndPassword(state.email, state.password)
+                        .then( user => {
+                            history.push('/'+user.uid+'/dashboard');
+                        })
+                        .catch( error => {
+                            console.error('Error iniciando sesion');
+                            setLoading(false)
+                            console.error(error);
+                            setMessage(error.message)
+                        })
+                    
+                })
+                .catch( error => {
+                    setLoading(false)
+                    console.error(error);
+                    setMessage(error.message)
+                })
 
-            history.push('/'+user.uid+'/dashboard')
+
         } catch (e) {
             setLoading(false)
             console.log(e)

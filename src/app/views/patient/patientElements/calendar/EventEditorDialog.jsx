@@ -32,10 +32,8 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
 
     useEffect(() => {
         axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t').then(res => {
-            setTherapistData(res.data)
-        })
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t/ref').then(res => {
-            setTherRef(res.data)
+            setTherapistData(res.data[1]);
+            setTherRef(res.data[0]);
         })
     }, [event])
 

@@ -1,4 +1,5 @@
-const { db, firebase } = require('../firestore');
+const { admin } = require('../firebase');
+var db = admin.firestore();
 const ther = db.collection('therapists');
 const blogs = db.collection('blogs');
 
@@ -8,10 +9,12 @@ exports.getAllBlogs = (req, res) => {
         .get()
         .then(query => {
             var data = [];
+            var refs = [];
             query.forEach(doc => {
                 data.push(doc.data());
+                refs.push(doc.id.toString());
             })
-            return res.status(200).send(data);
+            return res.status(200).send({ id: refs, data: data });
         })
         .catch(error => {
             console.log('Error obteniendo todos los blog documents', error);
@@ -22,14 +25,16 @@ exports.getAllBlogs = (req, res) => {
 exports.getAllBlogsByTherapist = (req, res) => {
     blogs
         .where('author', '==', req.params.tid)
-        //.orderBy('date', 'desc')
+        .orderBy('date', 'desc')
         .get()
         .then(query => {
             var data = [];
+            var refs = [];
             query.forEach(doc => {
                 data.push(doc.data());
+                refs.push(doc.id.toString());
             })
-            return res.status(200).send(data);
+            return res.status(200).send({ id: refs, data: data });
         })
         .catch(error => {
             console.log('Error obteniendo los blog documents del terapeuta', error);
@@ -52,28 +57,14 @@ exports.getBlog = (req, res) => {
 }
 
 exports.newBlog = (req, res) => {
-
     blogs
         .add(req.body.blogdata)
         .then(blogdoc => {
-
             /*
-                // subir imagen
-            const toUpload = req.body.blogdata.img;
-            const metadata = { contentType: file.type };
-
-            var imgurl = "";
-            firebase.storage().ref("/blogs/" + blogdoc.id)
-                .put(toUpload, metadata)
-                .then(snapshot => {
-                    imgurl = snapshot.ref.getDownloadURL()                    
-                })
-                .then(url => {
-                    console.log(url);
-                }) 
-                */      
-
+            
             // actualizar campo de id
+             ! no sirve por lo pronto,
+             TODO: Arreglar el upload de la foto
             blogdoc
                 .update({
                     id: blogdoc.id
@@ -84,7 +75,9 @@ exports.newBlog = (req, res) => {
                 .catch(error => {
                     console.log('Error actualizando blog document', error);
                     return res.status(404).send(error);
-                })
+                }) 
+
+            */
             
             // actualiar campos de terapeuta
             author = ther.doc(req.body.blogdata.author);

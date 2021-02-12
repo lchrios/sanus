@@ -1,12 +1,11 @@
-const firebase = require('firebase');
-const db = firebase.firestore();
+const {admin} = require('../firebase');
+const db = admin.firestore();
 const users = db.collection('users');
 const ther = db.collection('therapists');
 const sess = db.collection('sessions');
 
 
 exports.getSession = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     sess.doc(req.params.sid)
         .get()
         .then(doc => {
@@ -19,10 +18,13 @@ exports.getSession = (req, res) => {
 }
 
 exports.newSession = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
-    console.log(req.body.sessiondata)
+    //console.log(req.body.sessiondata)
     sess.add(req.body.sessiondata)
         .then( doc => {
+            
+            /* 
+            ! no es necesario ya utilizar este codigo
+            ! se comenta por si sirve luego
             // actualizar el id del documento
             sess
                 .doc(doc.id)
@@ -34,6 +36,9 @@ exports.newSession = (req, res) => {
                     console.log('Error actualizando el campo session.id', error);
                     return res.status(404).send(error);
                 })
+            */
+
+            // * añade la cita al paciente
             const userref = users.doc(req.body.sessiondata.patient)
             userref
                 .get()
@@ -48,29 +53,32 @@ exports.newSession = (req, res) => {
                         return res.status(404).send(error);
                     })
                 })
+                .then(() => {
+                    // * añade la cita al terapeuta 
+                    const terref = ther.doc(req.body.sessiondata.therapist)
+                    terref.get()
+                        .then( terdoc => {
+                            const data = terdoc.data().sessions;
+                            data.push(doc.id);
+                            userref.update({sessions: data})
+                                .then(() => {
+                                    console.log('Campo user.sessions actualizado correctamente')
+                                    return res.status(201).send(doc.id);
+                                })
+                            .catch(error => {
+                                console.log('Error actualizando el campo therapist.sessions', error);
+                                return res.status(404).send(error);
+                            })
+                        })
+                        .catch(error => {
+                            console.log('Error obteniendo los datos del terapeuta', error);
+                            return res.status(404).send(error);
+                        })  
+                })
                 .catch(error => {
                     console.log('Error obteniendo los datos del usuario', error);
                     return res.status(404).send(error);
                 })
-            const terref = ther.doc(req.body.sessiondata.therapist)
-            terref.get()
-                .then( terdoc => {
-                    const data = terdoc.data().sessions;
-                    data.push(doc.id);
-                    userref.update({sessions: data}).then(() => {
-                        console.log('Campo user.sessions actualizado correctamente')
-                    })
-                    .catch(error => {
-                        console.log('Error actualizando el campo therapist.sessions', error);
-                        return res.status(404).send(error);
-                    })
-                })
-                .catch(error => {
-                    console.log('Error obteniendo los datos del terapeuta', error);
-                    return res.status(404).send(error);
-                })
-                
-            return res.status(201).send(doc.id);
         })
         .catch(error => {
             console.log("Unable to create new blog", error);
@@ -79,7 +87,6 @@ exports.newSession = (req, res) => {
 }
 
 exports.updateSession = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     sess
         .doc(req.params.sid)
         .set(req.body.sessiondata)
@@ -94,12 +101,15 @@ exports.updateSession = (req, res) => {
 }
 
 exports.deleteSession = (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
     sess
         .doc(req.params.sid)
         .delete()
         .then(() => {
             console.log('Sesion cancelada con exito!');
             return res.status(204);
-        })        
+        }) 
+        .catch(() => {
+            console.error('Error borrando el documento de sesion', error);
+            return res.status(404).send(error);
+        })    
 }
