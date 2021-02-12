@@ -16,7 +16,7 @@ exports.getAllTherapists = (req, res) => {
                 data.push(doc.data());
                 refs.push(doc.id.toString());
             })
-            res.status(200).send([refs, data])
+            res.status(200).send({ id: refs, data: data })
         })
         .catch(error => {
             console.log('Error al obtener terapeutas!', error);
@@ -36,7 +36,7 @@ exports.getPatientsbyTherapist = (req,res) => {
                 refs.push(doc.id.toString());
             })
 
-            return res.status(200).send([refs, data])
+            return res.status(200).send({ id: refs, data: data })
         })
         .catch(error => {
             console.log('No fue posible obtener la información de usuarios asignados')
@@ -68,7 +68,7 @@ exports.getAllSessionsByTherapist = (req, res) => {
                 data.push(doc.data());
                 refs.push(doc.ref);
             })
-            res.status(200).send([refs, data])
+            res.status(200).send({ id: refs, data: data })
         })
         .catch(error => {
             console.log('Error al obtener sesiones terapeuta!', error);

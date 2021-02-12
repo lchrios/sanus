@@ -17,7 +17,10 @@ exports.getAllUsers = function (req, res) {
       refs.push(doc.id.toString());
     });
     console.log('Datos de usuarios obtenidos correctamente!');
-    return res.status(200).send([refs, data]);
+    return res.status(200).send({
+      id: refs,
+      data: data
+    });
   })["catch"](function (error) {
     console.error('Error obteniendo los usuarios', error);
     return res.status(404).send(error);
@@ -39,7 +42,10 @@ exports.getTherapistByUser = function (req, res) {
     var ther_id = doc.data().therapist;
     ther.doc(ther_id).get().then(function (docther) {
       console.log('Datos de terapeuta obtenidos correctamente!');
-      return res.status(200).send([ther_id, docther.data()]);
+      return res.status(200).send({
+        id: ther_id,
+        data: docther.data()
+      });
     })["catch"](function (error) {
       console.error('Error obteniendo los datos del terapeuta', error);
       return res.status(404).send(error);
@@ -56,7 +62,10 @@ exports.getAllSessionsByUser = function (req, res) {
       refs.push(doc.id.toString());
     });
     console.log('Datos de sesiones obtenidos correctamente!');
-    return res.status(200).send([refs, data]);
+    return res.status(200).send({
+      id: refs,
+      data: data
+    });
   })["catch"](function (error) {
     console.error('Error obteniendo los datos de sesiones', error);
     return res.status(404).send(error);

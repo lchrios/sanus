@@ -16,7 +16,7 @@ exports.getAllUsers = function (req, res) {
             })
             
             console.log('Datos de usuarios obtenidos correctamente!');
-            return res.status(200).send([refs, data]);
+            return res.status(200).send({ id: refs, data: data });
         })
         .catch( error => {
             console.error('Error obteniendo los usuarios', error);
@@ -49,7 +49,7 @@ exports.getTherapistByUser = (req, res) => {
                 .get()
                 .then( docther => {
                     console.log('Datos de terapeuta obtenidos correctamente!');
-                    return res.status(200).send([ther_id, docther.data()])
+                    return res.status(200).send({ id: ther_id, data: docther.data() })
                 })
                 .catch( error => {
                      console.error('Error obteniendo los datos del terapeuta', error);
@@ -71,7 +71,7 @@ exports.getAllSessionsByUser = (req, res) => {
             })
 
             console.log('Datos de sesiones obtenidos correctamente!');
-            return res.status(200).send([refs, data]);
+            return res.status(200).send({ id: refs, data: data });
         })
         .catch( error => {
             console.error('Error obteniendo los datos de sesiones', error);

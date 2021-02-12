@@ -26,8 +26,7 @@ exports.getAllBlogs = function (req, res) {
 };
 
 exports.getAllBlogsByTherapist = function (req, res) {
-  blogs.where('author', '==', req.params.tid) //.orderBy('date', 'desc')
-  .get().then(function (query) {
+  blogs.where('author', '==', req.params.tid).orderBy('date', 'desc').get().then(function (query) {
     var data = [];
     var refs = [];
     query.forEach(function (doc) {
@@ -56,29 +55,23 @@ exports.getBlog = function (req, res) {
 exports.newBlog = function (req, res) {
   blogs.add(req.body.blogdata).then(function (blogdoc) {
     /*
-        // subir imagen
-    const toUpload = req.body.blogdata.img;
-    const metadata = { contentType: file.type };
-      var imgurl = "";
-    firebase.storage().ref("/blogs/" + blogdoc.id)
-        .put(toUpload, metadata)
-        .then(snapshot => {
-            imgurl = snapshot.ref.getDownloadURL()                    
-        })
-        .then(url => {
-            console.log(url);
-        }) 
-        */
+    
     // actualizar campo de id
-    blogdoc.update({
-      id: blogdoc.id
-    }).then(function () {
-      console.log('Campo ID: actualizado!\nCampo IMG: actualizado!');
-    })["catch"](function (error) {
-      console.log('Error actualizando blog document', error);
-      return res.status(404).send(error);
-    }); // actualiar campos de terapeuta
-
+     ! no sirve por lo pronto,
+     TODO: Arreglar el upload de la foto
+    blogdoc
+        .update({
+            id: blogdoc.id
+        })
+        .then(() => {
+            console.log('Campo ID: actualizado!\nCampo IMG: actualizado!')
+        })
+        .catch(error => {
+            console.log('Error actualizando blog document', error);
+            return res.status(404).send(error);
+        }) 
+      */
+    // actualiar campos de terapeuta
     author = ther.doc(req.body.blogdata.author);
     author.get().then(function (doc) {
       upblogs = doc.data().blogs;

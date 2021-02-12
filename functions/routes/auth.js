@@ -10,6 +10,12 @@ var { Therapist, therapistConverter } = require('../schema/therapist');
  
 exports.isAuthorized = (hasRole, allowSameUser) => { // TODO Corregir lectura de roles
     return (req, res, next) => {
+        // TODO: Remover cuando se termine la prueba
+        console.log('Skipeando autorizacion por prueba');
+        next();
+        return;
+
+
         const { role, uid } = res.locals;
         const id  = req.headers.uid;
 
@@ -26,6 +32,13 @@ exports.isAuthorized = (hasRole, allowSameUser) => { // TODO Corregir lectura de
 }
 
 exports.isAuthenticated = (req, res, next) => {
+
+    // TODO: Remover cuando se termine la prueba
+    console.log('Skipeando autenticacion por prueba');
+    next();
+    return;
+
+
     console.log('Verificando que el tokenId sea válido');
 
     /* 
@@ -98,6 +111,10 @@ exports.setAdmin = (req, res) => {
         .then(() => {
             console.log('Usuario hecho admin exitosamente');
             return res.status(201);
+        })
+        .catch( error => {
+            console.error('Error cambiando el rol del usuario', error);
+            return res.status(404).send(error);
         })
 }
 
