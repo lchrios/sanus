@@ -78,3 +78,18 @@ exports.getAllSessionsByUser = (req, res) => {
             return res.status(404).send(error);
         })
 }
+
+exports.assignTherapist = (req, res) => {
+    users
+        .doc(req.params.uid)
+        .update({ therapist: req.params.tid })
+        .then(() => {
+            console.log('Terapeuta asignado correctamente');
+            return res.status(201);
+        })
+        .catch( error => {
+            console.error('Error actualizando el terapeuta del usuario', error);
+            return res.status(404).send(error);
+        })
+        
+}

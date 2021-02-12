@@ -71,3 +71,15 @@ exports.getAllSessionsByUser = function (req, res) {
     return res.status(404).send(error);
   });
 };
+
+exports.assignTherapist = function (req, res) {
+  users.doc(req.params.uid).update({
+    therapist: req.params.tid
+  }).then(function () {
+    console.log('Terapeuta asignado correctamente');
+    return res.status(201);
+  })["catch"](function (error) {
+    console.error('Error actualizando el terapeuta del usuario', error);
+    return res.status(404).send(error);
+  });
+};

@@ -19,7 +19,8 @@ var _require2 = require("./routes/users"),
     getUser = _require2.getUser,
     getTherapistByUser = _require2.getTherapistByUser,
     getTherapistRefByUser = _require2.getTherapistRefByUser,
-    getAllUsers = _require2.getAllUsers; // * Funciones relativas al terapeuta
+    getAllUsers = _require2.getAllUsers,
+    assignTherapist = _require2.assignTherapist; // * Funciones relativas al terapeuta
 
 
 var _require3 = require("./routes/therapists"),
@@ -77,7 +78,8 @@ app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
 app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
 app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
-app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession); // * rutas de blogs
+app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
+app.put("/u/:uid/assign/:tid", isAuthorized, isAuthorized(roles.user), assignTherapist); // * rutas de blogs
 
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
 app.get("/b/:bid", isAuthenticated, isAuthorized(roles.user), getBlog);

@@ -1,31 +1,29 @@
 import React, { useState, useEffect} from 'react'
 import MUIDataTable from 'mui-datatables'
 import { Avatar, Grow, Icon, IconButton, TextField} from '@material-ui/core'
-import history from '../../../../../history'
-import firebase from 'firebase'
+import history from '../../../../../history
 import useAuth from 'app/hooks/useAuth'
-import axios from 'axios'
+import axios from 'app/services/api'
+import api from 'app/services/api'
 
 //const db = firebase.app().firestore()
 
 
 
 const BrowseApp = () => {
-    const [isAlive, setIsAlive] = useState(true)
-    const [userList, setUserList] = useState([])
+
+    const [therapistList, setTherapistList] = useState([])
     const [docRefs, setDocRefs] = useState([])
     const { user } = useAuth()
 
     useEffect(() => {
         
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t').then(res => {
-            setUserList(res.data[1])
+        axios.get('/t').then(res => {
+            setTherapistList(res.data[1])
             setDocRefs(res.data[0])
         })
 
-
-         return () => setIsAlive(false)
-    }, [isAlive])
+    }, [])
     
     const columns = [
         {
@@ -34,7 +32,7 @@ const BrowseApp = () => {
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => {
-                    let therapist = userList[dataIndex]
+                    let therapist = therapistList[dataIndex]
 
                     return (
                         <div className="flex items-center">
@@ -56,7 +54,7 @@ const BrowseApp = () => {
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => {
-                    let therapist = userList[dataIndex]
+                    let therapist = therapistList[dataIndex]
 
                     return (
                         <span className="ellipsis">{therapist?.address || "Sin direccion"}</span>
@@ -70,7 +68,7 @@ const BrowseApp = () => {
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => {
-                    let therapist = userList[dataIndex]
+                    let therapist = therapistList[dataIndex]
 
                     return (
                         <span className="ellipsis">{therapist?.exp}</span>
@@ -84,7 +82,7 @@ const BrowseApp = () => {
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => {
-                    let therapist = userList[dataIndex]
+                    let therapist = therapistList[dataIndex]
 
                     return (
                         <span className="ellipsis">{therapist?.cedula}</span>
@@ -98,7 +96,7 @@ const BrowseApp = () => {
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => {
-                    let therapist = userList[dataIndex]
+                    let therapist = therapistList[dataIndex]
 
                     return (
                         <span className="ellipsis">{therapist?.phone}</span>
@@ -115,16 +113,15 @@ const BrowseApp = () => {
                     <div className="flex items-center">
                         <div className="flex-grow"></div>
                             <IconButton onClick={() => {
-                                const db = firebase.app().firestore()
-
-                                db.collection("patients").doc(user.uid)
-                                    .update({
-                                        therapist: docRefs[dataIndex]
+                                api.put(`/u/${user.uid}/assign/${docRefs[dataIndex]}`)
+                                    .then( res => {
+                                        console.log('Terapeutas reasignados', res.status);
+                                        history.push(`/${user.uid}/home`)
                                     })
-                                    .then(function() {
-                                        history.push('/'+user.uid+'/home')
+                                    .catch( error => {
+                                        console.error(error);
                                     })
-                                }}>
+                            }}>
                                 <Icon>control_point</Icon>
                             </IconButton>
                     </div>
@@ -140,7 +137,7 @@ const BrowseApp = () => {
                 <div className="min-w-750">
                     <MUIDataTable
                         title={'Todos los terapeutas'}
-                        data={userList}
+                        data={therapistList}
                         columns={columns}
                         options={{
                             filterType: 'textField',

@@ -18,6 +18,7 @@ const {
   getTherapistByUser,
   getTherapistRefByUser,
   getAllUsers,
+  assignTherapist,
 } = require("./routes/users");
 
 // * Funciones relativas al terapeuta
@@ -83,6 +84,7 @@ app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
 app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
+app.put("/u/:uid/assign/:tid", isAuthorized, isAuthorized(roles.user), assignTherapist)
 
 // * rutas de blogs
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
