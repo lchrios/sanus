@@ -17,7 +17,7 @@ import UserProfileForm from './infoForms/UserProfileForm'
 import UserPreInfo from './infoForms/PreInfo'
 
 const getSteps = () =>{
-    return ['Paso 1', 'Paso 2', 'Paso 3']   
+    return ['Bienvenido', 'Contacto', 'Perfil']   
 } 
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -65,28 +65,29 @@ const UserDataForm = () => {
     const [content, setContent] = useState()
 
 
-    useEffect(() => {
-        setContent(getStepContent(activeStep))
-    }, [activeStep])
-
-
+    
+    
     const getStepContent = (stepIndex) => {
         switch(stepIndex) {
             case 0: 
-                return <UserPreInfo />
-                
+            return <UserPreInfo />
+            
             case 1: 
-                return <UserData />
+            return <UserData />
             case 2: 
-                return <UserProfileForm /> 
+            return <UserProfileForm /> 
             default:
                 return ''
-    
+                
+            }
         }
-    }
-    
+        
+    useEffect(() => {
+            setContent(getStepContent(activeStep))
+        }, [activeStep])
+
     const handleNext = () => {
-        if(activeStep == 1) {
+        if(activeStep == 2) {
             // TODO: enviar informacion a la base de datos e iniciar sesión
             history.push('/')
         } else {
@@ -98,6 +99,7 @@ const UserDataForm = () => {
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1)
+        
     }
 
     const handleReset = () => {
@@ -151,7 +153,7 @@ const UserDataForm = () => {
                                                         type="submit"
                                                         onClick={handleNext}
                                                     >
-                                                        {activeStep == steps.length -2
+                                                        {activeStep == steps.length -1
                                                         ? 'Enviar respuestas' : 'Siguiente'}
                                                     </Button>
                                                     {loading && (
@@ -164,8 +166,11 @@ const UserDataForm = () => {
                                                     )}
                                                     <span className="mx-2 ml-5">ó</span>
                                                         <Button className="capitalize"
+                                                        variant={activeStep === 0 ? '' : 'contained'}
+                                                        color={activeStep === 0 ? '' : 'secondary'}
                                                         disabled={activeStep === 0}
-                                                        onClick={handleBack(), history.push('/session/signin')}>
+                                                         onClick={handleBack}
+                                                        >
                                                             Volver
                                                         </Button>
                                             </div>

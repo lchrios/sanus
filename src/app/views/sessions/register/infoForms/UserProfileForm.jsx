@@ -1,52 +1,46 @@
 import React, { useState } from 'react'
 import {
     Card,
-    TextField,
     Divider,
-    MenuItem,
+    Button,
 } from '@material-ui/core'
-const UserProfileForm = () => {
+import {makeStyles} from '@material-ui/core/styles'
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+    input: {
+      display: 'none',
+    },
+  }));
+
+const UserProfileForm = () => {
+const classes = useStyles()
     return (
         <Card className="m-sm-30 p-6">
             <div className="max-w-600 mx-auto">
-                <h4>Responde este formulario para comenzar</h4>
-                <p>
-                    Por favor responde con honestidad
-                </p>
+                <h4>Selecciona una fotografía para tu perfil</h4>
                 <Divider className="mb-8" />
 
-                <TextField
-                    className="mb-4"
-                    label="¿Porqué deseas comenzar una terapia?"
-                    variant="outlined"
-                    size="small"
-                    multiline
-                    fullWidth
-                />
-              <TextField
-                    className="mb-4"
-                    label="¿Hace cuanto identificas la situación?"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    defaultValue=""
-                    select
-                >
-                    {stayDurationList.map((duration) => (
-                        <MenuItem key={duration} value={duration}>
-                            {duration}
-                        </MenuItem>
-                    ))}
-                </TextField>
-                <TextField
-                    className="mb-4"
-                    label="Describe un evento específico asociado a la situación"
-                    variant="outlined"
-                    size="small"
-                    multiline
-                    fullWidth
-                />
+                <input
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+                className={classes.input}>
+                </input>
+                <label  htmlFor="contained-button-file">
+                <Button className="x-center" variant="contained" color="primary" component="span">
+                        Subir 
+                </Button>
+                </label>
+                
+
+                
+              
                 </div>
         </Card> 
     )

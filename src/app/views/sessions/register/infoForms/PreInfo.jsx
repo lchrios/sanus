@@ -6,7 +6,22 @@ import {
     MenuItem,
     Checkbox,
     FormControlLabel,
+     
+    
 } from '@material-ui/core'
+import {withStyles} from '@material-ui/core/styles'
+import {green} from '@material-ui/core/colors'
+
+const GreenCheckbox = withStyles({
+    root: {
+      color: green[400],
+      '&$checked': {
+        color: green[600],
+      },
+    },
+    checked: {},
+  })((props) => <Checkbox color="default" {...props} />);
+
 const UserPreInfo = () => {
     const [state, setState] =  useState({
         checkedA: false,
@@ -42,10 +57,12 @@ const UserPreInfo = () => {
                 <div>
                     <h3>¿Eres mayor de edad?</h3>
                     <FormControlLabel
-                        control = {<Checkbox checked={state.checkedA} onChange={handleChange} name="Sí"/>}
+                        control = {<Checkbox  onChange={handleChange} name="Sí"/>}
+                        label="Sí"
                     />
                     <FormControlLabel
-                        control = {<Checkbox checked={state.checkedB} onChange={handleChange} name="No"/>}
+                        control = {<Checkbox onChange={handleChange} name="No"/>}
+                        label="No"
                     />
                 </div>
             </div>

@@ -23,6 +23,7 @@ const UserData = () => {
                 <FormControl>
                     <InputLabel htmlFor="input-with-icon-adornment">Dirección</InputLabel>
                     <Input
+                    fullWidth
                     id="input-with-icon-adornment"
                     startAdornment={
                         <InputAdornment position="start">
@@ -31,17 +32,30 @@ const UserData = () => {
                     }
                     />
                 </FormControl>
-              <TextField
-                    id="input-with-icon-textfield"
-                    label="Correo electrónico"
-                    InputProps={{
-                      startAdornment: (
+                <Divider className="mb-8" />
+                <FormControl>
+                    <InputLabel htmlFor="input-with-icon-adornment">Teléfono</InputLabel>
+                    <Input
+                    id="input-with-icon-adornment"
+                    startAdornment={
                         <InputAdornment position="start">
-                          <Mail/>
+                            <Icon>phone</Icon>
                         </InputAdornment>
-                      ),
-                    }}
-                />
+                    }
+                    />
+                </FormControl>
+                <Divider className="mb-8" />
+                <TextField
+                        id="input-with-icon-textfield"
+                        label="Correo electrónico"
+                        InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                            <Mail/>
+                            </InputAdornment>
+                        ),
+                        }}
+                    />
             </div>
         </Card> 
     )
