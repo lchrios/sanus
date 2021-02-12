@@ -10,11 +10,11 @@ import {
 import { ValidatorForm } from 'react-material-ui-form-validator'
 import axios from 'axios'
 import history from '../../../../../history'
-import FormTest from './FormTest'
-import FormTestSt2 from './FormTestSt2'
-import FormTestSt3 from './FormTestSt3'
-import PreTest from './preTest'
-
+import FormTest from './steps/FormTest'
+import FormTestSt2 from './steps/FormTestSt2'
+import FormTestSt3 from './steps/FormTestSt3'
+import PreTest from './steps/preTest'
+import SessionValidatorForm from './steps/SessionValidatorForm'
 import useAuth from 'app/hooks/useAuth'
 
 
@@ -75,21 +75,23 @@ export default function PatientTest() {
             }
             else if (therapist) {
                 return (
-                <ValidatorForm 
-                    onSubmit={handleNext}
-                    onError={(errors) => null}
-                >
-                    <FormTest />
-                </ValidatorForm>
+                        <SessionValidatorForm />
                 )
             }
                 
-            case 1:
+            case 1: 
+                return <ValidatorForm 
+                onSubmit={handleNext}
+                onError={(errors) => null}
+                >
+                    <FormTest />
+                </ValidatorForm> 
+            case 2: 
                 return <FormTestSt2 />
-            case 2:
-                return <FormTestSt3 />          
+            case 3: 
+                return <FormTestSt3 /> 
             default:
-                return ''
+                return 
         }
     }    
 

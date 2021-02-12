@@ -98,7 +98,7 @@ const UserProfileSidenav = () => {
                             <DialogContent dividers>
                                 <div>
                                     <h3 className="ml-2">
-                                        No tienes ninguna nota porque nunca has tomado una sesión
+                                        No tienes ninguna nota porque no tienes asignado un terapeuta
                                     </h3>
                                 </div>
                                <Button
@@ -198,8 +198,11 @@ const UserProfileSidenav = () => {
             )
     }
 
-    return (
-        <div>
+    else {
+    
+        return (
+
+            <div>
              {/**SNACKBAR COMIENZA
               * Se le tiene que agregar la condicional para que solo se muestre el snackbar cuando el usuario no tiene notas
               */}
@@ -250,7 +253,14 @@ const UserProfileSidenav = () => {
                             </DialogTitle>
                             <DialogContent className="m-auto"dividers>
                                 <div className="m-auto">
-                                    <Button variant="contained" color="primary" className=" m-auto p-2">
+                                    <Button
+                                     variant="contained" 
+                                     color="primary" 
+                                     className=" m-auto p-2"
+                                     /**
+                                      * TODO Crear app de notas (ya está la carpeta notes)
+                                      */
+                                     /**onClik={}*/>
                                         <Typography gutterBottom>
                                             Crear nota
                                         </Typography>
@@ -347,7 +357,10 @@ const UserProfileSidenav = () => {
                     </div>
                 </div>
             </div>
-    )
+           
+        )
+    } 
+    
 
     
 }

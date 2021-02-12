@@ -1,67 +1,184 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import {
     Card,
-    TextField,
-    Divider,
-    MenuItem,
+    Grid,
+    Button,
+    CircularProgress,
+    Stepper,
+    Step,
+    StepLabel,Icon
 } from '@material-ui/core'
+import UserData from './infoForms/UserData.jsx'
+import clsx from 'clsx'
+import { Link } from 'react-router-dom'
+import history from 'history.js'
+import UserProfileForm from './infoForms/UserProfileForm'
+import UserPreInfo from './infoForms/PreInfo'
+
+const getSteps = () =>{
+    return ['Paso 1', 'Paso 2', 'Paso 3']   
+} 
+
+const useStyles = makeStyles(({ palette, ...theme }) => ({
+    cardHolder: {
+        background: '#1A2038',
+    },
+    card: {
+        maxWidth: 650,
+        borderRadius: 12,
+        margin: '1rem',
+    },
+    buttonProgress: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
+    },
+    socialButton: {
+        width: '100%',
+        '& img': {
+            margin: '0 8px',
+        },
+    },
+    labelLink: {
+        color: palette.primary.main,
+        textDecoration: 'underline',
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+    input: {
+        display: 'none',
+    },
+}))
+
+
+
+
 const UserDataForm = () => {
+    const [loading, setLoading] = useState(false)
+    const classes = useStyles()
+    const steps = getSteps()
+    const [activeStep, setActiveStep] = useState(0)
+    const [content, setContent] = useState()
 
-    return (
-        <Card className="m-sm-30">
-            <div className="max-w-600 mx-auto">
-                <h4>Responde este formulario para comenzar</h4>
-                <p>
-                    Por favor responde con honestidad
-                </p>
-                <Divider className="mb-8" />
 
-                <TextField
-                    className="mb-4"
-                    label="¿Porqué deseas comenzar una terapia?"
-                    variant="outlined"
-                    size="small"
-                    multiline
-                    fullWidth
-                />
-              <TextField
-                    className="mb-4"
-                    label="¿Hace cuanto identificas la situación?"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    defaultValue=""
-                    select
-                >
-                    {stayDurationList.map((duration) => (
-                        <MenuItem key={duration} value={duration}>
-                            {duration}
-                        </MenuItem>
+    useEffect(() => {
+        setContent(getStepContent(activeStep))
+    }, [activeStep])
+
+
+    const getStepContent = (stepIndex) => {
+        switch(stepIndex) {
+            case 0: 
+                return <UserPreInfo />
+                
+            case 1: 
+                return <UserData />
+            case 2: 
+                return <UserProfileForm /> 
+            default:
+                return ''
+    
+        }
+    }
+    
+    const handleNext = () => {
+        if(activeStep == 1) {
+            // TODO: enviar informacion a la base de datos e iniciar sesión
+            history.push('/')
+        } else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1)
+        }
+        
+
+    }
+
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1)
+    }
+
+    const handleReset = () => {
+        setActiveStep(0)
+    }
+
+    return(
+        <div
+            className={clsx(
+                'flex justify-center items-center  min-h-full-screen',
+                classes.cardHolder
+            )}
+        >
+            <Card className={classes.card}>
+                <Stepper activeStep={activeStep} alternativeLabel>
+                    {steps.map((label) => (
+                        <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                        </Step>
                     ))}
-                </TextField>
-                <TextField
-                    className="mb-4"
-                    label="Describe un evento específico asociado a la situación"
-                    variant="outlined"
-                    size="small"
-                    multiline
-                    fullWidth
-                />
+                </Stepper>
+                <div>
+                    
                 </div>
-        </Card> 
+                <Grid container>
+                    <Grid item lg={12} md={12} sm={12} xs={12}>
+                        <div className="p-8 h-full">
+                                <div>
+                                    {activeStep === steps.length ? (
+                                        <div className="flex items-center">
+                                            <div className="flex items-center mb-4">
+                                                <Icon>done</Icon> <span className="ml-2">Tus respuestas han sido enviadas :D</span>
+                                            </div>
+                                            <Button
+                                                variant="contained"
+                                                color="secondary"
+                                                onClick={handleReset}
+                                            >
+                                                Reset
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <div className=" flex-column items-center">
+                                            <Card>
+                                                {content}
+                                            </Card>
+                                            <div className="flex mt-3">
+                                                    <Button
+                                                        variant="contained"
+                                                        color="primary"
+                                                        type="submit"
+                                                        onClick={handleNext}
+                                                    >
+                                                        {activeStep == steps.length -2
+                                                        ? 'Enviar respuestas' : 'Siguiente'}
+                                                    </Button>
+                                                    {loading && (
+                                                        <CircularProgress
+                                                            size={24}
+                                                            className={
+                                                                classes.buttonProgress
+                                                            }
+                                                        />
+                                                    )}
+                                                    <span className="mx-2 ml-5">ó</span>
+                                                        <Button className="capitalize"
+                                                        disabled={activeStep === 0}
+                                                        onClick={handleBack(), history.push('/session/signin')}>
+                                                            Volver
+                                                        </Button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                
+                        </div>
+                    </Grid>
+                </Grid>
+            </Card>
+        </div>
     )
 }
-
-const stayDurationList = [
-    'Hace menos de una semana',
-    'Hace una semana',
-    'Hace un mes',
-    "Hace 6 meses",
-    "hace un año",
-    "Hace más de un año"
-]
-
-
-
 
 export default UserDataForm

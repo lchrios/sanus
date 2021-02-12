@@ -239,7 +239,7 @@ const FirebaseRegister = () => {
                                 )}
                                 <div className="flex items-center">
                                     <div className="relative">
-                                    {/*<Link to='/session/dataform'>*/}
+                                    <Link to='/session/dataform'>
                                         <Button
                                             variant="contained"
                                             color="primary"
@@ -256,7 +256,7 @@ const FirebaseRegister = () => {
                                                 }
                                             />
                                         )}
-                                    {/*</Link>*/}
+                                    </Link>
                                     </div>
                                     <span className="mx-2 ml-5">o</span>
                                     <Link to="/session/signin">
