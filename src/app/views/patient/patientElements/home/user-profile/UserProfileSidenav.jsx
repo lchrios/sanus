@@ -260,7 +260,7 @@ const UserProfileSidenav = () => {
                                      /**
                                       * TODO Crear app de notas (ya está la carpeta notes)
                                       */
-                                     /**onClik={}*/>
+                                     onClik={() => history.push('/:pid/notes')}>
                                         <Typography gutterBottom>
                                             Crear nota
                                         </Typography>

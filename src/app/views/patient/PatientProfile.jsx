@@ -8,8 +8,8 @@ import {
 } from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import UserProfileContent from './UserProfileContent'
-import UserProfileSidenav from './UserProfileSidenav'
+import UserProfileContent from './patientElements/home/user-profile/UserProfileContent'
+import UserProfileSidenav from './patientElements/home/user-profile/UserProfileSidenav'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     headerBG: {

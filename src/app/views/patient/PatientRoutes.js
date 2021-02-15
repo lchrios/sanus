@@ -1,12 +1,14 @@
 import  React  from "react";
 
-const PatHome = React.lazy(() => import('./patientElements/home/user-profile/PatientProfile'))
+const PatHome = React.lazy(() => import('./PatientProfile'))
 
 const PatBrowse = React.lazy(() => import("./PatientBrowse"))
 
 const PatSessions = React.lazy(() => import("./PatientSessions"))
 
 const PatPayMeth = React.lazy(() => import("./patientElements/changePayMeth/chekout"))
+
+const NotesApp = React.lazy(() => import("./patientElements/notes/notes"))
 
 
 const patientRoutes = [
@@ -30,6 +32,11 @@ const patientRoutes = [
       component: PatPayMeth,
       exact: false
   },
+  {
+      path:"/:pid/notes",
+      component: NotesApp,
+      exact:false
+  }
 ];
 
 export default patientRoutes;
