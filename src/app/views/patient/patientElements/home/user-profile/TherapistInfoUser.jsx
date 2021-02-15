@@ -13,21 +13,14 @@ import {
 import history from '../../../../../../history'
 import man from 'assets/images/avatars/001-man.svg'
 import useAuth from 'app/hooks/useAuth'
-import axios from 'axios'
+import api from 'app/services/api'
 
 
-const TherapistInfoUser = () => {
+const TherapistInfoUser = ({ therapist }) => {
+
+    console.log(therapist)
+
     const { user } = useAuth()
-    const [therapist, setTherapist] = useState()    
-
-    useEffect(() => {
-
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t')
-            .then(res => {
-                setTherapist(res.data)
-            })
-
-    }, [user.uid])   
     
     if ( therapist == undefined) {
 
@@ -45,22 +38,23 @@ const TherapistInfoUser = () => {
             
             <Table className="mb-4">
                 <TableBody>
-                    <Button
-                     onClick={() => history.push('/'+ user.uid+'/browse') }
-                    variant="contained"
-                    color="secondary"
-                    className="x-center"
-                    >
+                    <div>
+                        <Button
+                            onClick={() => history.push('/'+ user.uid+'/browse') }
+                            variant="contained"
+                            color="secondary"
+                            className="x-center"
+                        >
 
-                        Seleccionar terapeuta
-                    </Button>
+                            Seleccionar terapeuta
+                        </Button>
+                    </div>
                 </TableBody>
             </Table>
             </Card>
             
         )
     }
-
    
     return (
 
@@ -95,13 +89,13 @@ const TherapistInfoUser = () => {
                     <TableRow>
                         <TableCell className="pl-4">Ciudad, Estado/Region</TableCell>
                         <TableCell>
-                            <div>{therapist?.location[0]}, {therapist?.location[1]}</div>
+                            <div>{}, {}</div>
                         </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="pl-4">Pais</TableCell>
                         <TableCell>
-                            <div>{therapist?.location[2]}</div>
+                            <div>{}</div>
                         </TableCell>
                     </TableRow>
                     <TableRow>

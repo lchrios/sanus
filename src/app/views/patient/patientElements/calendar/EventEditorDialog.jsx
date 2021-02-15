@@ -10,6 +10,7 @@ import axios from 'axios'
 import useAuth from 'app/hooks/useAuth'
 import therapistRoutes from 'app/views/therapist/TherapistRoutes'
 import PaymentMenu from './PaymentMenu'
+import api from 'app/services/api'
 
 
 Date.prototype.addHours= function(h){
@@ -31,13 +32,11 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
     }
 
     useEffect(() => {
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t').then(res => {
-            setTherapistData(res.data)
+        api.get('/u/'+user.uid+'/t').then(res => {
+            setTherapistData(res.data.data);
+            setTherRef(res.data.id);
         })
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/u/'+user.uid+'/t/ref').then(res => {
-            setTherRef(res.data)
-        })
-    }, [event])
+    }, [])
 
 
     const randomCost = () => {

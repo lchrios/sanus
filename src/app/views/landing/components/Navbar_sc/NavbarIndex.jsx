@@ -39,28 +39,25 @@ const Navbar = ( {toggle} ) => {
         <>
           <Nav scrollNav = {scrollNav}>
               <NavbarContainer>
-                  <NavLogo onClick={() => {toggleHome(); history.push('/home')}}>Iknelia</NavLogo>
+                  <NavLogo to='/home'>Iknelia</NavLogo>
                   <MobileIcon onClick={toggle}>
                       <FaBars />
                   </MobileIcon>
                   <NavMenu>
                       <NavItem>
-                          <NavLinks onClick={() => {history.push('/home')}}> Inicio </NavLinks>
-                      </NavItem>
-                      {/*<NavItem>
-                          <NavLinks >Acerca de</NavLinks>
-                      </NavItem> */}
-                      <NavItem>
-                          <NavLinks onClick={() => {history.push('/landingBlog')}}>Blog</NavLinks>
+                          <NavLinks to='/home' onClick={() => {history.push('/home')}}> Inicio </NavLinks>
                       </NavItem>
                       <NavItem>
-                          <NavLinks onClick={() => {history.push('/psychologists')}} >Psicólogos</NavLinks>
+                          <NavLinks to='/blog' onClick={() => {toggle();history.push('/blog')}}>Blog</NavLinks>
                       </NavItem>
                       <NavItem>
-                          <NavLinks onClick={() => {history.push("/session/signup")}}>Comienza ahora</NavLinks>
+                          <NavLinks to='/psychologists' onClick={() => {toggle();history.push('/psychologists')}}>Psicólogos</NavLinks>
                       </NavItem>
-                      <NavBtn onClick={() => {history.push("/session/signin")} }>
-                          <NavBtnLink to='session/signin'>Iniciar Sesión</NavBtnLink>
+                      <NavItem>
+                          <NavLinks to='/session/signup' onClick={() => {toggle();history.push('/session/signup')}}>Comienza ahora</NavLinks>
+                      </NavItem>
+                      <NavBtn to='/session/signin'>
+                          <NavBtnLink to='/session/signin' onClick={() => history.push('/session/signin')}>Iniciar Sesión</NavBtnLink>
                       </NavBtn>
                   </NavMenu>
               </NavbarContainer>

@@ -10,7 +10,7 @@ const sessionRoutes = [
         component: FirebaseRegister,
     },
     {
-        path: '/session/dataform',
+        path: '/session/register',
         component: UserDataForm,
     },
     {

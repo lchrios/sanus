@@ -21,12 +21,17 @@ const HeroSection = () => {
                 <HeroH1>Empieza a vivir con la libertad que mereces</HeroH1>
                 <HeroP>Iknelia está contigo</HeroP>
               <HeroBtnWrapper>
-                <Button onClick={() => history.push('session/signup')} 
-                onMouseEnter = {onHover}
-                onMouseLeave = {onHover}
-                primary = 'true'
-                dark = 'true'
-                fontBig = "true">
+                <Button 
+                    to='/session/signup'
+                    onClick={() =>{
+                        history.push('/session/signup')
+                    }} 
+                    onMouseEnter = {onHover}
+                    onMouseLeave = {onHover}
+                    primary = 'true'
+                    dark = 'true'
+                    fontbig = 'true'
+                >
                 
                     Registrate { hover ? <ArrowForward /> : <ArrowRight />} 
                 </Button>

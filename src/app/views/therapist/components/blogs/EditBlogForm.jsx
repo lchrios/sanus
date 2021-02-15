@@ -12,6 +12,7 @@ import clsx from "clsx";
 import axios from "axios";
 import history from "../../../../../history";
 import { useLocation } from "react-router-dom";
+import api from "app/services/api";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -38,7 +39,7 @@ const EditBlogForm = () => {
     const { user } = useAuth()
 
     useEffect(() => {        
-        axios.get("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/b/" + bid)
+        api.get("/b/" + bid)
             .then(res => {
                 setEntry(res.data)
             })
@@ -63,7 +64,7 @@ const EditBlogForm = () => {
 
       // TODO: Cambiar direccion a la de la api
       console.log(entry)
-      axios.put("https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/b/" + bid, {blogdata: {...entry}})
+      api.put("/b/" + bid, {blogdata: {...entry}})
       history.push("/" + user.uid + "/myblogs");
 
     }

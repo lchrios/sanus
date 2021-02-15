@@ -6,13 +6,11 @@ import { Calendar, Views, globalizeLocalizer } from 'react-big-calendar'
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import CalendarHeader from './PatientCalendarHeader'
 import * as ReactDOM from 'react-dom'
-import { Breadcrumb } from 'app/components'
 import { getAllEvents, updateEvent } from './CalendarService'
 import EventEditorDialog from './EventEditorDialog'
 import globalize from 'globalize'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import history from '../../../../../history'
 import useAuth from 'app/hooks/useAuth'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -63,16 +61,15 @@ const PatientCalendar = () => {
 
     const updateCalendar = () => {
         getAllEvents(user.uid)
-            .then((res) => res.data)
-            .then((events) => {
-                events = events?.map((e) => ({
+            .then( res => {
+                var ev = []
+                res.data.data.forEach((e) => (ev.push({
                     ...e,
                     title: e.note,
                     start: new Date(e.start),
                     end: new Date(e.end),
-                }))
-                console.log(events)
-                setEvents(events)
+                })))
+                setEvents(ev)
             })
     }
 

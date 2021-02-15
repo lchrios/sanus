@@ -50,58 +50,58 @@ export const InfoSection = ({
     // TODO: Acomodar el grid general como container
 
     return (
-          <InfoContainer lightBg = {lightBg } id={id} >
-                <InfoWrapper> {/* // TODO: Representa el grid container */}
-                      <Grid lg={12} md={12} >
+        <InfoContainer lightBg = {lightBg } id={id} >
+            <Grid >
+                <InfoWrapper>
+                    <Grid item lg={12} md={12} sm={12} xs={12}>
                         <InfoRow imgStart={imgStart}>
-                          <Column1>
-                              <TextWrapper>
-                                <TopLine >{topLine}</TopLine>
-                                <Heading lightText = {lightText}> {headline} </Heading>
-                                <Subtitle darkText = {darkText}> {description} </Subtitle>
-                                <BtnWrapper>
-                                    <Button
-                                    smooth={true}
-                                    duration={500}
-                                    spy={true}
-                                    exact="true"
-                                    offset={-80}
-                                    primary={primary ? 1 : 0}
-                                    dark={dark ? 1 : 0 }
-                                    dark2={dark2 ? 1 : 0 }
-                                    onClick={buttonClick}
-                                    className="elevation-z5"
-                                    >
-                                      {buttonLabel}
-                                      </Button>
-                                </BtnWrapper>
-                              </TextWrapper>
-                          </Column1>
-                          <Column2>
-                          
-                            <Card plain >
-                              <CardHeader plain image >
-                                <a href="/landingblog">
-                                  <img src={terapia1} alt="..." />
-                                </a>
-                                <div
-                                  className={classes.coloredShadow}
-                                  style={{
-                                    backgroundImage: "url(" + terapia1 + ")",
-                                    opacity: "0"
-                                  }}
-                                />
-                              </CardHeader>
-                            </Card>
-                          
-                          </Column2>
+                            <Column1>
+                                <TextWrapper>
+                                    <TopLine >{topLine}</TopLine>
+                                    <Heading lightText = {lightText}> {headline} </Heading>
+                                    <Subtitle darkText = {darkText}> {description} </Subtitle>
+                                    <BtnWrapper>
+                                        <Button
+                                            smooth={true}
+                                            duration={500}
+                                            spy={true}
+                                            exact="true"
+                                            offset={-80}
+                                            primary={primary ? 1 : 0}
+                                            dark={dark ? 1 : 0 }
+                                            dark2={dark2 ? 1 : 0 }
+                                            onClick={buttonClick}
+                                            to='/psychologists'
+                                            className="elevation-z5"
+                                        >
+                                            {buttonLabel}
+                                        </Button>
+                                    </BtnWrapper>
+                                </TextWrapper>
+                            </Column1>
+                            <Column2>
+                            
+                                <Card plain >
+                                <CardHeader plain image >
+                                    <a href="/landingblog">
+                                    <img src={terapia1} alt="..." />
+                                    </a>
+                                    <div
+                                    className={classes.coloredShadow}
+                                    style={{
+                                        backgroundImage: "url(" + terapia1 + ")",
+                                        opacity: "0"
+                                    }}
+                                    />
+                                </CardHeader>
+                                </Card>
+                            
+                            </Column2>
                         </InfoRow>
-
-                      </Grid>
-
+                    </Grid>
                  </InfoWrapper>
-
-          </InfoContainer>    
+            </Grid>
+        </InfoContainer>    
     )
 }
 

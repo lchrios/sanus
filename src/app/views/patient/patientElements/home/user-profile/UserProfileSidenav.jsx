@@ -11,6 +11,7 @@ import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import firebase from 'firebase'
 import Typography from '@material-ui/core/Typography'
+import api from 'app/services/api';
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     close: {
@@ -33,23 +34,12 @@ const UserProfileSidenav = () => {
     const [therapist, setTherapist] = useState()    
 
     useEffect(() => {
-        //console.log(firebaseService.getTherapistByPatient(user.uid))
-        //setTherapist(firebaseService.getTherapistByPatient(user.uid))
-        firebase.firestore().collection("patients").doc(user.uid)
-            .get()
-            .then(doc => {
-                const data = doc.data()
-                if (data.therapist != null && data.therapist != "") {
-                    firebase.firestore().collection("therapists").doc(data.therapist)
-                    .get()
-                    .then(doc => {
-                        console.log("Carta terapeuta cargada :D")
-                        const ther_data = doc.data()
-                        setTherapist(ther_data)
-                    })
-                }
+        api.get(`/u/${user.uid}/t`)
+            .then( res => {
+                setTherapist(res.data);
+                console.log("Carta terapeuta cargada", res.data)
             })
-    }, [user.uid])   
+    }, [])   
     const classes = usestyles()
     
 //funciones de control abierto-cerrado

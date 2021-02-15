@@ -20,6 +20,7 @@ import NextSessionsEmpty from './NextSessionsEmpty'
 import { useEffect } from 'react'
 import axios from 'axios'
 import useAuth from 'app/hooks/useAuth'
+import api from 'app/services/api'
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
         marginTop: -345,
@@ -78,11 +79,11 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
     const [patients, setPatients] = useState()
 
     useEffect(() => {
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/' + user.uid + '/u') 
-        .then(res => {
-            setPatients(res.data)
-        }) 
-        axios.get('https://us-central1-iknelia-3cd8e.cloudfunctions.net/api/t/' + user.uid + '/s') 
+        api.get(`/t/${user.uid}/u`) 
+            .then(res => {
+                setPatients(res.data)
+            }) 
+        api.get(`/t/${user.uid}/u`) 
         .then(res => {
             setSessions(res.data)
         })
