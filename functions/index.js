@@ -29,6 +29,7 @@ const {
   getAllSessionsByTherapist,
   getTherapist,
   getPatientsbyTherapist,
+  getNotesByTherapist,
 } = require("./routes/therapists");
 
 
@@ -83,6 +84,7 @@ app.get("/t/:tid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsBy
 app.get("/t/:tid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
 app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByTherapist);
 app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist);
+app.get("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), getNotesByTherapist);
 
 // * rutas de usuario
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
@@ -90,7 +92,7 @@ app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
 app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
-app.put("/u/:uid/t/:tid", assignTherapist)
+app.put("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist)
 
 // * rutas de blogs
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);

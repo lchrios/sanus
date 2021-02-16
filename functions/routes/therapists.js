@@ -11,11 +11,12 @@ exports.getAllTherapists = (req, res) => {
         .get()
         .then((query) => {
             var data = [];
-            var refs = []
+            var refs = [];
             query.forEach( doc => {
                 data.push(doc.data());
                 refs.push(doc.id.toString());
             })
+
             res.status(200).send({ id: refs, data: data })
         })
         .catch(error => {
@@ -73,5 +74,37 @@ exports.getAllSessionsByTherapist = (req, res) => {
         .catch(error => {
             console.log('Error al obtener sesiones terapeuta!', error);
             return res.status(404).send(error)
+        })
+}
+
+
+// * Obtener notas del terapeuta
+exports.getNotesByTherapist = (req, res) => {
+    console.log("obteniendo notas")
+    ther.doc(req.params.tid)
+        .get()
+        .then(doc => {
+            const notes_ref = doc.ref.collection("notes");
+            notes_ref
+                .get()
+                .then(query => {
+                    const data = [];
+                    const refs = [];
+
+                    query.forEach(doc => {
+                        data.push(doc.data());
+                        refs.push(doc.id.toString());
+                    })
+
+                    return res.status(200).send({ id: refs, data: data })
+                })
+                .catch(error => {
+                    console.error("Error obteniendo las notas del terapeuta", error);
+                    return res.status(404).send(error);
+                })
+        })
+        .catch(error => {
+            console.error("Error obteniendo los datos del terapeuta", error);
+            return res.status(404).send(error);
         })
 }

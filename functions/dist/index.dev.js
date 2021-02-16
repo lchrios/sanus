@@ -31,7 +31,8 @@ var _require3 = require("./routes/therapists"),
     getAllTherapists = _require3.getAllTherapists,
     getAllSessionsByTherapist = _require3.getAllSessionsByTherapist,
     getTherapist = _require3.getTherapist,
-    getPatientsbyTherapist = _require3.getPatientsbyTherapist; // * Funcions relativas a las sesiones
+    getPatientsbyTherapist = _require3.getPatientsbyTherapist,
+    getNotesByTherapist = _require3.getNotesByTherapist; // * Funcions relativas a las sesiones
 
 
 var _require4 = require("./routes/sessions"),
@@ -80,14 +81,15 @@ app.get("/t/:tid", isAuthenticated, isAuthorized(roles.user), getTherapist);
 app.get("/t/:tid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByTherapist);
 app.get("/t/:tid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
 app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByTherapist);
-app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist); // * rutas de usuario
+app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist);
+app.get("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), getNotesByTherapist); // * rutas de usuario
 
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
 app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
 app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
-app.put("/u/:uid/t/:tid", assignTherapist); // * rutas de blogs
+app.put("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist); // * rutas de blogs
 
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
 app.get("/b/:bid", isAuthenticated, isAuthorized(roles.user), getBlog);
