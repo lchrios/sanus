@@ -4,11 +4,8 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers'
 import 'date-fns'
 import DateFnsUtils from '@date-io/date-fns'
-import firebase from 'firebase'
 import { addNewEvent, updateEvent, deleteEvent } from './CalendarService'
-import axios from 'axios'
 import useAuth from 'app/hooks/useAuth'
-import therapistRoutes from 'app/views/therapist/TherapistRoutes'
 import PaymentMenu from './PaymentMenu'
 
 

@@ -10,6 +10,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import UserProfileContent from './patientElements/home/user-profile/UserProfileContent'
 import UserProfileSidenav from './patientElements/home/user-profile/UserProfileSidenav'
+import { getTherapist } from 'app/services/functions/UserService'
+import useAuth from 'app/hooks/useAuth'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     headerBG: {
@@ -22,10 +24,11 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 const PatientProfile = () => {
     const [open, setOpen] = useState(true)
-
+    const { user } = useAuth()
     const theme = useTheme()
     const classes = usestyles()
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    const [therapist, setTherapist] = useState()    
 
     const toggleSidenav = () => {
         setOpen(!open)
@@ -34,7 +37,16 @@ const PatientProfile = () => {
     useEffect(() => {
         if (isMobile) setOpen(false)
         else setOpen(true)
+
+
+
     }, [isMobile])
+
+    useEffect(() => {
+        getTherapist(user.uid).then(data => {
+            setTherapist(data.data);
+        })
+    }, [])
 
     return (
         <div className="relative ">
@@ -56,11 +68,11 @@ const PatientProfile = () => {
                             </IconButton>
                         </Hidden>
                     </div>
-                    <UserProfileSidenav />
+                    <UserProfileSidenav ther_data={therapist} />
                 </MatxSidenav>
                     <MatxSidenavContent >
                         <div className={clsx('bg-primary', classes.headerBG)} />
-                        <UserProfileContent toggleSidenav={toggleSidenav} />
+                        <UserProfileContent toggleSidenav={toggleSidenav} ther_data={therapist} />
                     </MatxSidenavContent>
             </MatxSidenavContainer>
             

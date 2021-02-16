@@ -12,9 +12,7 @@ import history from '../../../../../../history';
 import PatientTest from '../../test/PatientTest'
 import TherapistInfoUser from './TherapistInfoUser'
 import PatientCalendar from '../../calendar/PatientCalendar'
-import axios from 'axios'
 import useAuth from 'app/hooks/useAuth';
-import api from 'app/services/api';
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
@@ -71,20 +69,10 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 
 
-const UserProfileContent = ({ toggleSidenav }) => {
+const UserProfileContent = ({ toggleSidenav, ther_data }) => {
     const { user } = useAuth()
-    const [therapist, setTherapist] = useState()    
-
-    useEffect(() => {
-
-        console.log("pidiendo info desde userprofile content")
-        api.get('/u/'+user.uid+'/t')
-            .then(res => {
-                setTherapist(res.data.data)
-            })
-
-    }, [])   
-
+    const [therapist, setTherapist] = useState(ther_data)    
+    console.log(ther_data)
     const classes = usestyles()
 
     const onClick1 = () => {
@@ -154,7 +142,7 @@ const UserProfileContent = ({ toggleSidenav }) => {
                                     Tu terapeuta
                                 </h4>
                                 <div className="flex items-center mb-4">
-                                    <TherapistInfoUser />
+                                    <TherapistInfoUser therapist={ther_data}/>
                                 </div>
                                 <div className="flex items-center">
                                 </div>

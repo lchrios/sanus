@@ -2,7 +2,6 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Icon } from '@material-ui/core'
 import { useSelector } from 'react-redux'
-import firebase from 'firebase'
 import useAuth from 'app/hooks/useAuth'
 
 const MatxHorizontalNav = ({ max }) => {

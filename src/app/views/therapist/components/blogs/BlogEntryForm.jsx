@@ -5,12 +5,11 @@ import {
   Grid,
     Icon,
 } from "@material-ui/core";
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { makeStyles } from '@material-ui/core/styles'
 import useAuth from "app/hooks/useAuth";
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import clsx from "clsx";
-import axios from "axios";
 import history from "../../../../../history";
 import api from "app/services/api";
 

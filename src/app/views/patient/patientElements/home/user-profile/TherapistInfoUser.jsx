@@ -13,7 +13,6 @@ import {
 import history from '../../../../../../history'
 import man from 'assets/images/avatars/001-man.svg'
 import useAuth from 'app/hooks/useAuth'
-import api from 'app/services/api'
 
 
 const TherapistInfoUser = ({ therapist }) => {

@@ -10,14 +10,10 @@ import {
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import firebase from 'firebase/app'
-import 'firebase/firestore'
 import { Link } from 'react-router-dom'
 import useAuth from 'app/hooks/useAuth'
 import history from '../../../../history'
 import {NavLogo} from '../../landing/components/Navbar_sc/NavbarElements'
-import axios from 'axios'
-
 
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -106,6 +102,7 @@ const FirebaseRegister = () => {
                 }
             });
         } else {
+            setLoading(false)
             setMessage('Debes aceptar los términos y condiciones para proceder con el registro.');
         }
         
@@ -253,7 +250,7 @@ const FirebaseRegister = () => {
                                     control={
                                         <Checkbox
                                             size="small"
-                                            checked={agreement || false}
+                                            checked={agreement}
                                         />
                                     }
                                     label={
@@ -277,7 +274,8 @@ const FirebaseRegister = () => {
                                             pathname: '/session/register',
                                             state: {
                                                 email: state.email,
-                                                password: state.password,
+                                                password: state.email,
+                                                withProvider: false,
                                             }
                                         }}
                                     >
@@ -300,7 +298,13 @@ const FirebaseRegister = () => {
                                     </Link>
                                     </div>
                                     <span className="mx-2 ml-5">o</span>
-                                    <Link to="/session/signin">
+                                    <Link to={{
+                                        pathname: "/session/signin",
+                                        state: {
+                                            email: state.email,
+                                            password: state.email,  
+                                        } 
+                                    }}>
                                         <Button className="capitalize">
                                             Iniciar sesión
                                         </Button>

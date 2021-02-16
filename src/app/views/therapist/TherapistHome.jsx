@@ -12,7 +12,6 @@ import clsx from 'clsx'
 import TherapistHomeContent from './components/home/TherapistHomeContent'
 import TherapistHomeSidenav from './components/home/TherapistHomeSidenav'
 import useAuth from "app/hooks/useAuth";
-import firebase from 'firebase';
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({

@@ -7,16 +7,14 @@ import {
     Button,
     CircularProgress,
 } from '@material-ui/core'
-import { Link } from 'react-router-dom'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
-import { MatxLogo, MatxDivider } from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
 import history from 'history.js'
 import firebase from 'firebase/app'
 import clsx from 'clsx'
-import {NavLogo} from '../../landing/components/Navbar_sc/NavbarElements';
 import useAuth from 'app/hooks/useAuth'
 import { IkneliaLogo } from 'app/components/Brand/Brand'
+import MatxDivider from 'app/components/MatxDivider/MatxDivider'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -154,6 +152,7 @@ const FirebaseLogin = () => {
                 
                         default:
                             console.error('No role was detected')
+                            // TODO: if no role, set user role and redirect to home 
                             history.push(`/${user.uid}/home`)
                             break;
                     }

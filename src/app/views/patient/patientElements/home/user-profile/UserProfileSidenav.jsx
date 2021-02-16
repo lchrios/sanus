@@ -9,9 +9,8 @@ import Snackbar from '@material-ui/core/Snackbar'
 import CloseIcon from '@material-ui/icons/Close'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
-import firebase from 'firebase'
 import Typography from '@material-ui/core/Typography'
-import api from 'app/services/api';
+import { getTherapist } from 'app/services/functions/UserService';
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     close: {
@@ -28,18 +27,11 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
     
-const UserProfileSidenav = () => {
+const UserProfileSidenav = ({ ther_data }) => {
 
     const { user } = useAuth()
-    const [therapist, setTherapist] = useState()    
-
-    useEffect(() => {
-        api.get(`/u/${user.uid}/t`)
-            .then( res => {
-                setTherapist(res.data);
-                console.log("Carta terapeuta cargada", res.data)
-            })
-    }, [])   
+    const [therapist, setTherapist] = useState(ther_data)    
+    console.log(ther_data)
     const classes = usestyles()
     
 //funciones de control abierto-cerrado
