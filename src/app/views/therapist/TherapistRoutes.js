@@ -16,6 +16,8 @@ const CompletedSessions = React.lazy(() => import('./TherapistsSessionsHistory')
 
 const Comments = React.lazy(() => import('./CommentsApp'))
 
+const NotesApp = React.lazy(() => import('./components/notes/notes'))
+
 const therapistRoutes = [
   {
       path: "/:tid/dashboard",
@@ -49,6 +51,11 @@ const therapistRoutes = [
       path: "/:tid/comments",
       component: Comments
   },
+  {
+    path:"/:tid/notes",
+    component: NotesApp,
+    exact:false
+}
 ];
 
 export default therapistRoutes;

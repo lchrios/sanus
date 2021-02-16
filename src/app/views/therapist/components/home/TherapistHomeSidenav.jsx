@@ -62,27 +62,19 @@ const TherapistHomeSidenav = () => {
                                 Notas de mis sesiones
                             </DialogTitle>
                             <DialogContent dividers>
-                               <Button>
-                               <    Typography gutterBottom>
-                                    Nota 1
-                                    </Typography>
-        
-                                </Button>
-                                
-                                <Button>
+                               <Button
+                               variant="contained"
+                               color="primary"
+                               className="x-center"
+                               size="large"
+                               onClick={() => history.push('/:pid/notes')}>
                                     <Typography gutterBottom>
-                                        Nota 2
-                                    </Typography>
-                                </Button>
-                               
-                               <Button>
-                                    <Typography gutterBottom>
-                                        Nota 3
+                                        Crear nota
                                     </Typography>
                                 </Button>
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleClose} className="bg-error" variant="contained">
+                                <Button onClick={handleClose} className="bg-error" variant="outlined" size="small">
                                     <Icon>clear</Icon>Cerrar
                                 </Button>
                             </DialogActions>

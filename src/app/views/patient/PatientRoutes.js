@@ -8,7 +8,7 @@ const PatSessions = React.lazy(() => import("./PatientSessions"))
 
 const PatPayMeth = React.lazy(() => import("./patientElements/changePayMeth/chekout"))
 
-const NotesApp = React.lazy(() => import("./patientElements/notes/notes"))
+const NotesApp = React.lazy(() => import("../therapist/components/notes/notes"))
 
 
 const patientRoutes = [
@@ -32,11 +32,7 @@ const patientRoutes = [
       component: PatPayMeth,
       exact: false
   },
-  {
-      path:"/:pid/notes",
-      component: NotesApp,
-      exact:false
-  }
+ 
 ];
 
 export default patientRoutes;
