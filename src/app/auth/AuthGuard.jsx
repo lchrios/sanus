@@ -8,23 +8,14 @@ import AppContext from "app/contexts/AppContext";
 import useAuth from 'app/hooks/useAuth'
 
 const getUserRoleAuthStatus = (pathname, user, routes) => {
-    const matched = routes.find((r) => {
-        if (r.auth) { // * is protected
-            return r.path.split("/")[2] === pathname.split("/")[2]
-        } else {
-            console.log(r)
-            return true
-        }
-    });
-
-    console.log(pathname)
+    const matched = routes.find((r) => r.path?.split("/")[2] === pathname.split("/")[2]);
 
     const authenticated = 
         matched && matched.auth && matched.auth.length
         ? matched.auth.includes(user.role)
         : true;
 
-    console.log(matched, user);
+    console.log(matched, user, authenticated);
     return authenticated;
 };
 
