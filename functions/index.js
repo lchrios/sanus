@@ -1,6 +1,7 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const app = express();
+const cors = require('cors')
 
 // * Funciones de autenticacion
 const {
@@ -53,10 +54,13 @@ const {
 app.use(express.json());
 
 // * permisos del CORS
+app.use(cors());
 app.use( (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "http://iknelia.netlify.app");
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Origin", "http://localhost:9999");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5000");
+  res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.web.app/");
+  res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.firebaseapp.com/");
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();

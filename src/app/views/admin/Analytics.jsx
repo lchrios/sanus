@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Grid, Card } from '@material-ui/core'
-import DoughnutChart from '../charts/echarts/Doughnut'
+import DoughnutChart from '../mat-x pro/charts/echarts/Doughnut'
 import ModifiedAreaChart from './shared/ModifiedAreaChart'
 import StatCards from './shared/StatCards'
 import TopSellingTable from './shared/TopSellingTable'

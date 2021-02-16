@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _authRoles = require("../../auth/authRoles");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -65,28 +67,44 @@ var Comments = _react["default"].lazy(function () {
 
 var therapistRoutes = [{
   path: "/:tid/dashboard",
-  component: TherapistHome
+  component: TherapistHome,
+  exact: false,
+  auth: _authRoles.authRoles.therapist
 }, {
   path: "/:tid/appointments",
-  component: TherapistCalendar
+  component: TherapistCalendar,
+  exact: false,
+  auth: _authRoles.authRoles.therapist
 }, {
   path: "/:tid/myblogs",
-  component: TherapistBlogs
+  component: TherapistBlogs,
+  exact: false,
+  auth: _authRoles.authRoles.therapist
 }, {
   path: "/:tid/newblog",
-  component: BlogEntryForm
+  component: BlogEntryForm,
+  exact: false,
+  auth: _authRoles.authRoles.therapist
 }, {
   path: "/:tid/patients",
-  component: PatientsList
+  component: PatientsList,
+  exact: false,
+  auth: _authRoles.authRoles.therapist
 }, {
   path: "/:tid/editblog/",
-  component: EditBlogForm
+  component: EditBlogForm,
+  exact: false,
+  auth: _authRoles.authRoles.therapist
 }, {
   path: "/:tid/completedApp",
-  component: CompletedSessions
+  component: CompletedSessions,
+  exact: false,
+  auth: _authRoles.authRoles.therapist
 }, {
   path: "/:tid/comments",
-  component: Comments
+  component: Comments,
+  exact: false,
+  auth: _authRoles.authRoles.therapist
 }];
 var _default = therapistRoutes;
 exports["default"] = _default;

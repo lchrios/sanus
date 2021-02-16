@@ -17,7 +17,7 @@ const GreenCheckbox = withStyles({
     checked: {},
 })((props) => <Checkbox color="default" {...props} />)
 
-export default function CheckBox() {
+const CheckBox = ({ toggleNext }) => {
     const [state, setState] = React.useState({
         checkedA: false,
         checkedB: false,
@@ -25,6 +25,8 @@ export default function CheckBox() {
     })
 
     const handleChange = (name) => (event) => {
+        toggleNext()
+        setState({ checkedA: false, checkedB: false, checked: false})
         setState({ ...state, [name]: event.target.checked })
     }
 
@@ -37,6 +39,7 @@ export default function CheckBox() {
                         color='secondary'
                         checkedIcon={<CheckBoxIcon fontSize="large" />}
                         value="checkedA"
+                        onChange={handleChange}
                     />
                 }
                 label="Sí"
@@ -48,6 +51,7 @@ export default function CheckBox() {
                         color='secondary'
                         checkedIcon={<CheckBoxIcon fontSize="large" />}
                         value="checkedB"
+                        onChange={handleChange}
                     />
                 }
                 label="No"
@@ -59,6 +63,7 @@ export default function CheckBox() {
                         color='secondary'
                         checkedIcon={<CheckBoxIcon fontSize="large" />}
                         value="checkedC"
+                        onChange={handleChange}
                     />
                 }
                 label="No lo sé"
@@ -66,3 +71,5 @@ export default function CheckBox() {
         </FormGroup>
     )
 }
+
+export default CheckBox

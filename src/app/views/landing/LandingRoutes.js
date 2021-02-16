@@ -33,7 +33,7 @@ const landingRoutes = [
     settings
   },
   {
-    path:'/landingBlog',
+    path:'/blogs',
     component:Blog
   },
   {

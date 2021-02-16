@@ -4,7 +4,10 @@ var functions = require("firebase-functions");
 
 var express = require("express");
 
-var app = express(); // * Funciones de autenticacion
+var app = express();
+
+var cors = require('cors'); // * Funciones de autenticacion
+
 
 var _require = require("./routes/auth"),
     createUserWithEmailAndPassword = _require.createUserWithEmailAndPassword,
@@ -49,10 +52,13 @@ var _require5 = require("./routes/blogs"),
 
 app.use(express.json()); // * permisos del CORS
 
+app.use(cors());
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://iknelia.netlify.app");
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Origin", "http://localhost:9999");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5000");
+  res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.web.app/");
+  res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.firebaseapp.com/");
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();

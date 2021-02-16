@@ -5,9 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.blogs = exports.blog3 = exports.blog2 = exports.blog1 = exports.homeObjThree = exports.homeObjTwo = exports.homeObjOne = void 0;
 
-var _videoIcon = _interopRequireDefault(require("../../../../../assets/images/videoIcon.svg"));
+var _ = _interopRequireDefault(require("../../../../../assets/images/illustrations/1.svg"));
 
 var _schedule = _interopRequireDefault(require("../../../../../assets/images/schedule.svg"));
+
+var _happyFace = _interopRequireDefault(require("../../../../../assets/images/happy-face-1.png"));
+
+var _event = _interopRequireDefault(require("../../../../../assets/images/event-2.jpg"));
+
+var _bg = _interopRequireDefault(require("../../../../../assets/images/bg-1.png"));
 
 var _icons = require("@material-ui/icons");
 
@@ -21,16 +27,16 @@ var clickObjOne = function clickObjOne() {
 
 var homeObjOne = {
   id: 'inicio',
-  lightBg: false,
+  lightBg: true,
   lightText: false,
-  lightTextDesc: false,
+  lightTextDesc: true,
   topLine: 'Psicología profesional',
   headline: 'Psicologos online, confiables y accesibles',
   description: 'Conectate de forma privada con un psicologo profesional cuando lo necesites',
   buttonLabel: 'Conoce más',
   buttonClick: clickObjOne,
-  imgStart: true,
-  img: _videoIcon["default"],
+  imgStart: false,
+  // img: imgOne,
   alt: 'healthy brain',
   dark: true,
   primary: true,
@@ -46,7 +52,7 @@ var homeObjTwo = {
   id: 'especialistas',
   lightBg: true,
   lightText: false,
-  lightTextDesc: false,
+  lightTextDesc: true,
   topLine: 'Escoge con quien te sientas comodo',
   headline: 'Selecciona cualquiera de nuestros profesionales, y cambia tu vida, ahora.',
   description: 'Comienza a trabajar en tu salud mental, ahora mismo.',
@@ -57,7 +63,7 @@ var homeObjTwo = {
   alt: 'healthy brain',
   dark: true,
   primary: true,
-  darkText: true
+  darkText: false
 };
 exports.homeObjTwo = homeObjTwo;
 
@@ -67,7 +73,7 @@ var clickObjThree = function clickObjThree() {
 
 var homeObjThree = {
   id: 'registrarse',
-  lightBg: false,
+  lightBg: true,
   lightText: false,
   lightTextDesc: false,
   topLine: 'Todo tu crecimiento personal, en línea',
@@ -76,7 +82,7 @@ var homeObjThree = {
   buttonLabel: 'Comienza ahora',
   buttonClick: clickObjThree,
   imgStart: false,
-  img: _schedule["default"],
+  img: _happyFace["default"],
   alt: 'healthy brain',
   dark: true,
   primary: true,
@@ -84,19 +90,19 @@ var homeObjThree = {
 };
 exports.homeObjThree = homeObjThree;
 var blog1 = {
-  img: _schedule["default"],
+  img: _event["default"],
   title: "Vive mejor",
   body: "Trabaja en ti"
 };
 exports.blog1 = blog1;
 var blog2 = {
-  img: _schedule["default"],
+  img: _bg["default"],
   title: "Aumenta tu felicidad",
   body: "Toma sesiones online periodicamente"
 };
 exports.blog2 = blog2;
 var blog3 = {
-  img: _schedule["default"],
+  img: _happyFace["default"],
   title: "Sientete bien",
   body: "Pensar con claridad, pensar bien, para vivir bien."
 };

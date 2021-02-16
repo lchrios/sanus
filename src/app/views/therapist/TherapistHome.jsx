@@ -60,11 +60,6 @@ const TherapistHome = () => {
     )*/
 
 
-    firebase.auth().currentUser.getIdTokenResult()
-        .then( idTokenResult => {
-            console.log('rol', idTokenResult.claims.role);
-        })
-
     return (
         <div className="relative">
             <MatxSidenavContainer>

@@ -17,50 +17,26 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-var PatHome = _react["default"].lazy(function () {
-  return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require('./patientElements/home/user-profile/PatientProfile'));
-  });
-});
-
-var PatBrowse = _react["default"].lazy(function () {
-  return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require("./PatientBrowse"));
-  });
-});
-
-var PatSessions = _react["default"].lazy(function () {
-  return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require("./PatientSessions"));
-  });
-});
-
-var PatPayMeth = _react["default"].lazy(function () {
-  return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require("./patientElements/changePayMeth/chekout"));
-  });
-});
-
-var patientRoutes = [{
-  path: "/:pid/home",
-  component: PatHome,
-  exact: false,
-  auth: _authRoles.authRoles.user
-}, {
-  path: "/:pid/browse",
-  component: PatBrowse,
-  exact: false,
-  auth: _authRoles.authRoles.user
-}, {
-  path: "/:pid/sessions",
-  component: PatSessions,
-  exact: false,
-  auth: _authRoles.authRoles.user
-}, {
-  path: "/:pid/changepaymethod",
-  component: PatPayMeth,
-  exact: false,
-  auth: _authRoles.authRoles.user
-}];
-var _default = patientRoutes;
+var dashboardRoutes = [{
+  path: '/:aid/analytics',
+  component: _react["default"].lazy(function () {
+    return Promise.resolve().then(function () {
+      return _interopRequireWildcard(require('./Analytics'));
+    });
+  }),
+  auth: _authRoles.authRoles.admin,
+  exact: false
+}
+/*{
+    path: '/dashboard/default',
+    component: React.lazy(() => import('./Analytics2')),
+    auth: authRoles.admin,
+},
+{
+    path: '/dashboard/inventory-management',
+    component: React.lazy(() => import('./InventoryManagement')),
+    auth: authRoles.admin,
+},*/
+];
+var _default = dashboardRoutes;
 exports["default"] = _default;

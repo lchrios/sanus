@@ -5,10 +5,10 @@ const dashboardRoutes = [
     {
         path: '/:aid/analytics',
         component: React.lazy(() => import('./Analytics')),
-        auth: authRoles.sa,
+        auth: authRoles.admin,
         exact: false
     },
-    {
+    /*{
         path: '/dashboard/default',
         component: React.lazy(() => import('./Analytics2')),
         auth: authRoles.admin,
@@ -17,7 +17,7 @@ const dashboardRoutes = [
         path: '/dashboard/inventory-management',
         component: React.lazy(() => import('./InventoryManagement')),
         auth: authRoles.admin,
-    },
+    },*/
 ]
 
 export default dashboardRoutes

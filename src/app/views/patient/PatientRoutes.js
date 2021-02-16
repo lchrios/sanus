@@ -1,4 +1,5 @@
 import  React  from "react";
+import { authRoles } from '../../auth/authRoles'
 
 const PatHome = React.lazy(() => import('./patientElements/home/user-profile/PatientProfile'))
 
@@ -13,22 +14,27 @@ const patientRoutes = [
   {
       path: "/:pid/home",
       component: PatHome,
-      exact: false
+      exact: false,
+      auth: authRoles.user,
+      
   },
   {
       path: "/:pid/browse",
       component: PatBrowse,
-      exact: false
+      exact: false,
+      auth: authRoles.user,
   },
   {
       path: "/:pid/sessions",
       component: PatSessions,
-      exact: false
+      exact: false,
+      auth: authRoles.user,
   },
   {
       path:"/:pid/changepaymethod",
       component: PatPayMeth,
-      exact: false
+      exact: false,
+      auth: authRoles.user,
   },
 ];
 

@@ -7,8 +7,6 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _authRoles = require("../../auth/authRoles");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -17,50 +15,61 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-var PatHome = _react["default"].lazy(function () {
+var Home = _react["default"].lazy(function () {
   return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require('./patientElements/home/user-profile/PatientProfile'));
+    return _interopRequireWildcard(require('./Home'));
   });
 });
 
-var PatBrowse = _react["default"].lazy(function () {
+var Blog = _react["default"].lazy(function () {
   return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require("./PatientBrowse"));
+    return _interopRequireWildcard(require('./landingBlog/landingBlog'));
   });
 });
 
-var PatSessions = _react["default"].lazy(function () {
+var Psychologists = _react["default"].lazy(function () {
   return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require("./PatientSessions"));
+    return _interopRequireWildcard(require('./psychologists/landingPsy'));
   });
 });
 
-var PatPayMeth = _react["default"].lazy(function () {
-  return Promise.resolve().then(function () {
-    return _interopRequireWildcard(require("./patientElements/changePayMeth/chekout"));
-  });
-});
-
-var patientRoutes = [{
-  path: "/:pid/home",
-  component: PatHome,
-  exact: false,
-  auth: _authRoles.authRoles.user
+var settings = {
+  activeLayout: "layout1",
+  layout1Settings: {
+    topbar: {
+      show: false
+    },
+    leftSidebar: {
+      show: false,
+      mode: "close"
+    }
+  },
+  layout2Settings: {
+    mode: "full",
+    topbar: {
+      show: false
+    },
+    navbar: {
+      show: false
+    }
+  },
+  secondarySidebar: {
+    show: false
+  },
+  footer: {
+    show: false
+  }
+};
+var landingRoutes = [{
+  path: "/home",
+  component: Home,
+  settings: settings
 }, {
-  path: "/:pid/browse",
-  component: PatBrowse,
-  exact: false,
-  auth: _authRoles.authRoles.user
+  path: '/blogs',
+  component: Blog
 }, {
-  path: "/:pid/sessions",
-  component: PatSessions,
-  exact: false,
-  auth: _authRoles.authRoles.user
-}, {
-  path: "/:pid/changepaymethod",
-  component: PatPayMeth,
-  exact: false,
-  auth: _authRoles.authRoles.user
+  path: '/psychologists',
+  component: Psychologists
 }];
-var _default = patientRoutes;
+var _default = landingRoutes;
 exports["default"] = _default;

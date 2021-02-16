@@ -7,7 +7,7 @@ import InfoSection from "./components/InfoSection/InfoIndex"
 import BlogEntries from "./components/BlogEntries/entriesIndex"
 import {homeObjOne,homeObjTwo,homeObjThree, blogs } from './components/InfoSection/Data'
 import Footer from './components/Footer/footerIndex'
-import PsySection from '../landing/components/psychologists/psychologists'
+import PsySection from './components/psychologists/psychologists'
 
 
 const Home = () => {

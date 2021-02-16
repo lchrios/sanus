@@ -27,26 +27,25 @@ const getSteps = () => {
 export default function PatientTest() {
 
     const [therapist, setTherapistData] = useState()
+    const [checked, setChecked] = useState(true)
     useEffect(() => {
         api.get('/u/'+user.uid+'/t').then(res => {
             setTherapistData(res.data.data)
         })
-    })
+    }, [])
 
     const [activeStep, setActiveStep] = useState(0)
     const {user} = useAuth()
     const steps = getSteps()
 
     const handleNext = () => {
-        if(activeStep == 2 && therapist == undefined ) {
+        if(activeStep == 2 ) {
             history.push('/'+ user.uid +'/browse')
         }
 
-        else if (therapist) {
-            window.location = '/'
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)
+        else {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1)
+        }   
     }
 
     const handleBack = () => {
@@ -65,25 +64,30 @@ export default function PatientTest() {
         handleNext()
     }
     
+    const toggleNext = () => {
+        setChecked(true)
+
+    }
 
     const getStepContent = (stepIndex) => {
         switch (stepIndex) {
             case 0: 
-            if (activeStep == 0 && therapist == undefined) {
-                return (
-                    <PreTest />
-                )
-            }
-            else if (therapist) {
-                return (
-                        <SessionValidatorForm />
-                )
-            }
+                if (therapist == undefined) {
+                    return (
+                        <PreTest />
+                    )
+                }
+                else if (therapist) {
+                    return (
+                            <SessionValidatorForm toggleNext={toggleNext} />
+                    )
+                }
+                break;
                 
             case 1: 
                 return <ValidatorForm 
-                onSubmit={handleNext}
-                onError={(errors) => null}
+                    onSubmit={handleNext}
+                    onError={(errors) => null}
                 >
                     <FormTest />
                 </ValidatorForm> 
@@ -141,12 +145,12 @@ export default function PatientTest() {
                                 className="ml-4"
                                 variant="contained"
                                 color="primary"
-                                disabled={activeStep === 0}
+                                disabled={false}
                                 onClick={handleNext}
                             >
                                 {activeStep === steps.length - 1
                                     ? 'Terminar y buscar terapeuta'
-                                    : 'SIguiente'}
+                                    : 'Siguiente'}
                             </Button>
                         </div>
                     </div>

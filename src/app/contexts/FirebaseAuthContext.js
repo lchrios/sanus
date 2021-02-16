@@ -45,7 +45,6 @@ const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialAuthState)
-    const [dbRef, setDbRef] = useState()
 
     const signInWithEmailAndPassword = (email, password) => {
         return firebase.auth().signInWithEmailAndPassword(email, password)
@@ -80,20 +79,24 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                dispatch({
-                    type: 'FB_AUTH_STATE_CHANGED',
-                    payload: {
-                        isAuthenticated: true,
-                        user: {
-                            uid: user.uid,
-                            name: user.displayName || user.email,
-                            img: user.photoURL,
-                            email: user.email,
-                            age: 18,
-                            phone: user.phoneNumber,
-                        },
-                    },
-                })
+                user.getIdTokenResult()
+                    .then( idTokenResult => {
+                        dispatch({
+                            type: 'FB_AUTH_STATE_CHANGED',
+                            payload: {
+                                isAuthenticated: true,
+                                user: {
+                                    uid: user.uid,
+                                    name: user.displayName || user.email,
+                                    img: user.photoURL,
+                                    email: user.email,
+                                    age: 18,
+                                    phone: user.phoneNumber,
+                                    role: idTokenResult.claims.role,
+                                },
+                            },
+                        })
+                    })
             } else {
                 dispatch({
                     type: 'FB_AUTH_STATE_CHANGED',

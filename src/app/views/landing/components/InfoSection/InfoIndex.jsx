@@ -19,12 +19,12 @@ import {
 
   import terapia1 from '../../../../../../src/assets/images/blog/terapia2.jpg'
 
-  import InterestedSectionStyle from '../../../landing/landingBlog/landingBlogStyles/lessImpBlogStyles'
+  import InterestedSectionStyle from '../../landingBlog/landingBlogStyles/lessImpBlogStyles'
 
-  import Card from '../../../landing/landingBlog/components/card'
-  import GridItem from '../../../landing/landingBlog/components/GridItem'
-  import CardHeader from '../../../landing/landingBlog/components/cardHeader'
-  import CardBody from '../../../landing/landingBlog/components/cardBody'
+  import Card from '../../landingBlog/components/card'
+  import GridItem from '../../landingBlog/components/GridItem'
+  import CardHeader from '../../landingBlog/components/cardHeader'
+  import CardBody from '../../landingBlog/components/cardBody'
 
 const useStyles = makeStyles(InterestedSectionStyle);
 

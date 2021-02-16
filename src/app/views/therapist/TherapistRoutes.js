@@ -1,4 +1,5 @@
 import  React  from "react";
+import { authRoles } from '../../auth/authRoles'
 
 const EditBlogForm = React.lazy(() => import("./components/blogs/EditBlogForm"))
 
@@ -19,35 +20,51 @@ const Comments = React.lazy(() => import('./CommentsApp'))
 const therapistRoutes = [
   {
       path: "/:tid/dashboard",
-      component: TherapistHome
+      component: TherapistHome,
+      exact: false,
+      auth: authRoles.therapist,
   },
   {
       path: "/:tid/appointments",
-      component: TherapistCalendar
+      component: TherapistCalendar,
+      exact: false,
+      auth: authRoles.therapist,
   },
   {
       path: "/:tid/myblogs",
-      component: TherapistBlogs
+      component: TherapistBlogs,
+      exact: false,
+      auth: authRoles.therapist,
   },
   {
       path: "/:tid/newblog",
-      component: BlogEntryForm
+      component: BlogEntryForm,
+      exact: false,
+      auth: authRoles.therapist,
   },
   {
       path: "/:tid/patients",
-      component: PatientsList
+      component: PatientsList,
+      exact: false,
+      auth: authRoles.therapist,
   },
   {
       path: "/:tid/editblog/",
-      component: EditBlogForm
+      component: EditBlogForm,
+      exact: false,
+      auth: authRoles.therapist,
   },
   {
       path:"/:tid/completedApp",
-      component: CompletedSessions
+      component: CompletedSessions,
+      exact: false,
+      auth: authRoles.therapist,
   },
   {
       path: "/:tid/comments",
-      component: Comments
+      component: Comments,
+      exact: false,
+      auth: authRoles.therapist,
   },
 ];
 

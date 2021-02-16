@@ -1,5 +1,5 @@
 import React from 'react'
-import { SimpleCard, MatxProgressBar } from 'app/components/index'
+import { SimpleCard, MatxProgressBar } from 'app/components'
 
 const Campaigns = () => {
     return (

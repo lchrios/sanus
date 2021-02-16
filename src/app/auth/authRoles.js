@@ -1,8 +1,7 @@
 export const authRoles = {
-    sa: ['SA'], // Only Super Admin has access
-    admin: ['SA', 'ADMIN'], // Only SA & Admin has access
-    editor: ['SA', 'ADMIN', 'EDITOR'], // Only SA & Admin & Editor has access
-    guest: ['SA', 'ADMIN', 'EDITOR', 'GUEST'], // Everyone has access
+    admin: ['admin',], // Only SA & Admin has access
+    therapist: ['admin', 'therapist'], // Only SA & Admin & Editor has access
+    user: ['admin', 'therapist', 'user'], // Everyone has access
 }
 
 // Check out app/views/dashboard/DashboardRoutes.js

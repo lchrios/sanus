@@ -8,7 +8,7 @@ import {
     Grid,
 } from '@material-ui/core'
 import StatCard3 from './shared/StatCard3'
-import ComparisonChart2 from '../charts/echarts/ComparisonChart2'
+import ComparisonChart2 from '../mat-x pro/charts/echarts/ComparisonChart2'
 import StatCard4 from './shared/StatCard4'
 import GaugeProgressCard from './shared/GuageProgressCard'
 import FollowerCard from './shared/FollowerCard'
