@@ -95,7 +95,7 @@ const UserProfileSidenav = () => {
                                 className="x-center" 
                                 variant="contained" 
                                 color="secondary"
-                                onClick={() => history.push('/' + user.uid + '/browse')}>
+                                onClick={() => history.push('/' + user.uid + '/notes')}>
                                <    Typography gutterBottom>
                                     Seleccionar terapeuta
                                     </Typography>
@@ -155,11 +155,11 @@ const UserProfileSidenav = () => {
                         >
                             <Grid item >
                                     <Card className="w-104 h-104 flex items-center justify-center">
-                                        <div className="text-muted text-center">
+                                        {/* <div className="text-muted text-center">
                                             <Icon>content_paste</Icon>
                                             <br />
                                             <span className="pt-4">Notas</span>
-                                        </div>
+                                        </div> */}
                                 </Card>
                             </Grid>
                         </Button>
@@ -250,7 +250,7 @@ const UserProfileSidenav = () => {
                                      /**
                                       * TODO Crear app de notas (ya está la carpeta notes)
                                       */
-                                     /**onClik={}*/>
+                                     onClik={() => history.push('/:pid/notes')}>
                                         <Typography gutterBottom>
                                             Crear nota
                                         </Typography>
@@ -310,11 +310,11 @@ const UserProfileSidenav = () => {
                         >
                             <Grid item >
                                     <Card className="w-104 h-104 flex items-center justify-center">
-                                        <div className="text-muted text-center">
+                                        {/* <div className="text-muted text-center">
                                             <Icon>content_paste</Icon>
                                             <br />
                                             <span className="pt-4">Notas</span>
-                                        </div>
+                                        </div> */}
                                 </Card>
                             </Grid>
                         </Button>

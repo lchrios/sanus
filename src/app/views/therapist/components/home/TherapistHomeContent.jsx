@@ -166,7 +166,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                                 <h5 className="m-0 mb-1 font-medium">
                                                     {patient?.name}
                                                 </h5>
-                                                <p className="m-0 text-muted">{patient?.location[2]}</p>
+                                                <p className="m-0 text-muted">{patient?.location}</p>
                                             </div>
                                         </div>
                                         :
@@ -180,7 +180,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                                 <h5 className="m-0 mb-1 font-medium">
                                                 {patient?.name}
                                                 </h5>
-                                                <p className="m-0 text-muted">{patient?.location[2]}</p>
+                                                <p className="m-0 text-muted">{patient?.location}</p>
                                             </div>
                                         </div>
                                     })}

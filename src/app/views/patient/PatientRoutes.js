@@ -1,13 +1,15 @@
 import  React  from "react";
 import { authRoles } from '../../auth/authRoles'
 
-const PatHome = React.lazy(() => import('./patientElements/home/user-profile/PatientProfile'))
+const PatHome = React.lazy(() => import('./PatientProfile'))
 
 const PatBrowse = React.lazy(() => import("./PatientBrowse"))
 
 const PatSessions = React.lazy(() => import("./PatientSessions"))
 
 const PatPayMeth = React.lazy(() => import("./patientElements/changePayMeth/chekout"))
+
+const NotesApp = React.lazy(() => import("../therapist/components/notes/notes"))
 
 
 const patientRoutes = [
@@ -36,6 +38,7 @@ const patientRoutes = [
       exact: false,
       auth: authRoles.user,
   },
+ 
 ];
 
 export default patientRoutes;
