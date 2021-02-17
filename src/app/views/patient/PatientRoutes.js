@@ -9,36 +9,35 @@ const PatSessions = React.lazy(() => import("./PatientSessions"))
 
 const PatPayMeth = React.lazy(() => import("./patientElements/changePayMeth/chekout"))
 
-const NotesApp = React.lazy(() => import("../therapist/components/notes/notes"))
 
 
 const patientRoutes = [
-  {
-      path: "/:pid/home",
-      component: PatHome,
-      exact: false,
-      auth: authRoles.user,
-      
-  },
-  {
-      path: "/:pid/browse",
-      component: PatBrowse,
-      exact: false,
-      auth: authRoles.user,
-  },
-  {
-      path: "/:pid/sessions",
-      component: PatSessions,
-      exact: false,
-      auth: authRoles.user,
-  },
-  {
-      path:"/:pid/changepaymethod",
-      component: PatPayMeth,
-      exact: false,
-      auth: authRoles.user,
-  },
- 
+    {
+        path: "/:pid/home",
+        component: PatHome,
+        exact: false,
+        auth: authRoles.user,
+        
+    },
+    {
+        path: "/:pid/browse",
+        component: PatBrowse,
+        exact: false,
+        auth: authRoles.user,
+    },
+    {
+        path: "/:pid/sessions",
+        component: PatSessions,
+        exact: false,
+        auth: authRoles.user,
+    },
+    {
+        path:"/:pid/changepaymethod",
+        component: PatPayMeth,
+        exact: false,
+        auth: authRoles.user,
+    },
+    
 ];
 
 export default patientRoutes;
