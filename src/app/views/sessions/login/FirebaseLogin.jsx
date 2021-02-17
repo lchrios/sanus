@@ -117,7 +117,7 @@ const FirebaseLogin = () => {
         remember: true,
     })
     const [message, setMessage] = useState('')
-    const { signInWithEmailAndPassword, signInWithGoogle } = useAuth()
+    const { signInWithEmailAndPassword, signInWithGoogle, assignUserRole } = useAuth()
 
     const classes = useStyles()
 
@@ -152,9 +152,14 @@ const FirebaseLogin = () => {
                 
                         default:
                             console.error('No role was detected')
-                            // TODO: if no role, set user role and redirect to home 
-                            history.push(`/${user.uid}/home`)
-                            break;
+                            // TODO: if no role, set user role and redirect to home
+                            assignUserRole(user.uid).then(() => {
+                                history.push(`/${user.uid}/home`);
+                                
+                            });
+                            break; 
+                            
+                            
                     }
                 })
                 .catch( error => {

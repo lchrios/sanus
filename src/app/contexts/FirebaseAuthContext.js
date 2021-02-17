@@ -40,6 +40,7 @@ const AuthContext = createContext({
     createUserWithEmailAndPassword: () => Promise.resolve(),
     signInWithEmailAndPassword: () => Promise.resolve(),
     signInWithGoogle: () => Promise.resolve(),
+    assignUserRole: () => Promise.resolve(),
     logout: () => Promise.resolve(),
 })
 
@@ -48,6 +49,13 @@ export const AuthProvider = ({ children }) => {
 
     const signInWithEmailAndPassword = (email, password) => {
         return firebase.auth().signInWithEmailAndPassword(email, password)
+    }
+
+    const assignUserRole = (uid) => {
+        api.put(`/auth/${uid}/user`)
+            .then(res => {
+                console.log("Rol actualizado a: user")
+            })
     }
 
     const signInWithGoogle = () => {
@@ -124,6 +132,7 @@ export const AuthProvider = ({ children }) => {
                 signInWithEmailAndPassword,
                 signInWithGoogle,
                 logout,
+                assignUserRole,
             }}
         >
             {children}
