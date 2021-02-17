@@ -8,6 +8,11 @@ import AppContext from "app/contexts/AppContext";
 import useAuth from 'app/hooks/useAuth'
 
 const getUserRoleAuthStatus = (pathname, user, routes) => {
+
+    if (!user){
+        return false
+    }
+
     const matched = routes.find((r) => r.path?.split("/")[2] === pathname.split("/")[2]);
 
     const authenticated = 
@@ -15,6 +20,7 @@ const getUserRoleAuthStatus = (pathname, user, routes) => {
         ? matched.auth.includes(user.role)
         : true;
 
+    console.log(matched.auth.includes(user.role))   
     console.log(matched, user, authenticated);
     return authenticated;
 };
