@@ -307,11 +307,7 @@ const UserProfileContent = ({ toggleSidenav, ther_data }) => {
     
 }
 
-
-
-    const sessionsSummery = [
-]
-
+const sessionsSummery = []
 const paymentList = [
     /**{
         img: '/assets/images/payment-methods/visa.png',

@@ -10,7 +10,6 @@ import CloseIcon from '@material-ui/icons/Close'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import Typography from '@material-ui/core/Typography'
-import { getTherapist } from 'app/services/functions/UserService';
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     close: {
@@ -63,47 +62,8 @@ const UserProfileSidenav = ({ ther_data }) => {
         el contenido de los return, debe ser modificado, por motivos de desarrollo se mantiene el display harcodeado */}
     if (therapist == null) {
 
-        return (
+        return ( // TODO: remover parte de notas
             <div>
-                {/*DIALOGO DE NOTAS EMPIEZA*/ }
-                <Dialog
-                            onClose={handleClose}
-                            aria-labelledby="customized-dialog-title"
-                            open={open}
-                        >
-                            <DialogTitle
-                                id="customized-dialog-title"
-                                onClose={handleClose}
-                            >
-                                Notas de mis sesiones
-                            </DialogTitle>
-                            <DialogContent dividers>
-                                <div>
-                                    <h3 className="ml-2">
-                                        No tienes ninguna nota porque no tienes asignado un terapeuta
-                                    </h3>
-                                </div>
-                               <Button
-                                className="x-center" 
-                                variant="contained" 
-                                color="secondary"
-                                onClick={() => history.push('/' + user.uid + '/notes')}>
-                               <    Typography gutterBottom>
-                                    Seleccionar terapeuta
-                                    </Typography>
-        
-                                </Button>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleClose} color="primary">
-                                    Cerrar
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
-                        
-                    {/*DIALOGO QUE SE DESPLIEGA TERMINA*/ }
-        
-        
                 <div className={clsx('flex-column items-center', classes.sidenav)}>
                     <Avatar
                         className="h-84 w-84 mb-5"
@@ -258,7 +218,7 @@ const UserProfileSidenav = ({ ther_data }) => {
                         </Dialog>
                     {/*DIALOGO QUE SE DESPLIEGA TERMINA*/ }
         
-        {/**ESTE CONTENIDO DEBE ESTAR FUERA DE LA CONDICIÓN, SIEMPRE DEBE SER DESPLEGADO, SÓLO EL DIALOGO CAMBIA */}
+                {/**ESTE CONTENIDO DEBE ESTAR FUERA DE LA CONDICIÓN, SIEMPRE DEBE SER DESPLEGADO, SÓLO EL DIALOGO CAMBIA */}
                 <div className={clsx('flex-column items-center', classes.sidenav)}>
                     <Avatar
                         className="h-84 w-84 mb-5"

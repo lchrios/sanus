@@ -195,7 +195,7 @@ exports.createTherapistWithEmailAndPassword = (req, res) => {
             thers
                 .doc(user.uid)
                 .withConverter(therapistConverter)
-                .set(new Therapist(...req.body.therapistdata))
+                .set(req.body.therapistdata)
                 .then(() => {
                     console.log('Collection: Therapist- Listo!');
                     // * Actualizar el rol del usuario a 'user'
