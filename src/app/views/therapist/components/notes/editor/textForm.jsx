@@ -28,7 +28,7 @@ const TextForm = ({ addingNote }) => {
       title: "",
       img : "",
       imgBlob: "",
-      content: `<h1>Iknelia | Crea tu propio post</h1><p><a href="http://localhost:3000/dashboard/analytics" target="_blank">en Iknelia</a><p>`,
+      content: `<h1>Iknelia | Aplicación de notas </h1><p><a href="http://localhost:3000/dashboard/analytics" target="_blank">Escribe tu nota aquí</a><p>`,
     });
   
     //const [addingNote, setAddingNote] = useState(false);
@@ -118,24 +118,24 @@ const TextForm = ({ addingNote }) => {
               */}
               <TextValidator
                 className="mb-4 w-full"
-                label="Titulo de la nueva entrada"
+                label="Ingresa el título de la nota"
                 onChange={handleTitleChange}
                 type="text"
                 name="title"
                 style={{display: addingNote ? 'block' : 'none'}}
               />
             </Grid>
-            <Grid item lg={12} md={12} sm={12} xs={12}>
+            <Grid style={{display: addingNote ? 'block' : 'none'}} item lg={12} md={12} sm={12} xs={12}>
               <RichTextEditor
                 content={state.content}
                 handleContentChange={handleContentChange}
                 placeholder="Escribe aquí..."
               />
             </Grid> 
-            <Grid item lg={6} md={6} sm={12} xs={12}>
+           {/* <Grid item lg={6} md={6} sm={12} xs={12}>
               {/* 
-               // TODO: image uploading
-              */}
+             
+              
               <input
                     accept="image/*"
                     className={classes.input}
@@ -153,9 +153,9 @@ const TextForm = ({ addingNote }) => {
             </Grid>
 
             {/* 
-              // TODO: Alinear correctamente el boton al final derecho de la pantalla
+            
             */}
-            <Grid item flex lg={6} md={6} sm={12} xs={12}>
+            {/* <Grid item flex lg={6} md={6} sm={12} xs={12}>
               <Button
                 className={clsx("uppercase ml-auto", classes.button)}
                 size="large"
@@ -163,14 +163,14 @@ const TextForm = ({ addingNote }) => {
                 variant="contained" 
                 type="submit"
                 onClick={() => {
-                  // TODO: subir a bd
+                  
                   handleSubmitNewBlog()
                 }}
                 >
                 <Icon>send</Icon>
                 <span className="pl-8 capitalize">Publicar</span>
               </Button>
-            </Grid>
+            </Grid>  */}
           </Grid>
         </ValidatorForm>
       </div>

@@ -3,7 +3,6 @@ import {
     Card,
     TextField,
     Divider,
-    MenuItem,
 } from '@material-ui/core'
 const FormTest = () => {
 
@@ -20,6 +19,7 @@ const FormTest = () => {
                     className="mb-4"
                     label="¿Porqué deseas comenzar una terapia?"
                     variant="outlined"
+                    required
                     multiline
                     fullWidth
                 />
@@ -29,6 +29,7 @@ const FormTest = () => {
                     variant="outlined"
                     helperText="Selecciona un periodo"
                     fullWidth
+                    required
                     select
                     SelectProps= {
                         {native:true}
@@ -45,6 +46,7 @@ const FormTest = () => {
                     label="Describe un evento específico asociado a la situación"
                     variant="outlined"
                     rows={4}
+                    required
                     multiline
                     fullWidth
                 />

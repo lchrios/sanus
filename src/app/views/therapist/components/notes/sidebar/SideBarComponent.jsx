@@ -20,7 +20,7 @@ class SideBarComponent extends React.Component{
         return(
             <div className={classes.sidebarContainer}>
                 <Button
-                onClick={this.newNoteBtnClick}
+                onClick={this.newNoteBtnClick} //* al chile apenas me di cuenta que esta forma de darle propiedades al button es muy parecida a la forma en HTML
                 className={classes.newNoteBtn}>Crear nota</Button>
                 {
                     this.state.addingNote ? 

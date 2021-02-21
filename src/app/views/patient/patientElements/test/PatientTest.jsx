@@ -39,8 +39,12 @@ export default function PatientTest() {
     const steps = getSteps()
 
     const handleNext = () => {
-        if(activeStep == 2 ) {
+        if(activeStep == 2 && therapist === undefined ) {
             history.push('/'+ user.uid +'/browse')
+        }
+
+        else if(activeStep == 2 && therapist) {
+            /** *TODO enviar información al terapeuta */
         }
 
         else {
@@ -72,25 +76,21 @@ export default function PatientTest() {
     const getStepContent = (stepIndex) => {
         switch (stepIndex) {
             case 0: 
-                if (therapist == undefined) {
+            {/** *TODO REGRESAR A THERPIST === UNDEFINED  */}
+                if (false) {
                     return (
                         <PreTest />
                     )
                 }
-                else if (therapist) {
+                else if (true) {
                     return (
-                            <SessionValidatorForm toggleNext={toggleNext} />
+                            <SessionValidatorForm   toggleNext={toggleNext} />
                     )
                 }
                 break;
-                
+        /** *TODO A LOS USUARIOS NO DEBERÍA DEJARLOS CONTINUAR SIN VALIDAR QUE INTRODUJERON LA INFORMACIÓN */
             case 1: 
-                return <ValidatorForm 
-                    onSubmit={handleNext}
-                    onError={(errors) => null}
-                >
-                    <FormTest />
-                </ValidatorForm> 
+                return <FormTest /> 
             case 2: 
                 return <FormTestSt2 />
             case 3: 
@@ -136,7 +136,7 @@ export default function PatientTest() {
                             <Button
                                 variant="contained"
                                 color="secondary"
-                                // disabled={activeStep === 0}
+                                disabled={activeStep === 0}
                                 onClick={handleBack}
                             >
                                 Volver
@@ -149,7 +149,7 @@ export default function PatientTest() {
                                 onClick={handleNext}
                             >
                                 {activeStep === steps.length - 1
-                                    ? 'Terminar y buscar terapeuta'
+                                    ? 'Enviar'
                                     : 'Siguiente'}
                             </Button>
                         </div>

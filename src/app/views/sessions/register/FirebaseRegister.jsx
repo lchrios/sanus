@@ -69,7 +69,7 @@ const FirebaseRegister = () => {
             .then( result => {
                 var { credential, accessToken, user } = result;
 
-                // TODO: enviar a formulario pasando parametros
+                // TODO: enviar a formulario pasando parametros (se puede con controled textfields)
                 history.push({
                     pathname: '/session/register',
                     state: {

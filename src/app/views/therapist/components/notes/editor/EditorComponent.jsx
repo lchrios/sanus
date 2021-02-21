@@ -11,6 +11,7 @@ class EditorComponent extends React.Component {
     constructor() {
         super();
         this.state = {
+            addingNote:false,
             text: '',
             title: '',
             id: ''

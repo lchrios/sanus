@@ -59,9 +59,9 @@ const ChangePayMeth = () => {
     } = state
 
     return (
-        <Card className="checkout m-sm-30 p-sm-24 p-r-10">
+        <Card className="checkout m-sm-30 p-sm-24 p-r-10 ">
             <ValidatorForm onSubmit={handleSubmit} onError={(errors) => null}>
-                <h3 className="font-medium mt-0 mb-6">Introduce tu información</h3>
+                <h3 className="font-medium mt-0 mb-6">Introduce tu información de pago</h3>
                 <Grid container spacing={3}>
                     <Grid item lg={7} md={7} sm={12} xs={12}>
                         <Grid container spacing={3} className="mb-2">
@@ -195,24 +195,13 @@ const ChangePayMeth = () => {
                     
                  
                         <Button
-                        
-                                className="w-full"
-                                color="primary"
-                                variant="contained"
-                                type="submit"
-                            >
-                                Seleccionar método de pago
+                        className="w-full"
+                        color="primary"
+                        variant="contained"
+                        type="submit"
+                        >
+                            Aceptar método de pago
                         </Button>
-                    
-                    
-                    </Grid>
-                    <Grid item lg={5} md={5} sm={12} xs={12}>
-                     
-                     
-                        <div className="flex justify-between mb-4 flex-column items-center ">
-                            <img src={imgSrc} className="max-w-full h-300 "></img>
-                        </div>
-                     
                     </Grid>
                 </Grid>
             </ValidatorForm>

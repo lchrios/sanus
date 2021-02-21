@@ -23,12 +23,15 @@ const CheckBox = ({ toggleNext }) => {
         checkedB: false,
         checkedC: false,
     })
-
+    
+  
     const handleChange = (name) => (event) => {
-        toggleNext()
-        setState({ checkedA: false, checkedB: false, checked: false})
+        
+        setState({ checkedA: false, checkedB: false, checkedC: false})
         setState({ ...state, [name]: event.target.checked })
+        
     }
+
 
     return (
         <FormGroup row>
@@ -39,6 +42,7 @@ const CheckBox = ({ toggleNext }) => {
                         color='secondary'
                         checkedIcon={<CheckBoxIcon fontSize="large" />}
                         value="checkedA"
+                        required
                         onChange={handleChange}
                     />
                 }
@@ -51,6 +55,7 @@ const CheckBox = ({ toggleNext }) => {
                         color='secondary'
                         checkedIcon={<CheckBoxIcon fontSize="large" />}
                         value="checkedB"
+                        required                        
                         onChange={handleChange}
                     />
                 }
@@ -63,6 +68,7 @@ const CheckBox = ({ toggleNext }) => {
                         color='secondary'
                         checkedIcon={<CheckBoxIcon fontSize="large" />}
                         value="checkedC"
+                        required
                         onChange={handleChange}
                     />
                 }

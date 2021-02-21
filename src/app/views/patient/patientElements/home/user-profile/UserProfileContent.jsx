@@ -80,7 +80,8 @@ const UserProfileContent = ({ toggleSidenav, ther_data }) => {
     }
 
     // var { user } = useAuth() 
-    if (therapist === undefined) {
+    //* TODO REGRESAR A VALIDACIÓN THERAPIST === UNDEFINED 
+    if (false) {
 
         return (
             <Fragment >
@@ -122,7 +123,7 @@ const UserProfileContent = ({ toggleSidenav, ther_data }) => {
                         <Grid item lg={8} md={8} sm={12} xs={12}>
                             <Card className="pb-4 px-4">
                                 <h4 className="font-medium text-muted px-4 pt-4 pb-0">
-                                    Comenzar terapia
+                                    Comenzar sesión
                                 </h4>
                                  <PatientTest/>
                             </Card>
@@ -132,7 +133,15 @@ const UserProfileContent = ({ toggleSidenav, ther_data }) => {
                                     Calendario de sesiones
                                 </h4>
                                  <h2 className='px-4'>No tienes ninguna sesión, para generar una sesión, primero deberás seleccionar un terapeuta.</h2>
-                                 <Button className="x-center mt-4" variant="contained" color="secondary">Seleccionar terapeuta</Button>
+                                 <Button 
+                                 onClick={() => history.push('/' + user.uid + '/browse')}
+                                className="x-center mt-4" 
+                                variant="contained" 
+                                color="secondary">
+
+                                    Seleccionar terapeuta
+                                
+                                </Button>
                             </Card>                             
                         </Grid>
     

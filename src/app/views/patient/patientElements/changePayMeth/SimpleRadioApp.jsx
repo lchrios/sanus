@@ -7,6 +7,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormControl from '@material-ui/core/FormControl'
 import FormLabel from '@material-ui/core/FormLabel'
 import { CheckBox } from "@material-ui/icons"
+import { Stepper } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,39 +31,42 @@ export default function SimpleRadio() {
     }
 
     return (
-        <div className={classes.root}>
-            <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">Método</FormLabel>
-                <RadioGroup
-                    aria-label="Depósito"
-                    name="gender1"
-                    className={classes.group}
-                    value={value}
-                    onChange={handleChange}
-                >
-                    <FormControlLabel
-                        value="depósito"
-                        control={<Radio />}
-                        label="Depósito"
-                        
-                    />
-                    <FormControlLabel
-                        value="paypal"
-                        control={<Radio />}
-                        label="Paypal"
-                    />
-                    <FormControlLabel
-                        value="transferencia"
-                        control={<Radio />}
-                        label="Transferencia"
-                    />
-                    <FormControlLabel
-                        value="¿?"
-                        control={<CheckBox />}
-                        label="¿Deberíamos agregar más?"
-                    />
-                </RadioGroup>
-            </FormControl>
+        <div>
+           
+            <div className={classes.root}>
+                <FormControl component="fieldset" className={classes.formControl}>
+                    <FormLabel component="legend">Método</FormLabel>
+                    <RadioGroup
+                        aria-label="Depósito"
+                        name="gender1"
+                        className={classes.group}
+                        value={value}
+                        onChange={handleChange}
+                    >
+                        <FormControlLabel
+                            value="Tarjeta"
+                            control={<Radio />}
+                            label="Tarjeta"
+                            
+                        />
+                        <FormControlLabel
+                            value="PayPal"
+                            control={<Radio />}
+                            label="Paypal"
+                        />
+                        <FormControlLabel
+                            value="transferencia"
+                            control={<Radio />}
+                            label="Transferencia"
+                        />
+                        {/* <FormControlLabel
+                            value="¿?"
+                            control={<CheckBox />}
+                            label="¿Deberíamos agregar más?"
+                        /> */}
+                    </RadioGroup>
+                </FormControl>
+            </div>
         </div>
     )
 }

@@ -1,8 +1,14 @@
 import React from "react";
 
 const Home = React.lazy(() => import('./Home'))
-const Blog = React.lazy(() => import('./landingBlog/landingBlog'))
+const Blogs = React.lazy(() => import('./landingBlog/landingBlog'))
 const Psychologists = React.lazy(() => import('./psychologists/landingPsy'))
+
+/** 
+ * TODO LA RUTA BLOG ID NO DEBERÍA FUNCIONAR ASÍ, ESTÁ HARDCODEADO PARA VISUALIZAR LOS ELEMENTOS
+ */
+
+const Blog = React.lazy(() => import ('./blogEntrie/BlogEntrie'))
 
 const settings = {
   activeLayout: "layout1",
@@ -34,11 +40,15 @@ const landingRoutes = [
   },
   {
     path:'/blogs',
-    component:Blog
+    component:Blogs
   },
   {
     path:'/psychologists',
     component: Psychologists
+  },
+  {
+    path:'/blogID',
+    component: Blog
   }
 ];
 
