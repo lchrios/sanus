@@ -45,7 +45,11 @@ exports.getTherapistByUser = (req, res) => {
         .get()
         .then( doc => {
             const ther_id = doc.data().therapist;
-            ther
+            if (ther_id === undefined) {
+                console.log("No hay terapeuta");
+                return res.status(204).send("Este usuario no tiene terapeuta!");
+            } else {
+                ther
                 .doc(ther_id)
                 .get()
                 .then( docther => {
@@ -56,6 +60,8 @@ exports.getTherapistByUser = (req, res) => {
                      console.error('Error obteniendo los datos del terapeuta', error);
                      return res.status(404).send(error);
                 })
+            }
+            
         })
 }
 
