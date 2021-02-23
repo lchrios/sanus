@@ -42,7 +42,6 @@ const PatientProfile = () => {
 
     useEffect(() => {
         getTherapist(user.uid).then( data => {
-            console.log(data?.data)
             setTherapist(data?.data);
             setLoading(false);
         })

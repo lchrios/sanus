@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Grow, Icon, IconButton, TextField, Tooltip } from '@material-ui/core'
-import { format } from 'date-fns'
-import { Breadcrumb } from 'app/components'
+import { CircularProgress, Grow, Icon, IconButton, TextField, Tooltip, Grid } from '@material-ui/core'
 import MUIDataTable from 'mui-datatables'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
@@ -11,14 +9,19 @@ import api from 'app/services/api'
 const SessionsHistory = ({toggleSidenav}) => {
 
     const [orderList, setOrderList] = useState(order)
+    const [idList, setIdList] = useState();
+    const [loading, setLoading] = useState(true)
     var { user } = useAuth()
 
 
     useEffect(() => {
-        api.get('/u/'+user.uid+'/s').then(res => {
-            console.log(res.data.data) 
-            setOrderList(res.data.data)
-        })    
+        api.get('/u/'+user.uid+'/s')
+            .then(res => {
+                setOrderList(res.data.data)
+                console.log(res.data.id)
+                setIdList(res.data.id)
+                setLoading(false)
+            })    
     }, [])
     
 
@@ -28,7 +31,7 @@ const SessionsHistory = ({toggleSidenav}) => {
             label: 'ID de la Sesión',
             options: {
                 customBodyRenderLite: (dataIndex) => (
-                    <span className="ellipsis">{orderList[dataIndex].id}</span>
+                    <span className="ellipsis">{idList[dataIndex]}</span>
                 ),
             },
         },
@@ -156,8 +159,13 @@ const SessionsHistory = ({toggleSidenav}) => {
 
     return (
         <div className="m-sm-30">
+            
+            { loading ? 
+            <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> 
+            :
             <div className="overflow-auto">
-                <div className="hide-on-pc flex justify-end menu-button">
+                <div className="hide-on-pc flex justify-end menu-button"> 
+                {/* // TODO: Arreglar el boton del menu no se activa si esta en vista de pantalla grande  */}
                         <IconButton onClick={toggleSidenav}>
                             <Icon className="">menu</Icon>
                         </IconButton>
@@ -224,6 +232,7 @@ const SessionsHistory = ({toggleSidenav}) => {
                     />
                 </div>
             </div>
+            }
         </div>
     )
 }
