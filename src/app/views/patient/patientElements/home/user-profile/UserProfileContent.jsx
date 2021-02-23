@@ -4,7 +4,8 @@ import {
     Grid,
     Icon,
     IconButton,
-    Button
+    Button,
+    CircularProgress
 } from '@material-ui/core'
 import React, { Fragment, useEffect, useState} from 'react'
 import { makeStyles} from '@material-ui/core/styles'
@@ -81,6 +82,9 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
     } 
     return (
         <Fragment >
+            {/* { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> :
+                <></>
+            } */}
             <div className={classes.profileContent}>
                 <div className="flex justify-end menu-button">
                     <IconButton onClick={toggleSidenav}>
@@ -89,6 +93,8 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
                 </div>
                 
                 <div>
+                { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> :
+                   <>
                 { hasTher ? 
                     <Grid container spacing={1} direction="row">
                         {/* // TODO: Hacer el reporte de las sesiones y mostrarlo */}
@@ -133,6 +139,9 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
                         </div>
                     </Card> 
                 }
+                   </> 
+                }
+                
                 </div>
                 <div className="py-8" />
                 <Grid container spacing={3}>
@@ -141,23 +150,30 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
                             <h4 className="font-medium text-muted px-4 pt-4 pb-0">
                                 Comenzar terapia
                             </h4>
+                            { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress /></Grid></Grid> :
                                 <PatientTest/>
+                            }
                         </Card>
                         <div className="py-3"></div>
                         <Card className="py-4 elevation-z5">
                             <h4 className="font-medium text-muted px-4 pt-4 pb-0">
                                 Calendario de sesiones
                             </h4>
-                            { hasTher ? 
-                                <Card className="py-4 elevation-z5">
-                                    <PatientCalendar />
-                                </Card> 
-                                :
+                            { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress /></Grid></Grid> :
                                 <>
-                                <h2 className='px-4'>No tienes ninguna sesión, para generar una sesión, primero deberás seleccionar un terapeuta.</h2>
-                                <Button className="x-center mt-4" variant="contained" color="secondary">Seleccionar terapeuta</Button>
-                                </>
+                                    { hasTher ? 
+                                    <Card className="py-4 elevation-z5">
+                                        <PatientCalendar />
+                                    </Card> 
+                                    :
+                                    <>
+                                        <h2 className='px-4'>No tienes ninguna sesión, para generar una sesión, primero deberás seleccionar un terapeuta.</h2>
+                                        <Button className="x-center mt-4" variant="contained" color="secondary">Seleccionar terapeuta</Button>
+                                    </>
+                                    }
+                                </>     
                             }
+                            
                         </Card>                             
                     </Grid>
 
@@ -220,18 +236,18 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
 }    
 
 const sessionsSummery = [
-    {
-        title: "Title 1",
-        amount: 1,
-    },
-    {
-        title: "Title 2",
-        amount: 2,
-    },
-    {
-        title: "Title 3",
-        amount: 3,
-    }
+    // {
+    //     title: "Title 1",
+    //     amount: 1,
+    // },
+    // {
+    //     title: "Title 2",
+    //     amount: 2,
+    // },
+    // {
+    //     title: "Title 3",
+    //     amount: 3,
+    // }
 ]
 const paymentList = [
     /**{
