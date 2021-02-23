@@ -7,7 +7,17 @@ import { Redirect, useLocation } from 'react-router-dom'
 import AppContext from "app/contexts/AppContext";
 import useAuth from 'app/hooks/useAuth'
 
-const getUserRoleAuthStatus = (pathname, user, routes) => {
+/**
+ * ? Segúun tengo entendido, el pedo que hay es que user.role no está asignado y 
+ * ? que por eso no puede leer la propiedad includes, pero en, sí debería existir el role. xddd
+ */
+
+ /**
+  * !aquí la función getUserRoleAuthStatus tenía la propiedad user, pero daba error, le ando cambiando arre creo ue es suficiente de comment adios
+  */
+ 
+const getUserRoleAuthStatus = (pathname, routes) => {
+    const { user } = useAuth()
 
     if (!user){
         return false
