@@ -87,7 +87,7 @@ const BrowseApp = ({ toggleSidenav }) => {
                 }
             },
         },
-        {
+        /*{
             name: 'phone',
             label: 'Telefono',
             options: {
@@ -100,7 +100,7 @@ const BrowseApp = ({ toggleSidenav }) => {
                     )
                 }
             },
-        },
+        },*/
         {
             name: 'action',
             label: 'Seleccionar terapeuta ',

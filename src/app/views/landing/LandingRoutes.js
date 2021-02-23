@@ -34,11 +34,13 @@ const landingRoutes = [
   },
   {
     path:'/blogs',
-    component:Blog
+    component:Blog,
+    settings
   },
   {
     path:'/psychologists',
-    component: Psychologists
+    component: Psychologists,
+    settings
   }
 ];
 
