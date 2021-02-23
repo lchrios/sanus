@@ -1,5 +1,6 @@
 const { admin } = require('../firebase');
 var db = admin.firestore();
+var notifs = db.collection("notifications");
 
 /*
  * Tipos de notificaciones:
@@ -7,12 +8,32 @@ var db = admin.firestore();
     - Sesion completada (ambos)
     - Pago recibido (terapeuta)
     - Pago efectuado (user)
-    - Proximidad de 
+    - Proximidad de cita (escribir el time watcher)
 
 */
 
 
-exports.createNotification = (req, res) => {}
+exports.createNotification = (req, res) => {
+    /* 
+    * req.body.notifdata = {
+        @uid,
+        @therapist_id,
+        @type: {
+            - (ns) new_session
+            - (cs) completed_session
+            - (pr) payment_received
+            - (pc) payment_completed
+            - (sp) session_proximity
+        @ } 
+         
+    * }
+    */
+    notifs
+        .add(req.body.notifdata)
+        .then( doc => {
+            
+        })
+}
 
 exports.readNotification = (req, res) => {}
 

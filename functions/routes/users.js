@@ -45,9 +45,9 @@ exports.getTherapistByUser = (req, res) => {
         .get()
         .then( doc => {
             const ther_id = doc.data().therapist;
-            if (ther_id === undefined) {
+            if (ther_id == null) {
                 console.log("No hay terapeuta");
-                return res.status(204).send("Este usuario no tiene terapeuta!");
+                return res.status(204).send({});
             } else {
                 ther
                 .doc(ther_id)

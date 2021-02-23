@@ -69,10 +69,9 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 
 
-const UserProfileContent = ({ toggleSidenav, ther_data }) => {
+const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
     const { user } = useAuth()
-    const [therapist, setTherapist] = useState(ther_data)    
-    console.log(ther_data)
+    const [therapist, setTherapist] = useState(ther_data)
     const classes = usestyles()
 
     const onClick1 = () => {
@@ -142,7 +141,7 @@ const UserProfileContent = ({ toggleSidenav, ther_data }) => {
                                     Tu terapeuta
                                 </h4>
                                 <div className="flex items-center mb-4">
-                                    <TherapistInfoUser therapist={ther_data}/>
+                                    <TherapistInfoUser therapist={ther_data} loading={loading}/>
                                 </div>
                                 <div className="flex items-center">
                                 </div>

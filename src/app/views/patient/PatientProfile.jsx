@@ -28,7 +28,8 @@ const PatientProfile = () => {
     const theme = useTheme()
     const classes = usestyles()
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-    const [therapist, setTherapist] = useState()    
+    const [therapist, setTherapist] = useState() 
+    const [loading, setLoading] = useState(true)   
 
     const toggleSidenav = () => {
         setOpen(!open)
@@ -37,14 +38,13 @@ const PatientProfile = () => {
     useEffect(() => {
         if (isMobile) setOpen(false)
         else setOpen(true)
-
-
-
     }, [isMobile])
 
     useEffect(() => {
-        getTherapist(user.uid).then(data => {
-            setTherapist(data.data);
+        getTherapist(user.uid).then( data => {
+            console.log(data?.data)
+            setTherapist(data?.data);
+            setLoading(false);
         })
     }, [])
 
@@ -72,7 +72,7 @@ const PatientProfile = () => {
                 </MatxSidenav>
                     <MatxSidenavContent >
                         <div className={clsx('bg-primary', classes.headerBG)} />
-                        <UserProfileContent toggleSidenav={toggleSidenav} ther_data={therapist} />
+                        <UserProfileContent toggleSidenav={toggleSidenav} loading={loading} ther_data={therapist} />
                     </MatxSidenavContent>
             </MatxSidenavContainer>
             
