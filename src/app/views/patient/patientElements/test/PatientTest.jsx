@@ -8,7 +8,6 @@ import {
     Grid,
 } from '@material-ui/core'
 import { ValidatorForm } from 'react-material-ui-form-validator'
-import axios from 'axios'
 import history from '../../../../../history'
 import FormTest from './steps/FormTest'
 import FormTestSt2 from './steps/FormTestSt2'

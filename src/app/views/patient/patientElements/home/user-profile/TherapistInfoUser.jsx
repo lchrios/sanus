@@ -16,12 +16,15 @@ import { makeStyles } from '@material-ui/core/styles'
 import history from '../../../../../../history'
 import man from 'assets/images/avatars/001-man.svg'
 import useAuth from 'app/hooks/useAuth'
-import { MatxDivider } from 'app/components'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     circular: {
         marginTop: 25,
         marginBottom: 50,
+    },
+    divider: {
+        marginTop: 15,
+        marginBottom: 10,
     }
 }))
 
@@ -38,7 +41,7 @@ const TherapistInfoUser = ({ therapist, loading }) => {
             justify="center"
             direction="column"
         >
-            <Card className="pt-6" >
+            {/* <Card className="pt-6" > */}
                 {loading ? <CircularProgress className={classes.circular} /> :
                     <>
                     {therapist == undefined ? 
@@ -82,7 +85,7 @@ const TherapistInfoUser = ({ therapist, loading }) => {
                                 <small className="text-muted">{therapist.cedula}</small>
                             </div>
         
-                            <Divider />
+                            <Divider className={classes.divider} />
                             <Grid 
                                 container 
                                 spacing={0}
@@ -91,26 +94,25 @@ const TherapistInfoUser = ({ therapist, loading }) => {
                                 alignItems="center"
                             >
                                 
-                                <Grid item lg={4} md={4} sm={4} xs={12}>
+                                <Grid item lg={2} md={4} sm={4} xs={12}>
                                     Correo
                                 </Grid>
-                                <Grid item lg={8} md={8} sm={8} xs={12}>
+                                <Grid item lg={10} md={8} sm={8} xs={12}>
                                     <div>{therapist.email}</div>
                                     <small className="px-1 py-2px bg-light-green text-green border-radius-4">
                                         EMAIL VERIFICADO
                                     </small>
                                     
                                 </Grid>
-                                <Divider />
+                                <Grid item lg={12} md={12} sm={12} xs={12}><Divider className={classes.divider} /></Grid>
                                 <Grid item lg={12} md={12} sm={12} xs={12}>
-                                    Experiencia
+                                    <p style={{ textAlign: "center" }}>Experiencia</p>
                                 </Grid>
-                                <MatxDivider />
+                                <Grid item lg={12} md={12} sm={12} xs={12}><Divider /></Grid>
                                 <Grid item lg={8} md={8} sm={8} xs={12}>
-                                    {therapist.exp}
-                                    
+                                    <p style={{ textAlign: "center" }}>{therapist.exp}</p>
                                 </Grid>
-                                <Divider />
+                                <Grid item lg={12} md={12} sm={12} xs={12}><Divider className={classes.divider} /></Grid>
                             </Grid>
         
                             <div className="flex-column items-start px-4">
@@ -133,7 +135,7 @@ const TherapistInfoUser = ({ therapist, loading }) => {
                     }
                     </>
                 }
-            </Card>
+            {/* </Card> */}
         </Grid>    
     )
 }

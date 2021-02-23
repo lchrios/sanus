@@ -11,7 +11,7 @@ const Layout2Settings = {
     },
     leftSidebar: {
         // Only for mobile devices
-        show: true,
+        show: false,
         mode: 'close', // full | close | compact | mobile
         theme: 'slateDark1',
     },

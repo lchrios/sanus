@@ -89,9 +89,7 @@ const UserProfileSidenav = ({ ther_data }) => {
                             
                                 <Card className="w-104 h-104 flex justify-center items-center">
                                     <div className="text-muted text-center">
-                                        <IconButton onClick={() => history.push("/"+user.uid+"/home")}>
-                                            <Icon>sentiment_very_satisfied</Icon>
-                                        </IconButton>
+                                        <Icon>sentiment_very_satisfied</Icon>
                                         <br />
                                         <span className="pt-4">Perfil</span>
                                     </div>
@@ -100,8 +98,8 @@ const UserProfileSidenav = ({ ther_data }) => {
                             </Grid>
                         </Button>
                         {shortcutList.map((item, ind) => (
-                            <Button onClick={() => history.push("/"+user.uid+item.route)}>
-                                <Grid item key={ind}>
+                            <Button key={ind} onClick={() => history.push("/"+user.uid+item.route)}>
+                                <Grid item >
                                     <Card className="w-104 h-104 flex items-center justify-center">
                                         <div className="text-muted text-center">
                                             <Icon>{item.icon}</Icon>
