@@ -10,14 +10,15 @@ import useAuth from 'app/hooks/useAuth'
 /**
  * ? Segúun tengo entendido, el pedo que hay es que user.role no está asignado y 
  * ? que por eso no puede leer la propiedad includes, pero en, sí debería existir el role. xddd
+ * ? k era el error xddddddddd como se arregló porque ya no me lo da
  */
 
  /**
   * !aquí la función getUserRoleAuthStatus tenía la propiedad user, pero daba error, le ando cambiando arre creo ue es suficiente de comment adios
   */
  
-const getUserRoleAuthStatus = (pathname, routes) => {
-    const { user } = useAuth()
+const getUserRoleAuthStatus = (pathname,user,routes) => {
+    
 
     if (!user){
         return false
@@ -30,8 +31,7 @@ const getUserRoleAuthStatus = (pathname, routes) => {
         ? matched.auth.includes(user.role)
         : true;
 
-    console.log(matched.auth.includes(user.role))   
-    console.log(matched, user, authenticated);
+    //console.log(matched, user, authenticated);
     return authenticated;
 };
 

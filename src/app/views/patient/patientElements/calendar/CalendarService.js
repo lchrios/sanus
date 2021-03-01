@@ -6,7 +6,7 @@ export const getAllEvents = (uid) => {
 
 export const addNewEvent = (event) => {
     console.log('añadiendo nuewvo evento')
-    return api.post('/s/new', event)
+    return api.post('/s/new', { sessiondata: event })
 }
 
 export const updateEvent = (event) => {

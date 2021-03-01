@@ -12,8 +12,11 @@ import {
 import { countries } from './Country'
 import PaymentDialog from './PaymentDialog'
 import { useSelector } from 'react-redux'
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
 
 const PatientPaymentForm = () => {
+    const sripePromise = loadStripe("pk_test_51HwA9iItRYlC7M0MPdgUx6sp5UH48s3NRq8JOwcxxSMcHRW0i1tNzqlIiMu6NXcWj3uWVcgqNSiUzaGa2I2YgTuP00RTEVFY43")
     const [state, setState] = useState({})
     const [open, setOpen] = useState(false)
 
@@ -60,6 +63,9 @@ const PatientPaymentForm = () => {
                     <Grid item lg={7} md={7} sm={12} xs={12}>
                         <Grid container spacing={3} className="mb-2">
                             <Grid item xs={6}>
+                                <Elements stripe={sripePromise}>
+                                    
+                                </Elements>
                                 <TextValidator
                                     variant="outlined"
                                     label="Nombre"

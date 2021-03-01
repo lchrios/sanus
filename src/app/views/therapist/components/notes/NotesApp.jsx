@@ -1,12 +1,13 @@
 import React, { useState, useEffect} from 'react'
 import SideBarComponent from './sidebar/SideBarComponent'
 import EditorComponent from './editor/EditorComponent'
-import firebase from 'firebase/app'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
 
+
 const NotesApp = () => {
     const { user } = useAuth();
+    /**Arre perdón por la versión anterior */
     const [state, setState] = useState({
         selectedNoteIndex: null,
         selectedNote: null,
@@ -25,16 +26,13 @@ const NotesApp = () => {
     useEffect(() => {
 
         
-        api.get(`/t/${user.uid}/n`)
+        const getNotes = api.get(`/t/${user.uid}/n`)
             .then(res => {
-                console.log(res.data.data);
-                setState({notes: res.data.data});
+                setState({notes: res.data.data});   
             })
             .catch(error => {
                 console.error(error)
             })
-           
-
 
             /**
              * *!AQUÍ ERA DONDE LLAMABA LA FUNCIÓN DE COMPONENT DID MOUNT PARA HACER LIFECYCLE METHOD CON HTTPS REQUEST

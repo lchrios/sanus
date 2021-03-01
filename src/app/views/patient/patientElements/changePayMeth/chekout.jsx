@@ -16,7 +16,11 @@ import { useSelector } from 'react-redux'
 import SimpleRadio from './SimpleRadioApp'
 import imgSrc from '../../../../../assets/images/illustrations/upgrade.svg'
 import { Icon } from 'app/views/landing/components/SideBar/SidebarElements'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+import MethodSelector from './MethodSelector'
 
+const stripePromise = loadStripe('pk_test_JJ1eMdKN0Hp4UFJ6kWXWO4ix00jtXzq5XG') 
 
 const ChangePayMeth = () => {
     
@@ -191,17 +195,7 @@ const ChangePayMeth = () => {
                         />
                     
                         <h3 className=" font-medium mt-10 mb-6">Selecciona tu método de pago</h3>
-                        <SimpleRadio/>
-                    
-                 
-                        <Button
-                        className="w-full"
-                        color="primary"
-                        variant="contained"
-                        type="submit"
-                        >
-                            Aceptar método de pago
-                        </Button>
+                        <MethodSelector/>
                     </Grid>
                 </Grid>
             </ValidatorForm>

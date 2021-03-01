@@ -7,7 +7,8 @@ const styles = theme => ({
       width: '300px',
       boxShadow: '0px 0px 2px black'
     },
-    newChatBtn: {
+    newChatBtnClick: {
+      margin:'30px',
       borderRadius: '0px'
     },
     unreadMessage: {

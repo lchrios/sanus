@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
-import TextForm from './textForm'
 import debounce from '../helpers';
-import BorderColorIcon from '@material-ui/icons/BorderColor';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './editorStyles';
+import RichTextEditor from 'app/components/RichTextEditor/RichTextEditor';
 
 class EditorComponent extends React.Component {
 
@@ -12,7 +10,7 @@ class EditorComponent extends React.Component {
         super();
         this.state = {
             addingNote:false,
-            text: '',
+            content: '',
             title: '',
             id: ''
         };
@@ -21,17 +19,10 @@ class EditorComponent extends React.Component {
     render() {
 
         const { classes } = this.props;
-       
-
-
 
         return (
             <div className={classes.editorContainer}>
-                <TextForm
-                    value={this.state.text} 
-                    onChange={this.updateBody}
-                    addingNote={this.props.addingNote}
-                />
+                <RichTextEditor value={this.state.content} onChange={this.updateBody} />
             </div>
         )
     }

@@ -59,11 +59,6 @@ export default function SimpleRadio() {
                             control={<Radio />}
                             label="Transferencia"
                         />
-                        {/* <FormControlLabel
-                            value="¿?"
-                            control={<CheckBox />}
-                            label="¿Deberíamos agregar más?"
-                        /> */}
                     </RadioGroup>
                 </FormControl>
             </div>

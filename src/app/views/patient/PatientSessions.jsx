@@ -65,7 +65,7 @@ const PatientSessions = () => {
                     </div>
                     <UserProfileSidenav />
                 </MatxSidenav>
-                    <MatxSidenavContent >
+                    <MatxSidenavContent>
                         <div className={clsx('bg-primary', classes.headerBG)} />
                         <SessionsHistory toggleSidenav={toggleSidenav} />
 

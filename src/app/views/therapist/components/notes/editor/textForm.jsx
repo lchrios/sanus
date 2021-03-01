@@ -5,10 +5,11 @@ import {
   Grid,
     Icon,
 } from "@material-ui/core";
-import firebase from 'firebase/app';
-import { makeStyles } from '@material-ui/core/styles'
+import {IconButton} from '@material-ui/core'
+import { makeStyles, withStyles } from '@material-ui/core/styles'
 import useAuth from "app/hooks/useAuth";
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import Tooltip from '@material-ui/core/Tooltip'
 import clsx from "clsx";
 import history from "../../../../../../history";
 import api from "app/services/api";
@@ -22,7 +23,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+
+
 const TextForm = ({ addingNote }) => {
+  
+  const LightTooltip = withStyles((theme) => ({
+    tooltip: {
+      backgroundColor: theme.palette.common.white,
+      color: 'rgba(0, 0, 0, 0.87)',
+      boxShadow: theme.shadows[1],
+      fontSize: 11,
+    },
+  }))(Tooltip);
+  /**
+   * *TODO Arreglar que cuando el usuario entre a notas alv ya esté listo el editor con el cursor parpadeando, porque está medio raro como está la neta
+   * por eso le puse todo eso al state.content de acontinuación
+   */
     const classes = useStyles()
     const [state, setState] = useState({
       title: "",
@@ -40,31 +56,31 @@ const TextForm = ({ addingNote }) => {
       imgPreview = (<div className="image-container" ><img src={state.img} alt="icon" width="200" /> </div>);
     }
 
-    const handleSubmitNewBlog = () => {
-      // TODO: upload and update state.img with new image
+    // const handleSubmitNewBlog = () => {
+    //   // TODO: upload and update state.img with new image
       
-      const demoimg = [
-        "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/blogs%2F1.jpg?alt=media&token=514d6471-8353-421c-9b8e-f9d51216eaf4",
-        "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/blogs%2F2.jpg?alt=media&token=b62b18d7-c8f4-434e-9b47-3dd5b87769e7",
-        "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/blogs%2F3.jpg?alt=media&token=763f7190-0993-4f72-a20f-cbc0a1130cbf",
-      ]
-      var blogdata = {
-        title: state.title, 
-        content: state.content, 
-        date: firebase.firestore.Timestamp.fromDate(new Date()), 
-        author: user.uid, 
-        likes: [], 
-        comments: [], 
-        img: demoimg[Math.floor(Math.random() * 3)],
-      }
+    //   const demoimg = [
+    //     "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/blogs%2F1.jpg?alt=media&token=514d6471-8353-421c-9b8e-f9d51216eaf4",
+    //     "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/blogs%2F2.jpg?alt=media&token=b62b18d7-c8f4-434e-9b47-3dd5b87769e7",
+    //     "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/blogs%2F3.jpg?alt=media&token=763f7190-0993-4f72-a20f-cbc0a1130cbf",
+    //   ]
+    //   var blogdata = {
+    //     title: state.title, 
+    //     content: state.content, 
+    //     date: firebase.firestore.Timestamp.fromDate(new Date()), 
+    //     author: user.uid, 
+    //     likes: [], 
+    //     comments: [], 
+    //     img: demoimg[Math.floor(Math.random() * 3)],
+    //   }
 
-      // TODO: Cambiar direccion a la de la api
-      api.post("/b/new", {blogdata: {...blogdata}})
-        .then(() => {
-          history.push("/" + user.uid + "/myblogs");
-        });
+    //   // TODO: Cambiar direccion a la de la api
+    //   api.post("/b/new", {blogdata: {...blogdata}})
+    //     .then(() => {
+    //       history.push("/" + user.uid + "/myblogs");
+    //     });
 
-    }
+    // }
 
     const handleImgChange = event => {
       setState({
@@ -98,6 +114,15 @@ const TextForm = ({ addingNote }) => {
       });
     };
 
+    const updateBody = async(val) => {
+      setState(
+        await Text(val),
+        ...state,
+        content:contentHtml
+      )
+      
+      console.log(val)
+    }
     return (
       <div className="m-sm-30">
         <div  className="mb-sm-30">
@@ -125,13 +150,23 @@ const TextForm = ({ addingNote }) => {
                 style={{display: addingNote ? 'block' : 'none'}}
               />
             </Grid>
-            <Grid style={{display: addingNote ? 'block' : 'none'}} item lg={12} md={12} sm={12} xs={12}>
-              <RichTextEditor
-                content={state.content}
-                handleContentChange={handleContentChange}
-                placeholder="Escribe aquí..."
-              />
-            </Grid> 
+            {/**
+             * *? Si meto el tooltip dentro de un grid (en este caso con render condicional) lo que pasa es que da un error keria explicarlo me dio hueva adios 
+             */}
+            
+              <Grid style={{display: addingNote ? 'block' : 'none'}} item lg={12} md={12} sm={12} xs={12}>
+                <RichTextEditor
+                  content={state.content}
+                  handleContentChange={handleContentChange}
+                  placeholder="creo que ni se ve alv"
+                  />
+                  <Tooltip title='Elimina el texto color azul suave (el más pequeño) o continúa escribiendo a partir de allí'>
+                  <IconButton>
+                    <Icon>help</Icon>
+                  </IconButton>
+                </Tooltip>
+                </Grid>
+             
            {/* <Grid item lg={6} md={6} sm={12} xs={12}>
               {/* 
              

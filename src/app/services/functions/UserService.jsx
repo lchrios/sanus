@@ -5,7 +5,11 @@ const getTherapist = (uid) => {
         api.get('/u/'+uid+'/t')
             .then(res => {
                 console.log(res.data);
-                resolve(res.data);
+                resolve(res.status == 204 ? undefined : res.data);
+            })
+            .catch( error => {
+                console.error(error);
+                reject(error);
             })
     })
 }
