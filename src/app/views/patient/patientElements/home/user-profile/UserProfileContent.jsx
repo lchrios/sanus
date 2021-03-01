@@ -82,9 +82,6 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
     } 
     return (
         <Fragment >
-            {/*{ loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> :
-                <></>
-            } */}
             <div className={classes.profileContent}>
                 <div className="flex justify-end menu-button">
                     <IconButton onClick={toggleSidenav}>

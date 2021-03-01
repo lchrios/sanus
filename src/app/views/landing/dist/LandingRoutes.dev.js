@@ -66,10 +66,12 @@ var landingRoutes = [{
   settings: settings
 }, {
   path: '/blogs',
-  component: Blog
+  component: Blog,
+  settings: settings
 }, {
   path: '/psychologists',
-  component: Psychologists
+  component: Psychologists,
+  settings: settings
 }];
 var _default = landingRoutes;
 exports["default"] = _default;

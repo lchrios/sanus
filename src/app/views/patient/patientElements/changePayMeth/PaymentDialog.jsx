@@ -41,7 +41,7 @@ const PaymentDialog = ({ open, toggleDialog }) => {
                         fullWidth
                     />
 
-                  {/**  <Grid container spacing={3} className="mb-8">
+                  {/*  <Grid container spacing={3} className="mb-8">
                       <Grid item xs={6}>
                             <TextValidator
                                 variant="outlined"

@@ -15,17 +15,12 @@ import {
     Icon,
     TextField,
     Divider,
-    MenuItem,
+    Box,
     Checkbox,
     FormControlLabel,
 } from '@material-ui/core'
-import { Mail } from '@material-ui/icons'
-import UserData from './infoForms/UserData.jsx'
+import { Home, Mail, Phone } from '@material-ui/icons'
 import clsx from 'clsx'
-import { Link } from 'react-router-dom'
-import history from 'history.js'
-import UserProfileForm from './infoForms/UserProfileForm'
-import UserPreInfo from './infoForms/PreInfo'
 
 const getSteps = () =>{
     return ['Bienvenido', 'Contacto', 'Perfil']   
@@ -71,8 +66,8 @@ const UserDataForm = ({ location }) => {
     const steps = getSteps()
     const [activeStep, setActiveStep] = useState(0)
     const [content, setContent] = useState()
+    const [message, setMessage] = useState("")
     const [state, setState] = useState(location.state)
-    console.log(location.state)
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -86,7 +81,7 @@ const UserDataForm = ({ location }) => {
     };
 
     const views = [
-        <Card className="m-sm-30">
+        <Box className="m-sm-30">
             <div className="max-w-600 mx-auto">
                 <h4>Bienvenido a Iknelia, tu plataforma de soporte psicológico en línea</h4>
                 <p>
@@ -123,55 +118,61 @@ const UserDataForm = ({ location }) => {
                     />
                 </div>
             </div>
-        </Card>,
-        <Card className="m-sm-30 p-6">
+        </Box>,
+        <Box className="m-sm-30 p-6">
             <div className="max-w-600 mx-auto">
+                <h4>Ahora, compártenos tus datos de contacto.</h4>
                 <TextField
-                    id="input-with-icon-textfield"
+                    className="mb-4"
                     label="Correo electrónico"
                     value={state.email || ''}
+                    fullWidth
+                    name="email"
                     disabled={state.email ? true : false}
+                    onChange={handleChange}
                     InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
                             <Mail/>
                         </InputAdornment>
-                    ),
-                    }}
+                    )}}
                 />
                 <Divider className="mb-6" />
-                <FormControl>
-                    <InputLabel htmlFor="input-with-icon-adornment">Dirección</InputLabel>
-                    <Input
-                        onChange={handleChange}
-                        fullWidth
-                        id="input-with-icon-adornment"
-                        name="address"
-                        startAdornment={
-                            <InputAdornment position="start">
-                                <Icon>home</Icon>
-                            </InputAdornment>
-                        }
-                    />
-                </FormControl>
-                <Divider className="mb-8" />
-                <FormControl>
-                    <InputLabel htmlFor="input-with-icon-adornment">Teléfono</InputLabel>
-                    <Input
-                    name="phone"
-                    id="input-with-icon-adornment"
-                    startAdornment={
+                <TextField
+                    className="mb-4"
+                    label="Dirección"
+                    name="address"
+                    fullWidth
+                    value=""
+                    placeholder="Dirección"
+                    onChange={handleChange}
+                    InputProps={{
+                    startAdornment: (
                         <InputAdornment position="start">
-                            <Icon>phone</Icon>
+                            <Home/>
                         </InputAdornment>
-                    }
-                    />
-                </FormControl>
+                    )}}
+                />
                 <Divider className="mb-8" />
-                
+                <TextField
+                    className="mb-4"
+                    label="Teléfono"
+                    name="phone"
+                    fullWidth
+                    onChange={handleChange}
+                    placeholder="+521XXXXXXXXXX"
+                    InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <Phone/>
+                        </InputAdornment>
+                    )}}
+                />
+                <Divider className="mb-8" />
+                <h4>El teléfono que pongas debe</h4>
             </div>
-        </Card>, 
-        <Card className="m-sm-30 p-6">
+        </Box>, 
+        <Box className="m-sm-30 p-6">
             <div className="max-w-600 mx-auto">
                 <h4>Selecciona una fotografía para tu perfil</h4>
                 <Divider className="mb-8" />
@@ -190,7 +191,7 @@ const UserDataForm = ({ location }) => {
                         </Button>
                     </label>
                 </div>
-        </Card> 
+        </Box> 
     ]
         
     useEffect(() => {
@@ -198,13 +199,16 @@ const UserDataForm = ({ location }) => {
         }, [activeStep])
 
     const handleNext = () => {
-        console.log(state)
-        if(activeStep != 2) {
+        if (activeStep == 0 && !state.age) {
+            setMessage("Debes ser verificar que eres mayor de edad")
+        } else if (activeStep < 2 || (activeStep == 0 && state.age)) {
+            console.log(state)
             setActiveStep((prevActiveStep) => prevActiveStep + 1)
+            setMessage("")
 
-        } else {
+        } else if (activeStep == 2) {
             // TODO: enviar informacion a la base de datos e iniciar sesión
-            console.log(state)        
+            console.log(state)
         }
 
     }
@@ -233,9 +237,6 @@ const UserDataForm = ({ location }) => {
                         </Step>
                     ))}
                 </Stepper>
-                <div>
-                    
-                </div>
                 <Grid container>
                     <Grid item lg={12} md={12} sm={12} xs={12}>
                         <div className="p-8 h-full">
@@ -288,7 +289,10 @@ const UserDataForm = ({ location }) => {
                                         </div>
                                     </div>
                                 )}
-                            </div>          
+                            </div>
+                            {message && ( // TODO:@esq Darle más formato a ese mensaje, muestra los errores que pueden ir ocurriendo
+                                <p className="text-error">{message}</p>
+                            )}          
                         </div>
                     </Grid>
                 </Grid>
