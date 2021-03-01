@@ -55,7 +55,7 @@ const FirebaseRegister = () => {
     const [state, setState] = useState({})
     const classes = useStyles()
     const [message, setMessage] = useState('')
-    const { createUserWithEmailAndPassword, signInWithGoogle } = useAuth()
+    const { signInWithGoogle } = useAuth()
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
@@ -105,67 +105,6 @@ const FirebaseRegister = () => {
             setLoading(false)
             setMessage('Debes aceptar los términos y condiciones para proceder con el registro.');
         }
-        
-        
-
-
-        /*try {
-            setLoading(true)
-
-            const imageURL = getRandomPlaceholderImage();
-
-            const user_data = {
-                email: state.email,
-                name: state.email,
-                age: 18,
-                phone: "+5213114895548",
-                img: imageURL,
-                therapist: null,
-                sessions: [],
-                payment_met: [],
-                location: ["Guadalajara", "Jalisco", "Mexico"],
-                answered: false,
-                blogs: [],
-            }
-
-            console.log({ 
-                email: state.email, 
-                password: state.password, 
-                userdata: {...user_data} 
-            })
-           
-            axios.post('http://localhost:9999/iknelia-3cd8e/us-central1/api/auth/signuser', 
-                { 
-                    email: state.email, 
-                    password: state.password, 
-                    userdata: {...user_data} 
-                })
-                .then( () => {
-
-                    firebase.auth().signInWithEmailAndPassword(state.email, state.password)
-                        .then( user => {
-                            history.push('/'+user.uid+'/dashboard');
-                        })
-                        .catch( error => {
-                            console.error('Error iniciando sesion');
-                            setLoading(false)
-                            console.error(error);
-                            setMessage(error.message)
-                        })
-                    
-                })
-                .catch( error => {
-                    setLoading(false)
-                    console.error(error);
-                    setMessage(error.message)
-                })
-
-
-        } catch (e) {
-            setLoading(false)
-            console.log(e)
-            setMessage(e.message)
-        }*/
     }
 
     let { email, password, agreement } = state
@@ -187,7 +126,7 @@ const FirebaseRegister = () => {
                                 alt=""
                             />
                             <Button onClick={() => history.push('/home')} color="secondary" variant="contained" className="x-center" style={{"marginTop": 10}}>
-                                            VOLVER
+                                VOLVER
                             </Button>
                             
                         </div>
