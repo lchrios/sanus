@@ -75,7 +75,7 @@ export default function PatientTest() {
     const getStepContent = (stepIndex) => {
         switch (stepIndex) {
             case 0: 
-            {/** *TODO REGRESAR A THERPIST === UNDEFINED  */}
+            {/** *TODO C REGRESAR A THERPIST === UNDEFINED  */}
                 if (false) {
                     return (
                         <PreTest />

@@ -7,7 +7,7 @@ const PatBrowse = React.lazy(() => import("./PatientBrowse"))
 
 const PatSessions = React.lazy(() => import("./PatientSessions"))
 
-const PatPayMeth = React.lazy(() => import("./patientElements/changePayMeth/chekout"))
+// const PatPayMeth = React.lazy(() => import("./patientElements/changePayMeth/chekout"))
 
 
 
@@ -31,12 +31,12 @@ const patientRoutes = [
         exact: false,
         auth: authRoles.user,
     },
-    {
-        path:"/:pid/changepaymethod",
-        component: PatPayMeth,
-        exact: false,
-        auth: authRoles.user,
-    },
+    // {
+    //     path:"/:pid/changepaymethod",
+    //     component: PatPayMeth,
+    //     exact: false,
+    //     auth: authRoles.user,
+    // },
     
 ];
 
