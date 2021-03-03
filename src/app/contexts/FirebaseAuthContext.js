@@ -89,6 +89,8 @@ export const AuthProvider = ({ children }) => {
             if (user) {
                 user.getIdTokenResult()
                     .then( idTokenResult => {
+                        console.log(idTokenResult)
+                        api.defaults.headers.common["Authorization"] = `Bearer ${idTokenResult.token}`
                         dispatch({
                             type: 'FB_AUTH_STATE_CHANGED',
                             payload: {
@@ -101,6 +103,7 @@ export const AuthProvider = ({ children }) => {
                                     age: 18,
                                     phone: user.phoneNumber,
                                     role: idTokenResult.claims.role,
+                                    token: idTokenResult.token,
                                 },
                             },
                         })
