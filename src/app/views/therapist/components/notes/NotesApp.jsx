@@ -3,11 +3,10 @@ import SideBarComponent from './sidebar/SideBarComponent'
 import EditorComponent from './editor/EditorComponent'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
-
+import TextForm from '../notes/editor/TextForm'
 
 const NotesApp = () => {
     const { user } = useAuth();
-    /**Arre perdón por la versión anterior */
     const [state, setState] = useState({
         selectedNoteIndex: null,
         selectedNote: null,
@@ -19,36 +18,32 @@ const NotesApp = () => {
         setAddingNote(true)
     }
 
-    /**
-     * ?PORQUE METES ASÍ NOMAS EL USEFFECT Y LO TOMAN LOS COMPONENTES DE REACT O QUE ROLLO 
-     */
-
-    useEffect(() => {
+    // useEffect(() => {
 
         
-        const getNotes = api.get(`/t/${user.uid}/n`)
-            .then(res => {
-                setState({notes: res.data.data});   
-            })
-            .catch(error => {
-                console.error(error)
-            })
+    //     const getNotes = api.get(`/t/${user.uid}/n`)
+    //         .then(res => {
+    //             setState({notes: res.data.data});   
+    //         })
+    //         .catch(error => {
+    //             console.error(error)
+    //         })
 
-            /**
-             * *!AQUÍ ERA DONDE LLAMABA LA FUNCIÓN DE COMPONENT DID MOUNT PARA HACER LIFECYCLE METHOD CON HTTPS REQUEST
-             *  */
-        /*firebase.firestore().collection('notes').get()
-            .then(query => {
-                const notes = query.map(_doc => {
-                    const data =  _doc.data();
-                    data['id'] = _doc.id.toString();
-                    return data;
-                })
+    //         /**
+    //          * *!AQUÍ ERA DONDE LLAMABA LA FUNCIÓN DE COMPONENT DID MOUNT PARA HACER LIFECYCLE METHOD CON HTTPS REQUEST
+    //          *  */
+    //     /*firebase.firestore().collection('notes').get()
+    //         .then(query => {
+    //             const notes = query.map(_doc => {
+    //                 const data =  _doc.data();
+    //                 data['id'] = _doc.id.toString();
+    //                 return data;
+    //             })
 
-                console.log(notes)
-                this.setState({notes: notes})
-            })*/
-    }, [])
+    //             console.log(notes)
+    //             this.setState({notes: notes})
+    //         })*/
+    // }, [])
 
     return(
         <div>
@@ -57,7 +52,7 @@ const NotesApp = () => {
                 notes={state.notes}
                 toggleAdding={toggleAdding}
             />
-            <EditorComponent toggleAdding={toggleAdding} addingNote={addingNote}/>
+            <TextForm toggleAdding={toggleAdding} addingNote={addingNote}/>
         </div>
     )
 }

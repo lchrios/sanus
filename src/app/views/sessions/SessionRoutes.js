@@ -3,6 +3,8 @@ import NotFound from './NotFound'
 import ForgotPassword from './ForgotPassword'
 import FirebaseRegister from './register/FirebaseRegister'
 import UserDataForm from './register/UserDataForm'
+import TherapistDataForm from './register/TherapistDataForm'
+import TherapistFirebaseRegister from './register/TherapistFirebaseRegister'
 
 const sessionRoutes = [
     {
@@ -12,6 +14,14 @@ const sessionRoutes = [
     {
         path: '/session/register',
         component: UserDataForm,
+    },
+    {
+        path:'/therapist/info',
+        component:TherapistDataForm
+    },
+    {
+        path:'/therapist/signup',
+        component: TherapistFirebaseRegister
     },
     {
         path: '/session/signin',

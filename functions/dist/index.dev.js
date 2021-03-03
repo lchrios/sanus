@@ -7,6 +7,7 @@ var express = require("express");
 var app = express();
 
 var cors = require('cors'); // * Funciones de autenticacion
+const { sendPaymentInfo } = require("../routes/stripe");
 
 
 var _require = require("./routes/auth"),
@@ -24,7 +25,8 @@ var _require2 = require("./routes/users"),
     getUser = _require2.getUser,
     getTherapistByUser = _require2.getTherapistByUser,
     getAllUsers = _require2.getAllUsers,
-    assignTherapist = _require2.assignTherapist; // * Funciones relativas al terapeuta
+    assignTherapist = _require2.assignTherapist; 
+    sendPaymentInfo = require2.sendPaymentInfo// * Funciones relativas al terapeuta
 
 
 var _require3 = require("./routes/therapists"),
@@ -89,7 +91,8 @@ app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
 app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
-app.put("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist); // * rutas de blogs
+app.put("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist); 
+// app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo)// * rutas de blogs
 
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
 app.get("/b/:bid", isAuthenticated, isAuthorized(roles.user), getBlog);

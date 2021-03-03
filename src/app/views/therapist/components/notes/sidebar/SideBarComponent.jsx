@@ -17,27 +17,28 @@ class SideBarComponent extends React.Component{
         }
     }
     render() {
-    const {notes, classes, selectedNoteIndex} = this.props;
-
+        const {notes, classes,addingNote,selectedNoteIndex} = this.props;
+        
         return(
             <div className={classes.sidebarContainer}>
                 <Button
                 onClick={this.newNoteBtnClick}
                 className={classes.newNoteBtn}>Crear nota</Button>
                 {
-                    this.state.newNoteBtnClick ? 
+                    this.state.addingNote ? 
                     <div>
-                        <TextField />
-                    </div> : null
+                        
+                    </div> : <div></div>
                     
                 }
             </div>
         )
     }
     
+    
     newNoteBtnClick = () => {
+        this.state = {addingNote: true, ...this.state}
         console.log('CREATING NEW NOTE');
-            
     }
     updateTitle = (txt) => {
         console.log('HERE IT IS ', txt)

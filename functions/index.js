@@ -51,6 +51,9 @@ const {
   getAllBlogsByTherapist,
 } = require("./routes/blogs");
 
+//*Funciones de stripe
+  const { sendPaymentInfo } = require("./routes/stripe");
+
 // * uso de transformacion a json
 app.use(express.json());
 
@@ -92,7 +95,10 @@ app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
 app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
-app.put("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist)
+app.put("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist);
+
+//*rutas de stripe (lado user)
+app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo);
 
 // * rutas de blogs
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
