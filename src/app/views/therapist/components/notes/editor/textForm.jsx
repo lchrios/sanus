@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const TextForm = ({ addingNote }) => {
+const TextForm = () => {
   
   const LightTooltip = withStyles((theme) => ({
     tooltip: {
@@ -47,7 +47,7 @@ const TextForm = ({ addingNote }) => {
       content: `<h1>Iknelia | Aplicación de notas </h1><p><a href="http://localhost:3000/dashboard/analytics" target="_blank">Escribe tu nota aquí</a><p>`,
     });
   
-    //const [addingNote, setAddingNote] = useState(false);
+    const [addingNote, setAddingNote] = useState(false);
     const { user } = useAuth()
 
     var imgPreview = (<div className="image-container">Seleccione una imagen para la vista previa</div>)
@@ -114,15 +114,6 @@ const TextForm = ({ addingNote }) => {
       });
     };
 
-    const updateBody = async(val) => {
-      setState(
-        await Text(val),
-        ...state,
-        content:contentHtml
-      )
-      
-      console.log(val)
-    }
     return (
       <div className="m-sm-30">
         <div  className="mb-sm-30">
