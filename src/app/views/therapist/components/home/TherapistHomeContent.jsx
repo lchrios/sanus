@@ -9,16 +9,17 @@ import {
     IconButton,
     Table,
     TableBody,
-    Avatar
+    Avatar,
+    TableCell,
+    TableRow,
+    CircularProgress
 } from '@material-ui/core'
 import React, { Fragment, useState } from 'react'
 import history from 'history.js'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import NextSessions from './NextSessions'
-import NextSessionsEmpty from './NextSessionsEmpty'
 import { useEffect } from 'react'
-import axios from 'axios'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
 const usestyles = makeStyles(({ palette, ...theme }) => ({
@@ -75,18 +76,29 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 const TherapistHomeContent = ({ toggleSidenav }) => {
     const { user} = useAuth()
+    const [loading, setLoading] = useState(true)
     const [sessions, setSessions] = useState()
     const [patients, setPatients] = useState()
+    const [blogs, setBlogs] = useState()
 
     useEffect(() => {
         api.get(`/t/${user.uid}/u`) 
             .then(res => {
+                console.log("Pacientes obtenidos")
                 setPatients(res.data)
-            }) 
-        api.get(`/t/${user.uid}/u`) 
-        .then(res => {
-            setSessions(res.data)
-        })
+                api.get(`/t/${user.uid}/s`) 
+                .then(res => {
+                    console.log("Sesiones obtenidas")
+                    setSessions(res.data)
+                    api.get(`/t/${user.uid}/b`) 
+                    .then(res => {
+                        console.log("Blogs obtenidos")
+                        setBlogs(res.data)            
+                        setLoading(false)
+                    })
+                    
+                })
+            })
     }, [])
      
     const classes = usestyles()
@@ -100,34 +112,36 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                     </IconButton>
                 </div>
                 <div className={classes.headerCardHolder}>
-                    <Grid container spacing={6}>
-                        {projectSummery.map((project) => (
-                            <Grid
-                                item
-                                lg={4}
-                                md={4}
-                                sm={12}
-                                xs={12}
-                                key={project.title}
-                            >
-                                <Card className="h-96 bg-gray bg-default flex items-center justify-between p-4">
-                                    <div>
-                                        <span className="text-light-white uppercase">
-                                            {project.title}
-                                        </span>
-                                        <h4 className="font-normal text-white m-0 pt-2">
-                                            0
-                                        </h4>
-                                    </div>
-                                    <div  className="w-56 h-36">
-                                        <IconButton onClick={() => history.push(project.route)}>
-                                            <Icon className="text-white">{project.icon}</Icon>
-                                        </IconButton>
-                                    </div>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
+                    { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> :
+                        <Grid container spacing={6}>
+                            {projectSummery.map((project) => (
+                                <Grid
+                                    item
+                                    lg={4}
+                                    md={4}
+                                    sm={12}
+                                    xs={12}
+                                    key={project.title}
+                                >
+                                    <Card className="h-96 bg-gray bg-default flex items-center justify-between p-4">
+                                        <div>
+                                            <span className="text-light-white uppercase">
+                                                {project.title}
+                                            </span>
+                                            <h4 className="font-normal text-white m-0 pt-2">
+                                                0
+                                            </h4>
+                                        </div>
+                                        <div  className="w-56 h-36">
+                                            <IconButton onClick={() => history.push(project.route)}>
+                                                <Icon className="text-white">{project.icon}</Icon>
+                                            </IconButton>
+                                        </div>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    }   
                 </div>
                 <div className="py-8" />
                 <Grid container spacing={3}>
@@ -198,15 +212,21 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                     
                                     <Table className="mb-6">
                                         <TableBody>
-                                            <Button
-                                            onClick={''}
-                                            variant="contained"
-                                            color="primary"
-                                            className="x-center"
-                                            >
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Button
+                                                    onClick={() => {
+                                                        console.log("Conecta con stripe... :D")
+                                                    }}
+                                                    variant="contained"
+                                                    color="primary"
+                                                    className="x-center"
+                                                    >
 
-                                                Promocionar perfil
-                                            </Button>
+                                                        Conecta con stripe
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
                                         </TableBody>
                                     </Table>
                                 </div>}

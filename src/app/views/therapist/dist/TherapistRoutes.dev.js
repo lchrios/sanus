@@ -65,6 +65,18 @@ var Comments = _react["default"].lazy(function () {
   });
 });
 
+var NotesApp = _react["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./components/notes/NotesApp'));
+  });
+});
+
+var Schedule = _react["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./TherapistSchedule'));
+  });
+});
+
 var therapistRoutes = [{
   path: "/:tid/dashboard",
   component: TherapistHome,
@@ -103,6 +115,16 @@ var therapistRoutes = [{
 }, {
   path: "/:tid/comments",
   component: Comments,
+  exact: false,
+  auth: _authRoles.authRoles.therapist
+}, {
+  path: "/:tid/notes",
+  component: NotesApp,
+  exact: false,
+  auth: _authRoles.authRoles.therapist
+}, {
+  path: "/:tid/schedule",
+  component: Schedule,
   exact: false,
   auth: _authRoles.authRoles.therapist
 }];

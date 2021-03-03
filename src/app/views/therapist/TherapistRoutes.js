@@ -19,6 +19,8 @@ const Comments = React.lazy(() => import('./CommentsApp'))
 
 const NotesApp = React.lazy(() => import('./components/notes/NotesApp'))
 
+const Schedule = React.lazy(() => import('./TherapistSchedule'))
+
 const therapistRoutes = [
     {
         path: "/:tid/dashboard",
@@ -71,6 +73,12 @@ const therapistRoutes = [
     {
         path:"/:tid/notes",
         component: NotesApp,
+        exact:false,
+        auth: authRoles.therapist
+    },
+    {
+        path:"/:tid/schedule",
+        component: Schedule,
         exact:false,
         auth: authRoles.therapist
     }
