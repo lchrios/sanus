@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
+/** Configurar la librería con el stripe secret key */
 const stripe = require('stripe')('sk_test_51HwA9iItRYlC7M0MQNS8OacWDR17Hgnaf9yXvLOt9QCTfQCtvzD6JDaWnM0dJ9cDivQtGGj53a9keJpimeZps4r500rXFO4372')
 
+/** api call para crear el checkout session object */
 app.post('/create-checkout-session', async(req, res) => {
     const session = await stripe.checkout.sessions.create({
         payment_method_types: [ 'card' ],

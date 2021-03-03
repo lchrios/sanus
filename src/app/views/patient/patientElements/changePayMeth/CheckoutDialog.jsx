@@ -12,18 +12,24 @@ import {
 import { ArrowRight, CreditCard, Money } from '@material-ui/icons'
 import CardForm from './forms/CardForm'
 import OxxoForm from './forms/OxxoForm'
+import Stripe from '@stripe/react-stripe-js'
+
+
 
 const getSteps = () => {
-   return ['Paso 1', 'Paso 2', 'Paso 3']
+    return ['Paso 1', 'Paso 2', 'Paso 3']
 }
-export default function CheckoutDialog(handleCard, handleOxxo) {
-
+export default function CheckoutDialog() {
+    
     const [open, setOpen] = useState(false)
     const [activeStep, setActiveStep] =  useState(0)
 
     function handleCard() {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
-        // setActiveStep(0)
+        // stripe.redirectToCheckout({
+        //     sessionId: session.id
+        // })
+        
     }
     function handleOxxo() {
         setActiveStep((prevActiveStep) => prevActiveStep + 2)
@@ -68,11 +74,11 @@ export default function CheckoutDialog(handleCard, handleOxxo) {
             open={open}
             onClose={handleClose}>
                 <DialogTitle>
-                    Felicidades
+                    Test
                 </DialogTitle>
  
                 <DialogContent className='flex-column'>
-                        <h1>Gracias por tu pago</h1>
+                        <h1>Sí</h1>
                 </DialogContent>
                 <DialogActions>
                     <IconButton
