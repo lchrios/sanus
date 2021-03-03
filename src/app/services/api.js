@@ -1,3 +1,4 @@
+import useAuth from 'app/hooks/useAuth';
 import axios from 'axios';
 
 const hosts = [
@@ -7,4 +8,7 @@ const hosts = [
 
 export default axios.create({
   baseURL: hosts[0],
+  headers: {
+    "Content-type": "application/json"
+  }
 });

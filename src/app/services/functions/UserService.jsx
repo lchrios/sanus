@@ -4,7 +4,6 @@ const getTherapist = (uid) => {
     return new Promise(async (resolve, reject) => {
         api.get('/u/'+uid+'/t')
             .then(res => {
-                console.log(res.data);
                 resolve(res.status == 204 ? undefined : res.data);
             })
             .catch( error => {

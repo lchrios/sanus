@@ -11,9 +11,9 @@ var { Therapist, therapistConverter } = require('../schema/therapist');
 exports.isAuthorized = (hasRole, allowSameUser) => { // TODO Corregir lectura de roles
     return (req, res, next) => {
         // TODO: Remover cuando se termine la prueba
-        console.log('Skipeando autorizacion por prueba');
-        next();
-        return;
+        // console.log('Skipeando autorizacion por prueba');
+        // next();
+        // return;
 
 
         const { role, uid } = res.locals;
@@ -34,20 +34,20 @@ exports.isAuthorized = (hasRole, allowSameUser) => { // TODO Corregir lectura de
 exports.isAuthenticated = (req, res, next) => {
 
     // TODO: Remover cuando se termine la prueba
-    console.log('Skipeando autenticacion por prueba');
-    next();
-    return;
+    // console.log('Skipeando autenticacion por prueba');
+    // next();
+    // return;
 
 
     console.log('Verificando que el tokenId sea válido');
-
+    //console.log(req.headers.authorization)
     /* 
      * Verifica que el request contenga un ID Token.
      - Por convención el authorization header al portar 
      - un string 'Bearer ' justo antes del tokenId.
     */
-    if ((req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) &&
-        !(req.cookies && req.cookies.__session)) {
+    if (!(req.headers.authorization || !req.headers.authorization.startsWith("Bearer ")) &&
+    !(req.cookies && req.cookies.__session)) {
             console.error('Ningun Firebase ID token fue pasado como Bearer token en el Authorization header.',
             'Asegurate que autorizas tu request proveyendo el siguiente HTTP header:',
             'Authorization: Bearer <Firebase ID Token>',

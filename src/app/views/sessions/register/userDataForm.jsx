@@ -19,7 +19,7 @@ import {
     Checkbox,
     FormControlLabel,
 } from '@material-ui/core'
-import { Home, Mail, Phone } from '@material-ui/icons'
+import { Home, Image, Mail, Phone } from '@material-ui/icons'
 import clsx from 'clsx'
 
 const getSteps = () =>{
@@ -79,6 +79,16 @@ const UserDataForm = ({ location }) => {
     const handleAgree = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
+
+    const onImageChange = (event) => {
+        if (event.target.files && event.target.files[0]) {
+          let img = event.target.files[0];
+          setState({
+            ...state,
+            image: URL.createObjectURL(img)
+          });
+        }
+      };
 
     const views = [
         <Box className="m-sm-30">
@@ -180,10 +190,13 @@ const UserDataForm = ({ location }) => {
                 <input
                     accept="image/*"
                     id="contained-button-file"
-                    multiple
+                    name="image"
                     type="file"
                     className={classes.input}
+                    onChange={onImageChange}
                 />
+
+                <Image src={state.image} />
                 
                     <label  htmlFor="contained-button-file">
                         <Button className="x-center" variant="contained" color="primary" component="span">
