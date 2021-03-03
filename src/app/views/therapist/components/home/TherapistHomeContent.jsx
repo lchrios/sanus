@@ -234,24 +234,38 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                         </Grid>
                         {/**TERMINA LISTA DE PACIENTES */}
 
-                        {/**COMIENZA INTERACCIÓN DE STRIPE */}
+
                         <Grid item lg={12}
                                 md={12}
                                 sm={12}
                                 xs={12}>
-                        <Card className="p-4">
-                            <div className="py-4 text-center flex ">
-                                <div className="flex mx-auto text-center">
-                                    {/** *TODO INSERTAR BOTÓN DE STRPE CONNECT */}
-                                    <Button
-                                    className="x-center"
-                                    variant="contained"
-                                    color="primary"
-                                    >
-                                        Conectar con stripe
-                                    </Button>
-                                </div>
-                            </div>
+                        <Card>
+                            {paymentList.map((method, index) => (
+                                <Fragment key={index}>
+                                    <div className="py-4 px-6 flex flex-wrap items-center justify-between">
+                                        <div className="flex flex-wrap items-center">
+                                            <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
+                                                <img
+                                                    className="w-36 overflow-hidden"
+                                                    src={method.img}
+                                                    alt="master card"
+                                                />
+                                            </div>
+                                            <div className="ml-4">
+                                                <h5 className="mb-1 font-medium">
+                                                    {method.type}
+                                                </h5>
+                                                <span className="text-muted">
+                                                    {method.product}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {index !== paymentList.length - 1 && (
+                                        <Divider />
+                                    )}
+                                </Fragment>
+                            ))}
                         </Card>
                         </Grid>
                         
@@ -263,7 +277,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                             <div className="w-100 min-w-100 text-center">
                                 <Fab
                                     className="relative mt--14"
-                                    size="medium" 
+                                    size="medium"
                                     color="primary"
                                 >
                                     <Icon>trending_up</Icon>
