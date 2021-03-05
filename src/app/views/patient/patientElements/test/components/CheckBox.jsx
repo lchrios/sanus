@@ -7,6 +7,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank'
 import CheckBoxIcon from '@material-ui/icons/CheckBox'
 
+
 const GreenCheckbox = withStyles({
     root: {
         color: green[400],
@@ -17,21 +18,23 @@ const GreenCheckbox = withStyles({
     checked: {},
 })((props) => <Checkbox color="default" {...props} />)
 
-const CheckBox = ({ toggleNext }) => {
+const CheckBox = ( toggleNext ) => {
     const [state, setState] = React.useState({
         checkedA: false,
         checkedB: false,
         checkedC: false,
-    })
+    })  
     
+    const [disabled, setDisabled] = React.useState(false)
   
     const handleChange = (name) => (event) => {
         
-        setState({ checkedA: false, checkedB: false, checkedC: false})
-        setState({ ...state, [name]: event.target.checked })
-        
+        setState({ ...state, [name]:event.target.checked })
+        setState({ checkedA: true})
+        setDisabled(true)
     }
 
+    const {checkedA,checkedB, checkedC} = state;
 
     return (
         <FormGroup row>
@@ -42,6 +45,7 @@ const CheckBox = ({ toggleNext }) => {
                         color='secondary'
                         checkedIcon={<CheckBoxIcon fontSize="large" />}
                         value="checkedA"
+                        checked={disabled}
                         required
                         onChange={handleChange}
                     />
@@ -55,7 +59,8 @@ const CheckBox = ({ toggleNext }) => {
                         color='secondary'
                         checkedIcon={<CheckBoxIcon fontSize="large" />}
                         value="checkedB"
-                        required                        
+                        checked
+                        required     
                         onChange={handleChange}
                     />
                 }
@@ -69,6 +74,7 @@ const CheckBox = ({ toggleNext }) => {
                         checkedIcon={<CheckBoxIcon fontSize="large" />}
                         value="checkedC"
                         required
+                        checked
                         onChange={handleChange}
                     />
                 }

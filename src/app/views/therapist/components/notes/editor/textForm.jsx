@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { RichTextEditor, Breadcrumb } from "app/components/index";
+import { RichTextEditor } from "app/components/index";
 import {
-    Button,
+  Button,
   Grid,
-    Icon,
+  Icon,
 } from "@material-ui/core";
 import {IconButton} from '@material-ui/core'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import useAuth from "app/hooks/useAuth";
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import Tooltip from '@material-ui/core/Tooltip'
-import clsx from "clsx";
-import history from "../../../../../../history";
+import debounce from '../helpers.js'
 import api from "app/services/api";
+import { update } from "lodash";
+import ReactQuill from "react-quill";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -27,34 +28,16 @@ const useStyles = makeStyles((theme) => ({
 
 const TextForm = () => {
   
-  const LightTooltip = withStyles((theme) => ({
-    tooltip: {
-      backgroundColor: theme.palette.common.white,
-      color: 'rgba(0, 0, 0, 0.87)',
-      boxShadow: theme.shadows[1],
-      fontSize: 11,
-    },
-  }))(Tooltip);
-  /**
-   * *TODO Arreglar que cuando el usuario entre a notas alv ya esté listo el editor con el cursor parpadeando, porque está medio raro como está la neta
-   * por eso le puse todo eso al state.content de acontinuación
-   */
     const classes = useStyles()
     const [state, setState] = useState({
       title: "",
       img : "",
       imgBlob: "",
-      content: `<h1>Iknelia | Aplicación de notas </h1><p><a href="http://localhost:3000/dashboard/analytics" target="_blank">Escribe tu nota aquí</a><p>`,
+      content: '',
     });
   
-    const [addingNote, setAddingNote] = useState(false);
+    const [addingNote, setAddingNote] = useState(true);
     const { user } = useAuth()
-
-    var imgPreview = (<div className="image-container">Seleccione una imagen para la vista previa</div>)
-
-    if (state.img) {
-      imgPreview = (<div className="image-container" ><img src={state.img} alt="icon" width="200" /> </div>);
-    }
 
     // const handleSubmitNewBlog = () => {
     //   // TODO: upload and update state.img with new image
@@ -82,23 +65,6 @@ const TextForm = () => {
 
     // }
 
-    const handleImgChange = event => {
-      setState({
-        ...state,
-        imgBlob: event.target.files[0],
-      })
-
-      let reader = new FileReader();
-
-      reader.onloadend = () => {
-        setState({
-          ...state,
-          img: reader.result,
-        });
-      }
-      reader.readAsDataURL(event.target.files[0])
-      imgPreview = (<div className="image-container" ><img src={state.img} alt="icon" width="200" /> </div>);
-    }
 
     const handleTitleChange = event => {
       setState({
@@ -106,97 +72,49 @@ const TextForm = () => {
         title: event.target.value,
       })
     }
-
-    const handleContentChange = contentHtml => {
-      setState({
-        ...state,
-        content: contentHtml,
-      });
+    
+    
+    // const update = debounce( () => {
+    //   console.log('ACTUALIZANDO')
+    // },1500)
+    const handleContentChange = async(val) => {
+      await setState({content:val})
+      update()
     };
-
+    const update = debounce(()=>{
+      console.log('jaja pero se hace mucho o sea no sirve ')
+    },1500);
+    
     return (
       <div className="m-sm-30">
-        <div  className="mb-sm-30">
-          <Button 
-          variant="contained" 
-          color="secondary"
-          onClick={() => history.push('/' + user.uid + '/dashboard')}
-          >
-              Volver al escritorio
-          </Button>
-        </div>
         <ValidatorForm>
-          <Grid flex justify="flex-end"  container spacing={1}>
+          <Grid flex  container spacing={1}>
             <Grid  item lg={12} md={12} sm={12} xs={12}>
-
-              {/* 
-                // TODO: Hacer más grande el texto del título
-              */}
-              <TextValidator
+              <h1></h1>
+              {/* <TextValidator
                 className="mb-4 w-full"
                 label="Ingresa el título de la nota"
                 onChange={handleTitleChange}
                 type="text"
                 name="title"
                 style={{display: addingNote ? 'block' : 'none'}}
-              />
+              /> */}
             </Grid>
-            {/**
-             * *? Si meto el tooltip dentro de un grid (en este caso con render condicional) lo que pasa es que da un error keria explicarlo me dio hueva adios 
-             */}
-            
               <Grid style={{display: addingNote ? 'block' : 'none'}} item lg={12} md={12} sm={12} xs={12}>
-                <RichTextEditor
+                <ReactQuill
+                value={state.content}
+                onChange={handleContentChange}/>
+                {/* <RichTextEditor
                   content={state.content}
                   handleContentChange={handleContentChange}
-                  placeholder="creo que ni se ve alv"
-                  />
-                  <Tooltip title='Elimina el texto color azul suave (el más pequeño) o continúa escribiendo a partir de allí'>
+                  /> */}
+                  <Tooltip title='¿Necesitas ayuda?'>
                   <IconButton>
                     <Icon>help</Icon>
                   </IconButton>
                 </Tooltip>
                 </Grid>
              
-           {/* <Grid item lg={6} md={6} sm={12} xs={12}>
-              {/* 
-             
-              
-              <input
-                    accept="image/*"
-                    className={classes.input}
-                    id="text-button-file"
-                    onChange={handleImgChange}
-                    type="file"
-                />
-                <label htmlFor="text-button-file">
-                    
-                    <Button component="span" size={"large"} color={"secondary"} variant={"contained"} className={classes.button}>
-                        <Icon>upload</Icon>Upload
-                    </Button>
-                    { imgPreview }
-                </label>
-            </Grid>
-
-            {/* 
-            
-            */}
-            {/* <Grid item flex lg={6} md={6} sm={12} xs={12}>
-              <Button
-                className={clsx("uppercase ml-auto", classes.button)}
-                size="large"
-                color="primary" 
-                variant="contained" 
-                type="submit"
-                onClick={() => {
-                  
-                  handleSubmitNewBlog()
-                }}
-                >
-                <Icon>send</Icon>
-                <span className="pl-8 capitalize">Publicar</span>
-              </Button>
-            </Grid>  */}
           </Grid>
         </ValidatorForm>
       </div>

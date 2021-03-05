@@ -1,48 +1,84 @@
-import React from 'react'
-import { withStyles } from '@material-ui/core/styles';
-import styles from './sidebarStyles';
-import List from '@material-ui/core/List';
-import { Divider, Button } from '@material-ui/core';
-import TextField from '@material-ui/core/TextField'
-import { TextValidator } from 'react-material-ui-form-validator';
+import React, {useState} from 'react'
+import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator'
+import { Button, Divider } from '@material-ui/core'
+import ListComponent from '../listItem/ListComponent'
 
 
+const SideBarComponent = () => {
+    const [addingNote, setAddingNote] = useState(false)
+    const [title, setTitle] = useState(null)
+    
+    const notes = []
 
-class SideBarComponent extends React.Component{
-    constructor() {
-        super()
-        this.state = {
-            addingNote: false,
-            title: null
-        }
+    const newNoteBtn = () => {
+        setAddingNote(addingNote => !addingNote)
+        setTitle(null)
     }
-    render() {
-        const {notes, classes,addingNote,selectedNoteIndex} = this.props;
-        
-        return(
-            <div className={classes.sidebarContainer}>
-                <Button
-                onClick={this.newNoteBtnClick}
-                className={classes.newNoteBtn}>Crear nota</Button>
+
+    const updateTitle = (txt) => {
+        setTitle(txt)
+    }
+
+    const saveNote = () => {
+    
+    }   
+
+    const selectNote = () => {
+        console.log('select note')
+    }
+    const deleteNote = () => {
+        console.log('delete note')
+    }
+
+    
+
+    return(
+        <div>
+            <Button
+            className='mt-4'
+            onClick={newNoteBtn}
+            color='primary'
+            variant='contained'>{addingNote ? 'Cancelar' : 'Crear nueva nota'}</Button>
+
+            {
+                addingNote ? 
+                <div className='pt-4'>
+                    <ValidatorForm>
+                        <TextValidator
+                        className="mb-4 w-full"
+                        label="Ingresa el título de la nota"
+                        type="text"
+                        onKeyUp={(e) => {updateTitle(e.target.value)}}
+                    />
+                    </ValidatorForm>
+                    <Button
+                    color='secondary'
+                    variant='contained'
+                    onClick={saveNote}>
+                        Guardar nota
+                    </Button>
+                </div> :
+                null
+            }
+            <list>
                 {
-                    this.state.addingNote ? 
-                    <div>
-                        
-                    </div> : <div></div>
-                    
+                    notes.map((_note, _index) => {
+                        return(
+                            <div key={_index}
+                            >
+                                <ListComponent>
+                                deleteNote={deleteNote}
+                                selectNote={selectNote}>
+                                </ListComponent> 
+                                <Divider></Divider>
+
+                            </div>
+                        )
+                    })
                 }
-            </div>
-        )
-    }
-    
-    
-    newNoteBtnClick = () => {
-        this.state = {addingNote: true, ...this.state}
-        console.log('CREATING NEW NOTE');
-    }
-    updateTitle = (txt) => {
-        console.log('HERE IT IS ', txt)
-    }
+            </list>
+        </div>
+    )
 }
 
-export default withStyles(styles)(SideBarComponent)
+export default SideBarComponent

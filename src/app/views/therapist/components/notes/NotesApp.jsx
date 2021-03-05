@@ -1,60 +1,109 @@
-import React, { useState, useEffect} from 'react'
+// import React, { useState, useEffect} from 'react'
 import SideBarComponent from './sidebar/SideBarComponent'
-import EditorComponent from './editor/EditorComponent'
-import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
 import TextForm from '../notes/editor/TextForm'
+// import ListComponent from './listItem/ListComponent'
+import React, { useState, useEffect } from "react";
+import { Icon, IconButton, Hidden, useMediaQuery, Card, Grid } from "@material-ui/core";
+import { withStyles } from "@material-ui/styles";
+import { useTheme } from '@material-ui/core/styles'
+import {
+    MatxSidenavContainer,
+    MatxSidenav,
+    MatxSidenavContent,
+} from 'app/components'
+import { makeStyles } from '@material-ui/core/styles'
+import clsx from 'clsx'
+import useAuth from "app/hooks/useAuth";
+
+
+const usestyles = makeStyles(({ palette, ...theme }) => ({
+    headerBG: {
+        height: 100,
+        '@media only screen and (max-width: 959px)': {
+            height: 400,
+        },
+    },
+}))
 
 const NotesApp = () => {
-    const { user } = useAuth();
+    const theme = useTheme()
+    const classes = usestyles()
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
     const [state, setState] = useState({
         selectedNoteIndex: null,
-        selectedNote: null,
+        selectedNote:null,
         notes: null
     })
+    const { user } = useAuth();
+    useEffect(() => {
+        const getNotes = api.get(`/t/${user.uid}/n`)
+            .then(res => {
+                setState({notes: res.data.data});   
+            })
+            .catch(error => {
+                console.error(error)
+            })
+        })
 
-    const [addingNote, setAddingNote] = useState(false);
-    const toggleAdding = () => {
-        setAddingNote(true)
+    if (notes) {
+        return (
+            <div className="relative">
+                <MatxSidenavContainer>
+                    <MatxSidenav
+                        width="300px"
+                    >
+                        <div
+                            className={clsx(
+                                'bg-primary text-center',
+                                classes.headerBG
+                            )}
+                        >
+                            <Hidden smUp>
+                                <IconButton>
+                                    <Icon className="text-white">clear</Icon>
+                                </IconButton>
+                            </Hidden>
+                        </div>
+                        <SideBarComponent 
+                        notes={state.notes}/>
+                    </MatxSidenav>
+                    <MatxSidenavContent>
+                        <div className={clsx('bg-primary', classes.headerBG)} />
+                        <TextForm />
+                    </MatxSidenavContent>
+                </MatxSidenavContainer>
+            </div>
+        )
+    } else {
+        return(
+            <div></div>
+        )
     }
-
-    // useEffect(() => {
-
-        
-    //     const getNotes = api.get(`/t/${user.uid}/n`)
-    //         .then(res => {
-    //             setState({notes: res.data.data});   
-    //         })
-    //         .catch(error => {
-    //             console.error(error)
-    //         })
-
-    //         /**
-    //          * *!AQUÍ ERA DONDE LLAMABA LA FUNCIÓN DE COMPONENT DID MOUNT PARA HACER LIFECYCLE METHOD CON HTTPS REQUEST
-    //          *  */
-    //     /*firebase.firestore().collection('notes').get()
-    //         .then(query => {
-    //             const notes = query.map(_doc => {
-    //                 const data =  _doc.data();
-    //                 data['id'] = _doc.id.toString();
-    //                 return data;
-    //             })
-
-    //             console.log(notes)
-    //             this.setState({notes: notes})
-    //         })*/
-    // }, [])
-
-    return(
-        <div>
-            <SideBarComponent 
-                selectedNoteIndex={state.selectedNoteIndex}
-                notes={state.notes}
-                toggleAdding={toggleAdding}
-            />
-            <TextForm toggleAdding={toggleAdding} addingNote={addingNote}/>
-        </div>
-    )
 }
 
-export default NotesApp
+export default withStyles({}, { withTheme: true })(NotesApp);
+
+// const NotesApp = () => {
+//     const { user } = useAuth();
+//     const [state, setState] = useState({
+//         selectedNoteIndex: null,
+//         selectedNote: null,
+//         notes: null
+//     })
+
+//     const [addingNote, setAddingNote] = useState(false);
+//     const toggleAdding = () => {
+//         setAddingNote(true)
+//     }
+
+
+//     return(
+//         <div >
+//             <SideBarComponent/>
+//             <TextForm/>
+//         </div>
+//     )
+// }
+
+// export default NotesApp

@@ -12,10 +12,7 @@ export default function debounce(a,b,c){
 
 
 /**
- * *! no mames descubrí que con este comando tambien sale el inicio del codigo HTML ahuevisimo
- * 
- * continuando con el comentario esta función que queria resaltar alv es para eliminar el HTML del preview
- * en la app de notas
+esta función es para eliminar el HTML del preview en la app de notas
  */
 export function removeHTMLTags (str) {
   return str.replace(/<[^>]*>?/gm, '');

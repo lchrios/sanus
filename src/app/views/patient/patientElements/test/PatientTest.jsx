@@ -23,9 +23,9 @@ const getSteps = () => {
 }
 
 
-export default function PatientTest() {
+export default function PatientTest(hasTher) {
 
-    const [therapist, setTherapistData] = useState()
+    const [therapist, setTherapistData] = useState(hasTher)
     const [checked, setChecked] = useState(true)
     useEffect(() => {
         api.get('/u/'+user.uid+'/t').then(res => {
@@ -46,7 +46,7 @@ export default function PatientTest() {
             /** *TODO enviar información al terapeuta */
         }
 
-        else {
+        else if(checked){
             setActiveStep((prevActiveStep) => prevActiveStep + 1)
         }   
     }
@@ -76,12 +76,12 @@ export default function PatientTest() {
         switch (stepIndex) {
             case 0: 
             {/** *TODO C REGRESAR A THERPIST === UNDEFINED  */}
-                if (false) {
+                if (hasTher == undefined) {
                     return (
                         <PreTest />
                     )
                 }
-                else if (true) {
+                else {
                     return (
                             <SessionValidatorForm   toggleNext={toggleNext} />
                     )

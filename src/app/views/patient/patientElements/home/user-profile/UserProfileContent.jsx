@@ -165,7 +165,7 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
                                     Comenzar terapia
                                 </h4>
                                 { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress /></Grid></Grid> :
-                                    <PatientTest/>
+                                    <PatientTest ther_data={hasTher}/>
                                 }
                             </Card>
                             <div className="py-3"></div>
