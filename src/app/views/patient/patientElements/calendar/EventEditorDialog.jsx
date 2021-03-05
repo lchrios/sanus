@@ -59,7 +59,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
                 end: state.end,
                 note: descripcion,
                 tipo: 'Terapia adulto',
-                state: 'pendiente',
+                state: 0,
                 pay_met: 'PayPal',
                 cost: randomCost(),
                 id: "",

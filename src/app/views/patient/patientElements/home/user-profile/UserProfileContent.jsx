@@ -77,14 +77,69 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 
 
-const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
+const UserProfileContent = ({ toggleSidenav, loading, ther_data, sessions }) => {
     const { user } = useAuth()
-    const [therapist, setTherapist] = useState(ther_data)
     const classes = usestyles()
     const [open, setOpen] = useState(false)
+    const [sesInfo, setSesInfo] = useState([
+        {
+            title: "Sesiones agendadas",
+            amount: 1,
+        },
+        {
+            title: "Sesiones completadas",
+            amount: 2,
+        },
+        {
+            title: "Proxima cita",
+            amount: 3,
+        }
+    ])
 
-    var hasTher = ther_data !== undefined;
+    useEffect(() => {
+        if (!loading) {
+            console.log(sessions)
+            generateSessionReport()
+        }
+    }, [loading])
 
+    const generateSessionReport = () => {
+        var total_ses = sessions.length;
+        var completed_ses = 0;
+        var min_date;
+        var curr_date = new Date();
+        for (var i = 0; i < total_ses; i++) {
+            if (sessions[i].state == 1) { // * Sesion completada
+                completed_ses += 1;
+            }
+            var tmpDate = new Date(sessions[i].start);
+            // console.log(min_date != undefined && tmpDate < min_date && sessions[i].state == 0 && tmpDate > curr_date, tmpDate)
+            if (min_date == undefined && tmpDate > curr_date) {
+                console.log("Min Enc", tmpDate);
+                min_date = tmpDate
+            } else if (min_date != undefined && tmpDate < min_date && sessions[i].state == 0 && tmpDate > curr_date) { // * Sesion mas proxima
+                console.log("Nuevo MINIMO Enc", tmpDate);
+                min_date = tmpDate;
+            }
+        }
+        setHasTher(ther_data != undefined)
+        setSesInfo([
+            {
+                title: "Sesiones agendadas",
+                amount: total_ses,
+            },
+            {
+                title: "Sesiones completadas",
+                amount: completed_ses,
+            },
+            {
+                title: "Proxima cita",
+                amount: min_date != undefined ? min_date.toUTCString() : "No tienes próxima cita",
+            }
+        ])
+    }
+
+    const [hasTher, setHasTher] = useState(ther_data != undefined);
     const onClick1 = () => {
         history.push("/"+user.uid+"/sessions");
     }
@@ -112,22 +167,22 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
                     { hasTher ? 
                         <Grid container spacing={1} direction="row">
                             {/* // TODO: Hacer el reporte de las sesiones y mostrarlo */}
-                            {sessionsSummery.map((sessions) => (
+                            {sesInfo.map((ses) => (
                                 <Grid
                                     item
                                     lg={4}
                                     md={4}
                                     sm={12}
                                     xs={12}
-                                    key={sessions.title}
+                                    key={ses.title}
                                 >
                                     <Card className="h-96 bg-gray bg-default flex items-center justify-between p-4">
                                         <div>
                                             <span className="text-light-white uppercase">
-                                                {sessions?.title }
+                                                {ses?.title }
                                             </span>
                                             <h4 className="font-normal text-white m-0 pt-2">
-                                                {sessions?.amount}
+                                                {ses?.amount}
                                             </h4>
                                         </div>
                                         <div className="w-56 h-36">
@@ -214,20 +269,6 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
     )
 }    
 
-const sessionsSummery = [
-    // {
-    //     title: "Title 1",
-    //     amount: 1,
-    // },
-    // {
-    //     title: "Title 2",
-    //     amount: 2,
-    // },
-    // {
-    //     title: "Title 3",
-    //     amount: 3,
-    // }
-]
 const paymentList = [
     /**{
         img: '/assets/images/payment-methods/visa.png',

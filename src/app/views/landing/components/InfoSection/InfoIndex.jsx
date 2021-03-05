@@ -46,9 +46,6 @@ export const InfoSection = ({
   dark2 }) => {
     const classes = useStyles();
 
-    // TODO: Wrappear las columnas en un grid item
-    // TODO: Acomodar el grid general como container
-
     return (
         <InfoContainer lightBg = {lightBg } id={id} >
             <Grid >

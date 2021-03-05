@@ -3,7 +3,7 @@ import SideBarComponent from './sidebar/SideBarComponent'
 import EditorComponent from './editor/EditorComponent'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
-import TextForm from '../notes/editor/TextForm'
+import TextForm from './editor/TextForm'
 
 const NotesApp = () => {
     const { user } = useAuth();
