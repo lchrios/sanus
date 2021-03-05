@@ -72,11 +72,11 @@ const PatientProfile = () => {
                             </IconButton>
                         </Hidden>
                     </div>
-                    <UserProfileSidenav ther_data={therapist} loading={loading} />
+                    <UserProfileSidenav therapist={therapist} loading={loading} />
                 </MatxSidenav>
                     <MatxSidenavContent >
                         <div className={clsx('bg-primary', classes.headerBG)} />
-                        <UserProfileContent toggleSidenav={toggleSidenav} sessions={sessions} loading={loading} ther_data={therapist} />
+                        <UserProfileContent toggleSidenav={toggleSidenav} sessions={sessions} loading={loading} therapist={therapist} />
                     </MatxSidenavContent>
             </MatxSidenavContainer>
             

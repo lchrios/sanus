@@ -6,10 +6,6 @@ import {
     IconButton,
     Button,
     CircularProgress,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions
 } from '@material-ui/core'
 import React, { Fragment, useEffect, useState} from 'react'
 import { makeStyles} from '@material-ui/core/styles'
@@ -18,9 +14,8 @@ import PatientTest from '../../test/PatientTest'
 import TherapistInfoUser from './TherapistInfoUser'
 import PatientCalendar from '../../calendar/PatientCalendar'
 import useAuth from 'app/hooks/useAuth';
-import { CreditCard, Money } from '@material-ui/icons';
-import { stubTrue } from 'lodash';
 import CheckoutApp from '../../changePayMeth/CheckoutApp';
+import { Loading } from 'app/components/Loading/Loading';
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
@@ -77,7 +72,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 
 
-const UserProfileContent = ({ toggleSidenav, loading, ther_data, sessions }) => {
+const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => {
     const { user } = useAuth()
     const classes = usestyles()
     const [open, setOpen] = useState(false)
@@ -98,7 +93,6 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data, sessions }) => 
 
     useEffect(() => {
         if (!loading) {
-            console.log(sessions)
             generateSessionReport()
         }
     }, [loading])
@@ -115,14 +109,13 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data, sessions }) => 
             var tmpDate = new Date(sessions[i].start);
             // console.log(min_date != undefined && tmpDate < min_date && sessions[i].state == 0 && tmpDate > curr_date, tmpDate)
             if (min_date == undefined && tmpDate > curr_date) {
-                console.log("Min Enc", tmpDate);
                 min_date = tmpDate
             } else if (min_date != undefined && tmpDate < min_date && sessions[i].state == 0 && tmpDate > curr_date) { // * Sesion mas proxima
                 console.log("Nuevo MINIMO Enc", tmpDate);
                 min_date = tmpDate;
             }
         }
-        setHasTher(ther_data != undefined)
+        setHasTher(therapist != undefined)
         setSesInfo([
             {
                 title: "Sesiones agendadas",
@@ -139,7 +132,7 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data, sessions }) => 
         ])
     }
 
-    const [hasTher, setHasTher] = useState(ther_data != undefined);
+    const [hasTher, setHasTher] = useState(therapist != undefined);
     const onClick1 = () => {
         history.push("/"+user.uid+"/sessions");
     }
@@ -162,11 +155,10 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data, sessions }) => 
                     </div>
                     
                     <div>
-                    { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> :
+                    { loading ? <Loading /> :
                     <>
                     { hasTher ? 
                         <Grid container spacing={1} direction="row">
-                            {/* // TODO: Hacer el reporte de las sesiones y mostrarlo */}
                             {sesInfo.map((ses) => (
                                 <Grid
                                     item
@@ -198,7 +190,7 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data, sessions }) => 
                         <Card className="h-150 bg-primary flex items-center justify-between ">
                             <div className="m-auto">    
                                 <h4 className="m-auto font-normal text-white ">
-                                    Este es tu perfil. Para comenzar navega por nuestro buscador, y selecciona un terapeuta.
+                                    Este es tu perfil. No cuentas con ningún terapeuta todavía. Para comenzar navega por nuestro buscador, y selecciona un terapeuta.
                                 </h4>
                             </div>
                             <div className="mx-auto">
@@ -219,8 +211,8 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data, sessions }) => 
                                 <h4 className="font-medium text-muted px-4 pt-4 pb-0">
                                     Comenzar terapia
                                 </h4>
-                                { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress /></Grid></Grid> :
-                                    <PatientTest/>
+                                { loading ? <Loading /> :
+                                    <PatientTest therapist={therapist} loading={loading} />
                                 }
                             </Card>
                             <div className="py-3"></div>
@@ -252,7 +244,7 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data, sessions }) => 
                                     Tu terapeuta
                                 </h4>
                                 <div className="flex items-center mb-4">
-                                    <TherapistInfoUser therapist={ther_data} loading={loading}/>
+                                    <TherapistInfoUser therapist={therapist} loading={loading}/>
                                 </div>
                                 <div className="flex items-center">
                                 </div>

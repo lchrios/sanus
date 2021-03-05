@@ -17,63 +17,59 @@ const GreenCheckbox = withStyles({
     checked: {},
 })((props) => <Checkbox color="default" {...props} />)
 
-const CheckBox = ({ toggleNext }) => {
-    const [state, setState] = React.useState({
-        checkedA: false,
-        checkedB: false,
-        checkedC: false,
-    })
-    
-  
-    const handleChange = (name) => (event) => {
-        
-        setState({ checkedA: false, checkedB: false, checkedC: false})
-        setState({ ...state, [name]: event.target.checked })
-        
-    }
+const CheckBox = ({ loading, state, handleChangeCheck }) => {
+      
 
 
     return (
         <FormGroup row>
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                        color='secondary'
-                        checkedIcon={<CheckBoxIcon fontSize="large" />}
-                        value="checkedA"
-                        required
-                        onChange={handleChange}
-                    />
-                }
-                label="Sí"
-            />
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                        color='secondary'
-                        checkedIcon={<CheckBoxIcon fontSize="large" />}
-                        value="checkedB"
-                        required                        
-                        onChange={handleChange}
-                    />
-                }
-                label="No"
-            />
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                        color='secondary'
-                        checkedIcon={<CheckBoxIcon fontSize="large" />}
-                        value="checkedC"
-                        required
-                        onChange={handleChange}
-                    />
-                }
-                label="No lo sé"
-            />
+            { loading ? <></> :
+            <>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            color='secondary'
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={state.checks.a}
+                            name="a"
+                            required
+                            onChange={handleChangeCheck}
+                        />
+                    }
+                    label="Sí"
+                />
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            color='secondary'
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={state.checks.b}
+                            name="b"
+                            required                        
+                            onChange={handleChangeCheck}
+                        />
+                    }
+                    label="No"
+                />
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            color='secondary'
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={state.checks.c}
+                            name="c"
+                            required
+                            onChange={handleChangeCheck}
+                        />
+                    }
+                    label="No lo sé"
+                />
+            
+            </>
+            }
         </FormGroup>
     )
 }

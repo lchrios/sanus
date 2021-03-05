@@ -27,7 +27,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
     
-const UserProfileSidenav = ({ ther_data, loading }) => {
+const UserProfileSidenav = ({ therapist, loading }) => {
 
     const { user } = useAuth()
     const classes = usestyles()
@@ -110,9 +110,9 @@ const UserProfileSidenav = ({ ther_data, loading }) => {
                     </Grid>
                     <div className="py-4" />
                     { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress /></Grid></Grid> :
-                        <div className="flex items-center justify-center text-primary" style={{ display: ther_data !== undefined ? "block" : "none" }}>
+                        <div className="flex items-center justify-center text-primary" style={{ display: therapist !== undefined ? "block" : "none" }}>
                             <Button onClick={() => {
-                                window.location.href = ther_data.zoomurl !== undefined  ? ther_data.zoomurl : "https://zoom.us/j/95739401999?pwd=dkh2NGQxcXBTYWJWRHlRM3U4UnVPQT09"  
+                                window.location.href = therapist.zoomurl !== undefined  ? therapist.zoomurl : "https://zoom.us/j/95739401999?pwd=dkh2NGQxcXBTYWJWRHlRM3U4UnVPQT09"  
                             }}>
                                 <Icon>sentiment_very_satisfied</Icon>
                                 <h5 className="ml-8 text-primary font-medium mb-0">
