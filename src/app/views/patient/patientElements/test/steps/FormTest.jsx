@@ -4,7 +4,7 @@ import {
     TextField,
     Divider,
 } from '@material-ui/core'
-const FormTest = () => {
+const FormTest = ({ handleChange }) => {
 
     return (
         <Card className="m-sm-30" >
@@ -21,6 +21,8 @@ const FormTest = () => {
                     variant="outlined"
                     required
                     multiline
+                    name="reason"
+                    onChange={handleChange}
                     fullWidth
                 />
               <TextField
@@ -31,6 +33,8 @@ const FormTest = () => {
                     fullWidth
                     required
                     select
+                    onChange={handleChange}
+                    name="time_situation_detected"
                     SelectProps= {
                         {native:true}
                     }
@@ -48,6 +52,8 @@ const FormTest = () => {
                     rows={4}
                     required
                     multiline
+                    onChange={handleChange}
+                    name="relatedExperience"
                     fullWidth
                 />
                 </div>

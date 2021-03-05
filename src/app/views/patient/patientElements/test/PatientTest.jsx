@@ -19,24 +19,40 @@ import { Loading } from 'app/components/Loading/Loading'
 
 
 const getSteps = () => {
-    return ['Paso 1', 'Paso 2', 'Paso 3']
+    return ['Validacion primera cita', 'Razones de visita', 'Otras preguntas']
 }
 
 
 const PatientTest = ({ loading, therapist }) => {
     
-    const [state, setState] = useState({ checks: {a: false, b: false, c: false }})
+    const [state, setState] = useState({ 
+        checks: {
+            a: false, 
+            b: false, 
+            c: false,
+        }, 
+        form2a: { 
+            ayes: false,
+            ano: false,
+        },
+        form2b: {
+            byes: false,
+            bno: false,
+        }
+    })
     const [checked, setChecked] = useState(true)
     const [activeStep, setActiveStep] = useState(0)
     const {user} = useAuth()
     const steps = getSteps()
 
     const handleNext = () => {
+        console.log(activeStep)
         if(activeStep == 2 && therapist == undefined ) {
             history.push('/'+ user.uid +'/browse')
         }
 
         else if(activeStep == 2 && therapist) {
+            setActiveStep((prevActiveStep) => prevActiveStep + 1)
             console.log(state)
         }
 
@@ -45,8 +61,44 @@ const PatientTest = ({ loading, therapist }) => {
         }   
     }
 
+    const handleChangeA = (event) => {
+        setState({ 
+            ...state, 
+            form2a: { 
+                ...{
+                    ayes: false,
+                    ano: false
+                },
+                [event.target.name]: event.target.checked
+            }
+        })
+    }
+
+    const handleChangeB = (event) => {
+        setState({ 
+            ...state, 
+            form2b: { 
+                ...{
+                    byes: false,
+                    bno: false,
+                },
+                [event.target.name]: event.target.checked
+            }
+        })
+    }
+
     const handleChangeCheck = (event) => {
-        setState({ ...state, checks: {...{ a: false, b: false, c: false }, [event.target.name]: event.target.checked }})
+        setState({ 
+            ...state, 
+            checks: {
+                ...{ 
+                    a: false, 
+                    b: false, 
+                    c: false 
+                }, 
+                [event.target.name]: event.target.checked 
+            }
+        })
     }
 
     const handleChange = (event) => {
@@ -69,10 +121,6 @@ const PatientTest = ({ loading, therapist }) => {
 
     }
 
-    useEffect(() => {
-        console.log(state.checks)
-    }, [state.checks])
-
     const getStepContent = (stepIndex) => {
         switch (stepIndex) {
             case 0: 
@@ -93,7 +141,7 @@ const PatientTest = ({ loading, therapist }) => {
             case 1: 
                 return <FormTest handleChange={handleChange} /> 
             case 2: 
-                return <FormTestSt2 handleChange={handleChange} />
+                return <FormTestSt2 state={state} handleChangeA={handleChangeA} handleChangeB={handleChangeB} />
             case 3: 
                 return <FormTestSt3 handleChange={handleChange} /> 
             default:
