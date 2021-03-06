@@ -21,6 +21,7 @@ const {
   getTherapistByUser,
   getAllUsers,
   assignTherapist,
+  newTestAnswers,
 } = require("./routes/users");
 
 // * Funciones relativas al terapeuta
@@ -96,6 +97,7 @@ app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUs
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
 app.post("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist);
+app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), newTestAnswers);
 
 //*rutas de stripe (lado user)
 app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo);
