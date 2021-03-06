@@ -40,7 +40,7 @@ const NotesApp = () => {
         const getNotes = api.get(`/t/${user.uid}/n`)
             .then(res => {
                 setState({notes: res.data.data});   
-            })
+              })
             .catch(error => {
                 console.error(error)
             })

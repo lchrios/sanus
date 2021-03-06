@@ -80,13 +80,21 @@ const UserDataForm = ({ location }) => {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
 
+    useEffect(() => {
+        console.log("Image changed successfully!")
+    }, [state.img])
+
     const onImageChange = (event) => {
         if (event.target.files && event.target.files[0]) {
-          let img = event.target.files[0];
-          setState({
-            ...state,
-            image: URL.createObjectURL(img)
-          });
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                console.log(e.target.result)
+                setState({
+                    ...state,
+                    img: e.target.result
+                })    
+            }
+            reader.readAsDataURL(event.target.files[0]);
         }
       };
 
@@ -190,19 +198,18 @@ const UserDataForm = ({ location }) => {
                 <input
                     accept="image/*"
                     id="contained-button-file"
-                    name="image"
+                    name="img"
                     type="file"
                     className={classes.input}
                     onChange={onImageChange}
-                />
+                />                
+                <label  htmlFor="contained-button-file">
+                    <Button className="x-center" variant="contained" color="primary" component="span">
+                            Subir 
+                    </Button>
+                </label>
 
-                <Image src={state.image} />
-                
-                    <label  htmlFor="contained-button-file">
-                        <Button className="x-center" variant="contained" color="primary" component="span">
-                                Subir 
-                        </Button>
-                    </label>
+                <img src={state.img} alt="image" />
                 </div>
         </Box> 
     ]

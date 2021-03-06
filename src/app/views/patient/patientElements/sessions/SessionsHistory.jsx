@@ -80,19 +80,19 @@ const SessionsHistory = ({toggleSidenav}) => {
                     let status = orderList[dataIndex].state
 
                     switch (status) {
-                        case 'tomada':
+                        case 1:
                             return (
                                 <small className="capitalize text-white bg-green border-radius-4 px-2 py-2px">
                                     {status}
                                 </small>
                             )
-                        case 'pendiente':
+                        case 0:
                             return (
                                 <small className="capitalize bg-secondary border-radius-4 px-2 py-2px">
                                     {status}
                                 </small>
                             )
-                        case 'perdida':
+                        case -1:
                             return (
                                 <small className="capitalize text-white bg-error border-radius-4 px-2 py-2px">
                                     {status}

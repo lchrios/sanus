@@ -57,6 +57,7 @@
     "react-redux": "^7.0.3",
     "react-router-config": "^5.0.1",
     "react-router-dom": "^5.2.0",
+    "react-schedule-selector": "^3.0.0",
     "react-scripts": "^4.0.3",
     "react-scroll": "^1.8.1",
     "react-vis": "^1.11.7",

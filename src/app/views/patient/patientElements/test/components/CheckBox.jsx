@@ -18,68 +18,60 @@ const GreenCheckbox = withStyles({
     checked: {},
 })((props) => <Checkbox color="default" {...props} />)
 
-const CheckBox = ( toggleNext ) => {
-    const [state, setState] = React.useState({
-        checkedA: false,
-        checkedB: false,
-        checkedC: false,
-    })  
-    
-    const [disabled, setDisabled] = React.useState(false)
-  
-    const handleChange = (name) => (event) => {
-        
-        setState({ ...state, [name]:event.target.checked })
-        setState({ checkedA: true})
-        setDisabled(true)
-    }
+const CheckBox = ({ loading, state, handleChangeCheck }) => {
+      
 
     const {checkedA,checkedB, checkedC} = state;
 
     return (
         <FormGroup row>
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                        color='secondary'
-                        checkedIcon={<CheckBoxIcon fontSize="large" />}
-                        value="checkedA"
-                        checked={disabled}
-                        required
-                        onChange={handleChange}
-                    />
-                }
-                label="Sí"
-            />
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                        color='secondary'
-                        checkedIcon={<CheckBoxIcon fontSize="large" />}
-                        value="checkedB"
-                        checked
-                        required     
-                        onChange={handleChange}
-                    />
-                }
-                label="No"
-            />
-            <FormControlLabel
-                control={
-                    <Checkbox
-                        icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
-                        color='secondary'
-                        checkedIcon={<CheckBoxIcon fontSize="large" />}
-                        value="checkedC"
-                        required
-                        checked
-                        onChange={handleChange}
-                    />
-                }
-                label="No lo sé"
-            />
+            { loading ? <></> :
+            <>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            color='secondary'
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={state.checks.a}
+                            name="a"
+                            required
+                            onChange={handleChangeCheck}
+                        />
+                    }
+                    label="Sí"
+                />
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            color='secondary'
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={state.checks.b}
+                            name="b"
+                            required                        
+                            onChange={handleChangeCheck}
+                        />
+                    }
+                    label="No"
+                />
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            icon={<CheckBoxOutlineBlankIcon fontSize="large" />}
+                            color='secondary'
+                            checkedIcon={<CheckBoxIcon fontSize="large" />}
+                            checked={state.checks.c}
+                            name="c"
+                            required
+                            onChange={handleChangeCheck}
+                        />
+                    }
+                    label="No lo sé"
+                />
+            
+            </>
+            }
         </FormGroup>
     )
 }

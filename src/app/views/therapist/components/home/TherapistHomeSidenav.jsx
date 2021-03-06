@@ -125,8 +125,8 @@ const TherapistHomeSidenav = () => {
                             </Grid>
                         </Button>
                         {shortcutList.map((item, ind) => (
-                        <Button onClick={() => history.push('/' + user.uid + '/' + item.route)}>
-                            <Grid item key={ind}>
+                        <Button key={ind} onClick={() => history.push('/' + user.uid + '/' + item.route)}>
+                            <Grid item>
                                 <Card className="w-104 h-104 flex items-center justify-center">
                                     <div className="text-light text-center">
                                         <Icon>{item.icon}</Icon>

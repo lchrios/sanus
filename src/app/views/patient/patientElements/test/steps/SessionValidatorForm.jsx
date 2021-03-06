@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core'
 import CheckBox from '../components/CheckBox'
 
-const SessionValidatorForm = (toggleNext) => {
+const SessionValidatorForm = ({ handleChangeCheck, loading, state }) => {
 
     return(
         <Card className="" >
@@ -17,7 +17,7 @@ const SessionValidatorForm = (toggleNext) => {
                     Por favor responde con honestidad
                 </p>
                 <Divider className="mb-8" />
-              <CheckBox toggleNext={toggleNext} />
+              <CheckBox state={state} loading={loading} handleChangeCheck={handleChangeCheck} />
             </div>
         </Card>
     )

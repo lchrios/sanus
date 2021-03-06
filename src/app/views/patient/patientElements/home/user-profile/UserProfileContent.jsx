@@ -6,10 +6,6 @@ import {
     IconButton,
     Button,
     CircularProgress,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions
 } from '@material-ui/core'
 import React, { Fragment, useEffect, useState} from 'react'
 import { makeStyles} from '@material-ui/core/styles'
@@ -18,9 +14,8 @@ import PatientTest from '../../test/PatientTest'
 import TherapistInfoUser from './TherapistInfoUser'
 import PatientCalendar from '../../calendar/PatientCalendar'
 import useAuth from 'app/hooks/useAuth';
-import { CreditCard, Money } from '@material-ui/icons';
-import { stubTrue } from 'lodash';
 import CheckoutApp from '../../changePayMeth/CheckoutApp';
+import { Loading } from 'app/components/Loading/Loading';
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
@@ -77,14 +72,67 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 
 
-const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
+const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => {
     const { user } = useAuth()
-    const [therapist, setTherapist] = useState(ther_data)
     const classes = usestyles()
     const [open, setOpen] = useState(false)
+    const [sesInfo, setSesInfo] = useState([
+        {
+            title: "Sesiones agendadas",
+            amount: 1,
+        },
+        {
+            title: "Sesiones completadas",
+            amount: 2,
+        },
+        {
+            title: "Proxima cita",
+            amount: 3,
+        }
+    ])
 
-    var hasTher = ther_data !== undefined;
+    useEffect(() => {
+        if (!loading) {
+            generateSessionReport()
+        }
+    }, [loading])
 
+    const generateSessionReport = () => {
+        var total_ses = sessions.length;
+        var completed_ses = 0;
+        var min_date;
+        var curr_date = new Date();
+        for (var i = 0; i < total_ses; i++) {
+            if (sessions[i].state == 1) { // * Sesion completada
+                completed_ses += 1;
+            }
+            var tmpDate = new Date(sessions[i].start);
+            // console.log(min_date != undefined && tmpDate < min_date && sessions[i].state == 0 && tmpDate > curr_date, tmpDate)
+            if (min_date == undefined && tmpDate > curr_date) {
+                min_date = tmpDate
+            } else if (min_date != undefined && tmpDate < min_date && sessions[i].state == 0 && tmpDate > curr_date) { // * Sesion mas proxima
+                console.log("Nuevo MINIMO Enc", tmpDate);
+                min_date = tmpDate;
+            }
+        }
+        setHasTher(therapist != undefined)
+        setSesInfo([
+            {
+                title: "Sesiones agendadas",
+                amount: total_ses,
+            },
+            {
+                title: "Sesiones completadas",
+                amount: completed_ses,
+            },
+            {
+                title: "Proxima cita",
+                amount: min_date != undefined ? min_date.toUTCString() : "No tienes próxima cita",
+            }
+        ])
+    }
+
+    const [hasTher, setHasTher] = useState(therapist != undefined);
     const onClick1 = () => {
         history.push("/"+user.uid+"/sessions");
     }
@@ -107,27 +155,26 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
                     </div>
                     
                     <div>
-                    { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> :
+                    { loading ? <Loading /> :
                     <>
                     { hasTher ? 
                         <Grid container spacing={1} direction="row">
-                            {/* // TODO: Hacer el reporte de las sesiones y mostrarlo */}
-                            {sessionsSummery.map((sessions) => (
+                            {sesInfo.map((ses) => (
                                 <Grid
                                     item
                                     lg={4}
                                     md={4}
                                     sm={12}
                                     xs={12}
-                                    key={sessions.title}
+                                    key={ses.title}
                                 >
                                     <Card className="h-96 bg-gray bg-default flex items-center justify-between p-4">
                                         <div>
                                             <span className="text-light-white uppercase">
-                                                {sessions?.title }
+                                                {ses?.title }
                                             </span>
                                             <h4 className="font-normal text-white m-0 pt-2">
-                                                {sessions?.amount}
+                                                {ses?.amount}
                                             </h4>
                                         </div>
                                         <div className="w-56 h-36">
@@ -143,7 +190,7 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
                         <Card className="h-150 bg-primary flex items-center justify-between ">
                             <div className="m-auto">    
                                 <h4 className="m-auto font-normal text-white ">
-                                    Este es tu perfil. Para comenzar navega por nuestro buscador, y selecciona un terapeuta.
+                                    Este es tu perfil. No cuentas con ningún terapeuta todavía. Para comenzar navega por nuestro buscador, y selecciona un terapeuta.
                                 </h4>
                             </div>
                             <div className="mx-auto">
@@ -164,8 +211,8 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
                                 <h4 className="font-medium text-muted px-4 pt-4 pb-0">
                                     Comenzar terapia
                                 </h4>
-                                { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress /></Grid></Grid> :
-                                    <PatientTest ther_data={hasTher}/>
+                                { loading ? <Loading /> :
+                                    <PatientTest therapist={therapist} loading={loading} />
                                 }
                             </Card>
                             <div className="py-3"></div>
@@ -197,7 +244,7 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
                                     Tu terapeuta
                                 </h4>
                                 <div className="flex items-center mb-4">
-                                    <TherapistInfoUser therapist={ther_data} loading={loading}/>
+                                    <TherapistInfoUser therapist={therapist} loading={loading}/>
                                 </div>
                                 <div className="flex items-center">
                                 </div>
@@ -214,20 +261,6 @@ const UserProfileContent = ({ toggleSidenav, loading, ther_data }) => {
     )
 }    
 
-const sessionsSummery = [
-    // {
-    //     title: "Title 1",
-    //     amount: 1,
-    // },
-    // {
-    //     title: "Title 2",
-    //     amount: 2,
-    // },
-    // {
-    //     title: "Title 3",
-    //     amount: 3,
-    // }
-]
 const paymentList = [
     /**{
         img: '/assets/images/payment-methods/visa.png',

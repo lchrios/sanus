@@ -9,14 +9,16 @@ import {
     IconButton,
     Table,
     TableBody,
-    Avatar
+    Avatar,
+    TableCell,
+    TableRow,
+    CircularProgress
 } from '@material-ui/core'
 import React, { Fragment, useState } from 'react'
 import history from 'history.js'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import NextSessions from './NextSessions'
-import NextSessionsEmpty from './NextSessionsEmpty'
 import { useEffect } from 'react'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
@@ -74,18 +76,29 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 const TherapistHomeContent = ({ toggleSidenav }) => {
     const { user} = useAuth()
+    const [loading, setLoading] = useState(true)
     const [sessions, setSessions] = useState()
     const [patients, setPatients] = useState()
+    const [blogs, setBlogs] = useState()
 
     useEffect(() => {
         api.get(`/t/${user.uid}/u`) 
             .then(res => {
+                console.log("Pacientes obtenidos")
                 setPatients(res.data)
-            }) 
-        api.get(`/t/${user.uid}/u`) 
-        .then(res => {
-            setSessions(res.data)
-        })
+                api.get(`/t/${user.uid}/s`) 
+                .then(res => {
+                    console.log("Sesiones obtenidas")
+                    setSessions(res.data)
+                    api.get(`/t/${user.uid}/b`) 
+                    .then(res => {
+                        console.log("Blogs obtenidos")
+                        setBlogs(res.data)            
+                        setLoading(false)
+                    })
+                    
+                })
+            })
     }, [])
      
     const classes = usestyles()
@@ -99,34 +112,36 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                     </IconButton>
                 </div>
                 <div className={classes.headerCardHolder}>
-                    <Grid container spacing={6}>
-                        {projectSummery.map((project) => (
-                            <Grid
-                                item
-                                lg={4}
-                                md={4}
-                                sm={12}
-                                xs={12}
-                                key={project.title}
-                            >
-                                <Card className="h-96 bg-gray bg-default flex items-center justify-between p-4">
-                                    <div>
-                                        <span className="text-light-white uppercase">
-                                            {project.title}
-                                        </span>
-                                        <h4 className="font-normal text-white m-0 pt-2">
-                                            0
-                                        </h4>
-                                    </div>
-                                    <div  className="w-56 h-36">
-                                        <IconButton onClick={() => history.push(project.route)}>
-                                            <Icon className="text-white">{project.icon}</Icon>
-                                        </IconButton>
-                                    </div>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
+                    { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> :
+                        <Grid container spacing={6}>
+                            {projectSummery.map((project) => (
+                                <Grid
+                                    item
+                                    lg={4}
+                                    md={4}
+                                    sm={12}
+                                    xs={12}
+                                    key={project.title}
+                                >
+                                    <Card className="h-96 bg-gray bg-default flex items-center justify-between p-4">
+                                        <div>
+                                            <span className="text-light-white uppercase">
+                                                {project.title}
+                                            </span>
+                                            <h4 className="font-normal text-white m-0 pt-2">
+                                                0
+                                            </h4>
+                                        </div>
+                                        <div  className="w-56 h-36">
+                                            <IconButton onClick={() => history.push(project.route)}>
+                                                <Icon className="text-white">{project.icon}</Icon>
+                                            </IconButton>
+                                        </div>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    }   
                 </div>
                 <div className="py-8" />
                 <Grid container spacing={3}>
@@ -197,15 +212,21 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                                     
                                     <Table className="mb-6">
                                         <TableBody>
-                                            <Button
-                                            onClick={''}
-                                            variant="contained"
-                                            color="primary"
-                                            className="x-center"
-                                            >
+                                            <TableRow>
+                                                <TableCell>
+                                                    <Button
+                                                    onClick={() => {
+                                                        console.log("Conecta con stripe... :D")
+                                                    }}
+                                                    variant="contained"
+                                                    color="primary"
+                                                    className="x-center"
+                                                    >
 
-                                                Promocionar perfil
-                                            </Button>
+                                                        Conecta con stripe
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
                                         </TableBody>
                                     </Table>
                                 </div>}
@@ -213,24 +234,38 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                         </Grid>
                         {/**TERMINA LISTA DE PACIENTES */}
 
-                        {/**COMIENZA INTERACCIÓN DE STRIPE */}
+
                         <Grid item lg={12}
                                 md={12}
                                 sm={12}
                                 xs={12}>
-                        <Card className="p-4">
-                            <div className="py-4 text-center flex ">
-                                <div className="flex mx-auto text-center">
-                                    {/** *TODO INSERTAR BOTÓN DE STRPE CONNECT */}
-                                    <Button
-                                    className="x-center"
-                                    variant="contained"
-                                    color="primary"
-                                    >
-                                        Conectar con stripe
-                                    </Button>
-                                </div>
-                            </div>
+                        <Card>
+                            {paymentList.map((method, index) => (
+                                <Fragment key={index}>
+                                    <div className="py-4 px-6 flex flex-wrap items-center justify-between">
+                                        <div className="flex flex-wrap items-center">
+                                            <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
+                                                <img
+                                                    className="w-36 overflow-hidden"
+                                                    src={method.img}
+                                                    alt="master card"
+                                                />
+                                            </div>
+                                            <div className="ml-4">
+                                                <h5 className="mb-1 font-medium">
+                                                    {method.type}
+                                                </h5>
+                                                <span className="text-muted">
+                                                    {method.product}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {index !== paymentList.length - 1 && (
+                                        <Divider />
+                                    )}
+                                </Fragment>
+                            ))}
                         </Card>
                         </Grid>
                         
@@ -242,7 +277,7 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                             <div className="w-100 min-w-100 text-center">
                                 <Fab
                                     className="relative mt--14"
-                                    size="medium" 
+                                    size="medium"
                                     color="primary"
                                 >
                                     <Icon>trending_up</Icon>

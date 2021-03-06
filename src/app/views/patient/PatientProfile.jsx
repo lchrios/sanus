@@ -12,6 +12,7 @@ import UserProfileContent from './patientElements/home/user-profile/UserProfileC
 import UserProfileSidenav from './patientElements/home/user-profile/UserProfileSidenav'
 import { getTherapist } from 'app/services/functions/UserService'
 import useAuth from 'app/hooks/useAuth'
+import { getSessions } from 'app/services/functions/UserService'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     headerBG: {
@@ -29,6 +30,7 @@ const PatientProfile = () => {
     const classes = usestyles()
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
     const [therapist, setTherapist] = useState() 
+    const [sessions, setSessions] = useState()
     const [loading, setLoading] = useState(true)   
 
     const toggleSidenav = () => {
@@ -41,9 +43,12 @@ const PatientProfile = () => {
     }, [isMobile])
 
     useEffect(() => {
-        getTherapist(user.uid).then( data => {
-            setTherapist(data?.data);
-            setLoading(false);
+        getTherapist(user.uid).then( res => {
+            setTherapist(res?.data);
+            getSessions(user.uid).then( res => {
+                setSessions(res?.data)  
+                setLoading(false);
+            })
         })
     }, [])
 
@@ -67,11 +72,11 @@ const PatientProfile = () => {
                             </IconButton>
                         </Hidden>
                     </div>
-                    <UserProfileSidenav ther_data={therapist} />
+                    <UserProfileSidenav therapist={therapist} loading={loading} />
                 </MatxSidenav>
                     <MatxSidenavContent >
                         <div className={clsx('bg-primary', classes.headerBG)} />
-                        <UserProfileContent toggleSidenav={toggleSidenav} loading={loading} ther_data={therapist} />
+                        <UserProfileContent toggleSidenav={toggleSidenav} sessions={sessions} loading={loading} therapist={therapist} />
                     </MatxSidenavContent>
             </MatxSidenavContainer>
             

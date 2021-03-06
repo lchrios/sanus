@@ -1,8 +1,11 @@
 import React from 'react'
 import history from 'history.js'
 import { Card, Button } from '@material-ui/core'
+import useAuth from 'app/hooks/useAuth'
 
-const PreTest = () => {
+const PreTest = ({ handleChange }) => {
+
+    const { user } = useAuth()
 
     return (
         <Card className="m-sm-30 ">  
@@ -12,7 +15,7 @@ const PreTest = () => {
                 className="mt-2 mb-2 x-center" 
                 variant="contained"
                 color="secondary"
-                onClick={() => history.push('/:pid/browse')}
+                onClick={() => history.push(`/${user.uid}/browse`)}
 
                 >
                     Seleccionar terapeuta

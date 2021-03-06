@@ -1,8 +1,6 @@
 import React from 'react'
 import { Icon, IconButton, Hidden, MenuItem, Avatar } from '@material-ui/core'
 import { MatxMenu, MatxToolbarMenu, MatxSearchBox } from 'app/components'
-import NotificationBar2 from '../../NotificationBar2/NotificationBar2'
-import ShoppingCart from '../../ShoppingCart/ShoppingCart'
 import { makeStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
@@ -75,12 +73,8 @@ const Layout2Topbar = () => {
                 <div className="mx-auto"></div>
                 <div className="flex items-center">
                     <MatxToolbarMenu offsetTop="64px">
-                        {/*<MatxSearchBox />
-                        <NotificationBar2 />*/}
-
-                        {/* <ShoppingCart /> */}
                         <span className="pl-1"><h3 className={classes.brandText}>{user.name}</h3></span> 
-                        {/* // TODO: hacer esto bonito */}
+                        {/* // TODO ESQ: hacer esto bonito */}
                         <MatxMenu
                             menuButton={
                                 <Avatar
