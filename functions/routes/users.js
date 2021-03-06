@@ -3,6 +3,7 @@ var db = admin.firestore();
 var users = db.collection('users');
 var ther = db.collection('therapists');
 var sess = db.collection('sessions');
+var tests = db.collection("tests")
 
 exports.getAllUsers = function (req, res) {
     users
@@ -99,4 +100,18 @@ exports.assignTherapist = (req, res) => {
             console.error('Error actualizando el terapeuta del usuario', error);
             return res.status(404).send(error);
         })      
+}
+
+
+exports.newTestAnswers = (req, res) => {
+    tests.add(req.body.answers)
+        .then( doc => {
+            console.log("Nueva entrada de respuestas creada correctamente!");
+            return res.status(203).send(doc.id);
+        })
+        .catch( error => {
+            console.log("Error creando el registro de respuesta!");
+            console.error(error);
+            return res.status(404).send(error);
+        })
 }

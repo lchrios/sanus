@@ -14,7 +14,6 @@ import FormTestSt3 from './steps/FormTestSt3'
 import PreTest from './steps/PreTest'
 import SessionValidatorForm from './steps/SessionValidatorForm'
 import useAuth from 'app/hooks/useAuth'
-import api from 'app/services/api'
 import { Loading } from 'app/components/Loading/Loading'
 
 
@@ -54,6 +53,8 @@ const PatientTest = ({ loading, therapist }) => {
         else if(activeStep == 2 && therapist) {
             setActiveStep((prevActiveStep) => prevActiveStep + 1)
             console.log(state)
+
+            // send information
         }
 
         else {

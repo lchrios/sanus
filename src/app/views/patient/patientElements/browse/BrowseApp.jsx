@@ -110,7 +110,7 @@ const BrowseApp = ({ toggleSidenav }) => {
                     <div className="flex">
                         <div className=""></div>
                             <IconButton onClick={() => {
-                                api.put(`/u/${user.uid}/t/${docRefs[dataIndex]}`)
+                                api.post(`/u/${user.uid}/t/${docRefs[dataIndex]}`)
                                     .then( res => {
                                         console.log('Terapeutas reasignados', res.status);
                                         history.push(`/${user.uid}/changepaymethod`)
