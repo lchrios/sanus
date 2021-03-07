@@ -36,7 +36,6 @@ export default function CheckoutDialog() {
     }
     function handleOxxo() {
         setActiveStep((prevActiveStep) => prevActiveStep + 2)
-        // setActiveStep(0)
     }
     
     function handleClose() {
@@ -50,7 +49,6 @@ export default function CheckoutDialog() {
     /** COn handlePay, le pido a stripe que cree un metodo de pago que va a recibir, y le digo que lo va a recibir de CardElement con getElement */
     const handlePay = async (e) => {
         e.preventDefault();
-        // setOpen(false)
 
         stripe.createPaymentMethod({
             type:'card',

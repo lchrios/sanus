@@ -4,7 +4,7 @@ import api from 'app/services/api'
 import TextForm from '../notes/editor/TextForm'
 // import ListComponent from './listItem/ListComponent'
 import React, { useState, useEffect } from "react";
-import { Icon, IconButton, Hidden, useMediaQuery, Card, Grid } from "@material-ui/core";
+import { Icon, IconButton,Button, Hidden, useMediaQuery, Card, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import { useTheme } from '@material-ui/core/styles'
 import {
@@ -15,6 +15,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import useAuth from "app/hooks/useAuth";
+import { Loading } from 'app/components/Loading/Loading';
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
@@ -35,75 +36,69 @@ const NotesApp = () => {
         selectedNote:null,
         notes: null
     })
+
+    const [loading, setLoading] = useState(true)
+
     const { user } = useAuth();
+    /**
+     * *Se repite un chingo
+     */
     useEffect(() => {
-        const getNotes = api.get(`/t/${user.uid}/n`)
+        api.get(`/t/${user.uid}/n`)
             .then(res => {
-                setState({notes: res.data.data});   
+                setState({...state,notes: res.data.data})
+                setLoading(false);   
               })
             .catch(error => {
                 console.error(error)
             })
-        })
+        },[])
 
-    if (notes) {
         return (
             <div className="relative">
-                <MatxSidenavContainer>
-                    <MatxSidenav
-                        width="300px"
-                    >
-                        <div
-                            className={clsx(
-                                'bg-primary text-center',
-                                classes.headerBG
-                            )}
-                        >
-                            <Hidden smUp>
-                                <IconButton>
-                                    <Icon className="text-white">clear</Icon>
-                                </IconButton>
-                            </Hidden>
-                        </div>
-                        <SideBarComponent 
-                        notes={state.notes}/>
-                    </MatxSidenav>
-                    <MatxSidenavContent>
-                        <div className={clsx('bg-primary', classes.headerBG)} />
-                        <TextForm />
-                    </MatxSidenavContent>
-                </MatxSidenavContainer>
+                {
+                    loading ? <Loading/> :  
+                    <>{
+                    state.notes ?
+                        <MatxSidenavContainer>
+                            <MatxSidenav
+                                width="300px"
+                                >
+                                <div
+                                    className={clsx(
+                                        'bg-primary text-center',
+                                        classes.headerBG
+                                        )}
+                                        >
+    
+                                    <Hidden smUp>
+                                        <IconButton>
+                                            <Icon className="text-white">clear</Icon>
+                                        </IconButton>
+                                    </Hidden>
+                                <div>
+                                    <h1 className='text-white'>Aplicación de notas</h1>
+                                    <Button color="secondary" variant="contained"> Volver al escritorio </Button>
+                                </div>
+                                </div>
+                                <SideBarComponent 
+                                selectedNoteIndex={state.selectedNoteIndex}
+                                notes={state.notes}/>
+                            </MatxSidenav>
+                            <MatxSidenavContent>
+                                <div className={clsx('bg-primary', classes.headerBG)} />
+                                <TextForm />
+                            </MatxSidenavContent>
+                        </MatxSidenavContainer>
+                    : 
+                    <div>No logramos obtener las notas de la base de datos</div>
+                    }
+                </>
+                }
             </div>
         )
-    } else {
-        return(
-            <div></div>
-        )
+
     }
-}
-
-export default withStyles({}, { withTheme: true })(NotesApp);
-
-// const NotesApp = () => {
-//     const { user } = useAuth();
-//     const [state, setState] = useState({
-//         selectedNoteIndex: null,
-//         selectedNote: null,
-//         notes: null
-//     })
-
-//     const [addingNote, setAddingNote] = useState(false);
-//     const toggleAdding = () => {
-//         setAddingNote(true)
-//     }
-
-
-//     return(
-//         <div >
-//             <SideBarComponent/>
-//             <TextForm/>
-//         </div>
-//     )
-// }
-
-// export default NotesApp
+    
+    export default withStyles({}, { withTheme: true })(NotesApp);
+    

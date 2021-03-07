@@ -363,7 +363,7 @@ const shortcutList = [
     {
         title: 'Calendario',
         icon: 'event',
-        route: 'appointments'
+        route: 'schedule'
     },
     {
         title: 'Pacientes',
