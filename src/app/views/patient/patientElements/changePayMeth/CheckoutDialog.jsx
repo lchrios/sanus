@@ -8,10 +8,10 @@ import {
     DialogTitle,
     DialogContent,
     DialogActions,
-    Grid
+    Grid,
+    TextField
 } from '@material-ui/core'
-import { ArrowRight, CreditCard, Money } from '@material-ui/icons'
-import OxxoForm from './forms/OxxoForm'
+import {CreditCard, Money } from '@material-ui/icons'
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js'
 import api from 'app/services/api'
 import useAuth from 'app/hooks/useAuth'
@@ -24,18 +24,17 @@ export default function CheckoutDialog() {
     const { user } = useAuth()
     const [open, setOpen] = useState(false)
     const [activeStep, setActiveStep] =  useState(0)
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
 
     const stripe = useStripe()
     const  elements = useElements();
     function handleCard() {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1)
-        // stripe.redirectToCheckout({
-        //     sessionId: session.id
-        // })
+        setActiveStep(1)
         
     }
     function handleOxxo() {
-        setActiveStep((prevActiveStep) => prevActiveStep + 2)
+        setActiveStep(2)
     }
     
     function handleClose() {
@@ -43,11 +42,19 @@ export default function CheckoutDialog() {
     }
 
     function handleBack() {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1)
+        {activeStep == 1 ? setActiveStep((prevActiveStep) => prevActiveStep - 1) : setActiveStep((prevActiveStep) => prevActiveStep - 2)}
+    }
+
+    function handleChangeName(event) {
+        setName(event.target.value)
+    }
+
+    function handleChangeMail(event) {
+        setEmail(event.target.value)
     }
 
     /** COn handlePay, le pido a stripe que cree un metodo de pago que va a recibir, y le digo que lo va a recibir de CardElement con getElement */
-    const handlePay = async (e) => {
+    const handlePayCard = async (e) => {
         e.preventDefault();
 
         stripe.createPaymentMethod({
@@ -69,33 +76,28 @@ export default function CheckoutDialog() {
             console.log('Hubo un error al crear el método de pago')
         })
 
-        // const {error, paymentMethod} = await stripe.createPaymentMethod({
-        //     type:'card',
-        //     card: elements.getElement(CardElement)
-        // })
-
-        // if (!error) {
-        //     const {id} = paymentMethod;
-            
-        //     // // const response = await api.post('/u/' + user.uid + '/checkout', {
-        //     // //     ...paymentMethod,
-        //     // //     amount:60000,
-        //     // // })
-        //     // // console.log(response.data)
-
-        //     api.post('/u/' + user.uid + '/checkout', {
-        //         ...paymentMethod,
-        //         amount:60000,
-        //     }).then((res) => {
-        //         console.log(res.data);
-        //     }).catch((e) => {
-        //         console.error(e);
-        //     })
-
-        //     console.log(response)
-        // }
     }
+    const handlePayOxxo = async (e) => {
+        e.preventDefault();
 
+        stripe.confirmOxxoPayment(
+            '{{PAYMENT_INTENT_CLIENT_SECRET}}',
+            {
+                payment_method: {
+                    billing_details: {
+                        name:{name},
+                        email:{email},
+                },
+                },
+            },
+        ).then(function(result){
+            /** *Se supone en la documentación de stripe, así se despliega el error de pago */
+            if(result.error) {
+            }
+        })
+
+    }
+    
     function handleOpen() {
         setOpen(true)
     }
@@ -110,7 +112,7 @@ export default function CheckoutDialog() {
                 )
             case 1: 
                 return (
-                    <form onSubmit={handlePay}>
+                    <form onSubmit={handlePayCard}>
                         <Grid item>
                             <Card className="text-center mb-4">
                                 <div className='mb-4'>
@@ -134,20 +136,34 @@ export default function CheckoutDialog() {
                             />
                             </Card>
                         </Grid>
-
-                        {/* <Button
-                        startIcon={<Money/>}
-                        variant='outlined'
-                        color='primary'
-                        onClick={handlePay}
-                        >
-                            Pagar
-                        </Button> */}
                     </form>
             )
             case 2: 
                 return(
-                    <OxxoForm />
+                    <form onSubmit={handlePayOxxo}>
+                        <Grid item>
+                            <Card className="text-center mb-4">
+                                <div className='mb-4'>
+                                    <h4>Costo por sesión: 600.00 MXN</h4>
+                                </div>
+                                <div className="flex-column">
+                                    <TextField 
+                                    required 
+                                    id="oxxo-name" 
+                                    value={name}
+                                    onChange={handleChangeName} 
+                                    label='Nombre'></TextField>
+
+                                    <TextField 
+                                    required 
+                                    id="oxxo-mail" 
+                                    value={email} 
+                                    onChange={handleChangeMail}
+                                    label='Correo electrónico'></TextField>
+                                </div>
+                            </Card>
+                        </Grid>
+                    </form>
             )
         }
     }
@@ -216,15 +232,17 @@ export default function CheckoutDialog() {
 
                 <DialogActions>
                     <IconButton
-                    onClick={activeStep == steps.length > 1 ? handleBack : handleClose}>
-                        {activeStep == steps.length > 1 ? <Icon>arrow_back_ios</Icon> : <Icon>close</Icon> }
+                    onClick={activeStep >= 1 ? handleBack : handleClose}>
+                        {activeStep >= 1 ? <Icon>arrow_back_ios</Icon> : <Icon>close</Icon> }
                     </IconButton>
                     <Button
                     color="secondary"
                     variant='contained'
-                    onClick={activeStep == steps.length > 1 ? handlePay : handleClose}
+                    className={activeStep == 0 ? 'hidden' : ''}
+                    onClick={activeStep == 1 ? handlePayCard : handlePayOxxo}
                     >
-                        {activeStep == steps.length > 1 ? 'Pagar' : 'Cerrar'}
+                        {activeStep  == 1 ? 'Pagar con tarjeta' : 'Pagar con oxxo'}
+
                     </Button>
                 </DialogActions>
             </Dialog>

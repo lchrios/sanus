@@ -23,7 +23,7 @@ const SideBarComponent = (notes, selectedNoteIndex) => {
 
     const updateTitle = (txt) => {
         setState({...state,title: txt})
-        console.log(txt)
+        console.log('here it is',txt)
     }
 
     const saveNote = () => {
@@ -69,11 +69,11 @@ const SideBarComponent = (notes, selectedNoteIndex) => {
                 }
                 <List>
                     {
-                        notes.notes.map((_note, _index) => {
+                        notes.notes.map(( _index) => {
                             return(
                                 <div key={_index}>
                                     <ListComponent
-                                    _note={_note}
+                                    _note={notes}
                                     _index={_index}
                                     selectedNoteIndex={selectedNoteIndex}
                                     selectNote={selectNote}

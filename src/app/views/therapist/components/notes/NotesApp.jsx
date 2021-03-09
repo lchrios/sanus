@@ -40,9 +40,7 @@ const NotesApp = () => {
     const [loading, setLoading] = useState(true)
 
     const { user } = useAuth();
-    /**
-     * *Se repite un chingo
-     */
+
     useEffect(() => {
         api.get(`/t/${user.uid}/n`)
             .then(res => {
@@ -77,8 +75,6 @@ const NotesApp = () => {
                                         </IconButton>
                                     </Hidden>
                                 <div>
-                                    <h1 className='text-white'>Aplicación de notas</h1>
-                                    <Button color="secondary" variant="contained"> Volver al escritorio </Button>
                                 </div>
                                 </div>
                                 <SideBarComponent 
@@ -86,7 +82,10 @@ const NotesApp = () => {
                                 notes={state.notes}/>
                             </MatxSidenav>
                             <MatxSidenavContent>
-                                <div className={clsx('bg-primary', classes.headerBG)} />
+                                <div className={clsx('bg-primary', classes.headerBG)}>
+                                    <h1 className='text-white'>Aplicación de notas</h1>
+                                    <Button color="secondary" variant="contained"> Volver al escritorio </Button>
+                                </div>
                                 <TextForm />
                             </MatxSidenavContent>
                         </MatxSidenavContainer>
