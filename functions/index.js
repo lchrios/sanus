@@ -54,22 +54,23 @@ const {
 
 //*Funciones de stripe
   const { sendPaymentInfo } = require("./routes/stripe");
+const { newNote } = require("./routes/notes");
 
 // * uso de transformacion a json
 app.use(express.json());
 
 // * permisos del CORS
 app.use(cors());
-app.use( (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://iknelia.netlify.app");
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Origin", "http://localhost:5000");
-  res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.web.app/");
-  res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.firebaseapp.com/");
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+// app.use( (req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "http://iknelia.netlify.app");
+//   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+//   res.header("Access-Control-Allow-Origin", "http://localhost:5000");
+//   res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.web.app/");
+//   res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.firebaseapp.com/");
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 // * Niveles de permisos por roles 
 const roles = {
@@ -89,6 +90,7 @@ app.get("/t/:tid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession)
 app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByTherapist);
 app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist);
 app.get("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), getNotesByTherapist);
+app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
 
 // * rutas de usuario
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);

@@ -1,4 +1,4 @@
-const { admin } = require('../firebase');
+const { admin, storage } = require('../firebase');
 var db = admin.firestore();
 var users = db.collection('users');
 var ther = db.collection('therapists');
@@ -40,6 +40,17 @@ exports.getUser = (req, res) => {
 }
 
 exports.getTherapistByUser = (req, res) => {
+    var bucket = storage.bucket('/usuarios/placeholders');
+    var url; 
+    bucket.file('none-user.png').download({destination: 'none-user.png'}).then( response => {
+        console.log("Encontre algo")
+        console.log(response[0]);
+    })
+    .catch( er => {gs://iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png
+        console.error(er);
+    })
+
+
     res.header("Access-Control-Allow-Origin", "*");
     users
         .doc(req.params.uid)

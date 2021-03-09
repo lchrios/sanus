@@ -1,7 +1,7 @@
 // import React, { useState, useEffect} from 'react'
 import SideBarComponent from './sidebar/SideBarComponent'
 import api from 'app/services/api'
-import TextForm from '../notes/editor/TextForm'
+import TextForm from './editor/TextForm'
 // import ListComponent from './listItem/ListComponent'
 import React, { useState, useEffect } from "react";
 import { Icon, IconButton,Button, Hidden, useMediaQuery, Card, Grid } from "@material-ui/core";

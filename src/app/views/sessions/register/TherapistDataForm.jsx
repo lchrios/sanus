@@ -21,6 +21,8 @@ import {
 } from '@material-ui/core'
 import { Home, Mail, Phone, DataUsage } from '@material-ui/icons'
 import clsx from 'clsx'
+import api from 'app/services/api'
+import useAuth from 'app/hooks/useAuth'
 
 const getSteps = () =>{
     return ['Bienvenido', 'Contacto', 'Perfil']   
@@ -64,6 +66,7 @@ const TherapistDataForm = ({ location }) => {
     const [loading, setLoading] = useState(false)
     const classes = useStyles()
     const steps = getSteps()
+    const { user } = useAuth()
     const [activeStep, setActiveStep] = useState(0)
     const [content, setContent] = useState()
     const [message, setMessage] = useState("")
@@ -219,6 +222,15 @@ const TherapistDataForm = ({ location }) => {
             setMessage("")
 
         } else if (activeStep == 2) {
+            api.post("auth/signuser", {
+
+            })
+            .then( res => {
+                
+            })
+            .catch( error => {
+                console.error(error);
+            })
             // TODO: enviar informacion a la base de datos e iniciar sesión
             // TODO ESK: Crear página de registro exitoso
             console.log(state)

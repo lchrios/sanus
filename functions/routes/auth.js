@@ -145,13 +145,14 @@ exports.setUser = (req, res) => {
 }
 
 exports.createUserWithEmailAndPassword = (req, res) => {
+
     auth
         .createUser({
             email: req.body.email,
             emailVerified: false,
             password: req.body.password,
             displayName: req.body.userdata.name,
-            photoURL: req.body.userdata.img,
+            photoURL: req.body.userdata.img || "    ",
             disabled: false,
         })
         .then( userRecord => {

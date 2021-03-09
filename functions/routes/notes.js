@@ -38,6 +38,18 @@ exports.getNote = (req, res) => {
 }
 
 exports.newNote = (req, res) => {
+    ther.doc(req.params.tid).collection("notes")
+        .add(req.body.notedata)
+        .then(doc => {
+            console.log("Nota creada exitosamente!");
+            return res.status(203).send();
+        })
+        .catch(error => {
+            return res.status(404).send(error);
+        })
+    
+    // * metodo 2
+    /*
     notes
         .add(req.body.notedata)
         .then( doc => {
@@ -67,6 +79,7 @@ exports.newNote = (req, res) => {
             console.log('Error creando el note document', error);
             return res.status(404).send(error);
         })
+    */
 }
 
 exports.deleteNote = (req, res) => {
