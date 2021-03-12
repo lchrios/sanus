@@ -3,7 +3,11 @@ var db = admin.firestore();
 var users = db.collection('users');
 var ther = db.collection('therapists');
 var sess = db.collection('sessions');
-var tests = db.collection("tests")
+var tests = db.collection("tests");
+const { uuid } = require("uuidv4");
+var fs = require('file-system');
+var onFinished = require('on-finished')
+
 
 exports.getAllUsers = function (req, res) {
     users
@@ -39,18 +43,26 @@ exports.getUser = (req, res) => {
         })
 }
 
+
+
+exports.getUserImage = (req, res) => { // * Demo for image upload
+
+    var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+    var stor_file = bucket.file('usuarios/placeholders/face-1.png');
+    stor_file.getSignedUrl({
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + 30 * 60 * 1000, // 15 minutes
+        
+    }).then(sURL => {
+        return res.status(200).send(sURL[0]);
+    })
+    .catch( er => {
+        return res.status(404).send(er);
+    })
+}
+
 exports.getTherapistByUser = (req, res) => {
-    var bucket = storage.bucket('/usuarios/placeholders');
-    var url; 
-    bucket.file('none-user.png').download({destination: 'none-user.png'}).then( response => {
-        console.log("Encontre algo")
-        console.log(response[0]);
-    })
-    .catch( er => {gs://iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png
-        console.error(er);
-    })
-
-
     res.header("Access-Control-Allow-Origin", "*");
     users
         .doc(req.params.uid)
