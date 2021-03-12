@@ -54,8 +54,11 @@ const {
   getAllBlogsByTherapist,
 } = require("./routes/blogs");
 
-//*Funciones de stripe
-  const { sendPaymentInfo, getSecret } = require("./routes/stripe");
+// * Funciones de stripe
+  const { 
+      sendPaymentInfo, 
+      handleStripeEvent, 
+} = require("./routes/stripe");
 
 // * uso de transformacion a json
 app.use(express.json());
@@ -106,7 +109,7 @@ app.get("/u/:uid/image", getUserImage);
 
 //*rutas de stripe (lado user)
 app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo);
-// app.get("/u/:uid/secret", isAuthenticated, isAuthorized(roles.user), getSecret);
+app.post("/webhook", handleStripeEvent);
 
 // * rutas de blogs
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
@@ -130,21 +133,6 @@ app.post("/auth/signtherapist", createTherapistWithEmailAndPassword)
 app.put("/auth/:uid/admin", setAdmin);
 app.put("/auth/:uid/therapist", setTherapist);
 app.put("/auth/:uid/user", setUser);
-
-
-// * TEMP funtions
-
-app.post("/auth/restore/users/img", (req, res) => {
-    admin.firestore().collection("users").get()
-    .then( query => {
-        query.forEach( doc => {
-            doc.ref.update("img", "usuarios/placeholders/none-user.png").catch( er => {
-                console.error(er)
-            })
-        })
-        res.status(200).send("Usuarios actualizados");
-    })
-})
 
 
 // * export de la api

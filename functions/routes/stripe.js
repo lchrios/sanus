@@ -1,4 +1,3 @@
-
 const Stripe = require('stripe')
 
 /**La private key será utilizada con una variable de entorno */
@@ -14,32 +13,59 @@ exports.sendPaymentInfo = (req, res) => {
       payment_method_types: ['card', 'oxxo'],
     })
     .then((paymentIntent) => {
-      (res.status(200).send({client_secret: paymentIntent.client_secret,message: 'pago exitoso'}))
+        console.log("Ticket de pago generado exitosamente")
+        return res.status(200).send({
+            client_secret: paymentIntent.client_secret, 
+            message: 'Ticket de pago generato exitosamente'
+        })
     }) 
     .catch((error) => {
-      res.status(404).send(error)
       console.log('Error al procesar tu pago')
+      res.status(404).send(error)
     })
-    
-    
-    // (res.status(200).send(paymentIntent.client_secret)
-    // )
-  }
-    
-  //   exports.getSecret = async (req, res) => {
-  //   const {amount} = req.body;
-  //   const paymentIntent = await stripe.paymentIntents.create({
-  //     amount,
-  //     currency:'mxn',
-  //     description: 'Sesión individual',
-  //     payment_method_types: ['oxxo'],
-  //   })
-  //   .then(res => {console.log(paymentIntent.client_secret)})
-  //   .catch((error) => {
-  //   console.log('Error al procesar tu pago')
-  //   console.error()
-  // })
-  
+  } 
 
-  // (res.status(200).send(paymentIntent)
-  // )}
+exports.handleStripeEvent = (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    const endpoint_secret = "whsec_0gqlUqNwq6LAXKqhSIYMBQTPB7UQOlaH";
+    var event = req.body;
+
+    // TODO: Arreglar la validacion 
+    // try {
+    //     event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
+    // } catch (err) {
+    //     console.error(err)
+    //     return res.status(400).send(`Webhook Error: ${err.message}`);
+    // }
+
+    //console.log(event);
+
+    switch(event.type) {
+        case 'payment_intent.succeeded':
+            console.log("Pago recibido con " + event["payment_method_types"])
+            // * Se hizo el pago exitosamente
+            break;
+            
+        case 'payment_intent.requires_action':
+            // * Se genero voucher del OXXO
+            console.log("Voucher generado")
+            break;
+
+        case 'payment_intent.processing':
+            // * Se esta procesando el outcome del pago
+            console.log("Voucher en proceso")
+            break;
+
+        case 'payment_intent.payment_failed':
+            // * No se hizo el pago exitosamente :C
+            console.log("Pago no realizado")
+            break;
+                    
+        
+        // ... handle other event types
+        default:
+            console.log(`Unhandled event type ${event.type}`);
+    }
+
+    return res.status(200).send({received: true});
+}
