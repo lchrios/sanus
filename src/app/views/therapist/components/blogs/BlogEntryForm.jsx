@@ -60,7 +60,6 @@ const BlogEntryForm = () => {
         img: demoimg[Math.floor(Math.random() * 3)],
       }
 
-      // TODO: Cambiar direccion a la de la api
       api.post("/b/new", {blogdata: {...blogdata}})
         .then(() => {
           history.push("/" + user.uid + "/myblogs");
