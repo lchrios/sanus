@@ -4,7 +4,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import DeleteIcon from '@material-ui/icons/Delete'
 import {removeHTMLTags} from '../helpers'
 
-const ListComponent = (_index, _note, selectedNoteIndex, selectNote) => {
+const ListComponent = (_index, notes, selectedNoteIndex, selectNote) => {
     return(
         <div >
             <ListItem
@@ -12,10 +12,10 @@ const ListComponent = (_index, _note, selectedNoteIndex, selectNote) => {
             selected={selectedNoteIndex === _index}
             alignItems='flex-start' >
                 <div
-                onClick={() => selectNote(_note, _index)}>
+                onClick={() => selectNote(notes, _index)}>
                     <ListItemText
-                    primary={_note.title}
-                    secondary={_note.body.subString(0, 30) + '...'}></ListItemText>
+                    primary={notes.title}  
+                    secondary={notes.body}></ListItemText>
                 </div>
             </ListItem>
         </div>

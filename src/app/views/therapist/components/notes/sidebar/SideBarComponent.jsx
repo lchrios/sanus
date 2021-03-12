@@ -39,17 +39,21 @@ const SideBarComponent = (notes, selectedNoteIndex) => {
 
     
     if(notes.length != 0) {
+
+        console.log(notes)
         return(
             <div>
-                <Button
-                className='mt-4'
-                onClick={newNoteBtn}
-                color='primary'
-                variant='contained'>{state.addingNote ? 'Cancelar' : 'Crear nueva nota'}</Button>
+                <div className='text-center'>
+                    <Button
+                    className='mt-4'
+                    onClick={newNoteBtn}
+                    color='secondary'
+                    variant='contained'>{state.addingNote ? 'Cancelar' : 'Crear nueva nota'}</Button>
+                </div>
     
                 {
                     state.addingNote ? 
-                    <div className='pt-4'>
+                    <div className='p-4'>
                         <ValidatorForm>
                             <TextValidator
                             className="mb-4 w-full"
@@ -58,12 +62,14 @@ const SideBarComponent = (notes, selectedNoteIndex) => {
                             onKeyUp={(e) => updateTitle(e.target.value)}
                         />
                         </ValidatorForm>
-                        <Button
-                        color='secondary'
-                        variant='contained'
-                        onClick={saveNote}>
-                            Guardar nota
-                        </Button>
+                        <div className='text-center'>
+                            <Button
+                            color='secondary'
+                            variant='contained'
+                            onClick={saveNote}>
+                                Guardar nota
+                            </Button>
+                        </div>
                     </div> :
                     null
                 }
@@ -73,8 +79,7 @@ const SideBarComponent = (notes, selectedNoteIndex) => {
                             return(
                                 <div key={_index}>
                                     <ListComponent
-                                    _note={notes}
-                                    _index={_index}
+                                    notes={notes.notes}
                                     selectedNoteIndex={selectedNoteIndex}
                                     selectNote={selectNote}
                                     deleteNote={deleteNote}/>

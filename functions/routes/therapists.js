@@ -108,3 +108,8 @@ exports.getNotesByTherapist = (req, res) => {
             return res.status(404).send(error);
         })
 }
+
+//** Crear una nueva nota */
+exports.newNote = (req,res) => {
+    console.log('Creando nota')
+}

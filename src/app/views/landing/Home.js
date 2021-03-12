@@ -5,7 +5,7 @@ import {BrowserRouter as Router } from 'react-router-dom'
 import HeroSection from "./components/HeroSection/HeroIndex"
 import InfoSection from "./components/InfoSection/InfoIndex"
 import BlogEntries from "./components/BlogEntries/entriesIndex"
-import {homeObjOne,homeObjTwo,homeObjThree, blogs } from './components/InfoSection/Data'
+import {homeObjOne,homeObjTwo, blogs } from './components/InfoSection/Data'
 import Footer from './components/Footer/footerIndex'
 import PsySection from './components/psychologists/psychologists'
 

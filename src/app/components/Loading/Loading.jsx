@@ -1,5 +1,5 @@
 import { CircularProgress, Grid } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 export const Loading = () => {
 

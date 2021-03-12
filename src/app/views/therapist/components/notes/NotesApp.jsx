@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import useAuth from "app/hooks/useAuth";
 import { Loading } from 'app/components/Loading/Loading';
+import history from '../../../../../history'
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
@@ -60,31 +61,37 @@ const NotesApp = () => {
                     state.notes ?
                         <MatxSidenavContainer>
                             <MatxSidenav
-                                width="300px"
+                                width="300px py-4"
                                 >
+                                <div className='mb-10'>
+                                    <SideBarComponent 
+                                    selectedNoteIndex={state.selectedNoteIndex}
+                                    notes={state.notes}/>
+                                </div>
                                 <div
                                     className={clsx(
                                         'bg-primary text-center',
                                         classes.headerBG
-                                        )}
+                                        ),'p-4'}
                                         >
+                                            <Button 
+                                            onClick={() => history.push('/' + user.uid +'/dashboard')}
+                                            color="secondary" 
+                                            variant="contained"
+                                            className='align-middle y-center'>
+                                                    <h3 className='align-middle justify-center'>Volver al escritorio</h3>
+                                            </Button>
     
                                     <Hidden smUp>
                                         <IconButton>
                                             <Icon className="text-white">clear</Icon>
                                         </IconButton>
                                     </Hidden>
-                                <div>
                                 </div>
-                                </div>
-                                <SideBarComponent 
-                                selectedNoteIndex={state.selectedNoteIndex}
-                                notes={state.notes}/>
                             </MatxSidenav>
                             <MatxSidenavContent>
-                                <div className={clsx('bg-primary', classes.headerBG)}>
-                                    <h1 className='text-white'>Aplicación de notas</h1>
-                                    <Button color="secondary" variant="contained"> Volver al escritorio </Button>
+                                <div className={clsx('bg-primary', classes.headerBG),'text-center'}>
+                                    <h1 className='pb-4 mb-2 mt-2'>Aplicación de notas</h1>
                                 </div>
                                 <TextForm />
                             </MatxSidenavContent>

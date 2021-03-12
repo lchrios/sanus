@@ -57,16 +57,18 @@ export default function CheckoutDialog() {
     const handlePayCard = async (e) => {
         e.preventDefault();
 
+
         stripe.createPaymentMethod({
             type:'card',
             card: elements.getElement(CardElement)
         }).then((paymentMethod) => {
+            console.log(paymentMethod)
             // * POST a la API
             api.post('/u/' + user.uid + '/checkout', {
                 ...paymentMethod.paymentMethod,
                 amount:60000,
             }).then((res) => {
-                console.log(res.data);
+                console.log(res);
             }).catch((e) => {
                 console.log('Hubo un error al enviar el método de pago al servidor')
                 console.error(e);
@@ -77,24 +79,44 @@ export default function CheckoutDialog() {
         })
 
     }
-    const handlePayOxxo = async (e) => {
+    const handlePayOxxo = (e) => {
         e.preventDefault();
 
-        stripe.confirmOxxoPayment(
-            '{{PAYMENT_INTENT_CLIENT_SECRET}}',
-            {
-                payment_method: {
-                    billing_details: {
-                        name:{name},
-                        email:{email},
-                },
-                },
-            },
-        ).then(function(result){
-            /** *Se supone en la documentación de stripe, así se despliega el error de pago */
-            if(result.error) {
-            }
+
+        api.post('/u/' + user.uid + '/checkout', {
+            amount:60000
+        }).then(res => {
+            stripe.confirmOxxoPayment(
+                res.client_secret, 
+                {
+                    payment_method: {
+                        billing_details: {
+                            name: name,
+                            email: email
+                        }
+                    }
+                }
+            )
         })
+        
+        // fetch('/u/' + user.uid + '/secret')
+        // .then(response => response.json())
+        // .then(resview => {console.log(resview)})
+        // .then(function(responseJson) {
+        //     const clientSecret = responseJson.client_secret;
+
+        //     stripe.confirmOxxoPayment(
+        //         clientSecret,
+        //         {
+        //             payment_method: {
+        //                 billing_details: {
+        //                     name: name,
+        //                     email:email,
+        //                 }
+        //             }
+        //         }
+        //     )
+        // })
 
     }
     

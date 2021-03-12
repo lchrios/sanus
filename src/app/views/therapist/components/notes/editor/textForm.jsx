@@ -45,7 +45,7 @@ const TextForm = () => {
     return (
       <div className="m-sm-30">
         <ValidatorForm>
-          <Grid flex  container spacing={1}>
+          <Grid container spacing={1}>
             <Grid  item lg={12} md={12} sm={12} xs={12}>
             </Grid>
               <Grid item lg={12} md={12} sm={12} xs={12}>
@@ -58,7 +58,6 @@ const TextForm = () => {
                   </IconButton>
                 </Tooltip>
                 </Grid>
-             
           </Grid>
         </ValidatorForm>
       </div>

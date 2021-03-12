@@ -31,6 +31,7 @@ const {
   getTherapist,
   getPatientsbyTherapist,
   getNotesByTherapist,
+  newNote
 } = require("./routes/therapists");
 
 
@@ -53,8 +54,7 @@ const {
 } = require("./routes/blogs");
 
 //*Funciones de stripe
-  const { sendPaymentInfo } = require("./routes/stripe");
-const { newNote } = require("./routes/notes");
+  const { sendPaymentInfo, getSecret } = require("./routes/stripe");
 
 // * uso de transformacion a json
 app.use(express.json());
@@ -103,6 +103,7 @@ app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), newTestAnswe
 
 //*rutas de stripe (lado user)
 app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo);
+// app.get("/u/:uid/secret", isAuthenticated, isAuthorized(roles.user), getSecret);
 
 // * rutas de blogs
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
