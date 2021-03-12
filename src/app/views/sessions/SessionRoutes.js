@@ -2,9 +2,9 @@ import FirebaseLogin from './login/FirebaseLogin'
 import NotFound from './NotFound'
 import ForgotPassword from './ForgotPassword'
 import FirebaseRegister from './register/FirebaseRegister'
-import UserDataForm from './register/UserDataForm'
 import TherapistDataForm from './register/TherapistDataForm'
 import TherapistFirebaseRegister from './register/TherapistFirebaseRegister'
+import UserDataForm from './register/UserDataForm'
 
 const sessionRoutes = [
     {

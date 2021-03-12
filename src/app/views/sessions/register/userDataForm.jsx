@@ -60,14 +60,14 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const UserDataForm = ({ location }) => {
+const UserDataForm = () => {
     const [loading, setLoading] = useState(false)
     const classes = useStyles()
     const steps = getSteps()
     const [activeStep, setActiveStep] = useState(0)
     const [content, setContent] = useState()
     const [message, setMessage] = useState("")
-    const [state, setState] = useState(location.state)
+    const [state, setState] = useState()
 
     const handleChange = ({ target: { name, value } }) => {
         setState({
