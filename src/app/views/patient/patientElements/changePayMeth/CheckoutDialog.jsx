@@ -86,8 +86,9 @@ export default function CheckoutDialog() {
         api.post('/u/' + user.uid + '/checkout', {
             amount:60000
         }).then(res => {
+            console.log(res)
             stripe.confirmOxxoPayment(
-                res.client_secret, 
+                res.data.client_secret, 
                 {
                     payment_method: {
                         billing_details: {
@@ -98,25 +99,6 @@ export default function CheckoutDialog() {
                 }
             )
         })
-        
-        // fetch('/u/' + user.uid + '/secret')
-        // .then(response => response.json())
-        // .then(resview => {console.log(resview)})
-        // .then(function(responseJson) {
-        //     const clientSecret = responseJson.client_secret;
-
-        //     stripe.confirmOxxoPayment(
-        //         clientSecret,
-        //         {
-        //             payment_method: {
-        //                 billing_details: {
-        //                     name: name,
-        //                     email:email,
-        //                 }
-        //             }
-        //         }
-        //     )
-        // })
 
     }
     

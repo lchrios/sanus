@@ -4,9 +4,6 @@ var users = db.collection('users');
 var ther = db.collection('therapists');
 var sess = db.collection('sessions');
 var tests = db.collection("tests");
-const { uuid } = require("uuidv4");
-var fs = require('file-system');
-var onFinished = require('on-finished')
 
 
 exports.getAllUsers = function (req, res) {

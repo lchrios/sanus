@@ -7,19 +7,21 @@ const stripe = new Stripe('sk_test_51HwA9iItRYlC7M0MQNS8OacWDR17Hgnaf9yXvLOt9QCT
 exports.sendPaymentInfo = (req, res) => {
   const {amount} = req.body;
   
-    const paymentIntent = stripe.paymentIntents.create({
+    stripe.paymentIntents.create({
       amount,
       currency:'mxn',
       description: 'Sesión individual',
       payment_method_types: ['card', 'oxxo'],
     })
-    .then()
+    .then((paymentIntent) => {
+      (res.status(200).send({client_secret: paymentIntent.client_secret,message: 'pago exitoso'}))
+    }) 
     .catch((error) => {
+      res.status(404).send(error)
       console.log('Error al procesar tu pago')
-      console.error()
     })
     
-    (res.status(200).send({client_secret: paymentIntent.client_secret,message: 'pago exitoso'}))
+    
     // (res.status(200).send(paymentIntent.client_secret)
     // )
   }
