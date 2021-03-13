@@ -38,6 +38,7 @@ const AuthContext = createContext({
     ...initialAuthState,
     method: 'FIREBASE',
     createUserWithEmailAndPassword: () => Promise.resolve(),
+    createTherapistWithEmailAndPassword: () => Promise.resolve(),
     signInWithEmailAndPassword: () => Promise.resolve(),
     signInWithGoogle: () => Promise.resolve(),
     assignUserRole: () => Promise.resolve(),
@@ -76,9 +77,14 @@ export const AuthProvider = ({ children }) => {
         return firebase.auth().signInWithPopup(provider)
     }
 
-    const createUserWithEmailAndPassword = async (email, password) => {
-        return api.post('/auth/signuser', { email: email, password: password })
+    const createUserWithEmailAndPassword = async (state) => {
+        return api.post('/auth/signuser', { userdata: state, email: state.email, password: state.password })
     }
+
+    const createTherapistWithEmailAndPassword = async (state) => {
+        return api.post('/auth/signtherapist', { therapistdata: state, email: state.email, password: state.password })
+    }
+
 
     const logout = () => {
         return firebase.auth().signOut()
