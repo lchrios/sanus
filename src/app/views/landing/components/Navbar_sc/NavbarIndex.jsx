@@ -15,7 +15,7 @@ import {animateScroll as scroll } from 'react-scroll'
 import history from '../../../../../history'
 import { Redirect } from 'react-router-dom';
 
-const Navbar = ( {toggle} ) => {
+const Navbar = (  ) => {
     const [scrollNav, setScrollNav ] =  useState(false)
     
     const changeNav = () => {
@@ -40,7 +40,7 @@ const Navbar = ( {toggle} ) => {
           <Nav scrollNav = {scrollNav}>
               <NavbarContainer>
                   <NavLogo to='/home'>Iknelia</NavLogo>
-                  <MobileIcon onClick={toggle}>
+                  <MobileIcon onClick={toggleHome}>
                       <FaBars />
                   </MobileIcon>
                   <NavMenu>
@@ -48,13 +48,13 @@ const Navbar = ( {toggle} ) => {
                           <NavLinks to='/home' onClick={() => {history.push('/home')}}> Inicio </NavLinks>
                       </NavItem>
                       <NavItem>
-                          <NavLinks to='/blogs' onClick={() => {toggle();history.push('/blogs')}}>Blog</NavLinks>
+                          <NavLinks to='/blogs' onClick={() => {history.push('/blogs')}}>Blog</NavLinks>
                       </NavItem>
                       <NavItem>
-                          <NavLinks to='/psychologists' onClick={() => {toggle();history.push('/psychologists')}}>Psicólogos</NavLinks>
+                          <NavLinks to='/psychologists' onClick={() => {history.push('/psychologists')}}>Psicólogos</NavLinks>
                       </NavItem>
                       <NavItem>
-                          <NavLinks to='/session/signup' onClick={() => {toggle();history.push('/session/signup')}}>Comienza ahora</NavLinks>
+                          <NavLinks to='/session/signup' onClick={() => {history.push('/session/signup')}}>Comienza ahora</NavLinks>
                       </NavItem>
                       <NavBtn to='/session/signin'>
                           <NavBtnLink to='/session/signin' onClick={() => history.push('/session/signin')}>Iniciar Sesión</NavBtnLink>

@@ -8,10 +8,7 @@ import {
     Stepper,
     Step,
     StepLabel,
-    Input, 
-    InputLabel, 
     InputAdornment, 
-    FormControl,
     Icon,
     TextField,
     Divider,
@@ -19,7 +16,7 @@ import {
     Checkbox,
     FormControlLabel,
 } from '@material-ui/core'
-import { Home, Image, Mail, Phone } from '@material-ui/icons'
+import { Home, Mail, Phone } from '@material-ui/icons'
 import clsx from 'clsx'
 
 const getSteps = () =>{
@@ -228,7 +225,6 @@ const UserDataForm = ({ location }) => {
 
         } else if (activeStep == 2) {
             // TODO: enviar informacion a la base de datos e iniciar sesión
-            console.log(state)
         }
 
     }

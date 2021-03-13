@@ -162,7 +162,7 @@ exports.createUserWithEmailAndPassword = (req, res) => {
             users
                 .doc(userRecord.uid)
                 .withConverter(userConverter)
-                .set(req.body.userdata)
+                .set(req.body)
                 .then(() => {
                     console.log('Collection: Users - Listo!', userRecord.uid);
                     // * Actualizar el rol del usuario a 'user'

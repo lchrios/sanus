@@ -1,9 +1,8 @@
 import React from "react";
 
 const Home = React.lazy(() => import('./Home'))
-const Blogs = React.lazy(() => import('./landingBlog/landingBlog'))
+const LandingBlog = React.lazy(() => import('./landingBlog/landingBlog'))
 const Psychologists = React.lazy(() => import('./psychologists/landingPsy'))
-
 const Blog = React.lazy(() => import ('./blogEntrie/BlogEntrie'))
 
 const settings = {
@@ -36,6 +35,11 @@ const landingRoutes = [
   },
   {
     path:'/blogs',
+    component:LandingBlog,
+    settings
+  },
+  {
+    path: '/blogid',// *TODO COLOCAr EL BLOG ID
     component:Blog,
     settings
   },
