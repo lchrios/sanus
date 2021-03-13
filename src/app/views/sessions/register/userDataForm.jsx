@@ -236,7 +236,7 @@ const UserDataForm = () => {
             .then( res => {
                 // * Aqui haces lo de que te mande a otro lado
                 try {
-                    await signInWithEmailAndPassword(userInfo.email, userInfo.password)
+                    await signInWithEmailAndPassword(state.email, state.password)
                     var user = firebase.auth().currentUser
         
                     user.getIdTokenResult()

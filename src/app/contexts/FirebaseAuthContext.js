@@ -137,6 +137,7 @@ export const AuthProvider = ({ children }) => {
                 ...state,
                 method: 'FIREBASE',
                 createUserWithEmailAndPassword,
+                createTherapistWithEmailAndPassword,
                 signInWithEmailAndPassword,
                 signInWithGoogle,
                 logout,

@@ -190,7 +190,14 @@ exports.createUserWithEmailAndPassword = (req, res) => {
 
 exports.createTherapistWithEmailAndPassword = (req, res) => {
     auth
-        .createUserWithEmailAndPassword(req.body.email, req.body.password)
+        .createUser({
+            email: req.body.email,
+            emailVerified: false,
+            password: req.body.password,
+            displayName: req.body.userdata.name,
+            photoURL: req.body.userdata.img || "",
+            disabled: false,
+        })
         .then(user => {
             // subir a colleccion de usuarios
             thers
