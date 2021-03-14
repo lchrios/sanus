@@ -2,6 +2,7 @@ const { admin } = require('../firebase');
 var db = admin.firestore();
 const ther = db.collection('therapists');
 const blogs = db.collection('blogs');
+const storage = admin.storage();
 
 exports.getAllBlogs = (req, res) => {
     blogs
@@ -22,10 +23,11 @@ exports.getAllBlogs = (req, res) => {
         })
 }
 
+
 exports.getAllBlogsByTherapist = (req, res) => {
     blogs
         .where('author', '==', req.params.tid)
-        .orderBy('date', 'desc')
+        // .orderBy('date', 'desc')
         .get()
         .then(query => {
             var data = [];
@@ -60,8 +62,11 @@ exports.newBlog = (req, res) => {
     blogs
         .add(req.body.blogdata)
         .then(blogdoc => {
+            var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+            var stored_img = bucket.file(`usuarios/${req.params.tid}.png`)
+
+            req.body.blogdata.imgBLOG
             /*
-            
             // actualizar campo de id
              ! no sirve por lo pronto,
              TODO: Arreglar el upload de la foto

@@ -27,7 +27,7 @@ const BlogEntryForm = () => {
     const [state, setState] = useState({
       title: "",
       img : "",
-      imgBlob: "",
+      imgFile: "",
       content: `<h1>Iknelia | Crea tu propio post</h1><p><a href="http://localhost:3000/dashboard/analytics" target="_blank">en Iknelia</a><p>`,
     });
 
@@ -45,6 +45,7 @@ const BlogEntryForm = () => {
     const handleSubmitNewBlog = () => {
       // TODO: upload and update state.img with new image
       
+
       const demoimg = [
         "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/blogs%2F1.jpg?alt=media&token=514d6471-8353-421c-9b8e-f9d51216eaf4",
         "https://firebasestorage.googleapis.com/v0/b/iknelia-3cd8e.appspot.com/o/blogs%2F2.jpg?alt=media&token=b62b18d7-c8f4-434e-9b47-3dd5b87769e7",
@@ -53,14 +54,14 @@ const BlogEntryForm = () => {
       var blogdata = {
         title: state.title, 
         content: state.content, 
-        date: firebase.firestore.Timestamp.fromDate(new Date()), 
+        date: new Date().toISOString(), 
         author: user.uid, 
         likes: [], 
         comments: [], 
-        img: demoimg[Math.floor(Math.random() * 3)],
+        img: demoimg[Math.floor((Math.random() * Math.random() * 100) % 3)],
       }
 
-      api.post("/b/new", {blogdata: {...blogdata}})
+      api.post(`/t/${user.uid}/b`, {blogdata: {...blogdata}})
         .then(() => {
           history.push("/" + user.uid + "/myblogs");
         });
@@ -70,7 +71,7 @@ const BlogEntryForm = () => {
     const handleImgChange = event => {
       setState({
         ...state,
-        imgBlob: event.target.files[0],
+        imgFile: event.target.files[0],
       })
 
       let reader = new FileReader();
@@ -78,7 +79,7 @@ const BlogEntryForm = () => {
       reader.onloadend = () => {
         setState({
           ...state,
-          img: reader.result,
+          imgBLOB: reader.result,
         });
       }
       reader.readAsDataURL(event.target.files[0])
@@ -163,7 +164,6 @@ const BlogEntryForm = () => {
                 variant="contained" 
                 type="submit"
                 onClick={() => {
-                  // TODO: subir a bd
                   handleSubmitNewBlog()
                 }}
                 >

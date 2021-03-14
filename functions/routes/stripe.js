@@ -1,16 +1,15 @@
-const Stripe = require('stripe')
+const stripe = require('stripe')('sk_test_51HwA9iItRYlC7M0MQNS8OacWDR17Hgnaf9yXvLOt9QCTfQCtvzD6JDaWnM0dJ9cDivQtGGj53a9keJpimeZps4r500rXFO4372')
 
 /**La private key será utilizada con una variable de entorno */
-const stripe = new Stripe('sk_test_51HwA9iItRYlC7M0MQNS8OacWDR17Hgnaf9yXvLOt9QCTfQCtvzD6JDaWnM0dJ9cDivQtGGj53a9keJpimeZps4r500rXFO4372')
 
 exports.sendPaymentInfo = (req, res) => {
-  const {amount} = req.body;
+      const { amount } = req.body;
   
     stripe.paymentIntents.create({
-      amount,
-      currency:'mxn',
-      description: 'Sesión individual',
-      payment_method_types: ['card', 'oxxo'],
+        amount,
+        currency:'mxn',
+        description: 'Sesión individual',
+        payment_method_types: ['card', 'oxxo'],
     })
     .then((paymentIntent) => {
         console.log("Ticket de pago generado exitosamente")
@@ -20,25 +19,22 @@ exports.sendPaymentInfo = (req, res) => {
         })
     }) 
     .catch((error) => {
-      console.log('Error al procesar tu pago')
-      res.status(404).send(error)
+        console.log('Error al procesar tu pago')
+        res.status(400).send(error)
     })
-  } 
+} 
 
 exports.handleStripeEvent = (req, res) => {
     const sig = req.headers['stripe-signature'];
     const endpoint_secret = "whsec_0gqlUqNwq6LAXKqhSIYMBQTPB7UQOlaH";
-    var event = req.body;
+    let event = req.body;
 
     // TODO: Arreglar la validacion 
-    // try {
-    //     event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
-    // } catch (err) {
-    //     console.error(err)
-    //     return res.status(400).send(`Webhook Error: ${err.message}`);
-    // }
-
-    //console.log(event);
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
+    } catch (err) {
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
 
     switch(event.type) {
         case 'payment_intent.succeeded':

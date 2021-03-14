@@ -28,8 +28,9 @@ const App = () => {
                                     <Switch>
                                         <Route path="/" exact={true} component={() => <Redirect to="/home" />}></Route>  
                                         <Route path="/home" exact={true} component={landingRoutes[0].component} />
-                                        <Route path="/landingBlog" exact={true} component={landingRoutes[1].component} />
+                                        <Route path="/blogs" exact={true} component={landingRoutes[1].component} />
                                         <Route path="/psychologists" exact={true} component={landingRoutes[2].component} />
+                                        
                                         {/* AUTHENTICATION PAGES (SIGNIN, SIGNUP ETC.) */}
                                         {sessionRoutes.map((item, i) => (
                                             <Route

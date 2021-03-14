@@ -38,7 +38,7 @@ const SideBarComponent = (notes, selectedNoteIndex) => {
     }
 
     
-    if(notes.length != 0) {
+    if(notes.length !== 0) {
 
         console.log(notes)
         return(

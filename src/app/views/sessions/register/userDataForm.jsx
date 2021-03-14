@@ -8,10 +8,7 @@ import {
     Stepper,
     Step,
     StepLabel,
-    Input, 
-    InputLabel, 
-    InputAdornment, 
-    FormControl,
+    InputAdornment,
     Icon,
     TextField,
     Divider,
@@ -19,6 +16,8 @@ import {
     Checkbox,
     FormControlLabel,
 } from '@material-ui/core'
+
+import firebase from 'firebase/app'
 import { Home, Image, Mail, Phone } from '@material-ui/icons'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
@@ -69,7 +68,7 @@ const UserDataForm = () => {
     const [activeStep, setActiveStep] = useState(0)
     const [content, setContent] = useState()
     const [message, setMessage] = useState("")
-    const [state, setState] = useState()
+    const [state, setState] = useState({img: "usuarios/placeholders/none-user.png"})
     const { createUserWithEmailAndPassword, signInWithEmailAndPassword, assignUserRole } = useAuth();
 
     const handleChange = ({ target: { name, value } }) => {
@@ -236,8 +235,8 @@ const UserDataForm = () => {
             .then( res => {
                 // * Aqui haces lo de que te mande a otro lado
                 try {
-                    await signInWithEmailAndPassword(state.email, state.password)
-                    var user = firebase.auth().currentUser
+                    signInWithEmailAndPassword(state.email, state.password).then(() => {
+                        var user = firebase.auth().currentUser
         
                     user.getIdTokenResult()
                         .then( decodedToken => {
@@ -267,6 +266,7 @@ const UserDataForm = () => {
                         .catch( error => {
                             console.error("Error al obtener el decodedToken del user", error)
                         })
+                    })
                     //history.push('/'+user.uid+'/dashboard')
                 } catch (e) {
                     console.log(e)

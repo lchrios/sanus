@@ -2,6 +2,7 @@ const functions = require("firebase-functions");
 const express = require("express");
 const app = express();
 const cors = require('cors')
+const Multer = require('multer')
 
 // * Funciones de autenticacion
 const {
@@ -64,6 +65,11 @@ const {
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
+const multer = Multer({
+    storage: Multer.MemoryStorage,
+    fileSize: 5 * 1024 * 1024
+});
+
 // * permisos del CORS
 app.use(cors());
 app.use( (req, res, next) => {
@@ -96,6 +102,7 @@ app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByThe
 app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist);
 app.get("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), getNotesByTherapist);
 app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
+app.post("/t/:tid/b", isAuthenticated, isAuthorized(roles.therapist), newBlog);
 
 // * rutas de usuario
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
@@ -114,7 +121,6 @@ app.post("/webhook", handleStripeEvent);
 // * rutas de blogs
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
 app.get("/b/:bid", isAuthenticated, isAuthorized(roles.user), getBlog);
-app.post("/b/new", isAuthenticated, isAuthorized(roles.therapist), newBlog);
 app.delete("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), deleteBlog);
 app.put("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), updateBlog);
 
