@@ -63,6 +63,7 @@ export default function CheckoutDialog() {
             card: elements.getElement(CardElement)
         }).then((paymentMethod) => {
             console.log(paymentMethod)
+            // TODO: Save payment ID to user
             // * POST a la API
             api.post('/u/' + user.uid + '/checkout', {
                 ...paymentMethod.paymentMethod,
@@ -81,7 +82,6 @@ export default function CheckoutDialog() {
     }
     const handlePayOxxo = (e) => {
         e.preventDefault();
-
 
         api.post('/u/' + user.uid + '/checkout', {
             amount:60000
@@ -171,6 +171,7 @@ export default function CheckoutDialog() {
             )
         }
     }
+    
     return(
         <div>
            {/**DIALOGO DE SELECCIÓN DE METODO DE PAGO */}

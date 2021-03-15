@@ -1,4 +1,4 @@
-const stripe = require('stripe')('sk_test_51HwA9iItRYlC7M0MQNS8OacWDR17Hgnaf9yXvLOt9QCTfQCtvzD6JDaWnM0dJ9cDivQtGGj53a9keJpimeZps4r500rXFO4372')
+const stripe = require('stripe')("sk_test_51HwA9iItRYlC7M0MQNS8OacWDR17Hgnaf9yXvLOt9QCTfQCtvzD6JDaWnM0dJ9cDivQtGGj53a9keJpimeZps4r500rXFO4372");
 
 /**La private key será utilizada con una variable de entorno */
 
@@ -45,7 +45,6 @@ exports.handleStripeEvent = (req, res) => {
         case 'payment_intent.requires_action':
             // * Se genero voucher del OXXO
             console.log("Voucher generado")
-            break;
 
         case 'payment_intent.processing':
             // * Se esta procesando el outcome del pago
@@ -64,4 +63,33 @@ exports.handleStripeEvent = (req, res) => {
     }
 
     return res.status(200).send({received: true});
+}
+
+exports.createCheckoutSession = (req, res) => {
+    stripe.checkout.sessions.create({
+        payment_method_types: [ 'card' ],
+        line_items: [ 
+            {
+                price_data: {
+                    currency:'mxn',
+                    /**
+                     * TODO ASIGNAR UN ID NUMÉRICO
+                     */
+                    product:'simplesession-id',
+                    product_data: {
+                        name:'Sesión simple',
+                        description:'Paga por una sesión con el terapeuta que seleccionaste'
+                    },
+                    unit_amount: 60000 /** 
+                    *!!! lo puse abajo pa que se vea el color, la cantidad del unit_amount, está en centavos, por eso se usa ese numero */
+                },
+                adjustable_quantity:enabled,
+            }
+        ],
+        mode:'payment',
+        success_url: req.host + '/pago_exitoso?id={CHECKOUT_SESSION_ID}',
+        cancel_url: 'http://localhost:4242/pago_cancelado?id={CHECKOUT_SESSION_ID}'
+    }).then( session => {
+        res.status(200).send({id: session.id})
+    }) 
 }
