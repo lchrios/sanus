@@ -34,6 +34,7 @@
     "globalize": "^0.1.1",
     "history": "^4.10.0",
     "html-react-parser": "^1.2.4",
+    "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.0.0-beta.2",
     "lint": "^0.7.0",

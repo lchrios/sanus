@@ -2,7 +2,6 @@ const functions = require("firebase-functions");
 const express = require("express");
 const app = express();
 const cors = require('cors');
-var multer  = require('multer')
 
 // * Funciones de autenticacion
 const {
@@ -68,10 +67,10 @@ const { fixAllUsers } = require("./routes/fixes");
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
-const upload = multer({ 
-    storage: multer.memoryStorage(),
-    limits: 5 * 1024 * 1024,
-});
+// const upload = multer({ 
+//     storage: multer.memoryStorage(),
+//     limits: 5 * 1024 * 1024,
+// });
 
 // * permisos del CORS
 app.use(cors());
