@@ -2,7 +2,6 @@ import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import {Button} from '../buttonElement_sc'
-import history from '../../../../../history'
 import {
   InfoContainer,
   InfoWrapper, 
@@ -13,18 +12,11 @@ import {
   TopLine,
   Heading,
   Subtitle, 
-  BtnWrapper, 
-  ImgWrap, 
-  Img } from './InfoElements'
-
+  BtnWrapper} from './InfoElements'
   import terapia1 from '../../../../../../src/assets/images/blog/terapia2.jpg'
-
   import InterestedSectionStyle from '../../landingBlog/landingBlogStyles/lessImpBlogStyles'
-
   import Card from '../../landingBlog/components/card'
-  import GridItem from '../../landingBlog/components/GridItem'
   import CardHeader from '../../landingBlog/components/cardHeader'
-  import CardBody from '../../landingBlog/components/cardBody'
 
 const useStyles = makeStyles(InterestedSectionStyle);
 

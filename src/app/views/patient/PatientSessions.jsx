@@ -1,9 +1,9 @@
-import React, { Component, Fragment, useState, useEffect} from "react";
+import React, {Fragment, useState, useEffect} from "react";
 import { MatxSidenavContainer,
     MatxSidenav,
     MatxSidenavContent, } from "app/components";
 import clsx from 'clsx'
-import { Card, Grid, Button, Icon, IconButton,  useMediaQuery, Hidden  } from "@material-ui/core";
+import { Card, Button, Icon, IconButton,  useMediaQuery, Hidden  } from "@material-ui/core";
 import { withStyles, useTheme } from "@material-ui/styles";
 import {makeStyles } from '@material-ui/core/styles'
 import UserProfileSidenav from '../patient/patientElements/home/user-profile/UserProfileSidenav'

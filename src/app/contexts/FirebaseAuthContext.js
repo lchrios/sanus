@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer, useState } from 'react'
+import React, { createContext, useEffect, useReducer } from 'react'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import { firebaseConfig } from 'config.js'
@@ -64,17 +64,17 @@ export const AuthProvider = ({ children }) => {
         return firebase.auth().signInWithPopup(provider)
     }
 
-    const signInWithFacebook = () => {
-        const provider = new firebase.auth.FacebookAuthProvider()
+    // const signInWithFacebook = () => {
+    //     const provider = new firebase.auth.FacebookAuthProvider()
         
-        return firebase.auth().signInWithPopup(provider)
-    }
+    //     return firebase.auth().signInWithPopup(provider)
+    // }
 
-    const signInWithTwitter = () => {
-        const provider = new firebase.auth.TwitterAuthProvider()
+    // const signInWithTwitter = () => {
+    //     const provider = new firebase.auth.TwitterAuthProvider()
         
-        return firebase.auth().signInWithPopup(provider)
-    }
+    //     return firebase.auth().signInWithPopup(provider)
+    // }
 
     const createUserWithEmailAndPassword = async (email, password) => {
         return api.post('/auth/signuser', { email: email, password: password })

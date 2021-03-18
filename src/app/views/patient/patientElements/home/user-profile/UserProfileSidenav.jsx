@@ -63,7 +63,7 @@ const UserProfileSidenav = ({ therapist, loading }) => {
             <div className={clsx('flex-column items-center', classes.sidenav)}>
                 <Avatar
                     className="h-84 w-84 mb-5"
-                    src="/assets/images/face-7.jpg"
+                    src=""
                 />
                 <p className="text-white">{user.displayName || user.email}</p>
                 <div className="py-3" />
@@ -82,7 +82,6 @@ const UserProfileSidenav = ({ therapist, loading }) => {
                     <Grid container spacing={3}>
                     <Button onClick={() => history.push('/'+user.uid+'/home')}>
                         <Grid item>
-                        
                             <Card className="w-104 h-104 flex justify-center items-center">
                                 <div className="text-muted text-center">
                                     <Icon>sentiment_very_satisfied</Icon>
@@ -94,17 +93,21 @@ const UserProfileSidenav = ({ therapist, loading }) => {
                         </Grid>
                     </Button>
                     {shortcutList.map((item, ind) => (
-                        <Button key={ind} onClick={() => history.push("/"+user.uid+item.route)}>
-                            <Grid item >
-                                <Card className="w-104 h-104 flex items-center justify-center">
-                                    <div className="text-muted text-center">
-                                        <Icon>{item.icon}</Icon>
-                                        <br />
-                                        <span className="pt-4">{item.title}</span>
-                                    </div>
-                                </Card>
-                            </Grid>
-                        </Button>
+                        <div key={ind}>
+                            <Button  onClick={() =>{
+                              history.push("/")  
+                            }}>
+                                <Grid item >
+                                    <Card className="w-104 h-104 flex items-center justify-center">
+                                        <div className="text-muted text-center">
+                                            <Icon>{item.icon}</Icon>
+                                            <br />
+                                            <span className="pt-4">{item.title}</span>
+                                        </div>
+                                    </Card>
+                                </Grid>
+                            </Button>
+                        </div>
                         ))}
                         
                     </Grid>
@@ -112,7 +115,7 @@ const UserProfileSidenav = ({ therapist, loading }) => {
                     { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress /></Grid></Grid> :
                         <div className="flex items-center justify-center text-primary" style={{ display: therapist !== undefined ? "block" : "none" }}>
                             <Button onClick={() => {
-                                window.location.href = therapist.zoomurl !== undefined  ? therapist.zoomurl : "https://zoom.us/j/95739401999?pwd=dkh2NGQxcXBTYWJWRHlRM3U4UnVPQT09"  
+                                // window.location.href = therapist.zoomurl !== undefined  ? therapist.zoomurl : "https://zoom.us/j/95739401999?pwd=dkh2NGQxcXBTYWJWRHlRM3U4UnVPQT09"  
                             }}>
                                 <Icon>sentiment_very_satisfied</Icon>
                                 <h5 className="ml-8 text-primary font-medium mb-0">
@@ -140,11 +143,11 @@ const shortcutList = [
         icon: 'search',
         route: '/browse'
     },
-    {
-        title: 'Configuración',
-        icon: 'build',
-        route: '/sessions'
-    },
+    // {
+    //     title: 'Configuración',
+    //     icon: 'build',
+    //     route: '/sessions'
+    // },
     {
         title: 'Terapeuta',
         icon: 'group',

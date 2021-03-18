@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import {Button, Icon, IconButton,  useMediaQuery, Hidden  } from "@material-ui/core";
 import { withStyles, useTheme } from "@material-ui/styles"
 import clsx from 'clsx'
@@ -23,7 +23,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const PatientBrowse = ({}) => {
+const PatientBrowse = () => {
     const [open, setOpen] = useState(true)
 
     const { user } = useAuth()

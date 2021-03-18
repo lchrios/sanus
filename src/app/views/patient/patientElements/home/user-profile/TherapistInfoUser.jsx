@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import {
     Avatar,
     Button,
-    Card,
     Divider,
     Icon,
     Table,
@@ -44,7 +43,7 @@ const TherapistInfoUser = ({ therapist, loading }) => {
             {/* <Card className="pt-6" > */}
                 {loading ? <CircularProgress className={classes.circular} /> :
                     <>
-                    {therapist == undefined ? 
+                    {therapist === undefined ? 
                         <>
                             <Grid item lg={12} md={12} sm={12} xs={12}>
                                 <div className="flex-column items-center mb-6">

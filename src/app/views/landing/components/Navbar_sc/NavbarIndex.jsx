@@ -13,9 +13,8 @@ import {
 import {FaBars} from 'react-icons/fa';
 import {animateScroll as scroll } from 'react-scroll'
 import history from '../../../../../history'
-import { Redirect } from 'react-router-dom';
 
-const Navbar = (  ) => {
+const Navbar = ( {toggle} ) => {
     const [scrollNav, setScrollNav ] =  useState(false)
     
     const changeNav = () => {
@@ -40,7 +39,7 @@ const Navbar = (  ) => {
           <Nav scrollNav = {scrollNav}>
               <NavbarContainer>
                   <NavLogo to='/home'>Iknelia</NavLogo>
-                  <MobileIcon onClick={toggleHome}>
+                  <MobileIcon onClick={toggleHome && toggle}>
                       <FaBars />
                   </MobileIcon>
                   <NavMenu>

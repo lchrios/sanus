@@ -1,4 +1,3 @@
-import useAuth from 'app/hooks/useAuth';
 import axios from 'axios';
 
 const hosts = [

@@ -16,9 +16,6 @@ import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js'
 import api from 'app/services/api'
 import useAuth from 'app/hooks/useAuth'
 
-const getSteps = () => {
-    return ['Paso 1', 'Paso 2', 'Paso 3']
-}
 export default function CheckoutDialog() {
     
     const { user } = useAuth()
@@ -42,7 +39,7 @@ export default function CheckoutDialog() {
     }
 
     function handleBack() {
-        {activeStep == 1 ? setActiveStep((prevActiveStep) => prevActiveStep - 1) : setActiveStep((prevActiveStep) => prevActiveStep - 2)}
+        {activeStep === 1 ? setActiveStep(prevActiveStep => prevActiveStep - 1) : setActiveStep(prevActiveStep => prevActiveStep - 2)}
     }
 
     function handleChangeName(event) {
@@ -106,7 +103,6 @@ export default function CheckoutDialog() {
         setOpen(true)
     }
 
-    const steps = getSteps()
 
     const getStepContent = (stepIndex) => {
         switch(stepIndex) {
@@ -169,35 +165,12 @@ export default function CheckoutDialog() {
                         </Grid>
                     </form>
             )
+            default: console.log('Ninguno de los métodos de pago está disponibles')
         }
     }
     return(
         <div>
            {/**DIALOGO DE SELECCIÓN DE METODO DE PAGO */}
-           {/**
-            * ? No entiendo la lógica del steps.length xd
-            */}
-           {activeStep === steps.length ? (
-            <Dialog
-            aria-labelledby="customized-dialog-title"
-            open={open}
-            onClose={handleClose}>
-                <DialogTitle>
-                    Test
-                </DialogTitle>
- 
-                <DialogContent className='flex-column'>
-                        <h1>Sí</h1>
-                </DialogContent>
-                <DialogActions>
-                    <IconButton
-                    onClick={handleClose}
-                    >
-                        <Icon>close</Icon>
-                    </IconButton>
-                </DialogActions>
-            </Dialog>    
-           ) : (
             <Dialog
             aria-labelledby="customized-dialog-title"
             open={open}
@@ -208,7 +181,7 @@ export default function CheckoutDialog() {
                 {/**
                  * Si selecciona una opción desaparece con este validador
                  */}
-                {activeStep == 0 ? (
+                {activeStep === 0 ? (
                     <DialogContent>
                     <div className='flex-column'>
                         <Button
@@ -230,7 +203,7 @@ export default function CheckoutDialog() {
                     </div>
                 </DialogContent>
                 ) : null}
-                <DialogContent className=''>
+                <DialogContent>
                     {getStepContent(activeStep)}
                 </DialogContent>
 
@@ -242,16 +215,15 @@ export default function CheckoutDialog() {
                     <Button
                     color="secondary"
                     variant='contained'
-                    className={activeStep == 0 ? 'hidden' : ''}
-                    onClick={activeStep == 1 ? handlePayCard : handlePayOxxo}
+                    className={activeStep === 0 ? 'hidden' : ''}
+                    onClick={activeStep === 1 ? handlePayCard : handlePayOxxo}
                     >
-                        {activeStep  == 1 ? 'Pagar con tarjeta' : 'Pagar con oxxo'}
+                        {activeStep  === 1 ? 'Pagar con tarjeta' : 'Pagar con oxxo'}
 
                     </Button>
                 </DialogActions>
             </Dialog>
 
-           )}
 
            {/**TERMINA EL DIALOGO */}
 

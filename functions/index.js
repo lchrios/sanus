@@ -92,7 +92,7 @@ app.get("/t/:tid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession)
 app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByTherapist);
 app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist);
 app.get("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), getNotesByTherapist);
-app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
+app.post("/t/:tid/new", isAuthenticated, isAuthorized(roles.therapist), newNote);
 
 // * rutas de usuario
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);

@@ -103,7 +103,7 @@ const PatientCalendar = () => {
 
     useEffect(() => {
         updateCalendar()
-    }, [])
+    })
 
     return (
         <div className="m-sm-30">

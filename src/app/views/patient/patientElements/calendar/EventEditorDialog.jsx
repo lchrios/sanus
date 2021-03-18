@@ -33,7 +33,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
             setTherapistData(res.data.data);
             setTherRef(res.data.id);
         })
-    }, [])
+    }, [user.uid])
 
 
     const randomCost = () => {
@@ -87,7 +87,7 @@ const EventEditorDialog = ({ event = {}, open, handleClose }) => {
         })
     }
 
-    let { therapist, start, end, descripcion, patient } = state
+    let {start, end, descripcion } = state
 
     return (
         <Dialog

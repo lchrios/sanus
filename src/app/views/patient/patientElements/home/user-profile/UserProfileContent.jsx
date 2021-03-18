@@ -1,6 +1,5 @@
 import {
     Card,
-    Divider,
     Grid,
     Icon,
     IconButton,
@@ -75,7 +74,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => {
     const { user } = useAuth()
     const classes = usestyles()
-    const [open, setOpen] = useState(false)
+    // const [open, setOpen] = useState(false)
     const [sesInfo, setSesInfo] = useState([
         {
             title: "Sesiones agendadas",
@@ -95,27 +94,27 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
         if (!loading) {
             generateSessionReport()
         }
-    }, [loading])
-
+    }, [])
+    
     const generateSessionReport = () => {
         var total_ses = sessions.length;
         var completed_ses = 0;
         var min_date;
         var curr_date = new Date();
         for (var i = 0; i < total_ses; i++) {
-            if (sessions[i].state == 1) { // * Sesion completada
+            if (sessions[i].state === 1) { // * Sesion completada
                 completed_ses += 1;
             }
             var tmpDate = new Date(sessions[i].start);
             // console.log(min_date != undefined && tmpDate < min_date && sessions[i].state == 0 && tmpDate > curr_date, tmpDate)
-            if (min_date == undefined && tmpDate > curr_date) {
+            if (min_date === undefined && tmpDate > curr_date) {
                 min_date = tmpDate
-            } else if (min_date != undefined && tmpDate < min_date && sessions[i].state == 0 && tmpDate > curr_date) { // * Sesion mas proxima
+            } else if (min_date !== undefined && tmpDate < min_date && sessions[i].state === 0 && tmpDate > curr_date) { // * Sesion mas proxima
                 console.log("Nuevo MINIMO Enc", tmpDate);
                 min_date = tmpDate;
             }
         }
-        setHasTher(therapist != undefined)
+        setHasTher(therapist !== undefined)
         setSesInfo([
             {
                 title: "Sesiones agendadas",
@@ -127,23 +126,25 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
             },
             {
                 title: "Proxima cita",
-                amount: min_date != undefined ? min_date.toUTCString() : "No tienes próxima cita",
+                amount: min_date !== undefined ? min_date.toUTCString() : "No tienes próxima cita",
             }
         ])
     }
 
-    const [hasTher, setHasTher] = useState(therapist != undefined);
+
+    const [hasTher, setHasTher] = useState(therapist === undefined);
     const onClick1 = () => {
         history.push("/"+user.uid+"/sessions");
     }
     
-    function handleClose() {
-        setOpen(false)
-    }
+    // function handleClose() {
+    //     setOpen(false)
+    // }
 
-    function handleOpen() {
-        setOpen(true)
-    }
+    // function handleOpen() {
+    //     setOpen(true)
+    // }
+     
     return (
         <div>
             <Fragment >
@@ -261,31 +262,5 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
     )
 }    
 
-const paymentList = [
-    /**{
-        img: '/assets/images/payment-methods/visa.png',
-        type: 'Tarjeta de crédito',
-        product: 'Coloca la información de tu tarjeta',
-        amount: 909,
-    },*/
-    {
-        img: '/assets/images/payment-methods/oxxo.png',
-        type: 'Depósito',
-        product: 'Deposita en tu oxxo cercano',
-        amount: 303
-    },
-    {
-        img: '/assets/images/payment-methods/paypal.png',
-        type: 'Paypal',
-        product: 'Conecta tu cuenta de PayPal',
-        amount: 330,
-    },
-    {
-        img: '/assets/images/payment-methods/transferencia.png',
-        type: 'Transferencia',
-        product: 'Transfiere a través de tu banco',
-        amount: 909,
-    }
-]
 
 export default UserProfileContent

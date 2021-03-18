@@ -8,7 +8,6 @@ const ListComponent = (_index, notes, selectedNoteIndex, selectNote) => {
     return(
         <div >
             <ListItem
-            /**selected es una propiedad de ListItem, si es true se ilumina */
             selected={selectedNoteIndex === _index}
             alignItems='flex-start' >
                 <div

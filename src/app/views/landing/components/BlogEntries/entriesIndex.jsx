@@ -1,8 +1,6 @@
 import React from 'react'
 import {EntriesContainer, EntriesH1, EntriesWrapper} from './entriesElements'
-import {blogs} from '../InfoSection/Data';
 import BlogEntriesCards from './blogEntries'
-import img from '../../../../../assets/images/schedule.svg'
 
 const BlogEntries = () => {
     return (

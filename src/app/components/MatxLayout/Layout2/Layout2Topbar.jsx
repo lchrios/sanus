@@ -1,6 +1,6 @@
 import React from 'react'
 import { Icon, IconButton, Hidden, MenuItem, Avatar } from '@material-ui/core'
-import { MatxMenu, MatxToolbarMenu, MatxSearchBox } from 'app/components'
+import { MatxMenu, MatxToolbarMenu} from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
