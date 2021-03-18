@@ -8,7 +8,7 @@ const hosts = [
 
 export default axios.create({
   baseURL: hosts[0],
-//   headers: {
-//     "Content-type": "application/json"
-//   }
+  headers: {
+    "Content-type": "application/json"
+  }
 });
