@@ -78,7 +78,7 @@ const UserDataForm = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [message, setMessage] = useState("");
     const [imgRender, setImgRender] = useState();;
-    const { createUserWithEmailAndPassword, signInWithEmailAndPassword, assignUserRole } = useAuth();
+    const { createUserWithEmailAndPassword, signInWithEmailAndPassword } = useAuth();
 
     const handleFormSubmit = () => {
         let { email, password } = state;

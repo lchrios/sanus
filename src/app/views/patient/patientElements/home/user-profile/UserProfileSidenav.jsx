@@ -70,11 +70,11 @@ const UserProfileSidenav = ({ therapist, loading }) => {
                 <div className="flex flex-wrap w-full px-12 mb-11">
                     <div className="flex-grow">
                         <p className="uppercase text-light-white mb-1">Edad</p>
-                        <h4 className="font-medium text-white">25 años</h4>
+                        <h4 className="font-medium text-white">{user.age}</h4>
                     </div>
                     <div>
-                        <p className="uppercase text-light-white mb-1">uso</p>
-                        <h4 className="font-medium text-white">FRECUENTE</h4>
+                        <p className="uppercase text-light-white mb-1">Telefono</p>
+                        <a className="font-medium text-white h5">{user.phone}</a>
                     </div>
                     <div />
                 </div>

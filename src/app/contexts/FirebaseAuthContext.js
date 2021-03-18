@@ -123,21 +123,26 @@ export const AuthProvider = ({ children }) => {
                 user.getIdTokenResult()
                     .then( idTokenResult => {
                         api.defaults.headers.common["Authorization"] = `Bearer ${idTokenResult.token}`
-                        dispatch({
-                            type: 'FB_AUTH_STATE_CHANGED',
-                            payload: {
-                                isAuthenticated: true,
-                                user: {
-                                    uid: user.uid,
-                                    name: user.displayName || user.email,
-                                    img: user.photoURL,
-                                    email: user.email,
-                                    age: 18,
-                                    phone: user.phoneNumber,
-                                    role: idTokenResult.claims.role,
-                                    token: idTokenResult.token,
+                        api.get(`/u/${user.uid}`).then(res => {
+                            dispatch({
+                                type: 'FB_AUTH_STATE_CHANGED',
+                                payload: {
+                                    isAuthenticated: true,
+                                    user: {
+                                        uid: user.uid,
+                                        name: res.data.name,
+                                        lname: res.data.lname,
+                                        img: user.photoURL,
+                                        email: user.email,
+                                        age: res.data.age,
+                                        payment_met: res.data.payment_met,
+                                        answered: res.data.answered,
+                                        phone: res.data.phone,
+                                        role: idTokenResult.claims.role,
+                                        token: idTokenResult.token,
+                                    },
                                 },
-                            },
+                            })
                         })
                     })
             } else {

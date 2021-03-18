@@ -52,7 +52,7 @@ const DragAndDropCalendar = withDragAndDrop(Calendar)
 let viewList = Object.keys(Views).map((key) => Views[key])
 
 const PatientCalendar = () => {
-    const [events, setEvents] = useState([])
+    const [events, setEvents] = useState()
     const [newEvent, setNewEvent] = useState(null)
     const [shouldShowEventDialog, setShouldShowEventDialog] = useState(false)
 
@@ -61,24 +61,8 @@ const PatientCalendar = () => {
 
     const { user } = useAuth()
 
-    const updateCalendar = () => {
-        getAllEvents(user.uid)
-            .then((res) => res.data)
-            .then((events) => {
-                events = events?.map((e) => ({
-                    ...e,
-                    title: e.note,
-                    start: new Date(e.start),
-                    end: new Date(e.end),
-                }))
-                console.log(events)
-                setEvents(events)
-            })
-    }
-
     const handleDialogClose = () => {
         setShouldShowEventDialog(false)
-        updateCalendar()
     }
 
     const handleEventMove = (event) => {
@@ -93,8 +77,8 @@ const PatientCalendar = () => {
 
     const openNewEventDialog = ({ action, ...event }) => {
         if (action === 'doubleClick') {
-        setNewEvent(event)
-        setShouldShowEventDialog(true)
+            setNewEvent(event)
+            setShouldShowEventDialog(true)
         }
         
     }
@@ -105,7 +89,18 @@ const PatientCalendar = () => {
     }
 
     useEffect(() => {
-        updateCalendar()
+        getAllEvents(user.uid)
+        .then((res) => res.data)
+        .then((events) => {
+            var events_parsed = events?.map((e) => ({
+                ...e,
+                title: e.note,
+                start: new Date(e.start),
+                end: new Date(e.end),
+            }))
+            console.log(events_parsed)
+            setEvents(events_parsed)
+        })
     }, [])
 
     return (

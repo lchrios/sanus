@@ -78,15 +78,15 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
     const [sesInfo, setSesInfo] = useState([
         {
             title: "Sesiones agendadas",
-            amount: 1,
+            amount: "",
         },
         {
             title: "Sesiones completadas",
-            amount: 2,
+            amount: "",
         },
         {
             title: "Proxima cita",
-            amount: 3,
+            amount: "",
         }
     ])
 
@@ -94,7 +94,7 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
         if (!loading) {
             generateSessionReport()
         }
-    }, [])
+    }, [sessions])
     
     const generateSessionReport = () => {
         var total_ses = sessions.length;
@@ -132,7 +132,7 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
     }
 
 
-    const [hasTher, setHasTher] = useState(therapist === undefined);
+    const [hasTher, setHasTher] = useState(therapist !== undefined);
     const onClick1 = () => {
         history.push("/"+user.uid+"/sessions");
     }
@@ -208,14 +208,16 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
                     <div className="py-8" />
                     <Grid container spacing={3}>
                         <Grid item lg={8} md={8} sm={12} xs={12}>
-                            <Card className="pb-4 px-4">
-                                <h4 className="font-medium text-muted px-4 pt-4 pb-0">
-                                    Comenzar terapia
-                                </h4>
-                                { loading ? <Loading /> :
+                            { user.answered 
+                            ?   <></> 
+                            :   <Card className="pb-4 px-4">
+                                    <h4 className="font-medium text-muted px-4 pt-4 pb-0">
+                                        Comenzar terapia
+                                    </h4>
                                     <PatientTest therapist={therapist} loading={loading} />
-                                }
-                            </Card>
+                                </Card>
+                            }
+                            
                             <div className="py-3"></div>
                             <Card className="py-4 elevation-z5">
                                 <h4 className="font-medium text-muted px-4 pt-4 pb-0">
@@ -225,7 +227,7 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
                                     <>
                                         { hasTher ? 
                                         <Card className="py-4 elevation-z5">
-                                            <PatientCalendar />
+                                            <PatientCalendar sessions={sessions} />
                                         </Card> 
                                         :
                                         <>

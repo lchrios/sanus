@@ -12,61 +12,57 @@ import {
     Button,
 } from '@material-ui/core'
 
-const FormTestSt2 = ({ state, handleChangeA, handleChangeB }) => {
+const FormTestSt2 = ({ state, handleChange }) => {
     
 
     return (
         <Card className="m-sm-30 p-6">
-                <p className="mt-0 mb-1">
-                ¿Afecta el rendimiento académico o las actividades laborales y/o la salud?
-                </p>
-                <FormControl  component="fieldset" className="mb-4">
-                    <RadioGroup  name="status">
-                        <FormControlLabel
-                            className="h-32"
-                            value={true}
-                            checked={state.form2a.ayes}
-                            name="ayes"
-                            onChange={handleChangeA}
-                            control={<Radio color="secondary" />}
-                            label="Sí"
-                        />
-                        <FormControlLabel
-                            className="h-32"
-                            value={false}
-                            checked={state.form2a.ano}
-                            name="ano"
-                            onChange={handleChangeA}
-                            control={<Radio color="secondary" />}
-                            label="No"
-                        />
-                    </RadioGroup>
-                </FormControl>
-                <p className="mt-0 mb-1">
-                ¿Ha acudido con anterioridad a un proceso terapeutico?
-                </p>
-                <FormControl component="fieldset" className="mb-4">
-                    <RadioGroup name="status">
-                        <FormControlLabel
-                            className="h-32"
-                            value={true}  
-                            checked={state.form2b.byes}                          
-                            control={<Radio color="secondary" />}
-                            name="byes"
-                            onChange={handleChangeB}
-                            label="Sí"
-                        />
-                        <FormControlLabel
-                            className="h-32"
-                            value={false}
-                            checked={state.form2b.bno}
-                            name="bno"
-                            onChange={handleChangeB}
-                            control={<Radio color="secondary" />}
-                            label="No"
-                        />
-                    </RadioGroup>
-                </FormControl>
+            <p className="mt-0 mb-1">
+            ¿Afecta el rendimiento académico o las actividades laborales y/o la salud?
+            </p>
+            <RadioGroup
+                className="mb-4"
+                value={state?.affects_life || ""}
+                name="affects_life"
+                onChange={handleChange}
+                row    
+            >
+                <FormControlLabel
+                    value="si"
+                    control={<Radio color="primary" />}
+                    label="Sí"
+                    labelPlacement="end"
+                />
+                <FormControlLabel
+                    value="no"
+                    control={<Radio color="secondary" />}
+                    label="No"
+                    labelPlacement="end"
+                />
+            </RadioGroup>
+            <p className="mt-0 mb-1">
+            ¿Ha acudido con anterioridad a un proceso terapeutico para tratarlo?
+            </p>
+            <RadioGroup
+                className="mb-4"
+                value={state?.previous_treatment || ""}
+                name="previous_treatment"
+                onChange={handleChange}
+                row    
+            >
+                <FormControlLabel
+                    value="si"
+                    control={<Radio color="primary" />}
+                    label="Sí"
+                    labelPlacement="end"
+                />
+                <FormControlLabel
+                    value="no"
+                    control={<Radio color="secondary" />}
+                    label="No"
+                    labelPlacement="end"
+                />
+            </RadioGroup>
         </Card> 
     )
 }

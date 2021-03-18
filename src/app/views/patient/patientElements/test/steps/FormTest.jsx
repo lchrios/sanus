@@ -4,7 +4,8 @@ import {
     TextField,
     Divider,
 } from '@material-ui/core'
-const FormTest = ({ handleChange }) => {
+import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
+const FormTest = ({ state, handleChange, handleNext }) => {
 
     return (
         <Card className="m-sm-30" >
@@ -14,49 +15,52 @@ const FormTest = ({ handleChange }) => {
                     Por favor responde con honestidad
                 </p>
                 <Divider className="mb-8" />
-
-                <TextField
-                    className="mb-4"
-                    label="¿Porqué deseas comenzar una terapia?"
-                    variant="outlined"
-                    required
-                    multiline
-                    name="reason"
-                    onChange={handleChange}
-                    fullWidth
-                />
-              <TextField
-                    className="mb-4"
-                    label="¿Hace cuanto identificas la situación?"
-                    variant="outlined"
-                    helperText="Selecciona un periodo"
-                    fullWidth
-                    required
-                    select
-                    onChange={handleChange}
-                    name="time_situation_detected"
-                    SelectProps= {
-                        {native:true}
-                    }
-                >
-                    {stayDurationList.map((duration) => (
-                        <option key={duration} value={duration}>
-                            {duration}
-                        </option>
-                    ))}
-                </TextField>
-                <TextField
-                    className="mb-4"
-                    label="Describe un evento específico asociado a la situación"
-                    variant="outlined"
-                    rows={4}
-                    required
-                    multiline
-                    onChange={handleChange}
-                    name="relatedExperience"
-                    fullWidth
-                />
-                </div>
+                <ValidatorForm onSubmit={handleNext}>
+                    <TextValidator
+                        className="mb-6 w-full"
+                        variant="outlined"
+                        label="¿Porqué deseas comenzar una terapia?"
+                        onChange={handleChange}
+                        name="reason"
+                        value={state?.reason || ""}
+                        validators={['required']}
+                        errorMessages={['este campo es obligatorio']}
+                        fullWidth
+                    />
+                    <TextValidator
+                        className="mb-3 w-full"
+                        label="¿Hace cuanto identificas la situación?"
+                        variant="outlined"
+                        helperText="Selecciona un periodo"
+                        onChange={handleChange}
+                        name="time_situation_detected"
+                        select
+                        value={state?.time_situation_detected || ""}
+                        validators={['required']}
+                        errorMessages={['este campo es obligatorio']}
+                        SelectProps= {
+                            {native:true}
+                        }
+                    >
+                        {stayDurationList.map((duration) => (
+                            <option key={duration} value={duration}>
+                                {duration}
+                            </option>
+                        ))}
+                    </TextValidator>
+                    <TextValidator
+                        className="mb-6 w-full"
+                        variant="outlined"
+                        label="Describe un evento específico asociado a la situación"
+                        onChange={handleChange}
+                        name="relatedExperience"
+                        value={state?.relatedExperience || ""}
+                        validators={['required']}
+                        errorMessages={['este campo es obligatorio']}
+                        fullWidth
+                    />
+                </ValidatorForm>
+            </div>
         </Card> 
     )
 }
@@ -66,7 +70,7 @@ const stayDurationList = [
     'Hace una semana',
     'Hace un mes',
     "Hace 6 meses",
-    "hace un año",
+    "Hace un año",
     "Hace más de un año"
 ]
 
