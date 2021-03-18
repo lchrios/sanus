@@ -26,11 +26,7 @@ const Home = () => {
       <PsySection />
       <InfoSection id='prof'{...homeObjTwo}/>
       <BlogEntries id='blog_ent' {...blogs}/>
-      {/*<InfoSection id='start'{...homeObjThree}/>*/}
       <Footer />
-      
-      
-      
     </Router>
   );
 }

@@ -15,28 +15,22 @@ const patientRoutes = [
     {
         path: "/:pid/home",
         component: PatHome,
-        exact: false,
+        exact: true,
         auth: authRoles.user,
         
     },
     {
         path: "/:pid/browse",
         component: PatBrowse,
-        exact: false,
+        exact: true,
         auth: authRoles.user,
     },
     {
         path: "/:pid/sessions",
         component: PatSessions,
-        exact: false,
+        exact: true,
         auth: authRoles.user,
     },
-    // {
-    //     path:"/:pid/changepaymethod",
-    //     component: PatPayMeth,
-    //     exact: false,
-    //     auth: authRoles.user,
-    // },
     
 ];
 

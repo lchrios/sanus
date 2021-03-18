@@ -13,6 +13,8 @@ import UserProfileSidenav from './patientElements/home/user-profile/UserProfileS
 import { getTherapist } from 'app/services/functions/UserService'
 import useAuth from 'app/hooks/useAuth'
 import { getSessions } from 'app/services/functions/UserService'
+import api from 'app/services/api'
+import { reject } from 'lodash'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     headerBG: {
@@ -43,13 +45,42 @@ const PatientProfile = () => {
         else setOpen(true)
     }, [isMobile])
 
+    // useEffect(() => {
+    //     if(loading) {
+    //         getInfo()
+    //     }
+    // }, [])
+
+    // const getInfo = () => {
+
+    //     api.get('/u/' + user.uid + '/t')
+    //     .then(res => {
+    //         setTherapist(res.data)
+    //     })
+    //     .catch((e) => {
+    //         console.error(e);
+    //     })
+    
+    //     api.get('/u/' + user.uid + '/s')
+    //     .then(res => {
+    //         setSessions(res.data)
+    //         setLoading(false)
+    //     })
+    //     .catch((e) => {
+    //         console.error(e)
+    //     })
+    // }
+
     useEffect(() => {
         getTherapist(user.uid).then( res => {
             setTherapist(res?.data);
-            getSessions(user.uid).then( res => {
-                setSessions(res?.data)  
-                setLoading(false);
-            })
+        })
+    }, [])
+    
+    useEffect(() => {
+        getSessions(user.uid).then( res => {
+            setSessions(res?.data);  
+            setLoading(false);
         })
     }, [])
 

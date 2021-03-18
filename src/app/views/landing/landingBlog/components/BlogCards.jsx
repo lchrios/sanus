@@ -2,7 +2,6 @@ import React from "react";
 import history from './../../../../../history'
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import Tooltip from "@material-ui/core/Tooltip";
 // @material-ui/icons
 import FormatAlignLeft from "@material-ui/icons/FormatAlignLeft";
 // core components
@@ -48,7 +47,7 @@ export default function BlogCards() {
                 terapeuta nos da, lo importante es...
               </p>
               {/**No existe el blog ID , CREARLO */}
-              <Button round onClick={history.push('/blogId')} color="danger">
+              <Button round onClick={() => history.push('/entry')} color="danger">
                 <FormatAlignLeft className={classes.icons} /> Leer Artículo
               </Button>
             </CardBody>
@@ -72,7 +71,7 @@ export default function BlogCards() {
                 no sabemos que interpretar de la informaciónq nuestro 
                 terapeuta nos da, lo importante es...
               </p>
-              <Button round onClick={history.push('/blogId')} color="danger">
+              <Button round onClick={() => history.push('/entry')} color="danger">
                 <FormatAlignLeft className={classes.icons} /> Leer Artículo
               </Button>
             </CardBody>
@@ -96,7 +95,7 @@ export default function BlogCards() {
                 no sabemos que interpretar de la informaciónq nuestro 
                 terapeuta nos da, lo importante es...
               </p>
-              <Button round onClick={history.push('/blogId')} color="danger">
+              <Button round onClick={() => history.push('/entry')} color="danger">
                 <FormatAlignLeft className={classes.icons} /> Leer Artículo
               </Button>
             </CardBody>

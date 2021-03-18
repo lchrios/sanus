@@ -2,12 +2,15 @@ import React, {useState} from 'react'
 import {ValidatorForm, TextValidator} from 'react-material-ui-form-validator'
 import { Button, Divider, List } from '@material-ui/core'
 import ListComponent from '../listItem/ListComponent'
+import api from 'app/services/api'
+import useAuth from 'app/hooks/useAuth'
 
 
 const SideBarComponent = (notes, selectedNoteIndex) => {
     // const [addingNote, setAddingNote] = useState(false)
     // const [title, setTitle] = useState(null)
 
+    const {user} = useAuth()
     const [state, setState] = useState({
         addingNote:false,
         title:null
@@ -28,6 +31,13 @@ const SideBarComponent = (notes, selectedNoteIndex) => {
 
     const saveNote = () => {
         console.log(state)
+        api.post('/t/' + user.uid + '/new')
+        .then(res => {
+            console.log('Nota creada')
+        })
+        .catch((e) => {
+            console.error(e)
+        })
     }   
 
     const selectNote = () => {

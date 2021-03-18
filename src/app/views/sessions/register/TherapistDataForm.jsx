@@ -76,6 +76,8 @@ const TherapistDataForm = ({ location }) => {
         setState({
             ...state,
             [name]: value,
+        
+
         })
     }
 
@@ -111,6 +113,9 @@ const TherapistDataForm = ({ location }) => {
                 </TextField>
                 <div>
                     <h3>¿Tienes un título que sea validado por una institución oficial?</h3>
+                    {/**
+                     * *TODO MANEJAR EL ERROR, CUANDO NO CONFIRMAN QUE SON PROFESIONALES. 
+                     */}
                     <FormControlLabel
                         control = {
                             <Checkbox 
@@ -163,7 +168,7 @@ const TherapistDataForm = ({ location }) => {
                     name="phone"
                     fullWidth
                     onChange={handleChange}
-                    placeholder="+521XXXXXXXXXX"
+                    placeholder="(LADA)XXXXXXXXXX"
                     InputProps={{
                     startAdornment: (
                         <InputAdornment position="start">
@@ -187,13 +192,30 @@ const TherapistDataForm = ({ location }) => {
                 />
             </div>
         </Box>, 
-        <Box className="m-sm-30 p-6">
+        <Box className="m-sm-30 p-3">
             <div className="max-w-600 mx-auto">
                 <h4>Selecciona una fotografía para tu perfil</h4>
                 <Divider className="mb-8" />
 
                 <input
                     accept="image/*"
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    className={classes.input}
+                />
+                
+                    <label  htmlFor="contained-button-file">
+                        <Button className="x-center" variant="contained" color="primary" component="span">
+                                Subir 
+                        </Button>
+                    </label>
+                </div>
+            <div className="max-w-600 mx-auto mt-4">
+                <h4>Sube tu CV cómo documento PDF</h4>
+                <Divider className="mb-8" />
+
+                <input
                     id="contained-button-file"
                     multiple
                     type="file"
@@ -215,9 +237,8 @@ const TherapistDataForm = ({ location }) => {
 
     const handleNext = () => {
         if (activeStep == 0 && !state.grade) {
-            setMessage("Debes ser verificar que eres mayor de edad")
+            // *TODO REDIRECCIONAR A PÁGINA DE FALLO (PORQUE NO SON PROFESIONALES)
         } else if (activeStep < 2 || (activeStep == 0 && state.grade)) {
-            console.log(state)
             setActiveStep((prevActiveStep) => prevActiveStep + 1)
             setMessage("")
 

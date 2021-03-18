@@ -10,13 +10,13 @@ export const Sidebar = ( { is0pen, toggle }) => {
             </Icon>
             <SidebarWrapper>
                 <SidebarMenu>
-                    <SidebarLink onClick={() => {toggle();}} to=''>
-                        Acerca de
+                    <SidebarLink onClick={() => {toggle();history.push('/')}} to='/'>
+                        Inicio
                     </SidebarLink>
-                    <SidebarLink onClick={() => {toggle();}} to='/landingblog'>
+                    <SidebarLink onClick={() => {toggle();history.push('/blogs')}} to='/blogs'>
                         Blog
                     </SidebarLink>
-                    <SidebarLink onClick={() => {toggle();}} to='/psychologists'>
+                    <SidebarLink onClick={() => {toggle();history.push('/psychologists')}} to='/psychologists'>
                         Psicólogos
                     </SidebarLink>
                     <SidebarLink onClick={() => {history.push('/session/signup')}} to='/session/signup'>

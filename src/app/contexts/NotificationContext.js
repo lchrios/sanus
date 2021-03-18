@@ -106,7 +106,7 @@ export const NotificationProvider = ({ settings, children }) => {
                 }
             ]
         
-            const res = await axios.get('/api/notification')
+             await axios.get('/api/notification')
             dispatch({
                 type: 'LOAD_NOTIFICATIONS',
                 payload: notification_data,

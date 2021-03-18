@@ -4,7 +4,6 @@ import React from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 import Favorite from "@material-ui/icons/Favorite";
-
 // core components
 import GridContainer from "./components/GridContainer";
 import GridItem from "./components/GridItem";
@@ -14,10 +13,7 @@ import Navbar from '../components/Navbar_sc/NavbarIndex'
 import BlogCards from "./components/BlogCards";
 import SearchBox from './landingBlogStyles/searchBoxStyle'
 import InterestedSection from "./components/lessImpBlog";
-import SectionImage from "./components/sectionIamge";
-
 import SubscribeLine from "./components/subscribeLine";
-
 import landingBlogStyles from "./landingBlogStyles/landingBlogStyles";
 
 
@@ -42,7 +38,6 @@ export default function landingBlog() {
                 Busca un tema
               </h2>
               <SearchBox />
-              {/*<SearchBoxBlog></SearchBoxBlog>*/}
             </GridItem>
           </GridContainer>
         </div>

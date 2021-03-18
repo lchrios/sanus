@@ -1,22 +1,15 @@
 import React from "react";
 import history from '../../../../../history'
-// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-// @material-ui/icons
-// import  from "@material-ui/icons/";
 // core components
 import GridContainer from "./GridContainer";
 import GridItem from "./GridItem";
 import Card from "./card";
-import CardAvatar from "./CardAvatar.jsx";
 import CardHeader from "./cardHeader";
 import CardBody from "./cardBody";
 import CardFooter from "./cardFooter.jsx";
 import Button from "./button.jsx";
-
 import landingPsyStyles from "./styles/landingPsyStyles";
-
-
 import Violeta from "assets/images/psicólogos/Violeta.PNG";
 import Sandra from "assets/images/psicólogos/Sandra.PNG";
 import Ivonne from 'assets/images/psicólogos/Ivonne.jpg'

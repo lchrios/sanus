@@ -1,5 +1,4 @@
 import api from 'app/services/api'
-import { reject } from 'lodash';
 
 /*
  * Functions user to use:
@@ -14,7 +13,7 @@ const getUserInfo = (uid) => {
     return new Promise(async (resolve, reject) => {
         api.get(`/u/${uid}`)
         .then( res => {
-            resolve(res.status == 204 ? undefined : res.data);
+            resolve(res.status === 204 ? undefined : res.data);
         })
         .catch( error => {
             console.error(error);
@@ -27,7 +26,7 @@ const getTherapist = (uid) => {
     return new Promise(async (resolve, reject) => {
         api.get(`/u/${uid}/t`)
         .then( res => {
-            resolve(res.status == 204 ? undefined : res.data);
+            resolve(res.status === 204 ? undefined : res.data);
         })
         .catch( error => {
             console.error(error);
@@ -40,7 +39,7 @@ const getSessions = (uid) => {
     return new Promise(async (resolve, reject) => {
         api.get(`/u/${uid}/s`)
         .then( res => {
-            resolve(res.status == 204 ? undefined : res.data);
+            resolve(res.status === 204 ? undefined : res.data);
         })
         .catch( error => {
             console.error(error);
@@ -53,7 +52,7 @@ const assignTherapist = (uid, tid) => {
     return new Promise(async (resolve, reject) => {
         api.post(`/u/${uid}/t/${tid}`)
         .then( res => {
-            resolve(res.status == 204 ? undefined : res.data);
+            resolve(res.status === 204 ? undefined : res.data);
         })
         .catch( error => {
             console.error(error);
@@ -63,4 +62,4 @@ const assignTherapist = (uid, tid) => {
 }
 
 
-export { getTherapist, getSessions, assignTherapist };
+export { getTherapist, getSessions, assignTherapist, getUserInfo };

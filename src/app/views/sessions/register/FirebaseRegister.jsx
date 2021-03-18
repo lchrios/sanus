@@ -13,7 +13,6 @@ import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import useAuth from 'app/hooks/useAuth'
 import history from '../../../../history'
-import {NavLogo} from '../../landing/components/Navbar_sc/NavbarElements'
 
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
@@ -57,6 +56,7 @@ const FirebaseRegister = () => {
     const [message, setMessage] = useState('')
     const { signInWithGoogle } = useAuth()
 
+     // *Escucha los valores de los inputs
     const handleChange = ({ target: { name, value } }) => {
         setState({
             ...state,
@@ -64,6 +64,7 @@ const FirebaseRegister = () => {
         })
     }
 
+    // *REGISTRO CON GOOGLE
     const handleGoogleRegister = (event) => {
         signInWithGoogle()
             .then( result => {
@@ -88,10 +89,10 @@ const FirebaseRegister = () => {
             })
     }
 
+    //*Envía la información de registro a la base de datos
     const handleFormSubmit = () => {
         if (state.agreement) {
             setLoading(true)
-            console.log("De camino al formulario de datos");
             history.push({
                 pathname: '/session/register',
                 state: {
