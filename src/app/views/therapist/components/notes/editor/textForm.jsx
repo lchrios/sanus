@@ -28,11 +28,9 @@ const TextForm = () => {
     const [state, setState] = useState({
       content: '',
     });
-  
-    const { user } = useAuth()
 
     const handleContentChange = async(val) => {
-      await setState({content:val})
+      setState({ content: val })
       update()
     };
     const update = debounce(()=>{

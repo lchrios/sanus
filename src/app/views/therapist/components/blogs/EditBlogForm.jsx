@@ -23,25 +23,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+
+
 const EditBlogForm = () => {
     const classes = useStyles()
-    const [entry, setEntry] = useState(/*{
-      title: "",
-      content: "",
-      id: "",
-      date: null,
-      author: "",
-      likes: [],
-      comments: [],
-      img: ""
-    }*/{});
-
+    const [entry, setEntry] = useState();
+    const [loading, setLoading] = useState(true);
     const { user } = useAuth()
+
+    const search = useLocation().search
+    const bid = new URLSearchParams(search).get("bid")
 
     useEffect(() => {        
         api.get("/b/" + bid)
             .then(res => {
-                setEntry(res.data)
+                setLoading(false);
+                setEntry(res.data);
             })
             .then(() => {
                 console.log(entry)
@@ -54,18 +51,22 @@ const EditBlogForm = () => {
     if (entry?.img) {
       imgPreview = (<div className="image-container" ><img src={entry.img} alt="icon" width="200" /> </div>);
     }
-    const search = useLocation().search
-    const bid = new URLSearchParams(search).get("bid")
+
 
   
     const handleUpdateBlog = () => {
-      // TODO: upload and update state.img with new image
-      
+        // TODO: upload and update state.img with new image
+        console.log(entry)
 
-      // TODO: Cambiar direccion a la de la api
-      console.log(entry)
-      api.put("/b/" + bid, {blogdata: {...entry}})
-      history.push("/" + user.uid + "/myblogs");
+        api.put("/b/" + bid, {blogdata: {...entry}})
+        .then( res => {
+            console.log(res.data);
+            history.push("/" + user.uid + "/myblogs");
+        })
+        .catch( er => {
+            console.error(er);
+        })
+      
 
     }
 
@@ -139,7 +140,7 @@ const EditBlogForm = () => {
               {/* 
                // TODO: image uploading
               */}
-              <input
+                <input
                     accept="image/*"
                     className={classes.input}
                     id="text-button-file"

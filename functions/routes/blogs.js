@@ -130,9 +130,9 @@ exports.updateBlog = (req, res) => {
         .update(req.body.blogdata)
         .then(() => {
             console.log('Acutalización del blog document exitosa!');
-            return res.status(204);
+            return res.status(201).send({message: "Blog editado correctamente", bid: req.params.bid});
         })
         .catch(error => {
-            return res.status(404).send('Error al actualizar el blog document', error);
+            return res.status(404).send(error);
         })
 }

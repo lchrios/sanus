@@ -26,12 +26,13 @@ import landingRoutes from './views/landing/LandingRoutes'
 import patientRoutes from './views/patient/PatientRoutes'
 import therapistRoutes from './views/therapist/TherapistRoutes'
 import adminRoutes from './views/admin/AdminRoutes'
+import history from '../history'
 
 const redirectRoute = [
     {
       path: "/",
       exact: true,
-      component: () => <Redirect to="/home" />
+      component: () => history.push("/home")
     },
   ];
 

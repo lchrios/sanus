@@ -1,20 +1,12 @@
-const {admin} = require('../firebase');
+const { admin } = require('../firebase');
 const db = admin.firestore();
 const auth = admin.auth();
+const storage = admin.storage();
 var users = db.collection('users');
-var thers = db.collection('therapists');  
-var roles = db.collection('roles');
-var { User, userConverter } = require('../schema/user');
-var { Therapist, therapistConverter } = require('../schema/therapist');
+var thers = db.collection('therapists');
 
- 
-exports.isAuthorized = (hasRole, allowSameUser) => { // TODO Corregir lectura de roles
+exports.isAuthorized = (hasRole, allowSameUser) => {
     return (req, res, next) => {
-        // TODO: Remover cuando se termine la prueba
-        // console.log('Skipeando autorizacion por prueba');
-        // next();
-        // return;
-
 
         const { role, uid } = res.locals;
         const id  = req.headers.uid;
@@ -32,15 +24,7 @@ exports.isAuthorized = (hasRole, allowSameUser) => { // TODO Corregir lectura de
 }
 
 exports.isAuthenticated = (req, res, next) => {
-
-    // TODO: Remover cuando se termine la prueba
-    // console.log('Skipeando autenticacion por prueba');
-    // next();
-    // return;
-
-
     console.log('Verificando que el tokenId sea válido');
-    //console.log(req.headers.authorization)
     /* 
      * Verifica que el request contenga un ID Token.
      - Por convención el authorization header al portar 
@@ -86,23 +70,6 @@ exports.isAuthenticated = (req, res, next) => {
             res.status(403).send('Unauthorized');
             return;
         });
-
-/*
-    * Esta es una forma diferente de hacer exactamente lo mismo que el código previo
-    * pero la estructura es distinta, en este se usa un bloque try catch para manejar
-    * el error que nos daría el caso de que no se pueda verificar el token muestra el error 
- ?  try {
- ?      const decodedIdToken = await auth.verifyIdToken(idToken);
- ?      console.log('ID Token correctamente decodificado', decodedIdToken);
- ?      req.user = decodedIdToken;
- ?      next();
- ?      return;
- ?  } catch (error) {
- ?      console.error('Error al verififcar el Firebase ID token:', error);
- ?      res.status(403).send('Unauthorized');
- ?      return;
- ?  }
-*/
 }
 
 exports.setAdmin = (req, res) => {
@@ -145,41 +112,63 @@ exports.setUser = (req, res) => {
 }
 
 exports.createUserWithEmailAndPassword = (req, res) => {
-
     auth
         .createUser({
             email: req.body.email,
             emailVerified: false,
             password: req.body.password,
             displayName: req.body.userdata.name,
-            photoURL: req.body.userdata.img || "",
+            photoURL: "https://storage.googleapis.com/iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png",
             disabled: false,
         })
-        .then( userRecord => {
-
+        .then( user => {
             console.log('Auth: Usuario creado exitosamene!');
+            
+            // TODO: SEND EMAIL VERIFICATION
+            const actionCodeSettings = {
+                // URL you want to redirect back to. The domain (www.example.com) for
+                // this URL must be whitelisted in the Firebase Console.
+                url: 'https://www.iknelia.app/session/login',
+                // This must be true for email link sign-in.
+                handleCodeInApp: true,
+                iOS: {
+                  bundleId: 'com.example.ios',
+                },
+                android: {
+                  packageName: 'com.example.android',
+                  installApp: true,
+                  minimumVersion: '12',
+                },
+                // FDL custom domain.
+                dynamicLinkDomain: 'www.iknelia.app',
+              };
+            
             // * Sube el usuario creado a colleccion de usuarios
             users
-                .doc(userRecord.uid)
-                .withConverter(userConverter)
+                .doc(user.uid)
                 .set(req.body.userdata)
                 .then(() => {
-                    console.log('Collection: Users - Listo!', userRecord.uid);
+                    console.log('Collection: Users - Listo!', user.uid);
                     // * Actualizar el rol del usuario a 'user'
-                    auth
-                        .setCustomUserClaims(userRecord.uid, { role: "user" })
-                        .then(() => {
-                            console.log('Usuario registrado con rol "user" correctamente!');
-                            return res.status(201).send(userRecord.uid);
-                        })
-                        .catch( error => {
-                            console.error('Error asignando el rol de "user" al usuario', eror)
-                            return res.status(404).send(error);
-                        })
+                })
+                .then(() => {
+                    auth.setCustomUserClaims(user.uid, { role: "user" })
+                    .then(() => {
+                        console.log('Usuario registrado con rol "user" correctamente!');
+                    })
+                    .catch( error => {
+                        console.error('Error asignando el rol de "user" al usuario', error)
+                        return res.status(404).send(error);
+                    })
+                })
+                .then(() => {
+                    // TODO: Subir file a la base de datos
+                    return res.status(201).send(req.body.file);
+                    
                 })
                 .catch( error => {
                     console.error('Error registrando el usuario en collection "users"', error);
-                    return res.status(404).send(error);
+                    return res.status(400).send(error);
                 })
         })
         .catch(error => {
@@ -195,14 +184,13 @@ exports.createTherapistWithEmailAndPassword = (req, res) => {
             emailVerified: false,
             password: req.body.password,
             displayName: req.body.userdata.name,
-            photoURL: req.body.userdata.img || "",
+            photoURL: "https://storage.googleapis.com/iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png",
             disabled: false,
         })
         .then(user => {
             // subir a colleccion de usuarios
             thers
                 .doc(user.uid)
-                .withConverter(therapistConverter)
                 .set(req.body.therapistdata)
                 .then(() => {
                     console.log('Collection: Therapist- Listo!');

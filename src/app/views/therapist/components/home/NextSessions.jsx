@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Card,
     Button,
@@ -12,6 +12,8 @@ import { CheckCircle } from '@material-ui/icons'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import { MatxMenu, GoogleIcon } from 'app/components'
+import api from 'app/services/api'
+import useAuth from 'app/hooks/useAuth'
 
 Date.prototype.addHours = function(h) {
     this.setTime(this.getTime() + (h*60*60*1000));
@@ -54,25 +56,30 @@ const patients = [
 const NextSessions = () => {
 
     const classes = useStyles()
+    const [sessionList, setSessionList] = useState(patients)
+    const numberSession = 0;
+    const { user } = useAuth();
 
-    const [userList, setUserList] = useState(patients)
-
-    const numberSession = 0
+    useEffect(() => {
+        api.get(`/t/${user.uid}/s`).then( res => {
+            setSessionList(res.data.data)
+        })
+    }, [])
 
     return (
         /**Añadir un contador para que cuando la sesión sea la más próxima muestre los botones correctos */
         <Grid container spacing={3} direction="column">
-            {userList.map((user) => (
+            {sessionList.map((session_info) => (
                 <Grid
                     item
                     lg={12}
                     md={12}
                     sm={12}
                     xs={12}
-                    key={user.name}>
+                    key={session_info.patient}>
                     <Card className="p-5">
                         <div className="flex justify-between mb-4">
-                            <Avatar className="h-56 w-56" src={user?.imgUrl} />
+                            <Avatar className="h-56 w-56" src={session_info?.imgUrl} />
                             <div>
                                 <MatxMenu
                                     menuButton={
@@ -82,7 +89,7 @@ const NextSessions = () => {
 
 
                                     {/* 
-                                    * TODO: AÑADIR ACTUALIZACIÓN DE HISTORIAL DE SESIONES */}
+                                    // TODO: AÑADIR ACTUALIZACIÓN DE HISTORIAL DE SESIONES */}
                                     <MenuItem>
                                         <Icon fontSize="small"> done </Icon>
                                         <span className="pl-4"> Marcar como terminado </span>
@@ -100,11 +107,11 @@ const NextSessions = () => {
                             </div>
                         </div>
                         <div>
-                            <h5 className="m-0 capitalize">{user?.name}</h5>
+                            <h5 className="m-0 capitalize">{session_info?.name}</h5>
                             <Grid item>
                                 <h4 className="text-muted mt-2">Fecha pactada:</h4>
                                 <p className="text-muted">
-                                    {user.time.toString()}
+                                    {session_info.time.toString()}
                                 </p>
                             </Grid>
                             <div className="mb-4">

@@ -37,48 +37,49 @@ exports.newSession = (req, res) => {
                     return res.status(404).send(error);
                 })
             */
+            return res.status(201).send({id: doc.id});
 
             // * añade la cita al paciente
-            const userref = users.doc(req.body.sessiondata.patient)
-            userref
-                .get()
-                .then( usdoc => {
-                    const sessdata = usdoc.data().sessions;
-                    sessdata.push(doc.id);
-                    userref.update({sessions: sessdata}).then(() => {
-                        console.log('Campo user.sessions actualizado correctamente')
-                    })
-                    .catch(error => {
-                        console.log('Error actualizando el campo user.sessions', error);
-                        return res.status(404).send(error);
-                    })
-                })
-                .then(() => {
-                    // * añade la cita al terapeuta 
-                    const terref = ther.doc(req.body.sessiondata.therapist)
-                    terref.get()
-                        .then( terdoc => {
-                            const data = terdoc.data().sessions;
-                            data.push(doc.id);
-                            userref.update({sessions: data})
-                                .then(() => {
-                                    console.log('Campo user.sessions actualizado correctamente')
-                                    return res.status(201).send(doc.id);
-                                })
-                            .catch(error => {
-                                console.log('Error actualizando el campo therapist.sessions', error);
-                                return res.status(404).send(error);
-                            })
-                        })
-                        .catch(error => {
-                            console.log('Error obteniendo los datos del terapeuta', error);
-                            return res.status(404).send(error);
-                        })  
-                })
-                .catch(error => {
-                    console.log('Error obteniendo los datos del usuario', error);
-                    return res.status(404).send(error);
-                })
+            // const userref = users.doc(req.body.sessiondata.patient)
+            // userref
+            //     .get()
+            //     .then( usdoc => {
+            //         const sessdata = usdoc.data().sessions;
+            //         sessdata.push(doc.id);
+            //         userref.update({sessions: sessdata}).then(() => {
+            //             console.log('Campo user.sessions actualizado correctamente')
+            //         })
+            //         .catch(error => {
+            //             console.log('Error actualizando el campo user.sessions', error);
+            //             return res.status(404).send(error);
+            //         })
+            //     })
+            //     .then(() => {
+            //         // * añade la cita al terapeuta 
+            //         const terref = ther.doc(req.body.sessiondata.therapist)
+            //         terref.get()
+            //             .then( terdoc => {
+            //                 const data = terdoc.data().sessions;
+            //                 data.push(doc.id);
+            //                 userref.update({sessions: data})
+            //                     .then(() => {
+            //                         console.log('Campo user.sessions actualizado correctamente')
+            //                         
+            //                     })
+            //                 .catch(error => {
+            //                     console.log('Error actualizando el campo therapist.sessions', error);
+            //                     return res.status(404).send(error);
+            //                 })
+            //             })
+            //             .catch(error => {
+            //                 console.log('Error obteniendo los datos del terapeuta', error);
+            //                 return res.status(404).send(error);
+            //             })  
+            //     })
+            //     .catch(error => {
+            //         console.log('Error obteniendo los datos del usuario', error);
+            //         return res.status(404).send(error);
+            //     })
         })
         .catch(error => {
             console.log("Unable to create new blog", error);
@@ -89,7 +90,7 @@ exports.newSession = (req, res) => {
 exports.updateSession = (req, res) => {
     sess
         .doc(req.params.sid)
-        .set(req.body.sessiondata)
+        .update(req.body.sessiondata)
         .then(() => {
             console.log('Sesion actualizada con exito!');
             return res.status(204);

@@ -52,7 +52,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const FirebaseRegister = () => {
     const [loading, setLoading] = useState(false)
-    const [state, setState] = useState({})
+    const [state, setState] = useState()
     const classes = useStyles()
     const [message, setMessage] = useState('')
     const { signInWithGoogle } = useAuth()
@@ -69,13 +69,12 @@ const FirebaseRegister = () => {
             .then( result => {
                 var { credential, accessToken, user } = result;
 
-                // TODO: enviar a formulario pasando parametros (se puede con controled textfields)
                 history.push({
                     pathname: '/session/register',
                     state: {
                         user: user,
                         email: state.email,
-                        password: state.email,
+                        password: state.password,
                         withProvider: true,
                         credential: credential,
                         token: accessToken
@@ -97,7 +96,7 @@ const FirebaseRegister = () => {
                 pathname: '/session/register',
                 state: {
                     email: state.email,
-                    password: state.email,
+                    password: state.password,
                     withProvider: "false",
                 }
             });
@@ -106,8 +105,6 @@ const FirebaseRegister = () => {
             setMessage('Debes aceptar los términos y condiciones para proceder con el registro.');
         }
     }
-
-    let { email, password, agreement } = state
 
     return (
         <div
@@ -156,7 +153,7 @@ const FirebaseRegister = () => {
                                     onChange={handleChange}
                                     type="email"
                                     name="email"
-                                    value={email || ''}
+                                    value={state?.email || ''}
                                     validators={['required', 'isEmail']}
                                     errorMessages={[
                                         'este campo es obligatorio',
@@ -171,7 +168,7 @@ const FirebaseRegister = () => {
                                     onChange={handleChange}
                                     name="password"
                                     type="password"
-                                    value={password || ''}
+                                    value={state?.password || ''}
                                     validators={['required']}
                                     errorMessages={['este campo es obligatorio']}
                                 />
@@ -189,14 +186,14 @@ const FirebaseRegister = () => {
                                     control={
                                         <Checkbox
                                             size="small"
-                                            checked={agreement}
+                                            checked={state?.agreement}
                                         />
                                     }
                                     label={
                                         <>
                                             He leído y aceptado los{' '}
                                             <a
-                                                href="/"
+                                                href="/terminos-de-servicio"
                                                 className={classes.labelLink}
                                             >
                                                 términos de servicio.
@@ -212,8 +209,8 @@ const FirebaseRegister = () => {
                                     <Link to={{
                                             pathname: '/session/register',
                                             state: {
-                                                email: state.email,
-                                                password: state.email,
+                                                email: state?.email || "",
+                                                password: state?.password || "",
                                                 withProvider: false,
                                             }
                                         }}
@@ -240,8 +237,8 @@ const FirebaseRegister = () => {
                                     <Link to={{
                                         pathname: "/session/signin",
                                         state: {
-                                            email: state.email,
-                                            password: state.email,  
+                                            email: state?.email || "",
+                                            password: state?.password || "",  
                                         } 
                                     }}>
                                         <Button className="capitalize">

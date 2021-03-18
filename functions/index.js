@@ -1,8 +1,8 @@
 const functions = require("firebase-functions");
 const express = require("express");
 const app = express();
-const cors = require('cors')
-const Multer = require('multer')
+const cors = require('cors');
+var multer  = require('multer')
 
 // * Funciones de autenticacion
 const {
@@ -24,6 +24,7 @@ const {
   assignTherapist,
   newTestAnswers,
   getUserImage,
+  uploadImg
 } = require("./routes/users");
 
 // * Funciones relativas al terapeuta
@@ -61,27 +62,31 @@ const {
       handleStripeEvent, 
 } = require("./routes/stripe");
 
+const { fixAllUsers } = require("./routes/fixes");
+
 // * uso de transformacion a json
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
-const multer = Multer({
-    storage: Multer.MemoryStorage,
-    fileSize: 5 * 1024 * 1024
+const upload = multer({ 
+    storage: multer.memoryStorage(),
+    limits: 5 * 1024 * 1024,
 });
 
 // * permisos del CORS
 app.use(cors());
 app.use( (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://iknelia.app");
   res.header("Access-Control-Allow-Origin", "http://iknelia.netlify.app");
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Origin", "http://localhost:5000");
   res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.web.app/");
   res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.firebaseapp.com/");
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+
 
 // * Niveles de permisos por roles 
 const roles = {
@@ -113,6 +118,7 @@ app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession)
 app.post("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist);
 app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), newTestAnswers);
 app.get("/u/:uid/image", getUserImage);
+app.post("/u/:uid/image", uploadImg);
 
 //*rutas de stripe (lado user)
 app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo);
@@ -139,6 +145,11 @@ app.post("/auth/signtherapist", createTherapistWithEmailAndPassword)
 app.put("/auth/:uid/admin", setAdmin);
 app.put("/auth/:uid/therapist", setTherapist);
 app.put("/auth/:uid/user", setUser);
+
+// * rutas de fixing 
+// ! BORRARLAS DESPUES DE TERMINAR SU USO
+app.post("/fix/users", fixAllUsers);
+
 
 
 // * export de la api

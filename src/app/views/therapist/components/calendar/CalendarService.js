@@ -1,5 +1,4 @@
 import api from 'app/services/api'
-import axios from 'axios'
 
 export const getAllEvents = (uid) => {
     return api.get('/u/'+uid+'/s')

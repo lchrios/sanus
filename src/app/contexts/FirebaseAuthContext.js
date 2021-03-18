@@ -78,7 +78,24 @@ export const AuthProvider = ({ children }) => {
     }
 
     const createUserWithEmailAndPassword = async (state) => {
-        return api.post('/auth/signuser', { userdata: state, email: state.email, password: state.password })
+        let {email, password, file} = state;
+        
+        delete state.age_agree;
+        delete state.password;
+        delete state.withProvider; 
+        delete state.file
+        
+        // let data = new FormData();
+        // data.append('file', file, file.name);
+        // console.log("data", data.get("file"))
+        // console.log("state", state)
+        // await api.post(`/auth/uid1/uploadimg`, data, {
+        //     headers: {
+        //         'accept': 'application/json',
+        //         'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+        //     }
+        // })
+        return api.post('/auth/signuser', { userdata: state, email: email, password: password})
     }
 
     const createTherapistWithEmailAndPassword = async (state) => {

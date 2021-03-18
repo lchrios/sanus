@@ -33,7 +33,6 @@ const PatientProfile = () => {
     const [sessions, setSessions] = useState()
     const [loading, setLoading] = useState(true)  
     
-    console.log(process.);
 
     const toggleSidenav = () => {
         setOpen(!open)

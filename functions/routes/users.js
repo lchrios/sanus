@@ -40,25 +40,6 @@ exports.getUser = (req, res) => {
         })
 }
 
-
-
-exports.getUserImage = (req, res) => { // * Demo for image upload
-
-    var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
-    var stor_file = bucket.file('usuarios/placeholders/face-1.png');
-    stor_file.getSignedUrl({
-        version: 'v4',
-        action: 'read',
-        expires: Date.now() + 30 * 60 * 1000, // 15 minutes
-        
-    }).then(sURL => {
-        return res.status(200).send(sURL[0]);
-    })
-    .catch( er => {
-        return res.status(404).send(er);
-    })
-}
-
 exports.getTherapistByUser = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     users
@@ -134,4 +115,63 @@ exports.newTestAnswers = (req, res) => {
             console.error(error);
             return res.status(404).send(error);
         })
+}
+
+exports.uploadImg = (req, res) => {
+    console.log(`Subiendo imagen del usuario ${req.params.uid}`)
+    console.log(req.body.file)
+    if (!req.files || Object.keys(req.files).length === 0) {
+        console.log("No hay archivos :C")
+        return res.status(400).send({
+            success: false,
+            message: 'No files were uploaded',
+        });
+    }
+    
+    var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+    var stored_img = bucket.file(`usuarios/${req.params.uid}.${req.file.name.split(".")[1]}`)
+    
+    const blobStream = stored_img.createWriteStream()
+
+    blobStream.on('error', (error) => {
+        console.log('Something is wrong! Unable to upload at the moment.' + error);
+    });
+
+    blobStream.on('finish', () => {
+        var imgURL = `https://storage.googleapis.com/${bucket.name}/${stored_img.name}`; //image url from firebase server
+        console.log(imgURL);
+        auth.updateUser(user.uid, {
+            photoURL: imgURL,
+        })
+        .then(() => {
+            return res.status(200).send({
+                success: true,
+                message: 'File was uploaded',
+                imgURL: imgURL,
+            });
+            
+        })
+        .catch( er => {
+            return res.status(400).send(er);
+        })
+    });
+
+    blobStream.end(req.file.buffer);
+}
+
+exports.getUserImage = (req, res) => { // * Demo for image upload
+
+    var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+    var stor_file = bucket.file('usuarios/placeholders/face-1.png');
+    stor_file.getSignedUrl({
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + 30 * 60 * 1000, // 15 minutes
+        
+    }).then(sURL => {
+        return res.status(200).send(sURL[0]);
+    })
+    .catch( er => {
+        return res.status(404).send(er);
+    })
 }

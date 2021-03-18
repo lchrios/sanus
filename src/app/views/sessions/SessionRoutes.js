@@ -5,6 +5,7 @@ import FirebaseRegister from './register/FirebaseRegister'
 import TherapistDataForm from './register/TherapistDataForm'
 import TherapistFirebaseRegister from './register/TherapistFirebaseRegister'
 import UserDataForm from './register/UserDataForm'
+import Forbidden from './Forbidden'
 
 const sessionRoutes = [
     {
@@ -34,6 +35,10 @@ const sessionRoutes = [
     {
         path: '/session/404',
         component: NotFound,
+    },
+    {
+        path: '/session/403',
+        component: Forbidden,
     },
 ]
 

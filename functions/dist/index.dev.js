@@ -97,7 +97,7 @@ app.put("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignThera
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
 app.get("/b/:bid", isAuthenticated, isAuthorized(roles.user), getBlog);
 app.post("/b/new", isAuthenticated, isAuthorized(roles.therapist), newBlog);
-app["delete"]("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), deleteBlog);
+app.delete("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), deleteBlog);
 app.put("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), updateBlog); // * rutas de sesiones
 
 app.post("/s/new", isAuthenticated, isAuthorized(roles.user), newSession);

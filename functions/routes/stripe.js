@@ -25,12 +25,17 @@ exports.sendPaymentInfo = (req, res) => {
 } 
 
 exports.handleStripeEvent = (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    const endpoint_secret = "whsec_0gqlUqNwq6LAXKqhSIYMBQTPB7UQOlaH";
-    let event = req.body;
+    const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
+    const endpoint_secret = "whsec_0gqlUqNwq6LAXKqhSIYMBQTPB7UQOlaH"; // @Secreto del endpoint webhook
+    let event = req.body; // @ Lee la información enviada
 
-    // TODO: Arreglar la validacion 
-    try {
+    try { 
+        /* 
+          * Se construye unevento a traves de stripe pasando como argumentos:
+            @ Signature de stripe
+            @ secreto del endpoint
+            @ Informacion obtenida del POST
+        */
         event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
     } catch (err) {
         return res.status(400).send(`Webhook Error: ${err.message}`);
