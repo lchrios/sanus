@@ -25,6 +25,7 @@ import useAuth from 'app/hooks/useAuth'
 import history from '../../../../history'
 import { useLocation } from 'react-router'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
+import { Loading } from 'app/components/Loading/Loading'
 
 const getSteps = () =>{
     return ['Bienvenido', 'Contacto', 'Perfil']   
@@ -36,6 +37,11 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
     card: {
         maxWidth: 650,
+        borderRadius: 12,
+        margin: '1rem',
+    },
+    cardLoading: {
+        minWidth:200,
         borderRadius: 12,
         margin: '1rem',
     },
@@ -77,49 +83,25 @@ const UserDataForm = () => {
     const handleFormSubmit = () => {
         let { email, password } = state;
         setLoading(true)
+
         createUserWithEmailAndPassword(state)
         .then( res => {
             // * Aqui haces lo de que te mande a otro lado
-            try {
-                console.log(email, password)
-                signInWithEmailAndPassword(email, password).then(() => {
-                    var user = firebase.auth().currentUser
-    
-                    user.getIdTokenResult()
-                    .then( decodedToken => {
-                        switch (decodedToken.claims.role) {
-                            case "user":
-                                history.push(`/${user.uid}/home`)
-                                break;
-    
-                            case "therapist":
-                                history.push(`/${user.uid}/dashboard`)
-                                break;
-    
-                            case "admin":
-                                history.push(`/${user.uid}/analytics`)
-                                break;
-                    
-                            default:
-                                console.error('No role was detected')
-                                assignUserRole(user.uid).then(() => {
-                                    history.push(`/${user.uid}/home`);
-                                });
-                                break;   
-                        }
-                    })
-                    .catch( error => {
-                        console.error("Error al obtener el decodedToken del user", error)
-                    })
-                })
-            } catch (e) {
-                console.log(e)
-                setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
-                setLoading(false)
-            } 
+            signInWithEmailAndPassword(email, password)
+            .then(() => {
+                history.push(`/${res.data.uid}/home`)
+            })
+            .catch( error => {
+                console.error("Error al obtener el decodedToken del user", error)
+            })
         })
-
+        .catch( e => {
+            console.log(e)
+            setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
+            setLoading(false)
+        })
     }
+
 
     const handleChange = (event) => {
         setState({
@@ -137,7 +119,7 @@ const UserDataForm = () => {
 
     const onImageChange = (event) => {
         if (event.target.files && event.target.files[0]) {
-            setState({...state, file: event.target.files[0]});
+            // setState({...state, file: event.target.files[0]});
             let reader = new FileReader();
             reader.onload = (e) => {
                 setImgRender(e.target.result)
@@ -387,10 +369,6 @@ const UserDataForm = () => {
     }
 
     useEffect(() => {
-        console.log(state);
-    }, [state])
-
-    useEffect(() => {
         setMessage("")
     }, [activeStep])
 
@@ -420,7 +398,6 @@ const UserDataForm = () => {
                 setActiveStep((prevActiveStep) => prevActiveStep + 1)
             }
         } else if (activeStep == 1) {
-            console.log(state)
             if (state.email === "" || state.email === undefined) {
                 setMessage("Introduce un correo");
             } else if (state.mail === "" || state.lname === undefined) {
@@ -462,115 +439,103 @@ const UserDataForm = () => {
                 'flex justify-center items-center  min-h-full-screen',
                 classes.cardHolder
             )}
-        >
-            <Card className={classes.card}>
-                <Stepper activeStep={activeStep} alternativeLabel>
-                    {steps.map((label) => (
-                        <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
-                        </Step>
-                    ))}
-                </Stepper>
-                <Grid 
-                    container 
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                    spacing={2} >
-                    <Grid item lg={12} md={12} sm={12} xs={12}>
-                        <Grid 
-                            container 
-                            direction="column"
-                            justify="center"
-                            alignItems="center"
-                            spacing={2}  
-                            className="p-8 h-full">
-                            <Grid item lg={12} md={12} sm={12} xs={12}>
-                                {activeStep === steps.length ? (
-                                    <div className="flex items-center">
-                                        <div className="flex items-center mb-4">
-                                            <Icon>done</Icon> <span className="ml-2">Tus respuestas han sido enviadas :D</span>
+        >   
+            { loading 
+            ?   <Card className={classes.cardLoading}><div className="mt-10 mb-10 ml-10 mr-10"><Loading /></div></Card>
+            :   <Card className={classes.card}>
+                    <Stepper activeStep={activeStep} alternativeLabel>
+                        {steps.map((label) => (
+                            <Step key={label}>
+                                <StepLabel>{label}</StepLabel>
+                            </Step>
+                        ))}
+                    </Stepper> 
+                    <Grid 
+                        container 
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                        spacing={2} >
+                        <Grid item lg={12} md={12} sm={12} xs={12}>
+                            <Grid 
+                                container 
+                                direction="column"
+                                justify="center"
+                                alignItems="center"
+                                spacing={2}  
+                                className="p-8 h-full">
+                                <Grid item lg={12} md={12} sm={12} xs={12}>
+                                    {activeStep === steps.length ? (
+                                        <div className="flex items-center">
+                                            <div className="flex items-center mb-4">
+                                                <Icon>done</Icon> <span className="ml-2">Tus respuestas han sido enviadas :D</span>
+                                            </div>
+                                            <Button
+                                                variant="contained"
+                                                color="secondary"
+                                                onClick={handleReset}
+                                            >
+                                                Reset
+                                            </Button>
                                         </div>
-                                        <Button
-                                            variant="contained"
-                                            color="secondary"
-                                            onClick={handleReset}
-                                        >
-                                            Reset
-                                        </Button>
-                                    </div>
-                                ) : (
-                                    <div className=" flex-column items-center">
-                                        <ValidatorForm onSubmit={handleNext}>
-                                            <Grid item lg={12} md={12} sm={12} xs={12}>
-                                                {getSetpContent(activeStep)}
-                                            </Grid>
-                                            <Grid item lg={12} md={12} sm={12} xs={12}>
-                                                <Grid 
-                                                    container 
-                                                    direction="row"
-                                                    justify="center"
-                                                    alignItems="center"
-                                                    spacing={2}   
-                                                    className="flex mt-3"
-                                                >
-                                                    <Button className="capitalize"
-                                                            variant={activeStep === 0 ? 'text' : 'contained'}
-                                                            color={activeStep === 0 ? 'primary' : 'secondary'}
-                                                            disabled={activeStep === 0}
-                                                            onClick={handleBack}
-                                                        >
-                                                            Volver
-                                                    </Button>
-                                                    <span className="mx-2 ml-5 mr-5">ó</span>
-                                                    {activeStep === 2 ? 
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        onClick={handleFormSubmit}
-                                                    >
-                                                        {!loading
-                                                        ? <>Enviar respuestas <Icon className="ml-5">send</Icon></>
-                                                        :  <CircularProgress
-                                                                size={24}
-                                                                className={
-                                                                    classes.buttonProgress
-                                                                }
-                                                            />
-                                                        }
-                                                    </Button>
-                                                    :
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        type="submit"
-                                                        onClick={handleNext}
-                                                    >
-                                                        Siguiente
-                                                    </Button>
-                                                    }
-                                                    
-                                                    {loading && (
-                                                        <CircularProgress
-                                                            size={24}
-                                                            className={
-                                                                classes.buttonProgress
-                                                            }
-                                                        />
-                                                    )}
+                                    ) : (
+                                        <div className=" flex-column items-center">
+                                            <ValidatorForm onSubmit={handleNext}>
+                                                <Grid item lg={12} md={12} sm={12} xs={12}>
+                                                    {getSetpContent(activeStep)}
                                                 </Grid>
-                                            </Grid>
-                                        </ValidatorForm>
-                                    </div>
-                                )}
+                                                <Grid item lg={12} md={12} sm={12} xs={12}>
+                                                    <Grid 
+                                                        container 
+                                                        direction="row"
+                                                        justify="center"
+                                                        alignItems="center"
+                                                        spacing={2}   
+                                                        className="flex mt-3"
+                                                    >
+                                                        <Button className="capitalize"
+                                                                variant={activeStep === 0 ? 'text' : 'contained'}
+                                                                color={activeStep === 0 ? 'primary' : 'secondary'}
+                                                                disabled={activeStep === 0}
+                                                                onClick={handleBack}
+                                                            >
+                                                                Volver
+                                                        </Button>
+                                                        <span className="mx-2 ml-5 mr-5">ó</span>
+                                                        {activeStep === 2 ? 
+                                                        <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            onClick={handleFormSubmit}
+                                                        >
+                                                            Enviar respuestas <Icon className="ml-5">send</Icon>
+                                                        </Button>
+                                                        :
+                                                        <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            type="submit"
+                                                            onClick={handleNext}
+                                                        >
+                                                            Siguiente
+                                                        </Button>
+                                                        }
+                                                        
+                                                        
+                                                    </Grid>
+                                                </Grid>
+                                            </ValidatorForm>
+                                        </div>
+                                    )}
+                                </Grid>
+                                {message && ( // TODO:@esq Darle más formato a ese mensaje, muestra los errores que pueden ir ocurriendo
+                                    <p className="text-error h4 mt-5">{message}</p>
+                                )}          
                             </Grid>
-                            {message && ( // TODO:@esq Darle más formato a ese mensaje, muestra los errores que pueden ir ocurriendo
-                                <p className="text-error h4 mt-5">{message}</p>
-                            )}          
                         </Grid>
                     </Grid>
-                </Grid>
-            </Card>
+                </Card>
+            }
         </div>
     )
 }
