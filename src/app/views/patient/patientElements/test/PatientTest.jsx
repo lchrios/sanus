@@ -23,7 +23,7 @@ const getSteps = () => {
 }
 
 
-const PatientTest = ({ loading, therapist }) => {
+const PatientTest = ({ loading, therapist, toggleHide }) => {
     
     const { user } = useAuth();
     const [state, setState] = useState()
@@ -43,7 +43,7 @@ const PatientTest = ({ loading, therapist }) => {
             case 1:
                 if (state?.reason === undefined || state?.reason === "") {
                     setMessage("Escribe la razón de la visita, por favor. C:");
-                } else if (state?.time_situation_detected === undefined || state?.time_situation_detected === "") {
+                } else if (state?.time_situation_detected === undefined || state?.time_situation_detected === "" || state?.time_situation_detected === "Escoja alguna...") {
                     setMessage("Elige un periodo, porfavor.");
                 } else if (state?.relatedExperience === undefined || state?.relatedExperience === "") {
                     setMessage("Describe alguna experiencia por favor.");
@@ -61,12 +61,14 @@ const PatientTest = ({ loading, therapist }) => {
                 }
                 break;
             case 3:
-                setActiveStep((prevActiveStep) => prevActiveStep + 1)
+                
 
                 // Subir info
                 api.post(`/u/${user.uid}/test`, {testdata: state})
                 .then( res => {
                     console.log(res.data);
+                    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+                    toggleHide()
                 })
                 .catch( er => {
                     console.error(er)
@@ -130,16 +132,16 @@ const PatientTest = ({ loading, therapist }) => {
                                 <Icon>done</Icon> <span className="ml-2 mt-5 h4">Tus respuestas han sido enviadas :D</span>
                             </div>
                         </Grid>
-                        <Grid item lg={12} md={12} sm={12} xs={12} >
+                        {/* <Grid item lg={12} md={12} sm={12} xs={12} >
                             <Button
                                 variant="contained"
                                 color="secondary"
                                 size="large"
                                 onClick={handleReset}
                             >
-                                Reset
+                                Ocultar
                             </Button>
-                        </Grid>
+                        </Grid> */}
                     </Grid> 
                 :   <>
                         <Grid item lg={12} md={12} sm={12} xs={12}>

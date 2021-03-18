@@ -42,8 +42,8 @@ const FormTest = ({ state, handleChange, handleNext }) => {
                             {native:true}
                         }
                     >
-                        {stayDurationList.map((duration) => (
-                            <option key={duration} value={duration}>
+                        {stayDurationList.map((duration, index) => (
+                            <option key={duration} value={index == 0 ? undefined : duration}>
                                 {duration}
                             </option>
                         ))}
@@ -66,6 +66,7 @@ const FormTest = ({ state, handleChange, handleNext }) => {
 }
 
 const stayDurationList = [
+    'Escoja alguna...',
     'Hace menos de una semana',
     'Hace una semana',
     'Hace un mes',

@@ -78,13 +78,15 @@ const upload = multer({
 app.use(cors());
 app.use( (req, res, next) => {
     res.header("Access-Control-Allow-Origin", [
-        "http://iknelia.app", 
-        "http://iknelia.netlify.app", 
+        "https://iknelia.app",
+        "http://localhost:3000",
         "http://localhost:5000",
+        "https://www.iknelia.app", 
+        "https://iknelia.netlify.app", 
         "https://iknelia-3cd8e.web.app/",
         "https://iknelia-3cd8e.firebaseapp.com/",
-        "http://localhost:3000"
-    ]);
+        
+    ][1]);
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });

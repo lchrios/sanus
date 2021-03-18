@@ -61,6 +61,7 @@ export default function CheckoutDialog() {
         }).then((paymentMethod) => {
             console.log(paymentMethod)
             // TODO: Save payment ID to user
+            api.put()
             // * POST a la API
             api.post('/u/' + user.uid + '/checkout', {
                 ...paymentMethod.paymentMethod,
