@@ -2,23 +2,14 @@ import  React  from "react";
 import { authRoles } from '../../auth/authRoles'
 
 const EditBlogForm = React.lazy(() => import("./components/blogs/EditBlogForm"))
-
 const TherapistHome = React.lazy(() => import('./TherapistHome'))
-
 const TherapistBlogs = React.lazy(() => import('./TherapistBlogs'))
-
 const BlogEntryForm = React.lazy(() => import('./components/blogs/BlogEntryForm'))
-
 const TherapistCalendar = React.lazy(() => import('./TherapistCalendar'))
-
 const PatientsList = React.lazy(() => import('./PatientList'))
-
 const CompletedSessions = React.lazy(() => import('./TherapistsSessionsHistory'))
-
 const Comments = React.lazy(() => import('./CommentsApp'))
-
 const NotesApp = React.lazy(() => import('./components/notes/NotesApp'))
-
 const Schedule = React.lazy(() => import('./TherapistSchedule'))
 
 const therapistRoutes = [

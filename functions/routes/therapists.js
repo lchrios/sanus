@@ -69,7 +69,7 @@ exports.getAllSessionsByTherapist = (req, res) => {
                 data.push(doc.data());
                 refs.push(doc.ref);
             })
-            res.status(200).send({ id: refs, data: data })
+            return res.status(200).send({ id: refs, data: data })
         })
         .catch(error => {
             console.log('Error al obtener sesiones terapeuta!', error);

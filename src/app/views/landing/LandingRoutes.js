@@ -34,12 +34,7 @@ const landingRoutes = [
   },
   {
     path:'/blogs',
-    component:LandingBlog,
-    settings
-  },
-  {
-    path: '/entry',// *TODO COLOCAR EL BLOG ID
-    component:Blog,
+    component:Blogs,
     settings
   },
   {

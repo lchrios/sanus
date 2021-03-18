@@ -16,6 +16,8 @@ import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import axios from 'axios'
 import api from 'app/services/api'
+import { Loading } from 'app/components/Loading/Loading'
+import parse from "html-react-parser";
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cart: {
@@ -35,8 +37,9 @@ const titles_data = [
 ];
 
 const TherapistBlogs = () => {
-    const [blogs_data, setBlogs] = useState([])
+    const [blogs, setBlogs] = useState()
     const [titles, setTitles] = useState(titles_data)
+    const [loading, setLoading] = useState(true)
     const [image, setImage] = useState()
 
     const { user } = useAuth()
@@ -44,7 +47,11 @@ const TherapistBlogs = () => {
 
     useEffect(() => {
         api.get("/t/" + user.uid + "/b")
-            .then(res => setBlogs(res.data))
+            .then(res => {
+                console.log(res.data)
+                setBlogs(res.data)
+                setLoading(false)
+            })
             .then(() => console.log("Blogs descargados"))
     }, [])
 
@@ -128,8 +135,11 @@ const TherapistBlogs = () => {
             </div>
             <Divider></Divider>
 
-            {blogs_data.map((blog_entry) => (
-                <div key={blog_entry.id} className="py-4 px-4">
+            { loading ? 
+            <Loading />
+            :
+            blogs.data.map((blog_entry, index) => (
+                <div key={blogs.id[index]} className="py-4 px-4">
                     <Grid container alignItems="center">
                         <Grid item lg={3} md={3} sm={3} xs={3}>
                             <div className="flex items-center">
@@ -146,8 +156,9 @@ const TherapistBlogs = () => {
                         </Grid>
                         <Grid item lg={4} md={4} sm={4} xs={4}>
                             <h6 className="m-0">{blog_entry.title}</h6>
-                            <p className="mt-2 m-0 text-muted">
-                                {blog_entry.content}
+                            {parse(blog_entry.content)}
+                            <p id={`cont${index}`} className="mt-2 m-0 text-muted">
+                                
                             </p>
                         </Grid>
                         <Grid

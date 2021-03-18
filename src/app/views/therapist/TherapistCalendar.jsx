@@ -127,9 +127,6 @@ const TherapistCalendar = () => {
 
 
     {/**Añadir validación de paciente con base de datos */}
-    
-    // TODO: Hacer responisva esta vista
-
     return (
         <div className="m-sm-30">
             <div className="mb-sm-30">

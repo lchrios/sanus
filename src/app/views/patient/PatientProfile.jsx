@@ -33,7 +33,8 @@ const PatientProfile = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
     const [therapist, setTherapist] = useState() 
     const [sessions, setSessions] = useState()
-    const [loading, setLoading] = useState(true)   
+    const [loading, setLoading] = useState(true)  
+    
 
     const toggleSidenav = () => {
         setOpen(!open)

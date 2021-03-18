@@ -38,6 +38,7 @@ const AuthContext = createContext({
     ...initialAuthState,
     method: 'FIREBASE',
     createUserWithEmailAndPassword: () => Promise.resolve(),
+    createTherapistWithEmailAndPassword: () => Promise.resolve(),
     signInWithEmailAndPassword: () => Promise.resolve(),
     signInWithGoogle: () => Promise.resolve(),
     assignUserRole: () => Promise.resolve(),
@@ -76,9 +77,31 @@ export const AuthProvider = ({ children }) => {
     //     return firebase.auth().signInWithPopup(provider)
     // }
 
-    const createUserWithEmailAndPassword = async (email, password) => {
-        return api.post('/auth/signuser', { email: email, password: password })
+    const createUserWithEmailAndPassword = async (state) => {
+        let {email, password, file} = state;
+        
+        delete state.age_agree;
+        delete state.password;
+        delete state.withProvider; 
+        delete state.file
+        
+        // let data = new FormData();
+        // data.append('file', file, file.name);
+        // console.log("data", data.get("file"))
+        // console.log("state", state)
+        // await api.post(`/auth/uid1/uploadimg`, data, {
+        //     headers: {
+        //         'accept': 'application/json',
+        //         'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+        //     }
+        // })
+        return api.post('/auth/signuser', { userdata: state, email: email, password: password})
     }
+
+    const createTherapistWithEmailAndPassword = async (state) => {
+        return api.post('/auth/signtherapist', { therapistdata: state, email: state.email, password: state.password })
+    }
+
 
     const logout = () => {
         return firebase.auth().signOut()
@@ -131,6 +154,7 @@ export const AuthProvider = ({ children }) => {
                 ...state,
                 method: 'FIREBASE',
                 createUserWithEmailAndPassword,
+                createTherapistWithEmailAndPassword,
                 signInWithEmailAndPassword,
                 signInWithGoogle,
                 logout,
