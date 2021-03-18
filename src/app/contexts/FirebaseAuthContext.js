@@ -95,7 +95,17 @@ export const AuthProvider = ({ children }) => {
         //         'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
         //     }
         // })
-        return api.post('/auth/signuser', { userdata: state, email: email, password: password})
+        return api.post('/auth/signuser', { 
+            userdata: {
+                ...state, 
+                answered: false, 
+                img: "usuarios/placeholders/none-user.png", 
+                therapist: "", 
+                payment_met: [], 
+            }, 
+            email: email, 
+            password: password
+        })
     }
 
     const createTherapistWithEmailAndPassword = async (state) => {
