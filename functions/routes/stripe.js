@@ -3,13 +3,14 @@ const stripe = require('stripe')("sk_test_51HwA9iItRYlC7M0MQNS8OacWDR17Hgnaf9yXv
 /**La private key será utilizada con una variable de entorno */
 
 exports.sendPaymentInfo = (req, res) => {
+    // TODO: Sacar el payment ID y ponerlo en el usuario 
       const { amount } = req.body;
   
     stripe.paymentIntents.create({
         amount,
         currency:'mxn',
         description: 'Sesión individual',
-        payment_method_types: ['card', 'oxxo'],
+        payment_method_types: ['card'],
     })
     .then((paymentIntent) => {
         console.log("Ticket de pago generado exitosamente")

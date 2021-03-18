@@ -49,8 +49,12 @@ const DragAndDropCalendar = withDragAndDrop(Calendar)
 
 let viewList = Object.keys(Views).map((key) => Views[key])
 
-const PatientCalendar = () => {
-    const [events, setEvents] = useState([])
+const PatientCalendar = ({ sessions }) => {
+    const [events, setEvents] = useState(sessions.map((e) => ({
+        title: e.thername,
+        start: new Date(e.start),
+        end: new Date(e.end),
+    })))
     const [newEvent, setNewEvent] = useState(null)
     const [shouldShowEventDialog, setShouldShowEventDialog] = useState(false)
 
@@ -59,34 +63,18 @@ const PatientCalendar = () => {
 
     const { user } = useAuth()
 
-    const updateCalendar = () => {
-        getAllEvents(user.uid)
-            .then( res => {
-                var ev = []
-                res.data.data.forEach((e) => (ev.push({
-                    ...e,
-                    title: e.note,
-                    start: new Date(e.start),
-                    end: new Date(e.end),
-                })))
-                setEvents(ev)
-            })
-    }
 
     const handleDialogClose = () => {
         setShouldShowEventDialog(false)
-        updateCalendar()
     }
 
-    const handleEventMove = (event) => {
-        handleEventResize(event)
-    }
-
-    const handleEventResize = (event) => {
-        updateEvent(event).then(() => {
-            updateCalendar()
-        })
-    }
+    useEffect(() => {
+        setEvents(sessions.map((e) => ({
+            title: e.thername,
+            start: new Date(e.start),
+            end: new Date(e.end),
+        })))
+    }, [sessions])
 
     const openNewEventDialog = ({ action, ...event }) => {
         if (action === 'doubleClick') {
@@ -100,10 +88,6 @@ const PatientCalendar = () => {
         setNewEvent(event)
         setShouldShowEventDialog(true)
     }
-
-    useEffect(() => {
-        updateCalendar()
-    })
 
     return (
         <div className="m-sm-30">
@@ -129,9 +113,6 @@ const PatientCalendar = () => {
                     selectable
                     localizer={localizer}
                     events={events}
-                    onEventDrop={handleEventMove}
-                    resizable
-                    onEventResize={handleEventResize}
                     defaultView={Views.MONTH}
                     defaultDate={new Date()}
                     startAccessor="start"

@@ -29,7 +29,6 @@ const getTherapist = (uid) => {
             resolve(res.status === 204 ? undefined : res.data);
         })
         .catch( error => {
-            console.error(error);
             reject(error);
         })
     })

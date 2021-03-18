@@ -31,6 +31,7 @@ exports.fixAllUsers = (req, res) => {
                 payment_met: data.payment_met || [],
                 phone: data.phone || "0101010101",
                 therapist: data.therapist || "",
+                gender: data.gender || "hombre", 
             }
             doc.ref.set(fixed_data)
             .then(() => {

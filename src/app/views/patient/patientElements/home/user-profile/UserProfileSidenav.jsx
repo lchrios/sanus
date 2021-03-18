@@ -70,46 +70,45 @@ const UserProfileSidenav = ({ therapist, loading }) => {
                 <div className="flex flex-wrap w-full px-12 mb-11">
                     <div className="flex-grow">
                         <p className="uppercase text-light-white mb-1">Edad</p>
-                        <h4 className="font-medium text-white">25 años</h4>
+                        <h4 className="font-medium text-white">{user.age}</h4>
                     </div>
                     <div>
-                        <p className="uppercase text-light-white mb-1">uso</p>
-                        <h4 className="font-medium text-white">FRECUENTE</h4>
+                        <p className="uppercase text-light-white mb-1">Telefono</p>
+                        <a className="font-medium text-white h5">{user.phone}</a>
                     </div>
                     <div />
                 </div>
                 <div className="px-8 pt-2 bg-default">
                     <Grid container spacing={3}>
-                    <Button onClick={() => history.push('/'+user.uid+'/home')}>
-                        <Grid item>
-                            <Card className="w-104 h-104 flex justify-center items-center">
-                                <div className="text-muted text-center">
-                                    <Icon>sentiment_very_satisfied</Icon>
-                                    <br />
-                                    <span className="pt-4">Perfil</span>
-                                </div>
-                            </Card>
-                        
-                        </Grid>
-                    </Button>
-                    {shortcutList.map((item, ind) => (
-                        <div key={ind}>
-                            <Button  onClick={() =>{
-                              history.push("/")  
-                            }}>
-                                <Grid item >
-                                    <Card className="w-104 h-104 flex items-center justify-center">
-                                        <div className="text-muted text-center">
-                                            <Icon>{item.icon}</Icon>
-                                            <br />
-                                            <span className="pt-4">{item.title}</span>
-                                        </div>
-                                    </Card>
-                                </Grid>
-                            </Button>
-                        </div>
+                        <Button onClick={() => history.push('/'+user.uid+'/home')}>
+                            <Grid item>
+                                <Card className="bg-secondary w-104 h-104 flex justify-center items-center">
+                                    <div className="text-center">
+                                        <Icon>home</Icon>
+                                        <br />
+                                        <span className="pt-4">Home</span>
+                                    </div>
+                                </Card>
+                            
+                            </Grid>
+                        </Button>
+                        {shortcutList.map((item, ind) => (
+                            <div key={ind}>
+                                <Button  onClick={() =>{
+                                history.push(`/${user.uid}/${item.route}`)  
+                                }}>
+                                    <Grid item >
+                                        <Card className="w-104 h-104 flex items-center justify-center">
+                                            <div className="text-muted text-center">
+                                                <Icon>{item.icon}</Icon>
+                                                <br />
+                                                <span className="pt-4">{item.title}</span>
+                                            </div>
+                                        </Card>
+                                    </Grid>
+                                </Button>
+                            </div>
                         ))}
-                        
                     </Grid>
                     <div className="py-4" />
                     { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress /></Grid></Grid> :
@@ -136,23 +135,23 @@ const shortcutList = [
     {
         title: 'sesiones',
         icon: 'date_range',
-        route: '/sessions'
+        route: 'sessions'
     },
     {
         title: 'Buscar',
         icon: 'search',
-        route: '/browse'
+        route: 'browse'
     },
     // {
     //     title: 'Configuración',
     //     icon: 'build',
     //     route: '/sessions'
     // },
-    {
-        title: 'Terapeuta',
-        icon: 'group',
-        route: '/sessions'
-    },
+    // {
+    //     title: 'Terapeuta',
+    //     icon: 'group',
+    //     route: 'sessions'
+    // },
 ]
 
 export default UserProfileSidenav

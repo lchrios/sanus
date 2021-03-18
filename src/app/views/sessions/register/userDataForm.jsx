@@ -10,19 +10,22 @@ import {
     StepLabel,
     InputAdornment,
     Icon,
-    TextField,
     Divider,
     Box,
     Checkbox,
     FormControlLabel,
+    RadioGroup,
+    Radio
 } from '@material-ui/core'
 
 import firebase from 'firebase/app'
-import { Home, Image, Mail, Phone } from '@material-ui/icons'
+import { Home, Phone, Mail } from '@material-ui/icons'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import history from '../../../../history'
 import { useLocation } from 'react-router'
+import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
+import { Loading } from 'app/components/Loading/Loading'
 
 const getSteps = () =>{
     return ['Bienvenido', 'Contacto', 'Perfil']   
@@ -34,6 +37,11 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
     card: {
         maxWidth: 650,
+        borderRadius: 12,
+        margin: '1rem',
+    },
+    cardLoading: {
+        minWidth:200,
         borderRadius: 12,
         margin: '1rem',
     },
@@ -67,10 +75,33 @@ const UserDataForm = () => {
     const [loading, setLoading] = useState(false);
     const classes = useStyles();
     const steps = getSteps();
-    const [activeStep, setActiveStep] = useState(2);
+    const [activeStep, setActiveStep] = useState(0);
     const [message, setMessage] = useState("");
-    const [imgRender, setImgRender] = useState();
-    const { createUserWithEmailAndPassword, signInWithEmailAndPassword, assignUserRole } = useAuth();
+    const [imgRender, setImgRender] = useState();;
+    const { createUserWithEmailAndPassword, signInWithEmailAndPassword } = useAuth();
+
+    const handleFormSubmit = () => {
+        let { email, password } = state;
+        setLoading(true)
+
+        createUserWithEmailAndPassword(state)
+        .then( res => {
+            // * Aqui haces lo de que te mande a otro lado
+            signInWithEmailAndPassword(email, password)
+            .then(() => {
+                history.push(`/${res.data.uid}/home`)
+            })
+            .catch( error => {
+                console.error("Error al obtener el decodedToken del user", error)
+            })
+        })
+        .catch( e => {
+            console.log(e)
+            setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
+            setLoading(false)
+        })
+    }
+
 
     const handleChange = (event) => {
         setState({
@@ -88,15 +119,13 @@ const UserDataForm = () => {
 
     const onImageChange = (event) => {
         if (event.target.files && event.target.files[0]) {
-            setState({...state, file: event.target.files[0]});
+            // setState({...state, file: event.target.files[0]});
             let reader = new FileReader();
             reader.onload = (e) => {
                 setImgRender(e.target.result)
                     
             }
-
             reader.readAsDataURL(event.target.files[0]);
-            
         }
       };
 
@@ -104,15 +133,23 @@ const UserDataForm = () => {
         switch (activeStep) {
             case 0:
                 return (
-                    <Box className="m-sm-30">
-                        <div className="max-w-600 mx-auto">
+                <div className="max-w-600 mx-auto">
+                    <Grid
+                        container
+                        direction="row"
+                        justify="center"
+                        alignItems="center"
+                    >
+                        <Grid item lg={12} md={12} sm={12} xs={12}>
                             <h4>Bienvenido a Iknelia, tu plataforma de soporte psicológico en línea</h4>
                             <p>
                                 Por favor responde con honestidad
                             </p>
-                            <Divider className="mb-8" />
-
-                            <TextField
+                        </Grid>
+                        <Divider className="mb-8" />
+                        <Grid item lg={8} md={8} sm={8} xs={12}>
+                            <p className="h4 text-brand">Datos de contacto:</p>
+                            <TextValidator
                                 className="mb-4"
                                 label="Nombre"
                                 size="small"
@@ -120,8 +157,10 @@ const UserDataForm = () => {
                                 fullWidth
                                 value={state.name || ""}
                                 onChange={handleChange}
+                                validators={['required']}
+                                errorMessages={['Es necesario tu nombre']}
                             />
-                            <TextField
+                            <TextValidator
                                 className="mb-4"
                                 label="Apellidos"
                                 size="small"
@@ -129,8 +168,41 @@ const UserDataForm = () => {
                                 fullWidth
                                 value={state.lname || ""}
                                 onChange={handleChange}
+                                validators={['required']}
+                                errorMessages={['Es necesario tu apellido']}
+                            />
+                        </Grid> 
+                        <Grid item lg={1} md={1} sm={1}></Grid>
+                        <Grid item lg={3} md={3} sm={3} xs={12}>
+                        <p className="h6 text-brand">Escoge:</p>
+                            <RadioGroup
+                                className="mb-4"
+                                value={state.gender || ''}
+                                name="gender"
+                                onChange={handleChange}
+                                row
                             >
-                            </TextField>
+                                <FormControlLabel
+                                    value="Hombre"
+                                    control={<Radio color="primary" />}
+                                    label="Hombre"
+                                    labelPlacement="end"
+                                />
+                                <FormControlLabel
+                                    value="Mujer"
+                                    control={<Radio color="secondary" />}
+                                    label="Mujer"
+                                    labelPlacement="end"
+                                />
+                                <FormControlLabel
+                                    value="Otros"
+                                    control={<Radio color="primary" />}
+                                    label="Otros"
+                                    labelPlacement="end"
+                                />
+                            </RadioGroup>
+                        </Grid>
+                        <Grid item lg={12} md={12} sm={12} xs={12} >
                             <Grid 
                                 container 
                                 direction="row"
@@ -141,7 +213,7 @@ const UserDataForm = () => {
                                 <Grid item lg={12} md={12} sm={12} xs={12}>
                                     <h3 style={{textAlign: 'center'}}>¿Eres mayor de edad?</h3>
                                 </Grid>
-                                <Grid item lg={8} md={8} sm={8} xs={12}>
+                                <Grid item lg={7} md={7} sm={7} xs={7}>
                                     <FormControlLabel
                                         control = {
                                             <Checkbox
@@ -163,8 +235,8 @@ const UserDataForm = () => {
                                     />
                                 </Grid>
                                 
-                                <Grid item lg={4} md={4} sm={4} xs={12}>
-                                    <TextField
+                                <Grid item lg={4} md={4} sm={4} xs={4}>
+                                    <TextValidator
                                         className="mb-4"
                                         label="Edad"
                                         size="small"
@@ -173,20 +245,21 @@ const UserDataForm = () => {
                                         fullWidth
                                         value={state.age || ""}
                                         onChange={handleAge}
-                                    >
-                                    </TextField>
+                                        validators={['required', 'minNumber:18', 'maxNumber:120']}
+                                        errorMessages={['Es necesaria tu edad', 'Edad inválida: eres menor de edad', 'Edad inválida, vamos no tienes más de 120 años.']}
+                                    />
                                 </Grid>
                             </Grid>
-                        </div>
-                    </Box>
+                        </Grid>
+                    </Grid>
+                </div>
                 )
 
             case 1:
                 return (
                     <Box className="m-sm-30 p-6">
                         <div className="max-w-600 mx-auto">
-                            <h4>Ahora, compártenos tus datos de contacto.</h4>
-                            <TextField
+                            <TextValidator
                                 className="mb-4"
                                 label="Correo electrónico"
                                 value={state.email || ""}
@@ -195,14 +268,16 @@ const UserDataForm = () => {
                                 disabled={state.email ? true : false}
                                 onChange={handleChange}
                                 InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Mail/>
-                                    </InputAdornment>
-                                )}}
+                                    startAdornment: (<InputAdornment position="start"><Mail/></InputAdornment>)
+                                }}
+                                validators={['required', 'isEmail']}
+                                errorMessages={[
+                                    'Este campo es obligatorio',
+                                    'Correo no válido',
+                                ]}
                             />
                             <Divider className="mb-6" />
-                            <TextField
+                            <TextValidator
                                 className="mb-4"
                                 label="Dirección"
                                 name="address"
@@ -216,9 +291,13 @@ const UserDataForm = () => {
                                         <Home/>
                                     </InputAdornment>
                                 )}}
+                                validators={['required']}
+                                errorMessages={[
+                                    'Este campo es obligatorio'
+                                ]}
                             />
                             <Divider className="mb-8" />
-                            <TextField
+                            <TextValidator
                                 className="mb-4"
                                 label="Teléfono"
                                 name="phone"
@@ -232,9 +311,13 @@ const UserDataForm = () => {
                                         <Phone/>
                                     </InputAdornment>
                                 )}}
+                                validators={['required']}
+                                errorMessages={[
+                                    'Este campo es obligatorio'
+                                ]}
                             />
                             <Divider className="mb-8" />
-                            <h4>El teléfono que pongas debe contener clave de país. Ejemplo: +52133XXXXXXXX</h4>
+                            <p className="h5">El teléfono que pongas debe contener clave de país. Ejemplo: +52133XXXXXXXX</p>
                         </div>
                     </Box>
                 )
@@ -286,8 +369,8 @@ const UserDataForm = () => {
     }
 
     useEffect(() => {
-        console.log(state);
-    }, [state])
+        setMessage("")
+    }, [activeStep])
 
     useEffect(() => {
         console.log("Image changed successfully!")
@@ -296,55 +379,48 @@ const UserDataForm = () => {
         
 
     const handleNext = () => {
-        console.log(state)
-        if (activeStep == 0 && (!state.age_agree || state.age < 18 || state.age === "")) {
-            setMessage(!isNaN(state.age) ? "La edad capturada no es válida" : "Debes ser verificar que eres mayor de edad")
-        } else if (activeStep < 2 || (activeStep == 0 && state.age)) {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1)
-            setMessage("")
+        if (activeStep === 0) {
+            if (state.name === "" || state.name === undefined) {
+                setMessage("Escribe tu(s) nombre(s), por favor. C:");
+            } else if (state.lname === "" || state.lname === undefined) {
+                setMessage("Escribe tus apellidos, plis. C:");
+            } else if (state.gender === "" || state.gender === undefined) {
+                setMessage("Selecciona tu genero");
+            } else if (!state.age_agree || state.age_agree === undefined) {
+                setMessage("Acepta la casilla de mayoría de edad. Debes ser verificar que eres mayor de edad")
+            } else if (state.age === "" || state.age === undefined) {
+                setMessage("Por favor, indica la edad que tienes. No puedes dejar el campo vacío")
+            } else if (isNaN(state.age)) {
+                setMessage("La edad capturada no es válida")
+            } else if (state.age < 18) {
+                setMessage("La edad no es válida, incumples con la mayoría de edad.")
+            } else {
+                setActiveStep((prevActiveStep) => prevActiveStep + 1)
+            }
+        } else if (activeStep == 1) {
+            if (state.email === "" || state.email === undefined) {
+                setMessage("Introduce un correo");
+            } else if (state.mail === "" || state.lname === undefined) {
+                setMessage("Escribe tus apellidos, plis. C:");
+            } else if (state.gender === "" || state.gender === undefined) {
+                setMessage("Selecciona tu genero");
+            } else if (!state.age_agree || state.age_agree === undefined) {
+                setMessage("Acepta la casilla de mayoría de edad. Debes ser verificar que eres mayor de edad")
+            } else if (state.age === "" || state.age === undefined) {
+                setMessage("Por favor, indica la edad que tienes. No puedes dejar el campo vacío")
+            } else if (isNaN(state.age)) {
+                setMessage("La edad capturada no es válida")
+            } else if (state.age < 18) {
+                setMessage("La edad no es válida, incumples con la mayoría de edad.")
+            } else {
+                setActiveStep((prevActiveStep) => prevActiveStep + 1)
+            }
+            
 
         } else if (activeStep == 2) {
             console.log(state)
-            createUserWithEmailAndPassword(state)
-            .then( res => {
-                // * Aqui haces lo de que te mande a otro lado
-                try {
-                    signInWithEmailAndPassword(state.email, state.password).then(() => {
-                        var user = firebase.auth().currentUser
-        
-                        user.getIdTokenResult()
-                        .then( decodedToken => {
-                            switch (decodedToken.claims.role) {
-                                case "user":
-                                    history.push(`/${user.uid}/home`)
-                                    break;
-        
-                                case "therapist":
-                                    history.push(`/${user.uid}/dashboard`)
-                                    break;
-        
-                                case "admin":
-                                    history.push(`/${user.uid}/analytics`)
-                                    break;
-                        
-                                default:
-                                    console.error('No role was detected')
-                                    assignUserRole(user.uid).then(() => {
-                                        history.push(`/${user.uid}/home`);
-                                    });
-                                    break;   
-                            }
-                        })
-                        .catch( error => {
-                            console.error("Error al obtener el decodedToken del user", error)
-                        })
-                    })
-                } catch (e) {
-                    console.log(e)
-                    setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
-                    setLoading(false)
-                } 
-            })
+            handleFormSubmit()
+            
         }
     }
 
@@ -363,75 +439,103 @@ const UserDataForm = () => {
                 'flex justify-center items-center  min-h-full-screen',
                 classes.cardHolder
             )}
-        >
-            <Card className={classes.card}>
-                <Stepper activeStep={activeStep} alternativeLabel>
-                    {steps.map((label) => (
-                        <Step key={label}>
-                            <StepLabel>{label}</StepLabel>
-                        </Step>
-                    ))}
-                </Stepper>
-                <Grid container>
-                    <Grid item lg={12} md={12} sm={12} xs={12}>
-                        <div className="p-8 h-full">
-                            <div>
-                                {activeStep === steps.length ? (
-                                    <div className="flex items-center">
-                                        <div className="flex items-center mb-4">
-                                            <Icon>done</Icon> <span className="ml-2">Tus respuestas han sido enviadas :D</span>
-                                        </div>
-                                        <Button
-                                            variant="contained"
-                                            color="secondary"
-                                            onClick={handleReset}
-                                        >
-                                            Reset
-                                        </Button>
-                                    </div>
-                                ) : (
-                                    <div className=" flex-column items-center">
-                                        <Card>
-                                            {getSetpContent(activeStep)}
-                                        </Card>
-                                        <div className="flex mt-3">
-                                            <Button className="capitalize"
-                                                    variant={activeStep === 0 ? 'text' : 'contained'}
-                                                    color={activeStep === 0 ? 'primary' : 'secondary'}
-                                                    disabled={activeStep === 0}
-                                                    onClick={handleBack}
-                                                >
-                                                    Volver
-                                            </Button>
-                                            <span className="mx-2 ml-5 mr-5">ó</span>
+        >   
+            { loading 
+            ?   <Card className={classes.cardLoading}><div className="mt-10 mb-10 ml-10 mr-10"><Loading /></div></Card>
+            :   <Card className={classes.card}>
+                    <Stepper activeStep={activeStep} alternativeLabel>
+                        {steps.map((label) => (
+                            <Step key={label}>
+                                <StepLabel>{label}</StepLabel>
+                            </Step>
+                        ))}
+                    </Stepper> 
+                    <Grid 
+                        container 
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                        spacing={2} >
+                        <Grid item lg={12} md={12} sm={12} xs={12}>
+                            <Grid 
+                                container 
+                                direction="column"
+                                justify="center"
+                                alignItems="center"
+                                spacing={2}  
+                                className="p-8 h-full">
+                                <Grid item lg={12} md={12} sm={12} xs={12}>
+                                    {activeStep === steps.length ? (
+                                        <div className="flex items-center">
+                                            <div className="flex items-center mb-4">
+                                                <Icon>done</Icon> <span className="ml-2">Tus respuestas han sido enviadas :D</span>
+                                            </div>
                                             <Button
                                                 variant="contained"
-                                                color="primary"
-                                                type="submit"
-                                                onClick={handleNext}
+                                                color="secondary"
+                                                onClick={handleReset}
                                             >
-                                                {activeStep == steps.length - 1
-                                                ? 'Enviar respuestas' : 'Siguiente'}
+                                                Reset
                                             </Button>
-                                            {loading && (
-                                                <CircularProgress
-                                                    size={24}
-                                                    className={
-                                                        classes.buttonProgress
-                                                    }
-                                                />
-                                            )}
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-                            {message && ( // TODO:@esq Darle más formato a ese mensaje, muestra los errores que pueden ir ocurriendo
-                                <p className="text-error">{message}</p>
-                            )}          
-                        </div>
+                                    ) : (
+                                        <div className=" flex-column items-center">
+                                            <ValidatorForm onSubmit={handleNext}>
+                                                <Grid item lg={12} md={12} sm={12} xs={12}>
+                                                    {getSetpContent(activeStep)}
+                                                </Grid>
+                                                <Grid item lg={12} md={12} sm={12} xs={12}>
+                                                    <Grid 
+                                                        container 
+                                                        direction="row"
+                                                        justify="center"
+                                                        alignItems="center"
+                                                        spacing={2}   
+                                                        className="flex mt-3"
+                                                    >
+                                                        <Button className="capitalize"
+                                                                variant={activeStep === 0 ? 'text' : 'contained'}
+                                                                color={activeStep === 0 ? 'primary' : 'secondary'}
+                                                                disabled={activeStep === 0}
+                                                                onClick={handleBack}
+                                                            >
+                                                                Volver
+                                                        </Button>
+                                                        <span className="mx-2 ml-5 mr-5">ó</span>
+                                                        {activeStep === 2 ? 
+                                                        <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            onClick={handleFormSubmit}
+                                                        >
+                                                            Enviar respuestas <Icon className="ml-5">send</Icon>
+                                                        </Button>
+                                                        :
+                                                        <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            type="submit"
+                                                            onClick={handleNext}
+                                                        >
+                                                            Siguiente
+                                                        </Button>
+                                                        }
+                                                        
+                                                        
+                                                    </Grid>
+                                                </Grid>
+                                            </ValidatorForm>
+                                        </div>
+                                    )}
+                                </Grid>
+                                {message && ( // TODO:@esq Darle más formato a ese mensaje, muestra los errores que pueden ir ocurriendo
+                                    <p className="text-error h4 mt-5">{message}</p>
+                                )}          
+                            </Grid>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Card>
+                </Card>
+            }
         </div>
     )
 }

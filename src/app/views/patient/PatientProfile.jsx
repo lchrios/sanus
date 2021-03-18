@@ -10,11 +10,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import UserProfileContent from './patientElements/home/user-profile/UserProfileContent'
 import UserProfileSidenav from './patientElements/home/user-profile/UserProfileSidenav'
-import { getTherapist } from 'app/services/functions/UserService'
+import { getTherapist, getSessions } from 'app/services/functions/UserService'
 import useAuth from 'app/hooks/useAuth'
-import { getSessions } from 'app/services/functions/UserService'
-import api from 'app/services/api'
-import { reject } from 'lodash'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     headerBG: {
@@ -72,17 +69,25 @@ const PatientProfile = () => {
     // }
 
     useEffect(() => {
+        console.log("Pidiendo Terapeuta")
         getTherapist(user.uid).then( res => {
             setTherapist(res?.data);
         })
-    }, [])
-    
-    useEffect(() => {
+        .catch( er => {
+            console.error(er);
+        })
+        
+        console.log("Pidiendo Sesiones")
         getSessions(user.uid).then( res => {
-            setSessions(res?.data);  
+            setSessions(res?.data);
+            console.log(res);  
             setLoading(false);
         })
-    }, [])
+        .catch( er => {
+            console.error(er);
+        })
+    }, [user.uid])
+    
 
     return (
         <div className="relative ">

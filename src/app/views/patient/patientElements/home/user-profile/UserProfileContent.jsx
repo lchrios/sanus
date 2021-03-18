@@ -76,25 +76,25 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
     const classes = usestyles()
     // const [open, setOpen] = useState(false)
     const [sesInfo, setSesInfo] = useState([
-        {
-            title: "Sesiones agendadas",
-            amount: 1,
-        },
-        {
-            title: "Sesiones completadas",
-            amount: 2,
-        },
-        {
-            title: "Proxima cita",
-            amount: 3,
-        }
+        // {
+        //     title: "Sesiones agendadas",
+        //     amount: sessions.length,
+        // },
+        // {
+        //     title: "Sesiones completadas",
+        //     amount: "",
+        // },
+        // {
+        //     title: "Proxima cita",
+        //     amount: "",
+        // }
     ])
 
     useEffect(() => {
         if (!loading) {
             generateSessionReport()
         }
-    }, [])
+    }, [loading])
     
     const generateSessionReport = () => {
         var total_ses = sessions.length;
@@ -106,7 +106,6 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
                 completed_ses += 1;
             }
             var tmpDate = new Date(sessions[i].start);
-            // console.log(min_date != undefined && tmpDate < min_date && sessions[i].state == 0 && tmpDate > curr_date, tmpDate)
             if (min_date === undefined && tmpDate > curr_date) {
                 min_date = tmpDate
             } else if (min_date !== undefined && tmpDate < min_date && sessions[i].state === 0 && tmpDate > curr_date) { // * Sesion mas proxima
@@ -114,7 +113,6 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
                 min_date = tmpDate;
             }
         }
-        setHasTher(therapist !== undefined)
         setSesInfo([
             {
                 title: "Sesiones agendadas",
@@ -131,8 +129,14 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
         ])
     }
 
-
-    const [hasTher, setHasTher] = useState(therapist === undefined);
+    const [show, setShow] = useState(true)
+    const toggleHide = () => {
+        setShow(false)
+    }
+    const [hasTher, setHasTher] = useState(therapist !== undefined);
+    useEffect(() => {
+        setHasTher(therapist !== undefined);
+    }, [therapist])
     const onClick1 = () => {
         history.push("/"+user.uid+"/sessions");
     }
@@ -208,29 +212,41 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
                     <div className="py-8" />
                     <Grid container spacing={3}>
                         <Grid item lg={8} md={8} sm={12} xs={12}>
-                            <Card className="pb-4 px-4">
-                                <h4 className="font-medium text-muted px-4 pt-4 pb-0">
-                                    Comenzar terapia
-                                </h4>
-                                { loading ? <Loading /> :
-                                    <PatientTest therapist={therapist} loading={loading} />
-                                }
-                            </Card>
-                            <div className="py-3"></div>
+                            { loading
+                            ?   <Loading />
+                            :   <>
+                                    { user.answered && show 
+                                    ?   <></> 
+                                    :   <>
+                                            <Card className="pb-4 px-4">
+                                                <h4 className="font-medium text-muted px-4 pt-4 pb-0">
+                                                    Contesta este test inicial, gracias :D
+                                                </h4>
+                                                <PatientTest therapist={therapist} loading={loading} toggleHide={toggleHide}/>
+                                            </Card>
+                                            <div className="py-3"></div>
+                                        </>
+                                    }
+                                </>
+                            }
+                            
+                            
+                            
                             <Card className="py-4 elevation-z5">
                                 <h4 className="font-medium text-muted px-4 pt-4 pb-0">
                                     Calendario de sesiones
                                 </h4>
-                                { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress /></Grid></Grid> :
-                                    <>
+                                { loading 
+                                ?   <Grid container direction="column" alignItems="center"><Grid item><CircularProgress /></Grid></Grid> 
+                                :   <>
                                         { hasTher ? 
                                         <Card className="py-4 elevation-z5">
-                                            <PatientCalendar />
+                                            <PatientCalendar sessions={sessions} />
                                         </Card> 
                                         :
                                         <>
                                             <h2 className='px-4'>No tienes ninguna sesión, para generar una sesión, primero deberás seleccionar un terapeuta.</h2>
-                                            <Button className="x-center mt-4" variant="contained" color="secondary">Seleccionar terapeuta</Button>
+                                            <Button onClick={() => history.push(`/${user.uid}/browse`)}className="x-center mt-4" variant="contained" color="secondary">Seleccionar terapeuta</Button>
                                         </>
                                         }
                                     </>     

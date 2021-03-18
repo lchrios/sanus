@@ -5,12 +5,13 @@ export const getAllEvents = (uid) => {
 }
 
 export const addNewEvent = (event) => {
-    console.log('añadiendo nuewvo evento')
-    return api.post('/s/new', { sessiondata: event })
+    console.log('añadiendo nuevo evento')
+    console.log(event)
+    return api.post('/s/new', {sessiondata: {...event}})
 }
 
 export const updateEvent = (event) => {
-    return api.post('/s/'+event.id, event)
+    return api.post('/s/'+event.id, {sessiondata: {...event}})
 }
 
 export const deleteEvent = (id) => {

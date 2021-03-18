@@ -51,7 +51,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const FirebaseRegister = () => {
     const [loading, setLoading] = useState(false)
-    const [state, setState] = useState()
+    const [state, setState] = useState({agreement: false})
     const classes = useStyles()
     const [message, setMessage] = useState('')
     const { signInWithGoogle } = useAuth()
@@ -207,20 +207,18 @@ const FirebaseRegister = () => {
                                 )}
                                 <div className="flex items-center">
                                     <div className="relative">
-                                    <Link to={{
-                                            pathname: '/session/register',
-                                            state: {
-                                                email: state?.email || "",
-                                                password: state?.password || "",
-                                                withProvider: false,
-                                            }
-                                        }}
-                                    >
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            disabled={loading}
-                                            type="submit"
+                                            disabled={loading || !state.agreement}
+                                            onClick={() => history.push({
+                                                pathname: '/session/register',
+                                                state: {
+                                                    email: state?.email || "",
+                                                    password: state?.password || "",
+                                                    withProvider: false,
+                                                }
+                                            })}
                                         >
                                             Registrarse
                                         </Button>
@@ -232,7 +230,6 @@ const FirebaseRegister = () => {
                                                 }
                                             />
                                         )}
-                                    </Link>
                                     </div>
                                     <span className="mx-2 ml-5">o</span>
                                     <Link to={{

@@ -15,92 +15,73 @@ import PreTest from './steps/PreTest'
 import SessionValidatorForm from './steps/SessionValidatorForm'
 import useAuth from 'app/hooks/useAuth'
 import { Loading } from 'app/components/Loading/Loading'
+import api from 'app/services/api'
 
 
 const getSteps = () => {
-    return ['Validacion primera cita', 'Razones de visita', 'Otras preguntas']
+    return ['Validacion primera cita', 'Razones de visita', 'Otras preguntas', 'Esto y ya']
 }
 
 
-const PatientTest = ({ loading, therapist }) => {
+const PatientTest = ({ loading, therapist, toggleHide }) => {
     
-    const [state, setState] = useState({ 
-        checks: {
-            a: false, 
-            b: false, 
-            c: false,
-        }, 
-        form2a: { 
-            ayes: false,
-            ano: false,
-        },
-        form2b: {
-            byes: false,
-            bno: false,
-        }
-    })
-    const [checked, setChecked] = useState(true)
+    const { user } = useAuth();
+    const [state, setState] = useState()
     const [activeStep, setActiveStep] = useState(0)
-    const {user} = useAuth()
+    const [message, setMessage] = useState();
     const steps = getSteps()
 
     const handleNext = () => {
-        console.log(activeStep)
-        if(activeStep == 2 && therapist == undefined ) {
-            history.push('/'+ user.uid +'/browse')
-        }
+        switch (activeStep) {
+            case 0:
+                if (state?.first_time === undefined || state?.first_time === "") {
+                    setMessage("Selecciona una respuesta");
+                } else {
+                    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+                }
+                break;
+            case 1:
+                if (state?.reason === undefined || state?.reason === "") {
+                    setMessage("Escribe la razón de la visita, por favor. C:");
+                } else if (state?.time_situation_detected === undefined || state?.time_situation_detected === "" || state?.time_situation_detected === "Escoja alguna...") {
+                    setMessage("Elige un periodo, porfavor.");
+                } else if (state?.relatedExperience === undefined || state?.relatedExperience === "") {
+                    setMessage("Describe alguna experiencia por favor.");
+                } else {
+                    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+                }
+                break;
+            case 2:
+                if (state?.affects_life === undefined || state?.affects_life === "") {
+                    setMessage("Selecciona una opción.");
+                } else if (state?.previous_treatment === undefined || state?.previous_treatment === "") {
+                    setMessage("Elige una opcion, porfavor.");
+                } else {
+                    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+                }
+                break;
+            case 3:
+                
 
-        else if(activeStep == 2 && therapist) {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1)
-            console.log(state)
-
-            // send information
-        }
-
-        else if(checked){
-            setActiveStep((prevActiveStep) => prevActiveStep + 1)
-        }   
+                // Subir info
+                api.post(`/u/${user.uid}/test`, {testdata: state})
+                .then( res => {
+                    console.log(res.data);
+                    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+                    toggleHide()
+                })
+                .catch( er => {
+                    console.error(er)
+                })
+                break;
+            default:
+                break;
+        } 
     }
 
-    const handleChangeA = (event) => {
-        setState({ 
-            ...state, 
-            form2a: { 
-                ...{
-                    ayes: false,
-                    ano: false
-                },
-                [event.target.name]: event.target.checked
-            }
-        })
-    }
-
-    const handleChangeB = (event) => {
-        setState({ 
-            ...state, 
-            form2b: { 
-                ...{
-                    byes: false,
-                    bno: false,
-                },
-                [event.target.name]: event.target.checked
-            }
-        })
-    }
-
-    const handleChangeCheck = (event) => {
-        setState({ 
-            ...state, 
-            checks: {
-                ...{ 
-                    a: false, 
-                    b: false, 
-                    c: false 
-                }, 
-                [event.target.name]: event.target.checked 
-            }
-        })
-    }
+    useEffect(() => {
+        setMessage("")
+    }, [activeStep])
 
     const handleChange = (event) => {
         setState({
@@ -117,34 +98,16 @@ const PatientTest = ({ loading, therapist }) => {
         setActiveStep(0)
     }
     
-    const toggleNext = () => {
-        setChecked(true)
-
-    }
-
     const getStepContent = (stepIndex) => {
         switch (stepIndex) {
             case 0: 
-            {/** *TODO C REGRESAR A THERPIST === UNDEFINED  */}
-                if (therapist == undefined) {
-                    console.log("NO THERAPIST")
-                    return (
-                        <PreTest />
-                    )
-                }
-                else {
-                    return (
-                            <SessionValidatorForm state={state} loading={loading} handleChangeCheck={handleChangeCheck} />
-                    )
-                }
-                break;
-        /** *TODO A LOS USUARIOS NO DEBERÍA DEJARLOS CONTINUAR SIN VALIDAR QUE INTRODUJERON LA INFORMACIÓN */
+                return <SessionValidatorForm state={state} handleChange={handleChange} />
             case 1: 
-                return <FormTest handleChange={handleChange} /> 
+                return <FormTest state={state} handleNext={handleNext} handleChange={handleChange} /> 
             case 2: 
-                return <FormTestSt2 state={state} handleChangeA={handleChangeA} handleChangeB={handleChangeB} />
+                return <FormTestSt2 state={state} handleNext={handleNext} handleChange={handleChange} />
             case 3: 
-                return <FormTestSt3 handleChange={handleChange} /> 
+                return <FormTestSt3 state={state} handleNext={handleNext} handleChange={handleChange} /> 
             default:
                 return 
         }
@@ -152,81 +115,91 @@ const PatientTest = ({ loading, therapist }) => {
 
     return (
         <Grid container spacing={2}>
-        { loading ? <Loading />
-        :
-        <>
-        <Grid item lg={12} md={12} sm={12} xs={12}>
-            <Stepper activeStep={activeStep} alternativeLabel>
-                {steps.map((label) => (
-                    <Step key={label}>
-                        <StepLabel>{label}</StepLabel>
-                    </Step>
-                ))}
-            </Stepper>
-        </Grid>
-        {activeStep === steps.length ? (
-            <div style={{ 
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center", 
-            }}>
-                <div className="flex items-center mb-4">
-                    <Icon>done</Icon> <span className="ml-2">Tus respuestas han sido enviadas :D</span>
-                </div>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleReset}
-                >
-                    Reset
-                </Button>
-            </div>
-        ) : (
-            <>
-            <Grid item
-                lg={12}
-                md={12}
-                sm={12}
-                xs={12}>
-                {getStepContent(activeStep)}
-            </Grid>
-            <Grid item
-                lg={12}
-                md={12}
-                sm={12}
-                xs={12}
-            >     
-                <div className="pt-6" style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    }}
-                >
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        disabled={activeStep === 0}
-                        onClick={handleBack}
+            <>{ therapist === undefined 
+                ?   <PreTest />
+                :
+                <>
+                
+                {activeStep === steps.length 
+                ?   <Grid 
+                        container 
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
                     >
-                        Volver
-                    </Button>
-                    <Button
-                        className="ml-4"
-                        variant="contained"
-                        color="primary"
-                        disabled={false}
-                        onClick={handleNext}
-                    >
-                        {activeStep === steps.length - 1
-                            ? 'Enviar'
-                            : 'Siguiente'}
-                    </Button>
-                </div>
-            </Grid> 
-            </>
-        )}
-        </>
-        }
+                        <Grid item lg={12} md={12} sm={12} xs={12} >
+                            <div className="flex items-center mb-4">
+                                <Icon>done</Icon> <span className="ml-2 mt-5 h4">Tus respuestas han sido enviadas :D</span>
+                            </div>
+                        </Grid>
+                        {/* <Grid item lg={12} md={12} sm={12} xs={12} >
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                size="large"
+                                onClick={handleReset}
+                            >
+                                Ocultar
+                            </Button>
+                        </Grid> */}
+                    </Grid> 
+                :   <>
+                        <Grid item lg={12} md={12} sm={12} xs={12}>
+                            <Stepper activeStep={activeStep} alternativeLabel>
+                                {steps.map((label) => (
+                                    <Step key={label}>
+                                        <StepLabel>{label}</StepLabel>
+                                    </Step>
+                                ))}
+                            </Stepper>
+                        </Grid>
+                        <Grid item
+                            lg={12}
+                            md={12}
+                            sm={12}
+                            xs={12}
+                        >
+                            {getStepContent(activeStep)}
+                        </Grid>
+                        <Grid item
+                            lg={12}
+                            md={12}
+                            sm={12}
+                            xs={12}
+                        >     
+                            <div className="pt-6" style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                }}
+                            >
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    disabled={activeStep === 0}
+                                    onClick={handleBack}
+                                >
+                                    Volver
+                                </Button>
+                                <Button
+                                    className="ml-4"
+                                    variant="contained"
+                                    color="primary"
+                                    disabled={false}
+                                    onClick={handleNext}
+                                >
+                                    {activeStep === steps.length - 1
+                                        ? 'Enviar'
+                                        : 'Siguiente'}
+                                </Button>
+                            </div>
+                            {message && ( // TODO:@esq Darle más formato a ese mensaje, muestra los errores que pueden ir ocurriendo
+                                    <p className="text-error h4 mt-5">{message}</p>
+                            )} 
+                        </Grid> 
+                    </>
+                }</>
+            }</>
         </Grid>
     )
 }

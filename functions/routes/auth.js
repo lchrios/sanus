@@ -155,16 +155,12 @@ exports.createUserWithEmailAndPassword = (req, res) => {
                     auth.setCustomUserClaims(user.uid, { role: "user" })
                     .then(() => {
                         console.log('Usuario registrado con rol "user" correctamente!');
+                        return res.status(201).send(user);
                     })
                     .catch( error => {
                         console.error('Error asignando el rol de "user" al usuario', error)
                         return res.status(404).send(error);
                     })
-                })
-                .then(() => {
-                    // TODO: Subir file a la base de datos
-                    return res.status(201).send(req.body.file);
-                    
                 })
                 .catch( error => {
                     console.error('Error registrando el usuario en collection "users"', error);

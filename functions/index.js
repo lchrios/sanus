@@ -23,7 +23,8 @@ const {
   assignTherapist,
   newTestAnswers,
   getUserImage,
-  uploadImg
+  uploadImg,
+  submitTest
 } = require("./routes/users");
 
 // * Funciones relativas al terapeuta
@@ -75,14 +76,18 @@ app.use(express.urlencoded({extended: true}))
 // * permisos del CORS
 app.use(cors());
 app.use( (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://iknelia.app");
-  res.header("Access-Control-Allow-Origin", "http://iknelia.netlify.app");
-  res.header("Access-Control-Allow-Origin", "http://localhost:5000");
-  res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.web.app/");
-  res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.firebaseapp.com/");
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+    res.header("Access-Control-Allow-Origin", [
+        "https://iknelia.app",
+        "http://localhost:3000",
+        "http://localhost:5000",
+        "https://www.iknelia.app", 
+        "https://iknelia.netlify.app", 
+        "https://iknelia-3cd8e.web.app/",
+        "https://iknelia-3cd8e.firebaseapp.com/",
+        
+    ][1]);
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
 
 
@@ -115,7 +120,8 @@ app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUs
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
 app.post("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist);
-app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), newTestAnswers);
+app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), submitTest);
+
 app.get("/u/:uid/image", getUserImage);
 app.post("/u/:uid/image", uploadImg);
 

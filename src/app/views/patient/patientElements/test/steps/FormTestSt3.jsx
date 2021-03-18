@@ -3,29 +3,39 @@ import {
     Card,
     TextField,
 } from '@material-ui/core'
+import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 
-const FormTestSt3 = () => {
+const FormTestSt3 = ({ state, handleChange, handleNext }) => {
     
     
 
     return (
         <Card className="m-sm-30 ">
             <div className="max-w-600 mx-auto">
-                
-                    <TextField
-                        className="mr-1 mb-4"
+            <ValidatorForm onSubmit={handleNext}>
+                    <TextValidator
+                        className="mb-6 w-full"
+                        variant="outlined"
                         label="¿Qué enfermedades padece o ha padecido?"
-                        variant="outlined"
-                        multiline
+                        onChange={handleChange}
+                        name="pathologies"
+                        value={state?.pathologies || ""}
+                        validators={['required']}
+                        errorMessages={['este campo es obligatorio']}
                         fullWidth
                     />
-                    <TextField
-                        className="mr-1 mb-4"
+                    <TextValidator
+                        className="mb-6 w-full"
+                        variant="outlined"
                         label="¿Toma algún medicamento?"
-                        variant="outlined"
+                        onChange={handleChange}
+                        name="meds"
+                        value={state?.meds || ""}
+                        validators={['required']}
+                        errorMessages={['este campo es obligatorio']}
                         fullWidth
                     />
-                
+                </ValidatorForm>
             </div>
         </Card> 
     )

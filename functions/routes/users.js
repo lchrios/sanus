@@ -175,3 +175,20 @@ exports.getUserImage = (req, res) => { // * Demo for image upload
         return res.status(404).send(er);
     })
 }
+
+exports.submitTest = (req, res) => {
+    // Validar que el usuario no haya contestado antes
+    tests.doc(req.params.uid).set(req.body.testdata)
+    .then(doc => {
+        users.doc(req.params.uid).update({"answered": true})
+        .then(() => {
+            return res.status(201).send({message: "Respuestas registradas", id: doc.id})
+        })
+        .catch( er => {
+            return res.status(400).send(er);
+        })
+    })
+    .catch( er => {
+        return res.status(400).send(er);
+    })
+}
