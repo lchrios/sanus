@@ -313,20 +313,9 @@ const UserDataForm = () => {
                                 className="mb-4"
                                 label="Teléfono"
                                 name="phone"
-                                fullWidth
                                 value={state.phone || ""}
                                 onChange={handlePhone}
                                 placeholder="3300000000"
-                                InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Phone/>
-                                    </InputAdornment>
-                                )}}
-                                validators={['required']}
-                                errorMessages={[
-                                    'Este campo es obligatorio'
-                                ]}
                             />
                             <Divider className="mb-8" />
                             <p className="h5">El teléfono que pongas debe contener clave de país. Ejemplo: +52133XXXXXXXX</p>

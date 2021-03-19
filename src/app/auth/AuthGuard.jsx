@@ -31,7 +31,6 @@ const getUserRoleAuthStatus = (pathname,user,routes) => {
         ? matched.auth.includes(user.role)
         : true;
 
-    console.log(pathname);
     return authenticated;
 };
 
@@ -45,7 +44,7 @@ const AuthGuard = ({ children }) => {
     const { pathname } = useLocation()
 
     const { routes } = useContext(AppContext);
-    const isUserRoleAuthenticated = getUserRoleAuthStatus(pathname, user, routes);
+    const [isUserRoleAuthenticated, setIsUserRoleAuthenticated] = useState(getUserRoleAuthStatus(pathname, user, routes));
     let authenticated = isAuthenticated && isUserRoleAuthenticated;
 
 
@@ -57,6 +56,11 @@ const AuthGuard = ({ children }) => {
     useEffect(() => {
         if (previouseRoute !== null) setPreviousRoute(pathname)
     }, [pathname, previouseRoute])
+
+    useEffect(() => {
+        console.log({msg: "Usuario actualizado", user})
+        setIsUserRoleAuthenticated(getUserRoleAuthStatus(pathname, user, routes));
+    }, [user])
 
     if (authenticated) return <>{children}</>
     else {
