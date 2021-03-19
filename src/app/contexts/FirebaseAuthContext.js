@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
     // }
 
     const createUserWithEmailAndPassword = async (state) => {
-        let {email, password, file} = state;
+        let { email, password } = state;
         
         delete state.age_agree;
         delete state.password;

@@ -51,7 +51,7 @@ exports.handleStripeEvent = (req, res) => {
         case 'payment_intent.requires_action':
             // * Se genero el voucher del OXXO
             console.log("Voucher generado")
-            // - 1 Crear sesion en firestore con valor 
+            // - 1 Crear sesion en firestore con valor
             // - 
 
         case 'payment_intent.processing':

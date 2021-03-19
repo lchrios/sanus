@@ -63,7 +63,7 @@ const {
       handleStripeEvent, 
 } = require("./routes/stripe");
 
-const { fixAllUsers } = require("./routes/fixes");
+const { fixAllUsers, fixAllSessions, fixAllTherapists, fixAllBlogs } = require("./routes/fixes");
 
 // * uso de transformacion a json
 app.use(express.json());
@@ -155,6 +155,9 @@ app.put("/auth/:uid/user", setUser);
 // * rutas de fixing 
 // ! BORRARLAS DESPUES DE TERMINAR SU USO
 app.post("/fix/users", fixAllUsers);
+app.post("/fix/sessions", fixAllSessions);
+app.post("/fix/therapists", fixAllTherapists);
+app.post("/fix/blogs", fixAllBlogs);
 
 
 

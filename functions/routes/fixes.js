@@ -1,9 +1,12 @@
 // !!!!!!!! ESTE ARCHIVO SE DEBE ELIMINAR ANTES DEL DEPLOY !!!!!!!!!!!!!!!!!11
+const { date } = require('joi');
 const Joi = require('joi') 
 const { admin } = require('../firebase');
 const db = admin.firestore();
 const users = db.collection("users");
-const session = db.collection("sessions");
+const sessions = db.collection("sessions");
+const thers = db.collection("therapists");
+const blogs = db.collection("blogs");
      
 
 // * User database schema for validation
@@ -47,26 +50,21 @@ exports.fixAllUsers = (req, res) => {
 }
 
 exports.fixAllTherapists = (req, res) => {
-    
-}
-
-exports.fixAllSessions = (req, res) => {
-    sessions.get()
+    thers.get()
     .then( query => {
         var ers = [];
         query.forEach( doc => {
             var data = doc.data();
             let fixed_data = {
-                address: data.address || "Dirección",
                 age: data.age || 18,
-                answered: data.answered || false,
+                cedula: data.cedula || "CEDULA_ID",
+                experiencia: data.experiencia || "Experiencia del psicologo",
                 email: data.email || "email@mail.com",
-                img: data.img || "usuarios/placeholders/none-user.png",
-                lname: data.lname || "Apellido",
                 name: data.name || "Nombre",
-                payment_met: data.payment_met || [],
+                lname: data.lname || "Apellido",
+                zoomurl: data.zoomurl || "",
+                img: data.img || "usuarios/placeholders/none-user.png",
                 phone: data.phone || "0101010101",
-                therapist: data.therapist || "",
                 gender: data.gender || "Hombre", 
             }
             doc.ref.set(fixed_data)
@@ -77,12 +75,100 @@ exports.fixAllSessions = (req, res) => {
                 ers.push(er);
             })
         })
-        return ers.length === 0 ? res.status(200).send("Usuarios correctamente corregidos") : res.status(400).send({errors: ers, message: "Errores al actualizar ciertos usuarios"})
+        return ers.length === 0 ? res.status(200).send({result: true, message: "Terapeutas corregidos automaticamente"}) : res.status(400).send({errors: ers, message: "Errores al actualizar ciertos usuarios"})
+    })
+}
+
+Date.prototype.addHours = function(h) {
+    this.setTime(this.getTime() + (h*60*60*1000));
+    return this;
+}
+
+exports.fixAllSessions = (req, res) => {
+    sessions.get()
+    .then( query => {
+        var ers = [];
+        query.forEach( doc => {
+            var data = doc.data();
+            let randomUser;
+            let randomTherapist;
+
+            users.get()
+            .then( queryUsers => {
+                var docUser = queryUsers.docs[Math.floor(Math.random() * queryUsers.docs.length) % queryUsers.docs.length]
+                randomUser = {id: docUser.id, data: docUser.data()}
+                thers.get()
+                .then( query => {
+                    var docTher = query.docs[Math.floor(Math.random() * query.docs.length) % query.docs.length]
+                    randomTherapist = {id: docTher.id, data: docTher.data()}
+                })
+                .then(() => {
+                    var d8st = new Date();
+                    var d8en = d8st.addHours((data.duration || 60) / 60);
+                    let fixed_data = {
+                        cost: data.cost || 600,
+                        duration: data.duration || 60,
+                        start: data.start || d8st.toISOString(),
+                        end: data.end || d8en.toISOString(),
+                        note: data.note || "",
+                        user: data.patient || randomUser.id,
+                        user_name: data.patname || randomUser.data.name,
+                        pay_met: data.pay_met || "",
+                        payed: data.payer || false,
+                        therapist: data.therapist || randomTherapist.id,
+                        ther_name: data.thername || randomTherapist.data.name || "Nombre terapeuta",
+                        state: data.state || "pendiente",
+                        tipo: data.tipo || "Terapia adulto individual",
+                    }
+                    doc.ref.set(fixed_data)
+                    .then(() => {
+                        console.log(doc.id)
+                    })
+                    .catch(er => {
+                        ers.push(er);
+                    })
+                })
+            })
+        })
+        return ers.length === 0 ? res.status(200).send({result: true, message: "Sesiones corregidas automaticamente"}) : res.status(400).send({errors: ers, message: "Errores al actualizar ciertos usuarios"})
     })    
 }
 
 exports.fixAllBlogs = (req, res) => {
-    
+    blogs.get()
+    .then( query => {
+        var ers = [];
+        query.forEach( doc => {
+            var data = doc.data();
+            let randomTherapist;
+
+            thers.get()
+            .then( query => {
+                var docTher = query.docs[Math.floor(Math.random() * query.docs.length) % query.docs.length]
+                randomTherapist = {id: docTher.id, data: docTher.data()}
+            })
+            .then(() => {
+                var d8st = new Date();
+                let fixed_data = {
+                    author: data.author || randomTherapist.id,
+                    comments: data.comments || [],
+                    content: data.content || "<h1>Iknelia | Crea tu propio post</h1><p><a href='http://localhost:3000/dashboard/analytics' rel='noopener noreferrer' target='_blank'>en Iknelia</a></p><p>La psicoterapia es un proceso clínico que posibilita el autoconocimiento</p>",
+                    date: (typeof data.date === 'string') ? data.date : d8st.toISOString(),
+                    img: data.img || "blogs/2.jpg",
+                    likes: data.likes || [],
+                    title: data.title || "Titulo",
+                }
+                doc.ref.set(fixed_data)
+                .then(() => {
+                    console.log(doc.id)
+                })
+                .catch(er => {
+                    ers.push(er);
+                })
+            })
+        })
+        return ers.length === 0 ? res.status(200).send({result: true, message: "Blogs corregidos automaticamente"}) : res.status(400).send({errors: ers, message: "Errores al actualizar ciertos usuarios"})
+    })      
 }
 
 exports.fixAllNotes = (req, res) => {
