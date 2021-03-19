@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Card,
@@ -80,6 +82,14 @@ const UserDataForm = () => {
     const [imgRender, setImgRender] = useState();;
     const { createUserWithEmailAndPassword, signInWithEmailAndPassword } = useAuth();
 
+
+    const handlePhone = phoneVal => {
+        setState({
+            ...state,
+            phone: phoneVal,
+        })
+    }
+
     const handleFormSubmit = () => {
         let { email, password } = state;
         setLoading(true)
@@ -120,7 +130,7 @@ const UserDataForm = () => {
 
     const onImageChange = (event) => {
         if (event.target.files && event.target.files[0]) {
-            // setState({...state, file: event.target.files[0]});
+            setState({...state, file: event.target.files[0]});
             let reader = new FileReader();
             reader.onload = (e) => {
                 setImgRender(e.target.result)
@@ -298,14 +308,15 @@ const UserDataForm = () => {
                                 ]}
                             />
                             <Divider className="mb-8" />
-                            <TextValidator
+                            <PhoneInput
+                                defaultCountry="MX"
                                 className="mb-4"
                                 label="Teléfono"
                                 name="phone"
                                 fullWidth
                                 value={state.phone || ""}
-                                onChange={handleChange}
-                                placeholder="+521XXXXXXXXXX"
+                                onChange={handlePhone}
+                                placeholder="3300000000"
                                 InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">

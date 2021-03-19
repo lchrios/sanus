@@ -50,12 +50,24 @@ exports.getTherapist = (req, res) => {
         .doc(req.params.tid)
         .get()
         .then((doc) => {
-            res.status(200).send(doc.data())
+            return res.status(200).send(doc.data())
         })
         .catch(error => {
             console.log('Error al obtener terapeuta!', error);
             return res.status(404).send(error)
         })
+}
+
+
+exports.setSchedule = (req, res) => {
+    ther.doc(req.params.tid)
+    .update({schedule: req.body.schedule})
+    .then(() =>{
+        return res.status(201).send({result: true, message: "Schedule actualizada correctamente"})
+    })
+    .catch(er => {
+        return res.status(400).send(er);
+    })
 }
 
 exports.getAllSessionsByTherapist = (req, res) => {
@@ -67,7 +79,7 @@ exports.getAllSessionsByTherapist = (req, res) => {
             const refs = [];
             query.forEach((doc) => {
                 data.push(doc.data());
-                refs.push(doc.ref);
+                refs.push(doc.id);
             })
             return res.status(200).send({ id: refs, data: data })
         })
