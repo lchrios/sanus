@@ -2,16 +2,16 @@ import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import React, { useState, useEffect, useRef } from 'react'
 import { Button } from '@material-ui/core'
-import { Calendar, Views, globalizeLocalizer } from 'react-big-calendar'
+import { Calendar,Views, globalizeLocalizer } from 'react-big-calendar'
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import CalendarHeader from './PatientCalendarHeader'
 import * as ReactDOM from 'react-dom'
-import { getAllEvents, updateEvent } from './CalendarService'
+// import { getAllEvents, updateEvent } from './CalendarService'
 import EventEditorDialog from './EventEditorDialog'
 import globalize from 'globalize'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import useAuth from 'app/hooks/useAuth'
+// import useAuth from 'app/hooks/useAuth'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     calendar: {
@@ -61,7 +61,7 @@ const PatientCalendar = ({ sessions }) => {
     const headerComponentRef = useRef(null)
     const classes = useStyles()
 
-    const { user } = useAuth()
+    // const { user } = useAuth()
 
 
     const handleDialogClose = () => {

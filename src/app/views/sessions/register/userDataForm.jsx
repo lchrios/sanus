@@ -364,9 +364,9 @@ const UserDataForm = () => {
     
     var imgPreview = (<div className="image-container">Seleccione una imagen para la vista previa</div>)
     
-    if (state.file) {
-      imgPreview = (<div className="image-container" ><img src={imgRender} alt="icon" width="200" /></div>);
-    }
+    // if (state.file) {
+    //   imgPreview = (<div className="image-container" ><img src={imgRender} alt="icon" width="200" /></div>);
+    // }
 
     useEffect(() => {
         setMessage("")

@@ -23,10 +23,7 @@ import { Home, Mail, Phone, DataUsage } from '@material-ui/icons'
 import clsx from 'clsx'
 import api from 'app/services/api'
 import useAuth from 'app/hooks/useAuth'
-
-const getSteps = () =>{
-    return ['Bienvenido', 'Contacto', 'Perfil']   
-} 
+import { useLocation } from 'react-router'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
@@ -62,178 +59,183 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const TherapistDataForm = ({ location }) => {
+const TherapistDataForm = () => {
     const [loading, setLoading] = useState(false)
     const classes = useStyles()
-    const steps = getSteps()
     const { user } = useAuth()
     const [activeStep, setActiveStep] = useState(0)
     const [content, setContent] = useState()
     const [message, setMessage] = useState("")
-    const [state, setState] = useState(location.state)
+    const [state, setState] = useState(useLocation().state)
+    
+    let {email,password} = state
 
-    const handleChange = ({ target: { name, value } }) => {
+    const getSteps = () => {
+        return ['Contacto', 'Profesional', 'Perfil']
+    }
+    const handleChange = (event) => {
         setState({
             ...state,
-            [name]: value,
-        
-
+            [event.target.name]: event.target.value 
         })
     }
 
     const handleAgree = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked });
+        setState({ ...state, [event.target.name]: event.target.checked })
     };
 
-    const views = [
-        <Box className="m-sm-30">
-            <div className="max-w-600 mx-auto">
-                <h4>Bienvenido a Iknelia, tu consultorio online</h4>
-                <p>
-                    Por favor llena este formulario para aplicar a nuestra plataforma
-                </p>
-                <Divider className="mb-8" />
+    const getStepContent = (stepIndex) => {
+        switch(stepIndex) {
+            //BASIC DATA
+            case 0:
+                return  <Box className="m-sm-30">
+                        <div className="max-w-600 mx-auto">
+                            <h4>Bienvenido a Iknelia, tu consultorio online</h4>
+                            <p>
+                                Por favor llena este formulario para aplicar a nuestra plataforma
+                            </p>
+                            <Divider className="mb-8" />
+            
+                            <TextField
+                                className="mb-4"
+                                label="Nombre"
+                                size="small"
+                                name="name"
+                                fullWidth
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                className="mb-4"
+                                label="Apellidos"
+                                size="small"
+                                name="lastname"
+                                fullWidth
+                                onChange={handleChange}
+                            >
+                            </TextField>
+                            <TextField
+                                className="mb-4"
+                                label="Correo electrónico"
+                                value={state.email || ''}
+                                fullWidth
+                                name="email"
+                                disabled={state.email ? true : false}
+                                onChange={handleChange}
+                                InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Mail/>
+                                    </InputAdornment>
+                                )}}
+                            />
+                            <Divider className="mb-6" />
+                            <TextField
+                                className="mb-4"
+                                label="Dirección"
+                                name="address"
+                                fullWidth
+                                value=""
+                                placeholder="Dirección"
+                                onChange={handleChange}
+                                InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Home/>
+                                    </InputAdornment>
+                                )}}
+                            />
+                            <Divider className="mb-8" />
+                            <TextField
+                                className="mb-4"
+                                label="Teléfono"
+                                name="phone"
+                                fullWidth
+                                onChange={handleChange}
+                                placeholder="(LADA)XXXXXXXXXX"
+                                InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Phone/>
+                                    </InputAdornment>
+                                )}}
+                            />
+                            <div>
+                                <h3>¿Tienes un título que sea validado por una institución oficial?</h3>
+                                {/**
+                                 * *TODO MANEJAR EL ERROR, CUANDO NO CONFIRMAN QUE SON PROFESIONALES. 
+                                 */}
+                                <FormControlLabel
+                                    control = {
+                                        <Checkbox 
+                                            onChange={handleAgree} 
+                                            name="grade"/>
+                                        }
+                                        label="Confirmo que soy profesional"
+                                />
+                            </div>
+                        </div>
+                    </Box> 
+                    
+            case 1: 
+                return <Box className="m-sm-30 p-6">
+                        <div className="max-w-600 mx-auto">
+                            <h4>Ahora, compártenos tus datos profesionales.</h4>
+                            <TextField
+                                className="mb-4"
+                                label="Cédula profesinal"
+                                name="cedula"
+                                fullWidth
+                                onChange={handleChange}
+                                placeholder="XXXXXXXXXX"
+                                InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <DataUsage/>
+                                    </InputAdornment>
+                                )}}
+                            />
+                        </div>
+                    </Box>
+            case 2: 
+                return <Box className="m-sm-30 p-3">
+                    <div className="max-w-600 mx-auto">
+                        <h4>Selecciona una fotografía para tu perfil</h4>
+                        <Divider className="mb-8" />
 
-                <TextField
-                    className="mb-4"
-                    label="Nombre"
-                    size="small"
-                    name="name"
-                    fullWidth
-                    onChange={handleChange}
-                />
-                <TextField
-                    className="mb-4"
-                    label="Apellidos"
-                    size="small"
-                    name="lastname"
-                    fullWidth
-                    onChange={handleChange}
-                >
-                </TextField>
-                <div>
-                    <h3>¿Tienes un título que sea validado por una institución oficial?</h3>
-                    {/**
-                     * *TODO MANEJAR EL ERROR, CUANDO NO CONFIRMAN QUE SON PROFESIONALES. 
-                     */}
-                    <FormControlLabel
-                        control = {
-                            <Checkbox 
-                                onChange={handleAgree} 
-                                name="grade"/>
-                            }
-                            label="Confirmo que soy profesional"
-                    />
-                </div>
-            </div>
-        </Box>,
-        <Box className="m-sm-30 p-6">
-            <div className="max-w-600 mx-auto">
-                <h4>Ahora, compártenos tus datos de contacto.</h4>
-                <TextField
-                    className="mb-4"
-                    label="Correo electrónico"
-                    value={state.email || ''}
-                    fullWidth
-                    name="email"
-                    disabled={state.email ? true : false}
-                    onChange={handleChange}
-                    InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <Mail/>
-                        </InputAdornment>
-                    )}}
-                />
-                <Divider className="mb-6" />
-                <TextField
-                    className="mb-4"
-                    label="Dirección"
-                    name="address"
-                    fullWidth
-                    value=""
-                    placeholder="Dirección"
-                    onChange={handleChange}
-                    InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <Home/>
-                        </InputAdornment>
-                    )}}
-                />
-                <Divider className="mb-8" />
-                <TextField
-                    className="mb-4"
-                    label="Teléfono"
-                    name="phone"
-                    fullWidth
-                    onChange={handleChange}
-                    placeholder="(LADA)XXXXXXXXXX"
-                    InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <Phone/>
-                        </InputAdornment>
-                    )}}
-                />
-                <TextField
-                    className="mb-4"
-                    label="Cédula profesinal"
-                    name="cedula"
-                    fullWidth
-                    onChange={handleChange}
-                    placeholder="XXXXXXXXXX"
-                    InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <DataUsage/>
-                        </InputAdornment>
-                    )}}
-                />
-            </div>
-        </Box>, 
-        <Box className="m-sm-30 p-3">
-            <div className="max-w-600 mx-auto">
-                <h4>Selecciona una fotografía para tu perfil</h4>
-                <Divider className="mb-8" />
-
-                <input
-                    accept="image/*"
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                    className={classes.input}
-                />
-                
-                    <label  htmlFor="contained-button-file">
-                        <Button className="x-center" variant="contained" color="primary" component="span">
-                                Subir 
-                        </Button>
-                    </label>
-                </div>
-            <div className="max-w-600 mx-auto mt-4">
-                <h4>Sube tu CV cómo documento PDF</h4>
-                <Divider className="mb-8" />
-
-                <input
-                    id="contained-button-file"
-                    multiple
-                    type="file"
-                    className={classes.input}
-                />
-                
-                    <label  htmlFor="contained-button-file">
-                        <Button className="x-center" variant="contained" color="primary" component="span">
-                                Subir 
-                        </Button>
-                    </label>
-                </div>
-        </Box> 
-    ]
-        
-    useEffect(() => {
-            setContent(views[activeStep])
-        }, [activeStep])
+                        <input
+                            accept="image/*"
+                            id="contained-button-file"
+                            multiple
+                            type="file"
+                            className={classes.input}
+                        />
+                        
+                            <label  htmlFor="contained-button-file">
+                                <Button className="x-center" variant="contained" color="primary" component="span">
+                                        Subir 
+                                </Button>
+                            </label>
+                    </div>
+                    <div className="max-w-600 mx-auto mt-4">
+                        <h4>Sube tu CV cómo documento PDF</h4>
+                        <Divider className="mb-8" />
+                        <input
+                            id="contained-button-file"
+                            multiple
+                            type="file"
+                            className={classes.input}
+                        />
+                        
+                        <label  htmlFor="contained-button-file">
+                            <Button className="x-center" variant="contained" color="primary" component="span">
+                                    Subir 
+                            </Button>
+                        </label>
+                    </div>
+                </Box> 
+            default: 
+        }
+    }
 
     const handleNext = () => {
         if (activeStep == 0 && !state.grade) {
@@ -277,7 +279,7 @@ const TherapistDataForm = ({ location }) => {
         >
             <Card className={classes.card}>
                 <Stepper activeStep={activeStep} alternativeLabel>
-                    {steps.map((label) => (
+                    {getSteps().map((label) => (
                         <Step key={label}>
                             <StepLabel>{label}</StepLabel>
                         </Step>
@@ -287,7 +289,7 @@ const TherapistDataForm = ({ location }) => {
                     <Grid item lg={12} md={12} sm={12} xs={12}>
                         <div className="p-8 h-full">
                             <div>
-                                {activeStep === steps.length ? (
+                                {activeStep === getSteps().length ? (
                                     <div className="flex items-center">
                                         <div className="flex items-center mb-4">
                                             <Icon>done</Icon> <span className="ml-2">Tus respuestas han sido enviadas :D</span>
@@ -303,7 +305,7 @@ const TherapistDataForm = ({ location }) => {
                                 ) : (
                                     <div className=" flex-column items-center">
                                         <Card>
-                                            {content}
+                                            {getStepContent(activeStep)}
                                         </Card>
                                         <div className="flex mt-3">
                                                 <Button
@@ -312,7 +314,7 @@ const TherapistDataForm = ({ location }) => {
                                                     type="submit"
                                                     onClick={handleNext}
                                                 >
-                                                    {activeStep == steps.length - 1
+                                                    {activeStep == getSteps().length - 1
                                                     ? 'Enviar respuestas' : 'Siguiente'}
                                                 </Button>
                                                 {loading && (

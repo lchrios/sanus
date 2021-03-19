@@ -1,6 +1,6 @@
 import React from "react";
 const Home = React.lazy(() => import('./Home'))
-const Blogs = React.lazy(() => import('./landingBlog/landingBlog'))
+const LandingBlog = React.lazy(() => import('./landingBlog/landingBlog'))
 const Psychologists = React.lazy(() => import('./psychologists/landingPsy'))
 
 const settings = {

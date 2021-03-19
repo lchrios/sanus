@@ -10,7 +10,7 @@ import {
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import useAuth from 'app/hooks/useAuth'
 import history from '../../../../history'
 
@@ -50,30 +50,31 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const TherapistFirebaseRegister = () => {
     const [loading, setLoading] = useState(false)
-    const [state, setState] = useState({})
+    const [state, setState] = useState({agreement:false})
     const classes = useStyles()
     const [message, setMessage] = useState('')
     const { signInWithGoogle } = useAuth()
 
-    const handleChange = ({ target: { name, value } }) => {
+    const handleChange = (event) => {
+
+        console.log(event)
         setState({
             ...state,
-            [name]: value,
+            [event.target.name]: event.target.value,
         })
     }
-
+    
     const handleGoogleRegister = (event) => {
         signInWithGoogle()
             .then( result => {
                 var { credential, accessToken, user } = result;
 
-                // TODO: enviar a formulario pasando parametros (se puede con controled textfields)
                 history.push({
                     pathname: '/session/register',
                     state: {
                         user: user,
                         email: state.email,
-                        password: state.email,
+                        password: state.password,
                         withProvider: true,
                         credential: credential,
                         token: accessToken
@@ -88,14 +89,14 @@ const TherapistFirebaseRegister = () => {
     }
 
     const handleFormSubmit = () => {
-        if (state.agreement) {
+        if (state.agreement)  {
             setLoading(true)
             console.log("De camino al formulario de datos");
             history.push({
-                pathname: '/session/register',
+                pathname: '/therapist/info',
                 state: {
                     email: state.email,
-                    password: state.email,
+                    password: state.password,
                     withProvider: "false",
                 }
             });
@@ -105,7 +106,6 @@ const TherapistFirebaseRegister = () => {
         }
     }
 
-    let { email, password, agreement } = state
 
     return (
         <div
@@ -154,7 +154,7 @@ const TherapistFirebaseRegister = () => {
                                     onChange={handleChange}
                                     type="email"
                                     name="email"
-                                    value={email || ''}
+                                    value={state.email || ''}
                                     validators={['required', 'isEmail']}
                                     errorMessages={[
                                         'este campo es obligatorio',
@@ -169,7 +169,7 @@ const TherapistFirebaseRegister = () => {
                                     onChange={handleChange}
                                     name="password"
                                     type="password"
-                                    value={password || ''}
+                                    value={state.password || ''}
                                     validators={['required']}
                                     errorMessages={['este campo es obligatorio']}
                                 />
@@ -187,7 +187,7 @@ const TherapistFirebaseRegister = () => {
                                     control={
                                         <Checkbox
                                             size="small"
-                                            checked={agreement}
+                                            checked={state?.agreement}
                                         />
                                     }
                                     label={
@@ -210,8 +210,8 @@ const TherapistFirebaseRegister = () => {
                                     <Link to={{
                                             pathname: '/therapist/info',
                                             state: {
-                                                email: state.email,
-                                                password: state.email,
+                                                email: state?.email,
+                                                password: state?.email,
                                                 withProvider: false,
                                             }
                                         }}
@@ -221,6 +221,7 @@ const TherapistFirebaseRegister = () => {
                                             color="primary"
                                             disabled={loading}
                                             type="submit"
+                                            onClick={handleFormSubmit}
                                         >
                                             Registrarse
                                         </Button>
