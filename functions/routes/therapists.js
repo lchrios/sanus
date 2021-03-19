@@ -4,6 +4,7 @@ const users = db.collection('users');
 const ther = db.collection('therapists');
 const sess = db.collection('sessions');
 const blogs = db.collection('blogs');
+const schedules = db.collection("schedules");
 
 // * Get therapist info
 exports.getAllTherapists = (req, res) => {
@@ -58,10 +59,19 @@ exports.getTherapist = (req, res) => {
         })
 }
 
+exports.getSchedule = (req, res) => {
+    schedules.doc(req.params.tid).get()
+    .then( doc => {
+        return res.status(200).send({...doc.data()})
+    })
+    .catch( er => {
+        return res.status(400).send(er)
+    })
+}
 
 exports.setSchedule = (req, res) => {
-    ther.doc(req.params.tid)
-    .update({schedule: req.body.schedule})
+    schedules.doc(req.params.tid)
+    .set({ schedule: req.body.schedule, options: req.body.options })
     .then(() =>{
         return res.status(201).send({result: true, message: "Schedule actualizada correctamente"})
     })

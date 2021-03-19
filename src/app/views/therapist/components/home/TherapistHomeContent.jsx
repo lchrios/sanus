@@ -489,36 +489,36 @@ const projectSummery = [
 ]
 
 const paymentList = [
-    {
-        img: '/assets/images/payment-methods/master-card.png',
-        type: 'Método 1',
-        product: 'Descripción del método',
-        amount: 909,
-    },
-    {
-        img: '/assets/images/payment-methods/paypal.png',
-        type: 'Método 1',
-        product: 'Descripción del método',
-        amount: 303,
-    },
-    {
-        img: '/assets/images/payment-methods/visa.png',
-        type: 'Método 2',
-        product: 'Descripción del método',
-        amount: 330,
-    },
-    {
-        img: '/assets/images/payment-methods/maestro.png',
-        type: 'Método 3',
-        product: 'Descripción del método',
-        amount: 909,
-    },
-    {
-        img: '/assets/images/payment-methods/maestro.png',
-        type: 'Método 4',
-        product: 'Descripción del método',
-        amount: 909,
-    },
+    // {
+    //     img: '/assets/images/payment-methods/master-card.png',
+    //     type: 'Método 1',
+    //     product: 'Descripción del método',
+    //     amount: 909,
+    // },
+    // {
+    //     img: '/assets/images/payment-methods/paypal.png',
+    //     type: 'Método 1',
+    //     product: 'Descripción del método',
+    //     amount: 303,
+    // },
+    // {
+    //     img: '/assets/images/payment-methods/visa.png',
+    //     type: 'Método 2',
+    //     product: 'Descripción del método',
+    //     amount: 330,
+    // },
+    // {
+    //     img: '/assets/images/payment-methods/maestro.png',
+    //     type: 'Método 3',
+    //     product: 'Descripción del método',
+    //     amount: 909,
+    // },
+    // {
+    //     img: '/assets/images/payment-methods/maestro.png',
+    //     type: 'Método 4',
+    //     product: 'Descripción del método',
+    //     amount: 909,
+    // },
 ]
 
 export default TherapistHomeContent
