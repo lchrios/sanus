@@ -8,10 +8,12 @@ import BlogEntries from "./components/BlogEntries/entriesIndex"
 import {homeObjOne,homeObjTwo, blogs } from './components/InfoSection/Data'
 import Footer from './components/Footer/footerIndex'
 import PsySection from './components/psychologists/psychologists'
+import useAuth from 'app/hooks/useAuth';
 
 
 const Home = () => {
-  const [is0pen, setIs0pen ] = useState(false)
+  const [is0pen, setIs0pen] = useState(false)
+  const { user } = useAuth();
 
   const toggle = () => {
     setIs0pen(!is0pen)
@@ -20,7 +22,7 @@ const Home = () => {
   return (
     <Router>
       <Sidebar is0pen={is0pen} toggle={toggle}/>
-      <Navbar toggle = {toggle}/>
+      <Navbar toggle = {toggle} user={user} />
       <HeroSection />
       <InfoSection id='inicio'{...homeObjOne}/>
       <PsySection />
