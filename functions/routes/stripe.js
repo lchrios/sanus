@@ -10,7 +10,7 @@ exports.sendPaymentInfo = (req, res) => {
         amount,
         currency:'mxn',
         description: 'Sesión individual',
-        payment_method_types: ['card'],
+        payment_method_types: ['card', 'oxxo'],
     })
     .then((paymentIntent) => {
         console.log("Ticket de pago generado exitosamente")
@@ -45,12 +45,14 @@ exports.handleStripeEvent = (req, res) => {
     switch(event.type) {
         case 'payment_intent.succeeded':
             console.log("Pago recibido con " + event["payment_method_types"])
-            // * Se hizo el pago exitosamente
+            // * Se hizo el pago del voucher del OXXO exitosamente 
             break;
             
         case 'payment_intent.requires_action':
-            // * Se genero voucher del OXXO
+            // * Se genero el voucher del OXXO
             console.log("Voucher generado")
+            // - 1 Crear sesion en firestore con valor
+            // - 
 
         case 'payment_intent.processing':
             // * Se esta procesando el outcome del pago

@@ -4,6 +4,7 @@ const users = db.collection('users');
 const ther = db.collection('therapists');
 const sess = db.collection('sessions');
 const blogs = db.collection('blogs');
+const schedules = db.collection("schedules");
 
 // * Get therapist info
 exports.getAllTherapists = (req, res) => {
@@ -50,12 +51,33 @@ exports.getTherapist = (req, res) => {
         .doc(req.params.tid)
         .get()
         .then((doc) => {
-            res.status(200).send(doc.data())
+            return res.status(200).send(doc.data())
         })
         .catch(error => {
             console.log('Error al obtener terapeuta!', error);
             return res.status(404).send(error)
         })
+}
+
+exports.getSchedule = (req, res) => {
+    schedules.doc(req.params.tid).get()
+    .then( doc => {
+        return res.status(200).send({...doc.data()})
+    })
+    .catch( er => {
+        return res.status(400).send(er)
+    })
+}
+
+exports.setSchedule = (req, res) => {
+    schedules.doc(req.params.tid)
+    .set({ schedule: req.body.schedule, options: req.body.options })
+    .then(() =>{
+        return res.status(201).send({result: true, message: "Schedule actualizada correctamente"})
+    })
+    .catch(er => {
+        return res.status(400).send(er);
+    })
 }
 
 exports.getAllSessionsByTherapist = (req, res) => {
@@ -67,7 +89,7 @@ exports.getAllSessionsByTherapist = (req, res) => {
             const refs = [];
             query.forEach((doc) => {
                 data.push(doc.data());
-                refs.push(doc.ref);
+                refs.push(doc.id);
             })
             return res.status(200).send({ id: refs, data: data })
         })

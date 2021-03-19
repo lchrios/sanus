@@ -19,12 +19,14 @@ import {
     Checkbox,
     FormControlLabel,
 } from '@material-ui/core'
+import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Home, Mail, Phone, DataUsage } from '@material-ui/icons'
 import clsx from 'clsx'
 import api from 'app/services/api'
+import history from '../../../../history'
+import firebase from 'firebase/app'
 import useAuth from 'app/hooks/useAuth'
 import { useLocation } from 'react-router'
-
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
         background: '#1A2038',
@@ -64,12 +66,12 @@ const TherapistDataForm = () => {
     const classes = useStyles()
     const { user } = useAuth()
     const [activeStep, setActiveStep] = useState(0)
-    const [content, setContent] = useState()
     const [message, setMessage] = useState("")
-    const [state, setState] = useState(useLocation().state)
+    const [state, setState] = useState({...useLocation().state, grade:false})
     
     let {email,password} = state
-
+    const { createTherapistWithEmailAndPassword, signInWithEmailAndPassword } = useAuth();
+    
     const getSteps = () => {
         return ['Contacto', 'Profesional', 'Perfil']
     }
@@ -81,8 +83,12 @@ const TherapistDataForm = () => {
     }
 
     const handleAgree = (event) => {
-        setState({ ...state, [event.target.name]: event.target.checked })
+        setState({ ...state, [event.target.name]: event.target.value })
     };
+
+    const handleFileUpload = (event) => {
+        console.log(event)
+    }
 
     const getStepContent = (stepIndex) => {
         switch(stepIndex) {
@@ -96,24 +102,29 @@ const TherapistDataForm = () => {
                             </p>
                             <Divider className="mb-8" />
             
-                            <TextField
+                            <TextValidator
                                 className="mb-4"
                                 label="Nombre"
                                 size="small"
                                 name="name"
                                 fullWidth
                                 onChange={handleChange}
+                                value={state.name || ""}
+                                validators={['required']}
+                                errorMessages={['Ingresa tu nombre porfavor']}
                             />
-                            <TextField
+                            <TextValidator
                                 className="mb-4"
                                 label="Apellidos"
                                 size="small"
                                 name="lastname"
                                 fullWidth
                                 onChange={handleChange}
-                            >
-                            </TextField>
-                            <TextField
+                                value={state.lastname || ""}
+                                validators={['required']}
+                                errorMessages={['Ingresa tu apellido por favor']}
+                            />
+                            <TextValidator
                                 className="mb-4"
                                 label="Correo electrónico"
                                 value={state.email || ''}
@@ -127,14 +138,17 @@ const TherapistDataForm = () => {
                                         <Mail/>
                                     </InputAdornment>
                                 )}}
+                                validators={['required']}
+                                errorMessages={['Ingresa tu email por favor']}
                             />
                             <Divider className="mb-6" />
-                            <TextField
+                            <TextValidator
                                 className="mb-4"
                                 label="Dirección"
                                 name="address"
+                                type="text"
                                 fullWidth
-                                value=""
+                                value={state.address || ""}
                                 placeholder="Dirección"
                                 onChange={handleChange}
                                 InputProps={{
@@ -143,12 +157,15 @@ const TherapistDataForm = () => {
                                         <Home/>
                                     </InputAdornment>
                                 )}}
+                                validators={['required']}
+                                errorMessages={['Ingresa tu dirección por favor']}
                             />
                             <Divider className="mb-8" />
-                            <TextField
+                            <TextValidator
                                 className="mb-4"
                                 label="Teléfono"
                                 name="phone"
+                                value={state.phone || ""}
                                 fullWidth
                                 onChange={handleChange}
                                 placeholder="(LADA)XXXXXXXXXX"
@@ -158,20 +175,30 @@ const TherapistDataForm = () => {
                                         <Phone/>
                                     </InputAdornment>
                                 )}}
+                                validators={['required']}
+                                errorMessages={['Ingresa tu teléfono por favor']}
                             />
                             <div>
                                 <h3>¿Tienes un título que sea validado por una institución oficial?</h3>
-                                {/**
-                                 * *TODO MANEJAR EL ERROR, CUANDO NO CONFIRMAN QUE SON PROFESIONALES. 
-                                 */}
                                 <FormControlLabel
+                                    name="grade"
+                                    onChange={(e) => handleAgree ({
+                                        target: {
+                                            name: "grade",
+                                            value: e.target.checked
+                                        }
+                                    })}
                                     control = {
                                         <Checkbox 
-                                            onChange={handleAgree} 
-                                            name="grade"/>
+                                            name="grade"
+                                            checked={state.grade || false }
+                                            />
                                         }
                                         label="Confirmo que soy profesional"
                                 />
+                                {message && (
+                                    <p className="text-error">{message}</p>
+                                )}
                             </div>
                         </div>
                     </Box> 
@@ -184,6 +211,8 @@ const TherapistDataForm = () => {
                                 className="mb-4"
                                 label="Cédula profesinal"
                                 name="cedula"
+                                type="number"
+                                value={state.cedula || ""}
                                 fullWidth
                                 onChange={handleChange}
                                 placeholder="XXXXXXXXXX"
@@ -193,6 +222,8 @@ const TherapistDataForm = () => {
                                         <DataUsage/>
                                     </InputAdornment>
                                 )}}
+                                validators={['required']}
+                                errormessages={['Debes ingresar tu cédula profesional']}
                             />
                         </div>
                     </Box>
@@ -205,9 +236,9 @@ const TherapistDataForm = () => {
                         <input
                             accept="image/*"
                             id="contained-button-file"
-                            multiple
                             type="file"
                             className={classes.input}
+                            onChange={handleFileUpload}
                         />
                         
                             <label  htmlFor="contained-button-file">
@@ -224,6 +255,7 @@ const TherapistDataForm = () => {
                             multiple
                             type="file"
                             className={classes.input}
+                            onChange={handleFileUpload}
                         />
                         
                         <label  htmlFor="contained-button-file">
@@ -238,25 +270,26 @@ const TherapistDataForm = () => {
     }
 
     const handleNext = () => {
-        if (activeStep == 0 && !state.grade) {
-            // *TODO REDIRECCIONAR A PÁGINA DE FALLO (PORQUE NO SON PROFESIONALES)
-        } else if (activeStep < 2 || (activeStep == 0 && state.grade)) {
-            setActiveStep((prevActiveStep) => prevActiveStep + 1)
-            setMessage("")
-
-        } else if (activeStep == 2) {
-            api.post("auth/signuser", {
-
-            })
-            .then( res => {
-                
-            })
-            .catch( error => {
-                console.error(error);
-            })
-            // TODO: enviar informacion a la base de datos e iniciar sesión
-            // TODO ESK: Crear página de registro exitoso
-            console.log(state)
+        if (activeStep == 0) {
+            if (state.grade == false || state.grade == undefined) {
+                setMessage('Debes confirmar que cuentas con un título profesional')
+            } else if(state.name == "" || state.name == undefined) {
+                setMessage('Ingresa tu nombre por favor')
+            } else if(state.lastname == "" || state.lastname == undefined) {
+                setMessage('Ingresa tu apellido por favor')
+            } else if(state.address == "" || state.address == undefined) {
+                setMessage('Ingresa tu dirección por favor')
+            } else if(state.phone == "" || state.phone == undefined) {
+                setMessage('Ingresa tu número telefónico por favor')
+            }else {
+                setActiveStep((prevActiveStep) => prevActiveStep + 1)}
+        }else if (activeStep == 1) {
+            if (state.cedula == "" || state.cedula == undefined) {
+                setMessage('Debes ingresar tu cédula profesional')
+            } else {
+                setActiveStep((prevActiveStep) => prevActiveStep + 1)
+            }
+        }else if (activeStep == 2) {
         }
 
     }
@@ -268,6 +301,28 @@ const TherapistDataForm = () => {
 
     const handleReset = () => {
         setActiveStep(0)
+    }
+
+    const handleFormSubmit = () => {
+        let {email, password } = state
+        
+        createTherapistWithEmailAndPassword(state)
+        .then( res => {
+            // * Aqui haces lo de que te mande a otro lado
+            signInWithEmailAndPassword(email, password)
+            .then(() => {
+                history.push(`/${firebase.auth().currentUser.uid}/home`)
+            })
+            .catch( error => {
+                console.error("Error al obtener el decodedToken del user", error)
+            })
+        })
+        .catch( e => {
+            setLoading(false)
+            console.log(e)
+            setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
+            
+        })
     }
 
     return(
@@ -304,37 +359,39 @@ const TherapistDataForm = () => {
                                     </div>
                                 ) : (
                                     <div className=" flex-column items-center">
-                                        <Card>
-                                            {getStepContent(activeStep)}
-                                        </Card>
-                                        <div className="flex mt-3">
-                                                <Button
-                                                    variant="contained"
-                                                    color="primary"
-                                                    type="submit"
-                                                    onClick={handleNext}
-                                                >
-                                                    {activeStep == getSteps().length - 1
-                                                    ? 'Enviar respuestas' : 'Siguiente'}
-                                                </Button>
-                                                {loading && (
-                                                    <CircularProgress
-                                                        size={24}
-                                                        className={
-                                                            classes.buttonProgress
-                                                        }
-                                                    />
-                                                )}
-                                                <span className="mx-2 ml-5">ó</span>
-                                                    <Button className="capitalize"
-                                                        variant={activeStep === 0 ? 'text' : 'contained'}
-                                                        color={activeStep === 0 ? 'primary' : 'secondary'}
-                                                        disabled={activeStep === 0}
-                                                        onClick={handleBack}
+                                        <ValidatorForm onSubmit={handleFormSubmit}>
+                                            <Grid item lg={12} md={12} sm={12} xs={12}>
+                                                {getStepContent(activeStep)}
+                                            </Grid>
+                                            <div className="flex mt-3">
+                                                    <Button
+                                                        variant="contained"
+                                                        color="primary"
+                                                        type="submit"
+                                                        onClick={activeStep == getSteps().length -1 ? handleFormSubmit : handleNext}
                                                     >
-                                                        Volver
+                                                        {activeStep == getSteps().length - 1
+                                                        ? 'Enviar respuestas' : 'Siguiente'}
                                                     </Button>
-                                        </div>
+                                                    {loading && (
+                                                        <CircularProgress
+                                                            size={24}
+                                                            className={
+                                                                classes.buttonProgress
+                                                            }
+                                                        />
+                                                    )}
+                                                    <span className="mx-2 ml-5">ó</span>
+                                                        <Button className="capitalize"
+                                                            variant={activeStep === 0 ? 'text' : 'contained'}
+                                                            color={activeStep === 0 ? 'primary' : 'secondary'}
+                                                            disabled={activeStep === 0}
+                                                            onClick={handleBack}
+                                                        >
+                                                            Volver
+                                                        </Button>
+                                            </div>
+                                        </ValidatorForm>
                                     </div>
                                 )}
                             </div>

@@ -207,15 +207,6 @@ const TherapistFirebaseRegister = () => {
                                 )}
                                 <div className="flex items-center">
                                     <div className="relative">
-                                    <Link to={{
-                                            pathname: '/therapist/info',
-                                            state: {
-                                                email: state?.email,
-                                                password: state?.email,
-                                                withProvider: false,
-                                            }
-                                        }}
-                                    >
                                         <Button
                                             variant="contained"
                                             color="primary"
@@ -233,7 +224,6 @@ const TherapistFirebaseRegister = () => {
                                                 }
                                             />
                                         )}
-                                    </Link>
                                     </div>
                                     <span className="mx-2 ml-5">o</span>
                                     <Link to={{

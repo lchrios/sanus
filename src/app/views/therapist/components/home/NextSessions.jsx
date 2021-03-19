@@ -53,33 +53,26 @@ const patients = [
     },
 ]
 
-const NextSessions = () => {
+const NextSessions = ({ sessions }) => {
 
     const classes = useStyles()
-    const [sessionList, setSessionList] = useState(patients)
     const numberSession = 0;
     const { user } = useAuth();
-
-    useEffect(() => {
-        api.get(`/t/${user.uid}/s`).then( res => {
-            setSessionList(res.data.data)
-        })
-    }, [])
 
     return (
         /**Añadir un contador para que cuando la sesión sea la más próxima muestre los botones correctos */
         <Grid container spacing={3} direction="column">
-            {sessionList.map((session_info) => (
+            {sessions.data.map((session_info, index) => (
                 <Grid
                     item
                     lg={12}
                     md={12}
                     sm={12}
                     xs={12}
-                    key={session_info.patient}>
+                    key={index}>
                     <Card className="p-5">
                         <div className="flex justify-between mb-4">
-                            <Avatar className="h-56 w-56" src={session_info?.imgUrl} />
+                            <Avatar className="h-56 w-56" src={session_info?.img} />
                             <div>
                                 <MatxMenu
                                     menuButton={
@@ -96,7 +89,7 @@ const NextSessions = () => {
                                     </MenuItem>
                                     <MenuItem>
                                         <Icon fontSize="small"> account_circle </Icon>
-                                        <span className="pl-4"> Ver paciente</span>
+                                        <span className="pl-4"> Ver paciente </span>
                                     </MenuItem>
                                     {/* <MenuItem>
                                         <Icon fontSize="small"> edit </Icon>
@@ -107,11 +100,11 @@ const NextSessions = () => {
                             </div>
                         </div>
                         <div>
-                            <h5 className="m-0 capitalize">{session_info?.name}</h5>
+                            <h5 className="m-0 capitalize">{session_info?.user_name}</h5>
                             <Grid item>
                                 <h4 className="text-muted mt-2">Fecha pactada:</h4>
                                 <p className="text-muted">
-                                    {session_info.time.toString()}
+                                    {session_info?.start}
                                 </p>
                             </Grid>
                             <div className="mb-4">
@@ -120,7 +113,7 @@ const NextSessions = () => {
                                         fontSize="small"
                                         className={clsx('text-14', classes.google)}
                                     />
-                                    <span className="ml-2">correiopaciente@gmail.com</span>
+                                    <span className="ml-2">{session_info?.user_email}</span>
                                 </Link>
                             </div>
                             <div className="flex flex-wrap ">

@@ -83,26 +83,6 @@ exports.newBlog = (req, res) => {
                 }) 
 
             */
-            
-            // actualiar campos de terapeuta
-            author = ther.doc(req.body.blogdata.author);
-            author
-                .get()
-                .then(doc => {
-                    upblogs = doc.data().blogs;
-                    upblogs.push(blogdoc.id);
-                    author.update({blogs: upblogs}).then(() => {
-                        return res.status(201).send(doc.id);
-                    })
-                    .catch(error => {
-                        console.log('Error actualizando el campo blogs en author document', error);
-                        return res.status(404).send(error);
-                    })
-                })
-                .catch(error => {
-                    console.log('Error obteniendo author document', error);
-                    return res.status(404).send(error);
-                })
         })
         .catch(error => {
             console.log('Error creando el blog document', error);

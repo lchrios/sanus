@@ -34,7 +34,9 @@ const {
   getTherapist,
   getPatientsbyTherapist,
   getNotesByTherapist,
-  newNote
+  newNote,
+  setSchedule,
+  getSchedule
 } = require("./routes/therapists");
 
 
@@ -62,7 +64,7 @@ const {
       handleStripeEvent, 
 } = require("./routes/stripe");
 
-const { fixAllUsers } = require("./routes/fixes");
+const { fixAllUsers, fixAllSessions, fixAllTherapists, fixAllBlogs } = require("./routes/fixes");
 
 // * uso de transformacion a json
 app.use(express.json());
@@ -110,8 +112,10 @@ app.get("/t/:tid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession)
 app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByTherapist);
 app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist);
 app.get("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), getNotesByTherapist);
+app.get("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), getSchedule);
 app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
 app.post("/t/:tid/b", isAuthenticated, isAuthorized(roles.therapist), newBlog);
+app.post("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), setSchedule);
 
 // * rutas de usuario
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
@@ -154,6 +158,9 @@ app.put("/auth/:uid/user", setUser);
 // * rutas de fixing 
 // ! BORRARLAS DESPUES DE TERMINAR SU USO
 app.post("/fix/users", fixAllUsers);
+app.post("/fix/sessions", fixAllSessions);
+app.post("/fix/therapists", fixAllTherapists);
+app.post("/fix/blogs", fixAllBlogs);
 
 
 

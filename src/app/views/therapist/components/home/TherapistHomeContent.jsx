@@ -19,9 +19,7 @@ import history from 'history.js'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import NextSessions from './NextSessions'
-import { useEffect } from 'react'
-import useAuth from 'app/hooks/useAuth'
-import api from 'app/services/api'
+import { Loading } from 'app/components/Loading/Loading'
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
         marginTop: -345,
@@ -74,35 +72,9 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     
 }))
 
-const TherapistHomeContent = ({ toggleSidenav }) => {
-    const { user} = useAuth()
-    const [loading, setLoading] = useState(true)
-    const [sessions, setSessions] = useState()
-    const [patients, setPatients] = useState()
-    const [blogs, setBlogs] = useState()
+const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }) => {
 
-    useEffect(() => {
-        api.get(`/t/${user.uid}/u`) 
-            .then(res => {
-                console.log("Pacientes obtenidos")
-                setPatients(res.data)
-                api.get(`/t/${user.uid}/s`) 
-                .then(res => {
-                    console.log("Sesiones obtenidas")
-                    setSessions(res.data)
-                    api.get(`/t/${user.uid}/b`) 
-                    .then(res => {
-                        console.log("Blogs obtenidos")
-                        setBlogs(res.data)            
-                        setLoading(false)
-                    })
-                    
-                })
-            })
-    }, [])
-     
     const classes = usestyles()
-    const theme = useTheme()
     return (
         <Fragment>
             <div className={classes.profileContent}>
@@ -112,8 +84,9 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                     </IconButton>
                 </div>
                 <div className={classes.headerCardHolder}>
-                    { loading ? <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> :
-                        <Grid container spacing={6}>
+                    { loading 
+                    ?   <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> 
+                    :   <Grid container spacing={6}>
                             {projectSummery.map((project) => (
                                 <Grid
                                     item
@@ -147,132 +120,15 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                 <Grid container spacing={3}>
                     <Grid item lg={8} md={8} sm={12} xs={12}>
                         <Card className="pb-4">
-                            <h4 className="text-32 px-4 pt-4 pb-0">
-                                Tus próximas citas
-                            </h4>
-                            <NextSessions />
-                        </Card>
-                    </Grid>
-
-                    {/**LISTA DE PACIENTES QUE CAMBIA CON LA CONDICIONAL DE PACIENTES ASIGNADOS O NO */}
-                    <Grid item lg={4} md={4} sm={12} xs={12} container spacing={1}>
-                        <Grid item lg={12}
-                                md={12}
-                                sm={12}
-                                xs={12}>
-                            <Card className="p-4 h-full">
-                                {patients?.length > 0 ? 
-                                <div><h4 className="font-medium text-muted">
-                                <Icon>group</Icon> Pacientes
+                            { loading
+                            ?   <div className="mt-10 mb-10"><Loading color={"primary"} size={32} /></div>
+                            :   <><h4 className="text-32 px-4 pt-4 pb-0">
+                                    Tus próximas citas
                                 </h4>
-                                <div style={{maxHeight: 400, overflow: 'auto'}}>
-                                    {patients.map((patient, index) => {
-                                        return patient.isNew ?
-                                        <div className="flex items-center mb-4"  style={{marginTop: '15px'}}>
-                                            <Badge badgeContent="Nuevo" color='info'>
-                                                <Fab className='primary'>
-                                                    <h4 className='text-error m-0 font-normal'>
-                                                        {patient?.name}
-                                                    </h4>
-                                                </Fab>
-                                            </Badge>
-                                            <div className="ml-4">
-                                                <h5 className="m-0 mb-1 font-medium">
-                                                    {patient?.name}
-                                                </h5>
-                                                <p className="m-0 text-muted">{patient?.location}</p>
-                                            </div>
-                                        </div>
-                                        :
-                                        <div className="flex items-center mb-4">
-                                            <Fab className='primary'>
-                                                <h4 className='text-error m-0 font-normal'>
-                                                {patients?.name}
-                                                </h4>
-                                            </Fab>
-                                            <div className="ml-4">
-                                                <h5 className="m-0 mb-1 font-medium">
-                                                {patient?.name}
-                                                </h5>
-                                                <p className="m-0 text-muted">{patient?.location}</p>
-                                            </div>
-                                        </div>
-                                    })}
-                                </div> </div>
-                                :
-                                <div className="mt-12">
-                                    <div className="flex-column items-center mb-6">
-                                        <Avatar
-                                            className="w-84 h-84"
-                                            src={''}
-                                        />
-                                        <h5 className="mt-4 mb-2">Aún no atiendes a ningún paciente</h5>
-                                        <small className="text-muted">Promociona tu perfil</small>
-                                    </div>
-                                    
-                                    <Table className="mb-6">
-                                        <TableBody>
-                                            <TableRow>
-                                                <TableCell>
-                                                    <Button
-                                                    onClick={() => {
-                                                        console.log("Conecta con stripe... :D")
-                                                    }}
-                                                    variant="contained"
-                                                    color="primary"
-                                                    className="x-center"
-                                                    >
-
-                                                        Conecta con stripe
-                                                    </Button>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </div>}
-                            </Card>
-                        </Grid>
-                        {/**TERMINA LISTA DE PACIENTES */}
-
-
-                        <Grid item lg={12}
-                                md={12}
-                                sm={12}
-                                xs={12}>
-                        <Card>
-                            {paymentList.map((method, index) => (
-                                <Fragment key={index}>
-                                    <div className="py-4 px-6 flex flex-wrap items-center justify-between">
-                                        <div className="flex flex-wrap items-center">
-                                            <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
-                                                <img
-                                                    className="w-36 overflow-hidden"
-                                                    src={method.img}
-                                                    alt="master card"
-                                                />
-                                            </div>
-                                            <div className="ml-4">
-                                                <h5 className="mb-1 font-medium">
-                                                    {method.type}
-                                                </h5>
-                                                <span className="text-muted">
-                                                    {method.product}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {index !== paymentList.length - 1 && (
-                                        <Divider />
-                                    )}
-                                </Fragment>
-                            ))}
+                                <NextSessions sessions={sessions} /></>
+                            }        
                         </Card>
-                        </Grid>
-                        
-                    </Grid> 
-
-                    <Grid item lg={8} md={8} sm={12} xs={12}>
-                        <div className="py-3"></div>
+                        <div className="py-6"></div>
                         <Card className="overflow-unset flex py-4">
                             <div className="w-100 min-w-100 text-center">
                                 <Fab
@@ -404,6 +260,136 @@ const TherapistHomeContent = ({ toggleSidenav }) => {
                             </div>
                         </Card>
                     </Grid>
+                    
+
+                    {/**LISTA DE PACIENTES QUE CAMBIA CON LA CONDICIONAL DE PACIENTES ASIGNADOS O NO */}
+                    <Grid item lg={4} md={4} sm={12} xs={12} container spacing={1}>
+                        <Grid item lg={12}
+                                md={12}
+                                sm={12}
+                                xs={12}>
+                            <Card className="p-4 h-full">
+                                { loading 
+                                ?   <div className="mt-10 mb-10"><Loading /></div> 
+                                :   <>
+                                    { users?.length !== 0 
+                                    ?    <div><h4 className="font-medium text-muted">
+                                            <Icon>group</Icon> Pacientes
+                                            </h4>
+                                            <div style={{maxHeight: 400, overflow: 'auto'}}>
+                                                <Grid
+                                                    container
+                                                    direction="column"
+                                                    justify="space-evenly"
+                                                    alignItems="stretch"
+                                                >
+                                                    {users.data.map((patient, index) => { 
+                                                        // TODO: CRITICAL - Arreglar el display de los pacientes
+                                                        <Grid item key={users.id[index]} className="flex items-center mb-4">
+                                                            { patient.answered
+                                                            ?   <Badge badgeContent="Nuevo" color='info'>
+                                                                    <Fab className='primary'>
+                                                                        <h4 className='text-error m-0 font-normal'>
+                                                                            {patient?.name}
+                                                                        </h4>
+                                                                    </Fab>
+                                                                </Badge>
+                                                            :   <Fab className='primary'>
+                                                                    <h4 className='text-error m-0 font-normal'>
+                                                                    {patient?.name}
+                                                                    </h4>
+                                                                </Fab>
+                                                            }
+                                                            <div className="ml-4">
+                                                                <h5 className="m-0 mb-1 font-medium">
+                                                                {patient?.name}
+                                                                </h5>
+                                                                <p className="m-0 text-muted">{patient?.age}</p>
+                                                            </div>
+                                                        </Grid>
+                                                    })}
+                                                </Grid>
+                                            </div> 
+                                        </div>
+                                    :   <div className="mt-12">
+                                            <div className="flex-column items-center mb-6">
+                                                <Avatar
+                                                    className="w-84 h-84"
+                                                    src={''}
+                                                />
+                                                <h5 className="mt-4 mb-2">Aún no atiendes a ningún paciente</h5>
+                                                <small className="text-muted">Promociona tu perfil</small>
+                                            </div>
+                                        
+                                            <Table className="mb-6">
+                                                <TableBody>
+                                                    <TableRow>
+                                                        <TableCell>
+                                                            <Button
+                                                            onClick={() => {
+                                                                console.log("Conecta con stripe... :D")
+                                                            }}
+                                                            variant="contained"
+                                                            color="primary"
+                                                            className="x-center"
+                                                            >
+
+                                                                Conecta con stripe
+                                                            </Button>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                </TableBody>
+                                            </Table>
+                                        </div>
+                                    }
+                                    </>
+                                }
+                            </Card>
+                        </Grid>
+                        {/**TERMINA LISTA DE PACIENTES */}
+
+
+                        <Grid 
+                            item 
+                            lg={12}
+                            md={12}
+                            sm={12}
+                            xs={12}
+                        >
+                            <Card>
+                                {paymentList.map((method, index) => (
+                                    <Fragment key={index}>
+                                        <div className="py-4 px-6 flex flex-wrap items-center justify-between">
+                                            <div className="flex flex-wrap items-center">
+                                                <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
+                                                    <img
+                                                        className="w-36 overflow-hidden"
+                                                        src={method.img}
+                                                        alt="master card"
+                                                    />
+                                                </div>
+                                                <div className="ml-4">
+                                                    <h5 className="mb-1 font-medium">
+                                                        {method.type}
+                                                    </h5>
+                                                    <span className="text-muted">
+                                                        {method.product}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {index !== paymentList.length - 1 && (
+                                            <Divider />
+                                        )}
+                                    </Fragment>
+                                ))}
+                            </Card>
+                        </Grid>
+                    </Grid> 
+
+                    <Grid item lg={8} md={8} sm={12} xs={12}>
+                        
+                    </Grid>
 
                     <Grid item lg={4} md={4} sm={12} xs={12}>
                         
@@ -503,36 +489,36 @@ const projectSummery = [
 ]
 
 const paymentList = [
-    {
-        img: '/assets/images/payment-methods/master-card.png',
-        type: 'Método 1',
-        product: 'Descripción del método',
-        amount: 909,
-    },
-    {
-        img: '/assets/images/payment-methods/paypal.png',
-        type: 'Método 1',
-        product: 'Descripción del método',
-        amount: 303,
-    },
-    {
-        img: '/assets/images/payment-methods/visa.png',
-        type: 'Método 2',
-        product: 'Descripción del método',
-        amount: 330,
-    },
-    {
-        img: '/assets/images/payment-methods/maestro.png',
-        type: 'Método 3',
-        product: 'Descripción del método',
-        amount: 909,
-    },
-    {
-        img: '/assets/images/payment-methods/maestro.png',
-        type: 'Método 4',
-        product: 'Descripción del método',
-        amount: 909,
-    },
+    // {
+    //     img: '/assets/images/payment-methods/master-card.png',
+    //     type: 'Método 1',
+    //     product: 'Descripción del método',
+    //     amount: 909,
+    // },
+    // {
+    //     img: '/assets/images/payment-methods/paypal.png',
+    //     type: 'Método 1',
+    //     product: 'Descripción del método',
+    //     amount: 303,
+    // },
+    // {
+    //     img: '/assets/images/payment-methods/visa.png',
+    //     type: 'Método 2',
+    //     product: 'Descripción del método',
+    //     amount: 330,
+    // },
+    // {
+    //     img: '/assets/images/payment-methods/maestro.png',
+    //     type: 'Método 3',
+    //     product: 'Descripción del método',
+    //     amount: 909,
+    // },
+    // {
+    //     img: '/assets/images/payment-methods/maestro.png',
+    //     type: 'Método 4',
+    //     product: 'Descripción del método',
+    //     amount: 909,
+    // },
 ]
 
 export default TherapistHomeContent

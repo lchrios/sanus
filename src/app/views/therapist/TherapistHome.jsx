@@ -12,6 +12,7 @@ import clsx from 'clsx'
 import TherapistHomeContent from './components/home/TherapistHomeContent'
 import TherapistHomeSidenav from './components/home/TherapistHomeSidenav'
 import useAuth from "app/hooks/useAuth";
+import api from "app/services/api";
 
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
@@ -27,10 +28,14 @@ const TherapistHome = () => {
     
     const [open, setOpen] = useState(true)
 
-    const { user } = useAuth;
+    const { user } = useAuth();
     const theme = useTheme()
     const classes = usestyles()
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+    const [loading, setLoading] = useState(true)
+    const [sessions, setSessions] = useState()
+    const [users, setUsers] = useState()
+    const [blogs, setBlogs] = useState()
 
     const toggleSidenav = () => {
         setOpen(!open)
@@ -41,23 +46,25 @@ const TherapistHome = () => {
         else setOpen(true)
     }, [isMobile])
 
-
-    //let { theme } = this.props; 
-    /*return (
-        <Fragment>
-            <div className="m-sm-30">
-                <div className="pb-86 pt-30 px-30 bg-primary">
-                    <Card></Card>
-                </div>
-                <div className="analytics m-sm-30 mt--72">
-                    <Grid container spacing={3}>
-                        
-                    </Grid>
-                </div>
-            </div>
-        </Fragment>  
-    )*/
-
+    useEffect(() => {
+        api.get(`/t/${user.uid}/u`) 
+            .then(resU => {
+                console.log("Usuarios obtenidos")
+                setUsers(resU.data)
+                api.get(`/t/${user.uid}/s`) 
+                .then(resS => {
+                    console.log("Sesiones obtenidas")
+                    setSessions(resS.data)
+                    api.get(`/t/${user.uid}/b`) 
+                    .then(resB => {
+                        console.log("Blogs obtenidos")
+                        setBlogs(resB.data)            
+                        setLoading(false)
+                    })
+                    
+                })
+            })
+    }, [])
 
     return (
         <div className="relative">
@@ -83,7 +90,7 @@ const TherapistHome = () => {
                 </MatxSidenav>
                 <MatxSidenavContent open={open}>
                     <div className={clsx('bg-primary', classes.headerBG)} />
-                    <TherapistHomeContent toggleSidenav={toggleSidenav} />
+                    <TherapistHomeContent toggleSidenav={toggleSidenav}  loading={loading} users={users} blogs={blogs} sessions={sessions} />
                 </MatxSidenavContent>
             </MatxSidenavContainer>
         </div>

@@ -69,7 +69,8 @@ exports.getTherapistByUser = (req, res) => {
 
 exports.getAllSessionsByUser = (req, res) => {
     sess
-        .where('patient', '==', req.params.uid)
+        .where('user', '==', req.params.uid)
+        //.orderBy("date", "desc")
         .get()
         .then( query => {
             const data = [];

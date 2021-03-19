@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 import { makeStyles } from '@material-ui/core/styles'
 import {
     Card,
@@ -80,26 +82,35 @@ const UserDataForm = () => {
     const [imgRender, setImgRender] = useState();;
     const { createUserWithEmailAndPassword, signInWithEmailAndPassword } = useAuth();
 
+
+    const handlePhone = phoneVal => {
+        setState({
+            ...state,
+            phone: phoneVal,
+        })
+    }
+
     const handleFormSubmit = () => {
         let { email, password } = state;
         setLoading(true)
 
-        createUserWithEmailAndPassword(state)
-        .then( res => {
-            // * Aqui haces lo de que te mande a otro lado
-            signInWithEmailAndPassword(email, password)
-            .then(() => {
-                history.push(`/${res.data.uid}/home`)
+            createUserWithEmailAndPassword(state)
+            .then( res => {
+                // * Aqui haces lo de que te mande a otro lado
+                signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    history.push(`/${firebase.auth().currentUser.uid}/home`)
+                })
+                .catch( error => {
+                    console.error("Error al obtener el decodedToken del user", error)
+                })
             })
-            .catch( error => {
-                console.error("Error al obtener el decodedToken del user", error)
+            .catch( e => {
+                setLoading(false)
+                console.log(e)
+                setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
+                
             })
-        })
-        .catch( e => {
-            console.log(e)
-            setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
-            setLoading(false)
-        })
     }
 
 
@@ -119,7 +130,7 @@ const UserDataForm = () => {
 
     const onImageChange = (event) => {
         if (event.target.files && event.target.files[0]) {
-            // setState({...state, file: event.target.files[0]});
+            setState({...state, file: event.target.files[0]});
             let reader = new FileReader();
             reader.onload = (e) => {
                 setImgRender(e.target.result)
@@ -127,7 +138,7 @@ const UserDataForm = () => {
             }
             reader.readAsDataURL(event.target.files[0]);
         }
-      };
+    };
 
     const getSetpContent = (activeStep) => {
         switch (activeStep) {
@@ -297,14 +308,15 @@ const UserDataForm = () => {
                                 ]}
                             />
                             <Divider className="mb-8" />
-                            <TextValidator
+                            <PhoneInput
+                                defaultCountry="MX"
                                 className="mb-4"
                                 label="Teléfono"
                                 name="phone"
                                 fullWidth
                                 value={state.phone || ""}
-                                onChange={handleChange}
-                                placeholder="+521XXXXXXXXXX"
+                                onChange={handlePhone}
+                                placeholder="3300000000"
                                 InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -381,9 +393,9 @@ const UserDataForm = () => {
     const handleNext = () => {
         if (activeStep === 0) {
             if (state.name === "" || state.name === undefined) {
-                setMessage("Escribe tu(s) nombre(s), por favor. C:");
+                setMessage("Escribe tu(s) nombre(s), por favor.");
             } else if (state.lname === "" || state.lname === undefined) {
-                setMessage("Escribe tus apellidos, plis. C:");
+                setMessage("Escribe tus apellidos.");
             } else if (state.gender === "" || state.gender === undefined) {
                 setMessage("Selecciona tu genero");
             } else if (!state.age_agree || state.age_agree === undefined) {
@@ -401,7 +413,7 @@ const UserDataForm = () => {
             if (state.email === "" || state.email === undefined) {
                 setMessage("Introduce un correo");
             } else if (state.mail === "" || state.lname === undefined) {
-                setMessage("Escribe tus apellidos, plis. C:");
+                setMessage("Escribe tus apellidos.");
             } else if (state.gender === "" || state.gender === undefined) {
                 setMessage("Selecciona tu genero");
             } else if (!state.age_agree || state.age_agree === undefined) {
@@ -415,12 +427,6 @@ const UserDataForm = () => {
             } else {
                 setActiveStep((prevActiveStep) => prevActiveStep + 1)
             }
-            
-
-        } else if (activeStep == 2) {
-            console.log(state)
-            handleFormSubmit()
-            
         }
     }
 

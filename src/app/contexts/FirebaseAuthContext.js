@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
     // }
 
     const createUserWithEmailAndPassword = async (state) => {
-        let {email, password} = state;
+        let { email, password } = state;
         
         delete state.age_agree;
         delete state.password;
@@ -109,7 +109,20 @@ export const AuthProvider = ({ children }) => {
     }
 
     const createTherapistWithEmailAndPassword = async (state) => {
-        return api.post('/auth/signtherapist', { therapistdata: state, email: state.email, password: state.password })
+        let {email, password} =  state
+        delete state.password
+        return api.post('/auth/signtherapist', { 
+            userdata: {
+                ...state, 
+                name: state.name,
+                lname: state.lastname,
+                answered: false,
+                experiencia:"therapist/cv", 
+                img: "usuarios/placeholders/none-user.png", 
+            }, 
+            email: email, 
+            password: password
+        })
     }
 
 
