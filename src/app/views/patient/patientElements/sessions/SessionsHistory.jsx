@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { CircularProgress, Grow, Icon, IconButton, TextField, Tooltip, Grid } from '@material-ui/core'
+import { CircularProgress, Grow, Icon, IconButton, TextField, Tooltip, Grid, useMediaQuery } from '@material-ui/core'
+import {useTheme} from '@material-ui/core/styles'
 import MUIDataTable from 'mui-datatables'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
 
 const SessionsHistory = ({toggleSidenav}) => {
 
+    const theme = useTheme();
     const [orderList, setOrderList] = useState(order)
     const [idList, setIdList] = useState();
     const [loading, setLoading] = useState(true)
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
     var { user } = useAuth()
 
 
@@ -129,11 +131,11 @@ const SessionsHistory = ({toggleSidenav}) => {
         },
         {
             name: 'action',
-            label: ' ',
+            label: 'Ayuda',
             options: {
-                filter: false,
+                filter: true,
                 customBodyRenderLite: (dataIndex) => (
-                    <div className="flex items-center">
+                    <div className="">
                         <div className="flex-grow"></div>
                         <Tooltip title="Dudas y aclaraciones">
                             <IconButton>
@@ -142,7 +144,7 @@ const SessionsHistory = ({toggleSidenav}) => {
                                 </Icon>
                             </IconButton>
                         </Tooltip>
-                        {/*<Link to={`/invoice/${orderList[dataIndex].id}`}>
+                        {/* <Link to={`/invoice/${orderList[dataIndex].id}`}>
                             <Tooltip title="View Order">
                                 <IconButton>
                                     <Icon fontSize="small">
@@ -150,7 +152,7 @@ const SessionsHistory = ({toggleSidenav}) => {
                                     </Icon>
                                 </IconButton>
                             </Tooltip>
-                        </Link>*/}
+                        </Link> */}
                     </div>
                 ),
             },
@@ -164,10 +166,10 @@ const SessionsHistory = ({toggleSidenav}) => {
             <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> 
             :
             <div className="overflow-auto">
-                <div className="hide-on-pc flex justify-end menu-button"> 
+                <div className="flex justify-end menu-button"> 
                 {/* // TODO: Arreglar el boton del menu no se activa si esta en vista de pantalla grande  */}
                         <IconButton onClick={toggleSidenav}>
-                            <Icon className="">menu</Icon>
+                            <Icon className={isMobile ? '' : 'hidden'}>menu</Icon>
                         </IconButton>
                 </div>
                 <div className="min-w-300">

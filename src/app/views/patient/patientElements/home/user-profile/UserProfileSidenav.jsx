@@ -1,16 +1,9 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import history from '../../../../../../history';
-import { Avatar, Button, Card, CircularProgress, Dialog, Grid, Icon, IconButton } from '@material-ui/core'
+import { Avatar, Button, Card, CircularProgress, Grid, Icon} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Snackbar from '@material-ui/core/Snackbar'
-import CloseIcon from '@material-ui/icons/Close'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
-import Typography from '@material-ui/core/Typography'
-import { RefreshSharp } from '@material-ui/icons';
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     close: {
@@ -19,9 +12,10 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     sidenav: {
         zIndex:91,
         marginTop: -345,
-        paddingTop: 74,
-        [theme.breakpoints.down('sm')]: {
-            marginTop: -410,
+        paddingTop: 150,
+        paddingBottom:150,
+        [theme.breakpoints.down('md')]: {
+            marginTop: -50,
         },
     },
 }))
@@ -60,21 +54,21 @@ const UserProfileSidenav = ({ therapist, loading }) => {
 
     return (
         <div>
-            <div className={clsx('flex-column items-center', classes.sidenav)}>
+            <div className={clsx('flex-column items-center overflow-hidden', classes.sidenav)}>
                 <Avatar
-                    className="h-84 w-84 mb-5"
+                    className="h-84 w-84"
                     src=""
                 />
-                <p className="text-white">{user.displayName || user.email}</p>
-                <div className="py-3" />
-                <div className="flex flex-wrap w-full px-12 mb-11">
+                {/* Despliega nadamás el correo */}
+                <p className="">{user.displayName || user.email}</p>
+                <div className="flex flex-wrap w-full px-12 mb-6">
                     <div className="flex-grow">
-                        <p className="uppercase text-light-white mb-1">Edad</p>
-                        <h4 className="font-medium text-white">{user.age}</h4>
+                        <p className="uppercase mb-1">Edad</p>
+                        <h4 className="font-medium">{user.age}</h4>
                     </div>
                     <div>
-                        <p className="uppercase text-light-white mb-1">Telefono</p>
-                        <a className="font-medium text-white h5">{user.phone}</a>
+                        <p className="uppercase mb-1">Telefono</p>
+                        <a className="font-medium h5">{user.phone}</a>
                     </div>
                     <div />
                 </div>

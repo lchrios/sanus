@@ -44,9 +44,10 @@ const PatientSessions = () => {
     if (isMobile)
 
     return (
-        <div className="relative ">
+        <div className="relative">
             <MatxSidenavContainer>
                 <MatxSidenav
+                    className="mt-4 overflow-hidden"
                     width="300px"
                     open={open}
                     toggleSidenav={toggleSidenav}
@@ -63,7 +64,7 @@ const PatientSessions = () => {
                             </IconButton>
                         </Hidden>
                     </div>
-                    <UserProfileSidenav />
+                        <UserProfileSidenav />
                 </MatxSidenav>
                     <MatxSidenavContent>
                         <div className={clsx('bg-primary', classes.headerBG)} />
