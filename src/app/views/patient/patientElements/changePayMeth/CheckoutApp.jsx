@@ -6,11 +6,13 @@ require('dotenv').config();
 
 const stripePromise =  loadStripe('pk_test_51HwA9iItRYlC7M0MPdgUx6sp5UH48s3NRq8JOwcxxSMcHRW0i1tNzqlIiMu6NXcWj3uWVcgqNSiUzaGa2I2YgTuP00RTEVFY43')
 
-export default function CheckoutApp() {
+const CheckoutApp = ({therapist, tid, state}) => {
 
     return(
-        <Elements stripe={stripePromise}>
-            <CheckoutDialog />
+        <Elements stripe={stripePromise} >
+            <CheckoutDialog therapist={therapist} tid={tid} state={state} />
         </Elements>
     )
 }
+
+export default CheckoutApp

@@ -6,8 +6,9 @@ var express = require("express");
 
 var app = express();
 
-var cors = require('cors'); // * Funciones de autenticacion
-const { sendPaymentInfo } = require("../routes/stripe");
+var cors = require('cors');
+
+var multer = require('multer'); // * Funciones de autenticacion
 
 
 var _require = require("./routes/auth"),
@@ -25,8 +26,12 @@ var _require2 = require("./routes/users"),
     getUser = _require2.getUser,
     getTherapistByUser = _require2.getTherapistByUser,
     getAllUsers = _require2.getAllUsers,
-    assignTherapist = _require2.assignTherapist; 
-    sendPaymentInfo = require2.sendPaymentInfo// * Funciones relativas al terapeuta
+    assignTherapist = _require2.assignTherapist,
+    newTestAnswers = _require2.newTestAnswers,
+    getUserImage = _require2.getUserImage,
+    uploadImg = _require2.uploadImg,
+    submitTest = _require2.submitTest,
+    getTherapistSchedule = _require2.getTherapistSchedule; // * Funciones relativas al terapeuta
 
 
 var _require3 = require("./routes/therapists"),
@@ -34,7 +39,10 @@ var _require3 = require("./routes/therapists"),
     getAllSessionsByTherapist = _require3.getAllSessionsByTherapist,
     getTherapist = _require3.getTherapist,
     getPatientsbyTherapist = _require3.getPatientsbyTherapist,
-    getNotesByTherapist = _require3.getNotesByTherapist; // * Funcions relativas a las sesiones
+    getNotesByTherapist = _require3.getNotesByTherapist,
+    newNote = _require3.newNote,
+    setSchedule = _require3.setSchedule,
+    getSchedule = _require3.getSchedule; // * Funcions relativas a las sesiones
 
 
 var _require4 = require("./routes/sessions"),
@@ -50,19 +58,32 @@ var _require5 = require("./routes/blogs"),
     newBlog = _require5.newBlog,
     deleteBlog = _require5.deleteBlog,
     updateBlog = _require5.updateBlog,
-    getAllBlogsByTherapist = _require5.getAllBlogsByTherapist; // * uso de transformacion a json
+    getAllBlogsByTherapist = _require5.getAllBlogsByTherapist; // * Funciones de stripe
 
 
-app.use(express.json()); // * permisos del CORS
+var _require6 = require("./routes/stripe"),
+    sendPaymentInfo = _require6.sendPaymentInfo,
+    handleStripeEvent = _require6.handleStripeEvent;
+
+var _require7 = require("./routes/fixes"),
+    fixAllUsers = _require7.fixAllUsers,
+    fixAllSessions = _require7.fixAllSessions,
+    fixAllTherapists = _require7.fixAllTherapists,
+    fixAllBlogs = _require7.fixAllBlogs; // * uso de transformacion a json
+
+
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
+var upload = multer({
+  storage: multer.memoryStorage(),
+  limits: 5 * 1024 * 1024
+}); // * permisos del CORS
 
 app.use(cors());
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://iknelia.netlify.app");
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Origin", "http://localhost:5000");
-  res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.web.app/");
-  res.header("Access-Control-Allow-Origin", "https://iknelia-3cd8e.firebaseapp.com/");
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000", "http://localhost:5000", "https://www.iknelia.app", "https://iknelia.netlify.app", "https://iknelia-3cd8e.web.app/", "https://iknelia-3cd8e.firebaseapp.com/"][1]);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 }); // * Niveles de permisos por roles 
@@ -84,20 +105,29 @@ app.get("/t/:tid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsBy
 app.get("/t/:tid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
 app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByTherapist);
 app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist);
-app.get("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), getNotesByTherapist); // * rutas de usuario
+app.get("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), getNotesByTherapist);
+app.get("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), getSchedule);
+app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
+app.post("/t/:tid/b", isAuthenticated, isAuthorized(roles.therapist), newBlog);
+app.post("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), setSchedule); // * rutas de usuario
 
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
 app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
 app.get("/u/:uid/t", isAuthenticated, isAuthorized(roles.user), getTherapistByUser);
 app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByUser);
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
-app.put("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist); 
-// app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo)// * rutas de blogs
+app.post("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist);
+app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), submitTest);
+app.get("/u/:uid/schedule", isAuthenticated, isAuthorized(roles.user), getTherapistSchedule);
+app.get("/u/:uid/image", getUserImage);
+app.post("/u/:uid/image", uploadImg); //*rutas de stripe (lado user)
+
+app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo);
+app.post("/webhook", handleStripeEvent); // * rutas de blogs
 
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
 app.get("/b/:bid", isAuthenticated, isAuthorized(roles.user), getBlog);
-app.post("/b/new", isAuthenticated, isAuthorized(roles.therapist), newBlog);
-app.delete("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), deleteBlog);
+app["delete"]("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), deleteBlog);
 app.put("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), updateBlog); // * rutas de sesiones
 
 app.post("/s/new", isAuthenticated, isAuthorized(roles.user), newSession);
@@ -111,6 +141,12 @@ app.post("/auth/signtherapist", createTherapistWithEmailAndPassword); // * rutas
 
 app.put("/auth/:uid/admin", setAdmin);
 app.put("/auth/:uid/therapist", setTherapist);
-app.put("/auth/:uid/user", setUser); // * export de la api
+app.put("/auth/:uid/user", setUser); // * rutas de fixing 
+// ! BORRARLAS DESPUES DE TERMINAR SU USO
+
+app.post("/fix/users", fixAllUsers);
+app.post("/fix/sessions", fixAllSessions);
+app.post("/fix/therapists", fixAllTherapists);
+app.post("/fix/blogs", fixAllBlogs); // * export de la api
 
 exports.api = functions.region("us-central1").https.onRequest(app);

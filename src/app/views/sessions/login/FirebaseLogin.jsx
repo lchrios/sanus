@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Card,
     Checkbox,
@@ -111,13 +111,14 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const FirebaseLogin = () => {
     const [loading, setLoading] = useState(false)
+    const { user } = useAuth() 
     const [userInfo, setUserInfo] = useState({
         email: '',
         password: '',
         remember: true,
     })
     const [message, setMessage] = useState('')
-    const { signInWithEmailAndPassword, signInWithGoogle, assignUserRole } = useAuth()
+    const { signInWithGoogle, assignUserRole } = useAuth()
 
     const classes = useStyles()
 
@@ -130,48 +131,51 @@ const FirebaseLogin = () => {
     const handleFormSubmit = async (event) => {
         setLoading(true)
         // console.log(userInfo);
-        try {
-            await signInWithEmailAndPassword(userInfo.email, userInfo.password)
-            var user = firebase.auth().currentUser
-            //console.log(user)
-
-            user.getIdTokenResult()
-                .then( decodedToken => {
-                    switch (decodedToken.claims.role) {
-                        case "user":
-                            history.push(`/${user.uid}/home`)
-                            break;
-
-                        case "therapist":
-                            history.push(`/${user.uid}/dashboard`)
-                            break;
-
-                        case "admin":
-                            history.push(`/${user.uid}/analytics`)
-                            break;
-                
-                        default:
-                            console.error('No role was detected')
-                            // TODO: if no role, set user role and redirect to home
-                            assignUserRole(user.uid).then(() => {
-                                history.push(`/${user.uid}/home`);
-                                
-                            });
-                            break; 
-                            
-                            
-                    }
-                })
-                .catch( error => {
-                    console.error("Error al obtener el decodedToken del user", error)
-                })
-            //history.push('/'+user.uid+'/dashboard')
-        } catch (e) {
+        firebase.auth().signInWithEmailAndPassword(userInfo.email, userInfo.password)
+        .catch(e => {
             console.log(e)
             setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
             setLoading(false)
-        }
+        })
     }
+
+    useEffect(() => {
+        if (user){
+            firebase.auth().currentUser.getIdTokenResult()
+            .then( decodedToken => {
+                console.log(user)
+
+                switch (decodedToken.claims.role) {
+                    case "user":
+                        history.push(`/${user.uid}/home`)
+                        break;
+
+                    case "therapist":
+                        
+                        history.push(`/${user.uid}/dashboard`)
+                        break;
+
+                    case "admin":
+                        
+                        history.push(`/${user.uid}/dashboard`)
+                        break;
+            
+                    default:
+                        console.error('No role was detected')
+                        assignUserRole(user.uid).then(() => {
+                            
+                            history.push(`/${user.uid}/home`);
+                            
+                        });
+                        break;               
+                }
+            })
+            .catch( error => {
+                console.error("Error al obtener el decodedToken del user", error)
+            })
+        } 
+    }, [user])
+
     const handleGoogleLogin = async (event) => {
         try {
             await signInWithGoogle()

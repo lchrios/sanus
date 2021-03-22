@@ -4,7 +4,7 @@ var users = db.collection('users');
 var ther = db.collection('therapists');
 var sess = db.collection('sessions');
 var tests = db.collection("tests");
-
+var schedules = db.collection("schedules");
 
 exports.getAllUsers = function (req, res) {
     users
@@ -65,6 +65,23 @@ exports.getTherapistByUser = (req, res) => {
             }
             
         })
+}
+
+exports.getTherapistSchedule = (req, res) => {
+    users.doc(req.params.uid).get()
+    .then( doc => {
+        schedules.doc(doc.data().therapist).get()
+        .then( docSched => {
+            var data = docSched.data();
+            return res.status(200).send({schedule: data.schedule !== undefined ? data.schedule : undefined, options: data.options})
+        })
+        .catch( er => {
+            return res.status(400).send(er)
+        })
+    })
+    .catch( er => {
+        return res.status(400).send(er)
+    })
 }
 
 exports.getAllSessionsByUser = (req, res) => {

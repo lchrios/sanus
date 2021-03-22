@@ -24,7 +24,8 @@ const {
   newTestAnswers,
   getUserImage,
   uploadImg,
-  submitTest
+  submitTest,
+  getTherapistSchedule
 } = require("./routes/users");
 
 // * Funciones relativas al terapeuta
@@ -125,6 +126,7 @@ app.get("/u/:uid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsBy
 app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
 app.post("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist);
 app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), submitTest);
+app.get("/u/:uid/schedule", isAuthenticated, isAuthorized(roles.user), getTherapistSchedule)
 
 app.get("/u/:uid/image", getUserImage);
 app.post("/u/:uid/image", uploadImg);
