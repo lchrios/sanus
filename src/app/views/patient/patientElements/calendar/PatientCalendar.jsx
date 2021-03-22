@@ -60,11 +60,11 @@ const PatientCalendar = ({ sessions }) => {
     const [newEvent, setNewEvent] = useState(null)
     const [shouldShowEventDialog, setShouldShowEventDialog] = useState(false)
     const [therapist, setTherapist] = useState();
-    const [tid, setTid] = useState()
-    const headerComponentRef = useRef(null)
-    const classes = useStyles()
+    const [tid, setTid] = useState();
+    const headerComponentRef = useRef(null);
+    const classes = useStyles();
 
-    // const { user } = useAuth()
+    const { user } = useAuth();
 
 
     const handleDialogClose = () => {
