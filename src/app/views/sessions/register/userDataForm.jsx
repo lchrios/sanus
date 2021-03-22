@@ -29,9 +29,8 @@ import { useLocation } from 'react-router'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Loading } from 'app/components/Loading/Loading'
 
-const getSteps = () =>{
-    return ['Bienvenido', 'Contacto', 'Perfil']   
-} 
+const getSteps = () => ['Bienvenido', 'Contacto', 'Perfil']   
+
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {

@@ -15,8 +15,9 @@ import {CreditCard, Money } from '@material-ui/icons'
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js'
 import api from 'app/services/api'
 import useAuth from 'app/hooks/useAuth'
+import history from '../../../../../history'
 
-export default function CheckoutDialog() {
+export default function CheckoutDialog({therapist, tid, state}) {
     
     const { user } = useAuth()
     const [open, setOpen] = useState(false)
@@ -68,6 +69,24 @@ export default function CheckoutDialog() {
                 amount:60000,
             }).then((res) => {
                 console.log(res);
+                api.post(`/s/new`, {sessiondata: {
+                    cost: 60000,
+                    duration: 60,
+                    end: new Date(new Date(state.date).getTime() + (1000*60*60)),
+                    note: "",
+                    pay_met: "PayPal",
+                    payed: true,
+                    start: state.date,
+                    therapist: tid,
+                    tipo: "Sesion adulto",
+                    ther_name: therapist.name,
+                    user: user.uid,
+                    user_email: user.email,
+                    user_name: user.name
+                }})
+                .then( res => {
+                    history.push(`/${user.uid}/home`)
+                })
             }).catch((e) => {
                 console.log('Hubo un error al enviar el método de pago al servidor')
                 console.error(e);

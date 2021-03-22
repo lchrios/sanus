@@ -72,7 +72,8 @@ exports.getTherapistSchedule = (req, res) => {
     .then( doc => {
         schedules.doc(doc.data().therapist).get()
         .then( docSched => {
-            return res.status(200).send({schedule: docSched.data().schedule})
+            var data = docSched.data();
+            return res.status(200).send({schedule: data.schedule !== undefined ? data.schedule : undefined, options: data.options})
         })
         .catch( er => {
             return res.status(400).send(er)

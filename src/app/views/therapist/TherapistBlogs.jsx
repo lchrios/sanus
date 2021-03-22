@@ -27,6 +27,11 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
     button: {
         margin: theme.spacing(1),
     },
+    cardLoading: {
+        minWidth:200,
+        borderRadius: 12,
+        margin: '1rem',
+    },
 }))
 
 const titles_data = [

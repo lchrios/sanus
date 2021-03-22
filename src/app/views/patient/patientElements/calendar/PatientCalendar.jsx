@@ -12,6 +12,8 @@ import globalize from 'globalize'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
+import ScheduleSession from './ScheduleSession'
+import api from 'app/services/api'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     calendar: {
@@ -57,7 +59,8 @@ const PatientCalendar = ({ sessions }) => {
     })))
     const [newEvent, setNewEvent] = useState(null)
     const [shouldShowEventDialog, setShouldShowEventDialog] = useState(false)
-
+    const [therapist, setTherapist] = useState();
+    const [tid, setTid] = useState()
     const headerComponentRef = useRef(null)
     const classes = useStyles()
 
@@ -74,6 +77,11 @@ const PatientCalendar = ({ sessions }) => {
             start: new Date(e.start),
             end: new Date(e.end),
         })))
+        api.get(`/u/${user.uid}/t`)
+        .then( res => {
+            setTherapist(res.data.data)
+            setTid(res.data.id)
+        })
     }, [sessions])
 
     const openNewEventDialog = ({ action, ...event }) => {
@@ -144,10 +152,11 @@ const PatientCalendar = ({ sessions }) => {
                 />
             </div>
             {shouldShowEventDialog && (
-                <EventEditorDialog
+                <ScheduleSession
                     handleClose={handleDialogClose}
                     open={shouldShowEventDialog}
-                    event={newEvent}
+                    therapist={therapist}
+                    tid={tid}
                 />
             )}
         </div>
