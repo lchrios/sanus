@@ -64,7 +64,7 @@ const PatientCalendar = ({ sessions }) => {
     const headerComponentRef = useRef(null)
     const classes = useStyles()
 
-    // const { user } = useAuth()
+    const { user } = useAuth()
 
 
     const handleDialogClose = () => {

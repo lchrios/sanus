@@ -113,10 +113,7 @@ const BrowseApp = ({ toggleSidenav }) => {
                                 api.post(`/u/${user.uid}/t/${docRefs[dataIndex]}`)
                                     .then( res => {
                                         console.log('Terapeutas reasignados', res.status);
-                                    }).then(() => {
-                                        if (!therapist) {
-                                            history.push(`/${user.uid}/home`)
-                                        }
+                                        history.push(`/${user.uid}/changepaymethod`)
                                     })
                                     .catch( error => {
                                         console.error(error);
