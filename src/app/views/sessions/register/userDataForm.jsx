@@ -93,23 +93,23 @@ const UserDataForm = () => {
         let { email, password } = state;
         setLoading(true)
 
-        createUserWithEmailAndPassword(state)
-        .then( res => {
-            // * Aqui haces lo de que te mande a otro lado
-            signInWithEmailAndPassword(email, password)
-            .then(() => {
-                history.push(`/${firebase.auth().currentUser.uid}/home`)
+            createUserWithEmailAndPassword(state)
+            .then( res => {
+                // * Aqui haces lo de que te mande a otro lado
+                signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    history.push(`/${firebase.auth().currentUser.uid}/home`)
+                })
+                .catch( error => {
+                    console.error("Error al obtener el decodedToken del user", error)
+                })
             })
-            .catch( error => {
-                console.error("Error al obtener el decodedToken del user", error)
+            .catch( e => {
+                setLoading(false)
+                console.log(e)
+                setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
+                
             })
-        })
-        .catch( e => {
-            setLoading(false)
-            console.log(e)
-            setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
-            
-        })
     }
 
 
@@ -364,9 +364,9 @@ const UserDataForm = () => {
     
     var imgPreview = (<div className="image-container">Seleccione una imagen para la vista previa</div>)
     
-    if (state.file) {
-      imgPreview = (<div className="image-container" ><img src={imgRender} alt="icon" width="200" /></div>);
-    }
+    // if (state.file) {
+    //   imgPreview = (<div className="image-container" ><img src={imgRender} alt="icon" width="200" /></div>);
+    // }
 
     useEffect(() => {
         setMessage("")

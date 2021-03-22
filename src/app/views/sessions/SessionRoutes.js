@@ -4,7 +4,7 @@ import ForgotPassword from './ForgotPassword'
 import FirebaseRegister from './register/FirebaseRegister'
 import TherapistDataForm from './register/TherapistDataForm'
 import TherapistFirebaseRegister from './register/TherapistFirebaseRegister'
-import UserDataForm from './register/UserDataForm'
+import UserDataForm from './register/userDataForm'
 import Forbidden from './Forbidden'
 
 const sessionRoutes = [

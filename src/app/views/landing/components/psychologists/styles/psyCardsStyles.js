@@ -14,7 +14,7 @@ import {
   } from "../../eachComponent/components/componentsStyle/componentsStyle/assets.js";
   
   const psyCardsStyle = {
-    container,
+    // container,
     title,
     mlAuto,
     mrAuto,
