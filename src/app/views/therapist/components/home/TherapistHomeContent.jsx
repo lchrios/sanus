@@ -20,6 +20,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import NextSessions from './NextSessions'
 import { Loading } from 'app/components/Loading/Loading'
+import PatientsList from './PatientsList'
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
         marginTop: -345,
@@ -73,7 +74,6 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
 const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }) => {
-
     const classes = usestyles()
     return (
         <Fragment>
@@ -283,31 +283,9 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                                                     justify="space-evenly"
                                                     alignItems="stretch"
                                                 >
-                                                    {users.data.map((patient, index) => { 
-                                                        // TODO: CRITICAL - Arreglar el display de los pacientes
-                                                        <Grid item key={users.id[index]} className="flex items-center mb-4">
-                                                            { patient.answered
-                                                            ?   <Badge badgeContent="Nuevo" color='info'>
-                                                                    <Fab className='primary'>
-                                                                        <h4 className='text-error m-0 font-normal'>
-                                                                            {patient?.name}
-                                                                        </h4>
-                                                                    </Fab>
-                                                                </Badge>
-                                                            :   <Fab className='primary'>
-                                                                    <h4 className='text-error m-0 font-normal'>
-                                                                    {patient?.name}
-                                                                    </h4>
-                                                                </Fab>
-                                                            }
-                                                            <div className="ml-4">
-                                                                <h5 className="m-0 mb-1 font-medium">
-                                                                {patient?.name}
-                                                                </h5>
-                                                                <p className="m-0 text-muted">{patient?.age}</p>
-                                                            </div>
-                                                        </Grid>
-                                                    })}
+                                                    
+                                                    {/* // TODO: CRITICAL - Arreglar el display de los pacientes */}
+                                                    <PatientsList users={users} />
                                                 </Grid>
                                             </div> 
                                         </div>
