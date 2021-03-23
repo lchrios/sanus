@@ -14,7 +14,7 @@ import {
     TableRow,
     CircularProgress
 } from '@material-ui/core'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import history from 'history.js'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
 import clsx from 'clsx'
@@ -75,6 +75,61 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }) => {
     const classes = usestyles()
+
+    const calculateSummary = () => {
+        let completed_sessions = 0;
+        sessions.data.forEach((ses) => {
+            if (ses.state === "completada") {
+                completed_sessions += 1;
+            }
+        })
+        setSummary([
+            {
+                title: 'Pacientes',
+                amount: users.id.length,
+                icon:'person',
+                route:'/tid:/patients'
+            },
+            {
+                title: 'Sesiones agendadas',
+                amount: sessions.data.length,
+                icon:'event',
+                route:'/:tid/appointments'
+            },
+            {
+                title: 'Sesiones completadas',
+                amount: completed_sessions,
+                icon:'offline_pin',
+                route: '/tid:/completedApp'
+            },
+        ])
+    }
+
+    const [summary, setSummary] = useState([
+        {
+            title: 'Pacientes',
+            amount: "Cargando...",
+            icon:'person',
+            route:'/tid:/patients'
+        },
+        {
+            title: 'Sesiones agendadas',
+            amount: "Cargando...",
+            icon:'event',
+            route:'/:tid/appointments'
+        },
+        {
+            title: 'Sesiones completadas',
+            amount: "Cargando...",
+            icon:'offline_pin',
+            route: '/tid:/completedApp'
+        },
+    ])
+    useEffect(() => {
+        if (!loading) {
+            calculateSummary();
+        }
+    }, [loading])
     return (
         <Fragment>
             <div className={classes.profileContent}>
@@ -87,7 +142,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                     { loading 
                     ?   <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> 
                     :   <Grid container spacing={6}>
-                            {projectSummery.map((project) => (
+                            {summary.map((project) => (
                                 <Grid
                                     item
                                     lg={4}
@@ -102,7 +157,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                                                 {project.title}
                                             </span>
                                             <h4 className="font-normal text-white m-0 pt-2">
-                                                0
+                                                {project.amount}
                                             </h4>
                                         </div>
                                         <div  className="w-56 h-36">
