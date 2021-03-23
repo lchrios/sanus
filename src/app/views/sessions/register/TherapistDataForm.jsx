@@ -19,6 +19,7 @@ import {
     Checkbox,
     FormControlLabel,
 } from '@material-ui/core'
+import PhoneInput from 'react-phone-number-input'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Home, Mail, Phone, DataUsage } from '@material-ui/icons'
 import clsx from 'clsx'
@@ -67,13 +68,18 @@ const TherapistDataForm = () => {
     const { user } = useAuth()
     const [activeStep, setActiveStep] = useState(0)
     const [message, setMessage] = useState("")
-    const [state, setState] = useState({...useLocation().state, grade:false})
-    
-    let {email,password} = state
+    const [state, setState] = useState(useLocation().state, {grade:false})
+    const [imgRender, setImgRender] = useState();
     const { createTherapistWithEmailAndPassword, signInWithEmailAndPassword } = useAuth();
     
     const getSteps = () => {
         return ['Contacto', 'Profesional', 'Perfil']
+    }
+    const handlePhone = phoneVal => {
+        setState({
+            ...state,
+            phone:phoneVal
+        })
     }
     const handleChange = (event) => {
         setState({
@@ -161,22 +167,14 @@ const TherapistDataForm = () => {
                                 errorMessages={['Ingresa tu dirección por favor']}
                             />
                             <Divider className="mb-8" />
-                            <TextValidator
+                            <PhoneInput
+                                defaultCountry="MX"
                                 className="mb-4"
                                 label="Teléfono"
                                 name="phone"
                                 value={state.phone || ""}
-                                fullWidth
-                                onChange={handleChange}
-                                placeholder="(LADA)XXXXXXXXXX"
-                                InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <Phone/>
-                                    </InputAdornment>
-                                )}}
-                                validators={['required']}
-                                errorMessages={['Ingresa tu teléfono por favor']}
+                                onChange={handlePhone}
+                                placeholder="(LADA)XXXXXXX"
                             />
                             <div>
                                 <h3>¿Tienes un título que sea validado por una institución oficial?</h3>
@@ -229,30 +227,41 @@ const TherapistDataForm = () => {
                     </Box>
             case 2: 
                 return <Box className="m-sm-30 p-3">
-                    <div className="max-w-600 mx-auto">
-                        <h4>Selecciona una fotografía para tu perfil</h4>
-                        <Divider className="mb-8" />
-
-                        <input
-                            accept="image/*"
-                            id="contained-button-file"
-                            type="file"
-                            className={classes.input}
-                            onChange={handleFileUpload}
-                        />
-                        
+                     <Grid 
+                        container 
+                        direction="column"
+                        justify="center"
+                        alignItems="center"
+                        spacing={2} 
+                        className="m-sm-30 p-6"
+                    >
+                        <div className="max-w-600 mx-auto">
+                            <h4>Selecciona una fotografía para tu perfil</h4>
+                            <Divider className="mb-8" />
+                            { imgPreview }
+                            <input
+                                accept="image/*"
+                                name="img"
+                                type="file"
+                                id="contained-button-file"
+                                className={classes.input}
+                                onChange={onImageChange}
+                            />          
                             <label  htmlFor="contained-button-file">
                                 <Button className="x-center" variant="contained" color="primary" component="span">
-                                        Subir 
+                                        <Icon style={{marginRight: 10,}}>upload</Icon>Subir 
                                 </Button>
                             </label>
-                    </div>
+
+                        </div>
+                    </Grid> 
                     <div className="max-w-600 mx-auto mt-4">
-                        <h4>Sube tu CV cómo documento PDF</h4>
+                        <h4 className="text-center">Sube tu CV cómo documento PDF</h4>
                         <Divider className="mb-8" />
                         <input
                             id="contained-button-file"
                             multiple
+                            accept=".doc, .docx, .pdf"
                             type="file"
                             className={classes.input}
                             onChange={handleFileUpload}
@@ -268,6 +277,11 @@ const TherapistDataForm = () => {
             default: 
         }
     }
+
+    var imgPreview = (<div className="image-container"></div>)
+    if (state.file) {
+        imgPreview = (<div className="image-container text-center" ><img src={imgRender} alt="icon" width="200" /></div>);
+      }
 
     const handleNext = () => {
         if (activeStep == 0) {
@@ -295,7 +309,11 @@ const TherapistDataForm = () => {
     }
 
     const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1)
+        if(activeStep == 0) {
+            history.push('/therapist/signup')
+        }else {
+            setActiveStep((prevActiveStep) => prevActiveStep - 1)
+        }
         
     }
 
@@ -303,9 +321,21 @@ const TherapistDataForm = () => {
         setActiveStep(0)
     }
 
+    const onImageChange = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            setState({...state, file: event.target.files[0]});
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                setImgRender(e.target.result)
+                    
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    };
+
     const handleFormSubmit = () => {
         let {email, password } = state
-        
+                
         createTherapistWithEmailAndPassword(state)
         .then( res => {
             // * Aqui haces lo de que te mande a otro lado
@@ -363,12 +393,11 @@ const TherapistDataForm = () => {
                                             <Grid item lg={12} md={12} sm={12} xs={12}>
                                                 {getStepContent(activeStep)}
                                             </Grid>
-                                            <div className="flex mt-3">
+                                            <div className="flex mt-3 ml-18">
                                                     <Button
                                                         variant="contained"
                                                         color="primary"
-                                                        type="submit"
-                                                        onClick={activeStep == getSteps().length -1 ? handleFormSubmit : handleNext}
+                                                        onClick={activeStep == getSteps().length - 1? handleFormSubmit : handleNext}
                                                     >
                                                         {activeStep == getSteps().length - 1
                                                         ? 'Enviar respuestas' : 'Siguiente'}
@@ -385,7 +414,6 @@ const TherapistDataForm = () => {
                                                         <Button className="capitalize"
                                                             variant={activeStep === 0 ? 'text' : 'contained'}
                                                             color={activeStep === 0 ? 'primary' : 'secondary'}
-                                                            disabled={activeStep === 0}
                                                             onClick={handleBack}
                                                         >
                                                             Volver
