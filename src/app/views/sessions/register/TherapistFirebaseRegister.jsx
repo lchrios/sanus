@@ -91,7 +91,6 @@ const TherapistFirebaseRegister = () => {
     const handleFormSubmit = () => {
         if (state.agreement)  {
             setLoading(true)
-            console.log("De camino al formulario de datos");
             history.push({
                 pathname: '/therapist/info',
                 state: {

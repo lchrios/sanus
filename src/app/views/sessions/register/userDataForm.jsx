@@ -78,7 +78,7 @@ const UserDataForm = () => {
     const steps = getSteps();
     const [activeStep, setActiveStep] = useState(0);
     const [message, setMessage] = useState("");
-    const [imgRender, setImgRender] = useState();;
+    const [imgRender, setImgRender] = useState();
     const { createUserWithEmailAndPassword, signInWithEmailAndPassword } = useAuth();
 
 
@@ -98,7 +98,7 @@ const UserDataForm = () => {
                 // * Aqui haces lo de que te mande a otro lado
                 signInWithEmailAndPassword(email, password)
                 .then(() => {
-                    history.push(`/${firebase.auth().currentUser.uid}/home`)
+                    history.push(`/${firebase.auth().currentUser.uid}/dashboard`)
                 })
                 .catch( error => {
                     console.error("Error al obtener el decodedToken del user", error)
@@ -364,9 +364,9 @@ const UserDataForm = () => {
     
     var imgPreview = (<div className="image-container">Seleccione una imagen para la vista previa</div>)
     
-    // if (state.file) {
-    //   imgPreview = (<div className="image-container" ><img src={imgRender} alt="icon" width="200" /></div>);
-    // }
+    if (state.file) {
+      imgPreview = (<div className="image-container" ><img src={imgRender} alt="icon" width="200" /></div>);
+    }
 
     useEffect(() => {
         setMessage("")
