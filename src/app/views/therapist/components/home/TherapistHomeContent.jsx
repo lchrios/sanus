@@ -181,7 +181,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                             :   <><h4 className="text-32 px-4 pt-4 pb-0">
                                     Tus próximas citas
                                 </h4>
-                                { sessions == undefined 
+                                { sessions.data.length === 0 
                                 ? <NextSessionsEmpty/>
                                 : <NextSessions sessions={sessions} /> }
                                 </>
