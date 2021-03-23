@@ -57,7 +57,6 @@ const TherapistFirebaseRegister = () => {
 
     const handleChange = (event) => {
 
-        console.log(event)
         setState({
             ...state,
             [event.target.name]: event.target.value,
@@ -70,7 +69,7 @@ const TherapistFirebaseRegister = () => {
                 var { credential, accessToken, user } = result;
 
                 history.push({
-                    pathname: '/session/register',
+                    pathname: '/therapist/info',
                     state: {
                         user: user,
                         email: state.email,
@@ -209,7 +208,7 @@ const TherapistFirebaseRegister = () => {
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            disabled={loading}
+                                            disabled={loading || !state.agreement}
                                             type="submit"
                                             onClick={handleFormSubmit}
                                         >

@@ -153,7 +153,7 @@ const TherapistBlogs = () => {
                                         className="border-radius-4 w-full"
                                         height="200"
                                         width="200"
-                                        src={blog_entry.img}
+                                        src="/src/assets/images/blog/terapia2.jpg"
                                         alt={blog_entry.title}
                                     />
                                 </div>
@@ -208,7 +208,7 @@ const TherapistBlogs = () => {
                             </Fab>
                             <Fab
                                 size="small"
-                                color="error"
+                                color="secondary"
                                 aria-label="Delete"
                                 onClick={() => {
                                     api.delete("/b/"+blog_entry.id)

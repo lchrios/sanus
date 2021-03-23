@@ -21,7 +21,7 @@ import {
 } from '@material-ui/core'
 import PhoneInput from 'react-phone-number-input'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
-import { Home, Mail, Phone, DataUsage } from '@material-ui/icons'
+import { Home, Mail, Phone, DataUsage, Videocam, HourglassEmpty } from '@material-ui/icons'
 import clsx from 'clsx'
 import api from 'app/services/api'
 import history from '../../../../history'
@@ -72,6 +72,14 @@ const TherapistDataForm = () => {
     const [imgRender, setImgRender] = useState();
     const { createTherapistWithEmailAndPassword, signInWithEmailAndPassword } = useAuth();
     
+
+    useEffect(() => {
+        
+        if (firebase.auth().currentUser) {
+            history.push(`/${firebase.auth().currentUser.uid}/dashboard`)
+        }
+    }, [firebase.auth().currentUser])
+
     const getSteps = () => {
         return ['Contacto', 'Profesional', 'Perfil']
     }
@@ -91,9 +99,23 @@ const TherapistDataForm = () => {
     const handleAgree = (event) => {
         setState({ ...state, [event.target.name]: event.target.value })
     };
+    
+    const onImageChange = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            setState({...state, file: event.target.files[0]});
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                setImgRender(e.target.result)
+                    
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    };
 
     const handleFileUpload = (event) => {
-        console.log(event)
+        if (event.target.files && event.target.files[0]) {
+            setState({...state, cvfile: event.target.files[0]});
+        }
     }
 
     const getStepContent = (stepIndex) => {
@@ -194,9 +216,6 @@ const TherapistDataForm = () => {
                                         }
                                         label="Confirmo que soy profesional"
                                 />
-                                {message && (
-                                    <p className="text-error">{message}</p>
-                                )}
                             </div>
                         </div>
                     </Box> 
@@ -222,6 +241,44 @@ const TherapistDataForm = () => {
                                 )}}
                                 validators={['required']}
                                 errormessages={['Debes ingresar tu cédula profesional']}
+                            />
+                            <Divider className="mb-6" />
+                            <TextValidator
+                                className="mb-4"
+                                label="Zoom URL"
+                                name="zoomURL"
+                                type="text"
+                                fullWidth
+                                value={state.zoomURL || ""}
+                                placeholder="URL de Zoom"
+                                onChange={handleChange}
+                                InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Videocam/>
+                                    </InputAdornment>
+                                )}}
+                                validators={['required']}
+                                errorMessages={['Ingresa tu dirección por favor']}
+                            />
+                            <Divider className="mb-6" />
+                            <TextValidator
+                                className="mb-4"
+                                label="Edad"
+                                name="age"
+                                type="number"
+                                fullWidth
+                                value={state.age || ""}
+                                placeholder="Edad"
+                                onChange={handleChange}
+                                InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <HourglassEmpty/>
+                                    </InputAdornment>
+                                )}}
+                                validators={['required']}
+                                errorMessages={['Ingresa tu dirección por favor']}
                             />
                         </div>
                     </Box>
@@ -256,10 +313,10 @@ const TherapistDataForm = () => {
                         </div>
                     </Grid> 
                     <div className="max-w-600 mx-auto mt-4">
-                        <h4 className="text-center">Sube tu CV cómo documento PDF</h4>
+                        <h4 className="text-center">Sube tu CV como documento PDF</h4>
                         <Divider className="mb-8" />
                         <input
-                            id="contained-button-file"
+                            id="contained-button-file-2"
                             multiple
                             accept=".doc, .docx, .pdf"
                             type="file"
@@ -267,7 +324,7 @@ const TherapistDataForm = () => {
                             onChange={handleFileUpload}
                         />
                         
-                        <label  htmlFor="contained-button-file">
+                        <label  htmlFor="contained-button-file-2">
                             <Button className="x-center" variant="contained" color="primary" component="span">
                                     Subir 
                             </Button>
@@ -321,30 +378,50 @@ const TherapistDataForm = () => {
         setActiveStep(0)
     }
 
-    const onImageChange = (event) => {
-        if (event.target.files && event.target.files[0]) {
-            setState({...state, file: event.target.files[0]});
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                setImgRender(e.target.result)
-                    
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
-    };
 
     const handleFormSubmit = () => {
-        let {email, password } = state
-                
-        createTherapistWithEmailAndPassword(state)
-        .then( res => {
-            // * Aqui haces lo de que te mande a otro lado
-            signInWithEmailAndPassword(email, password)
-            .then(() => {
-                history.push(`/${firebase.auth().currentUser.uid}/home`)
+        let { email, password, withProvider, cvfile, file } = state;
+        delete state.cvfile;
+        delete state.file;
+        delete state.withProvider;
+        delete state.grade;
+        
+        if (withProvider) {
+            delete state.user;
+            delete state.token;
+            delete state.credential;
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(user => {
+                api.post(`/t/${user.uid}`, {
+                    therapistdata: {
+                        ...state
+                    }
+                })
+                .then(res => {
+                    if (res.status == 200) {
+                        history.push(`/${user.uid}/home`)
+                    }
+                })
+                .catch( error => {
+                    console.error("Error al actualizar la informacion", error)
+                })
             })
             .catch( error => {
-                console.error("Error al obtener el decodedToken del user", error)
+                console.error("Error al iniciar sesion", error)
+            })
+            
+        }
+        createTherapistWithEmailAndPassword(state)
+        .then( user => {
+            // * Aqui haces lo de que te mande a otro lado
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(() => {
+                console.log("Sesion iniciada...");
+                //history.push(`/${user.uid}/dashboard`)
+            })
+            .catch( error => {
+                setMessage(error)
+                console.error("Error al iniciar sesion", error)
             })
         })
         .catch( e => {

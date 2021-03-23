@@ -173,13 +173,35 @@ exports.createUserWithEmailAndPassword = (req, res) => {
         });
 }
 
+exports.updateTherapistInfo = (req, res) => {
+    thers.doc(req.params.tid).set(req.body.therapistdata)
+    .then(() => {
+        console.log('Collection: Therapist- Listo!');
+        // * Actualizar el rol del usuario a 'user'
+        auth
+            .setCustomUserClaims(user.uid, { role: "therapist" })
+            .then(() => {
+                console.log('Usuario registrado con rol "therapist" correctamente!');
+                return res.status(201).send(user);
+            })
+            .catch( error => {
+                console.error('Error asignando el rol de "therapist" al usuario', eror)
+                return res.status(404).send(error);
+            })
+    })
+    .catch( error => {
+        console.error('Error registrando el usuario en collection "therapists"', error);
+        return res.status(404).send(error);
+    })
+}
+
 exports.createTherapistWithEmailAndPassword = (req, res) => {
     auth
         .createUser({
             email: req.body.email,
             emailVerified: false,
             password: req.body.password,
-            displayName: req.body.userdata.name,
+            displayName: req.body.therapistdata.name,
             photoURL: "https://storage.googleapis.com/iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png",
             disabled: false,
         })

@@ -112,7 +112,7 @@ export const AuthProvider = ({ children }) => {
         let {email, password} =  state
         delete state.password
         return api.post('/auth/signtherapist', { 
-            userdata: {
+            therapistdata: {
                 ...state, 
                 name: state.name,
                 lname: state.lastname,

@@ -11,25 +11,12 @@ var _require = require('../firebase'),
 
 var db = admin.firestore();
 var auth = admin.auth();
+var storage = admin.storage();
 var users = db.collection('users');
 var thers = db.collection('therapists');
-var roles = db.collection('roles');
-
-var _require2 = require('../schema/user'),
-    User = _require2.User,
-    userConverter = _require2.userConverter;
-
-var _require3 = require('../schema/therapist'),
-    Therapist = _require3.Therapist,
-    therapistConverter = _require3.therapistConverter;
 
 exports.isAuthorized = function (hasRole, allowSameUser) {
-  // TODO Corregir lectura de roles
   return function (req, res, next) {
-    // TODO: Remover cuando se termine la prueba
-    // console.log('Skipeando autorizacion por prueba');
-    // next();
-    // return;
     var _res$locals = res.locals,
         role = _res$locals.role,
         uid = _res$locals.uid;
@@ -51,12 +38,7 @@ exports.isAuthorized = function (hasRole, allowSameUser) {
 };
 
 exports.isAuthenticated = function (req, res, next) {
-  // TODO: Remover cuando se termine la prueba
-  // console.log('Skipeando autenticacion por prueba');
-  // next();
-  // return;
-  console.log('Verificando que el tokenId sea válido'); //console.log(req.headers.authorization)
-
+  console.log('Verificando que el tokenId sea válido');
   /* 
    * Verifica que el request contenga un ID Token.
    - Por convención el authorization header al portar 
@@ -100,22 +82,6 @@ exports.isAuthenticated = function (req, res, next) {
     res.status(403).send('Unauthorized');
     return;
   });
-  /*
-      * Esta es una forma diferente de hacer exactamente lo mismo que el código previo
-      * pero la estructura es distinta, en este se usa un bloque try catch para manejar
-      * el error que nos daría el caso de que no se pueda verificar el token muestra el error 
-   ?  try {
-   ?      const decodedIdToken = await auth.verifyIdToken(idToken);
-   ?      console.log('ID Token correctamente decodificado', decodedIdToken);
-   ?      req.user = decodedIdToken;
-   ?      next();
-   ?      return;
-   ?  } catch (error) {
-   ?      console.error('Error al verififcar el Firebase ID token:', error);
-   ?      res.status(403).send('Unauthorized');
-   ?      return;
-   ?  }
-  */
 };
 
 exports.setAdmin = function (req, res) {
@@ -160,26 +126,44 @@ exports.createUserWithEmailAndPassword = function (req, res) {
     emailVerified: false,
     password: req.body.password,
     displayName: req.body.userdata.name,
-    photoURL: req.body.userdata.img,
+    photoURL: "https://storage.googleapis.com/iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png",
     disabled: false
-  }).then(function (userRecord) {
-    console.log('Auth: Usuario creado exitosamene!'); // * Sube el usuario creado a colleccion de usuarios
+  }).then(function (user) {
+    console.log('Auth: Usuario creado exitosamene!'); // TODO: SEND EMAIL VERIFICATION
 
-    users.doc(userRecord.uid).withConverter(userConverter).set(req.body.userdata).then(function () {
-      console.log('Collection: Users - Listo!', userRecord.uid); // * Actualizar el rol del usuario a 'user'
+    var actionCodeSettings = {
+      // URL you want to redirect back to. The domain (www.example.com) for
+      // this URL must be whitelisted in the Firebase Console.
+      url: 'https://www.iknelia.app/session/login',
+      // This must be true for email link sign-in.
+      handleCodeInApp: true,
+      iOS: {
+        bundleId: 'com.example.ios'
+      },
+      android: {
+        packageName: 'com.example.android',
+        installApp: true,
+        minimumVersion: '12'
+      },
+      // FDL custom domain.
+      dynamicLinkDomain: 'www.iknelia.app'
+    }; // * Sube el usuario creado a colleccion de usuarios
 
-      auth.setCustomUserClaims(userRecord.uid, {
+    users.doc(user.uid).set(req.body.userdata).then(function () {
+      console.log('Collection: Users - Listo!', user.uid); // * Actualizar el rol del usuario a 'user'
+    }).then(function () {
+      auth.setCustomUserClaims(user.uid, {
         role: "user"
       }).then(function () {
         console.log('Usuario registrado con rol "user" correctamente!');
-        return res.status(201).send(userRecord.uid);
+        return res.status(201).send(user);
       })["catch"](function (error) {
-        console.error('Error asignando el rol de "user" al usuario', eror);
+        console.error('Error asignando el rol de "user" al usuario', error);
         return res.status(404).send(error);
       });
     })["catch"](function (error) {
       console.error('Error registrando el usuario en collection "users"', error);
-      return res.status(404).send(error);
+      return res.status(400).send(error);
     });
   })["catch"](function (error) {
     console.log('Error creando usuario!', error);
@@ -187,10 +171,36 @@ exports.createUserWithEmailAndPassword = function (req, res) {
   });
 };
 
+exports.updateTherapistInfo = function (req, res) {
+  thers.doc(req.params.tid).set(req.body.therapistdata).then(function () {
+    console.log('Collection: Therapist- Listo!'); // * Actualizar el rol del usuario a 'user'
+
+    auth.setCustomUserClaims(user.uid, {
+      role: "therapist"
+    }).then(function () {
+      console.log('Usuario registrado con rol "therapist" correctamente!');
+      return res.status(201).send(user);
+    })["catch"](function (error) {
+      console.error('Error asignando el rol de "therapist" al usuario', eror);
+      return res.status(404).send(error);
+    });
+  })["catch"](function (error) {
+    console.error('Error registrando el usuario en collection "therapists"', error);
+    return res.status(404).send(error);
+  });
+};
+
 exports.createTherapistWithEmailAndPassword = function (req, res) {
-  auth.createUserWithEmailAndPassword(req.body.email, req.body.password).then(function (user) {
+  auth.createUser({
+    email: req.body.email,
+    emailVerified: false,
+    password: req.body.password,
+    displayName: req.body.therapistdata.name,
+    photoURL: "https://storage.googleapis.com/iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png",
+    disabled: false
+  }).then(function (user) {
     // subir a colleccion de usuarios
-    thers.doc(user.uid).withConverter(therapistConverter).set(req.body.therapistdata).then(function () {
+    thers.doc(user.uid).set(req.body.therapistdata).then(function () {
       console.log('Collection: Therapist- Listo!'); // * Actualizar el rol del usuario a 'user'
 
       auth.setCustomUserClaims(user.uid, {
@@ -198,7 +208,13 @@ exports.createTherapistWithEmailAndPassword = function (req, res) {
       }).then(function () {
         console.log('Usuario registrado con rol "therapist" correctamente!');
         return res.status(201).send(user);
+      })["catch"](function (error) {
+        console.error('Error asignando el rol de "therapist" al usuario', eror);
+        return res.status(404).send(error);
       });
+    })["catch"](function (error) {
+      console.error('Error registrando el usuario en collection "therapists"', error);
+      return res.status(404).send(error);
     });
   })["catch"](function (error) {
     console.log('Error creando terapeuta!', error);

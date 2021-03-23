@@ -155,7 +155,7 @@ exports.fixAllBlogs = (req, res) => {
                     comments: data.comments || [],
                     content: data.content || "<h1>Iknelia | Crea tu propio post</h1><p><a href='http://localhost:3000/dashboard/analytics' rel='noopener noreferrer' target='_blank'>en Iknelia</a></p><p>La psicoterapia es un proceso clínico que posibilita el autoconocimiento</p>",
                     date: (typeof data.date === 'string') ? data.date : d8st.toISOString(),
-                    img: data.img || "blogs/2.jpg",
+                    img: "/src/assets/images/videosession.png",
                     likes: data.likes || [],
                     title: data.title || "Titulo",
                 }

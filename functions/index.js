@@ -12,6 +12,7 @@ const {
   setAdmin,
   setTherapist,
   setUser,
+  updateTherapistInfo,
 } = require("./routes/auth");
 
 // * Funciones relativas al usuario
@@ -151,11 +152,13 @@ app.delete("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession);
 // * rutas de autenticacion
 app.post("/auth/signuser", createUserWithEmailAndPassword);
 app.post("/auth/signtherapist", createTherapistWithEmailAndPassword)
+app.post("/t/:tid", isAuthenticated, isAuthorized(roles.therapist), updateTherapistInfo)
 
 // * rutas de autorizacion
 app.put("/auth/:uid/admin", setAdmin);
 app.put("/auth/:uid/therapist", setTherapist);
 app.put("/auth/:uid/user", setUser);
+
 
 // * rutas de fixing 
 // ! BORRARLAS DESPUES DE TERMINAR SU USO

@@ -6,9 +6,7 @@ var express = require("express");
 
 var app = express();
 
-var cors = require('cors');
-
-var multer = require('multer'); // * Funciones de autenticacion
+var cors = require('cors'); // * Funciones de autenticacion
 
 
 var _require = require("./routes/auth"),
@@ -18,7 +16,8 @@ var _require = require("./routes/auth"),
     createTherapistWithEmailAndPassword = _require.createTherapistWithEmailAndPassword,
     setAdmin = _require.setAdmin,
     setTherapist = _require.setTherapist,
-    setUser = _require.setUser; // * Funciones relativas al usuario
+    setUser = _require.setUser,
+    updateTherapistInfo = _require.updateTherapistInfo; // * Funciones relativas al usuario
 
 
 var _require2 = require("./routes/users"),
@@ -75,11 +74,11 @@ var _require7 = require("./routes/fixes"),
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
-}));
-var upload = multer({
-  storage: multer.memoryStorage(),
-  limits: 5 * 1024 * 1024
-}); // * permisos del CORS
+})); // const upload = multer({ 
+//     storage: multer.memoryStorage(),
+//     limits: 5 * 1024 * 1024,
+// });
+// * permisos del CORS
 
 app.use(cors());
 app.use(function (req, res, next) {
@@ -137,7 +136,8 @@ app["delete"]("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSessio
 // * rutas de autenticacion
 
 app.post("/auth/signuser", createUserWithEmailAndPassword);
-app.post("/auth/signtherapist", createTherapistWithEmailAndPassword); // * rutas de autorizacion
+app.post("/auth/signtherapist", createTherapistWithEmailAndPassword);
+app.post("/t/:tid", isAuthenticated, isAuthorized(roles.therapist), updateTherapistInfo); // * rutas de autorizacion
 
 app.put("/auth/:uid/admin", setAdmin);
 app.put("/auth/:uid/therapist", setTherapist);
