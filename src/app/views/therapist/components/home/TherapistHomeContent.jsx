@@ -21,6 +21,7 @@ import clsx from 'clsx'
 import NextSessions from './NextSessions'
 import { Loading } from 'app/components/Loading/Loading'
 import PatientsList from './PatientsList'
+import NextSessionsEmpty from './NextSessionsEmpty'
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
         marginTop: -345,
@@ -180,7 +181,10 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                             :   <><h4 className="text-32 px-4 pt-4 pb-0">
                                     Tus próximas citas
                                 </h4>
-                                <NextSessions sessions={sessions} /></>
+                                { sessions == undefined 
+                                ? <NextSessionsEmpty/>
+                                : <NextSessions sessions={sessions} /> }
+                                </>
                             }        
                         </Card>
                         <div className="py-6"></div>
