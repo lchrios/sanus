@@ -9,6 +9,8 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
 import history from 'history.js'
+import useAuth from 'app/hooks/useAuth'
+
 
 Date.prototype.addHours = function(h) {
     this.setTime(this.getTime() + (h*60*60*1000));
@@ -52,6 +54,8 @@ const NextSessionsEmpty = () => {
 
     const classes = useStyles()
 
+    const {user} = useAuth()
+
     const [userList, setUserList] = useState(patients)
 
     const numberSession = 0
@@ -77,7 +81,7 @@ const NextSessionsEmpty = () => {
                                     variant="contained"
                                     startIcon={<Icon>watch_later</Icon>}
                                     className={clsx("bg-light-primary hover-bg-primary text-primary px-5 mr-1", classes.button)}
-                                    onClick={() => history.push('/:tid/appointments')}
+                                    onClick={() => history.push('/' + user.uid + '/schedule')}
                                 >
 
                                        Abrir horarios
