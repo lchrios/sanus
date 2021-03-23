@@ -115,6 +115,9 @@ const BrowseApp = ({ toggleSidenav }) => {
                                         console.log('Terapeutas reasignados', res.status);
                                         history.push(`/${user.uid}/changepaymethod`)
                                     })
+                                    .then(() => {
+                                        history.push(`/${user.uid}/changepaymethod`)
+                                    })
                                     .catch( error => {
                                         console.error(error);
                                     })
