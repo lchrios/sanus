@@ -114,7 +114,23 @@ export default function CheckoutDialog({therapist, tid, state}) {
                         }
                     }
                 }
-            )
+            ).then(() => {
+                api.post(`/s/new`, {sessiondata: {
+                    cost: 60000,
+                    duration: 60,
+                    end: new Date(new Date(state.date).getTime() + (1000*60*60)),
+                    note: "",
+                    pay_met: "PayPal",
+                    payed: true,
+                    start: state.date,
+                    therapist: tid,
+                    tipo: "Sesion adulto",
+                    ther_name: therapist.name,
+                    user: user.uid,
+                    user_email: user.email,
+                    user_name: user.name
+                }})
+            })
         })
 
     }
