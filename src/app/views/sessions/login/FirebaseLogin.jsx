@@ -233,7 +233,7 @@ const FirebaseLogin = () => {
                         </div>
                     </Grid>
                     <Grid item lg={6} md={6} sm={12} xs={12}>
-                        <div className="px-8 pt-8">
+                        {/* <div className="px-8 pt-8">
                             <Button
                                 onClick={handleGoogleLogin}
                                 variant="contained"
@@ -247,7 +247,7 @@ const FirebaseLogin = () => {
                             </Button>
                         </div>
 
-                        <MatxDivider className="mt-6 px-8" text="Or" />
+                        <MatxDivider className="mt-6 px-8" text="Or" /> */}
 
                         <div className="p-8 h-full relative">
                             <ValidatorForm onSubmit={handleFormSubmit}>

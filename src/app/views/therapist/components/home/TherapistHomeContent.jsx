@@ -342,8 +342,6 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                                                     justify="space-evenly"
                                                     alignItems="stretch"
                                                 >
-                                                    
-                                                    {/* // TODO: CRITICAL - Arreglar el display de los pacientes */}
                                                     <PatientsList users={users} />
                                                 </Grid>
                                             </div> 
@@ -437,93 +435,6 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
         </Fragment>
     )
 }
-
-const patients = [
-    {
-        initials: "JH",
-        name: "Jorge Hernandez",
-        place: "Guadalajara, Jalisco",
-        bg: "bg-light-primary box-shadow-none overflow-hidden",
-        isNew: true,
-        color: "primary",
-        min: "text-primary m-0 font-normal"
-    },
-    {
-        initials: "LM",
-        name: "Luis Martinez",
-        place: "Monterrey, Nuevo León",
-        bg: "bg-light-error box-shadow-none overflow-hidden",
-        isNew: false,
-        color: "error",
-        min: "text-error m-0 font-normal"
-    },
-    {
-        initials: "AS",
-        name: "Alma Sanchez",
-        place: "Guadalajara, Jalisco",
-        bg: "bg-light-green box-shadow-none overflow-hidden",
-        isNew: false,
-        color: "green",
-        min: "text-green m-0 font-normal"
-    },
-    {
-        initials: "MA",
-        name: "Marcos Aspericueta",
-        place: "Guadalajara, Jalisco",
-        bg: "bg-light-info box-shadow-none overflow-hidden",
-        isNew: false,
-        color: "info",
-        min: "text-info m-0 font-normal"
-    },
-    {
-        initials: "JR",
-        name: "Juan Robles",
-        place: "Guadalajara, Jalisco",
-        bg: "bg-light-error box-shadow-none overflow-hidden",
-        isNew: false,
-        color: "error",
-        min: "text-error m-0 font-normal"
-    },
-    {
-        initials: "JR",
-        name: "Juan Robles",
-        place: "Guadalajara, Jalisco",
-        bg: "bg-light-error box-shadow-none overflow-hidden",
-        isNew: false,
-        color: "error",
-        min: "text-error m-0 font-normal"
-    },
-    {
-        initials: "JR",
-        name: "Juan Robles",
-        place: "Guadalajara, Jalisco",
-        bg: "bg-light-error box-shadow-none overflow-hidden",
-        isNew: false,
-        color: "error",
-        min: "text-error m-0 font-normal"
-    },
-] 
-
-const projectSummery = [
-    {
-        title: 'Pacientes',
-        amount: 11,
-        icon:'person',
-        route:'/tid:/patients'
-    },
-    {
-        title: 'Sesiones agendadas',
-        amount: 15,
-        icon:'event',
-        route:'/:tid/appointments'
-    },
-    {
-        title: 'Sesiones completadas',
-        amount: 25,
-        icon:'offline_pin',
-        route: '/tid:/completedApp'
-    },
-]
 
 const paymentList = [
     // {

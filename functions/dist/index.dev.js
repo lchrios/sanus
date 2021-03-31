@@ -82,7 +82,7 @@ app.use(express.urlencoded({
 
 app.use(cors());
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000", "http://localhost:5000", "https://www.iknelia.app", "https://iknelia.netlify.app", "https://iknelia-3cd8e.web.app/", "https://iknelia-3cd8e.firebaseapp.com/"][1]);
+  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000", "http://localhost:5000", "https://www.iknelia.app", "https://iknelia.netlify.app", "https://iknelia-3cd8e.web.app/", "https://iknelia-3cd8e.firebaseapp.com/"][0]);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 }); // * Niveles de permisos por roles 
