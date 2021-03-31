@@ -4,7 +4,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import CheckoutDialog from './CheckoutDialog'
 require('dotenv').config();
 
-const stripePromise =  loadStripe('pk_test_51HwA9iItRYlC7M0MPdgUx6sp5UH48s3NRq8JOwcxxSMcHRW0i1tNzqlIiMu6NXcWj3uWVcgqNSiUzaGa2I2YgTuP00RTEVFY43')
+const stripePromise =  loadStripe('pk_test_51IRM5vEkM6QFZKw2tb9ybHkbnvO21XL5HheDhdKx22rnnsaAVJy9DuIsz5PS4bPEIFMUnmXRuSrjO61QKBjT1GFf00NldByUGt')
 
 const CheckoutApp = ({therapist, tid, state}) => {
 

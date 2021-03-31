@@ -3,6 +3,9 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 
+/** 
+ * TODO: Validar que existan los docmentos.    */
+
 // * Funciones de autenticacion
 const {
   createUserWithEmailAndPassword,
