@@ -27,7 +27,8 @@ exports.sendPaymentInfo = (req, res) => {
 
 exports.handleStripeEvent = (req, res) => {
     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
-    const endpoint_secret = "whsec_0gqlUqNwq6LAXKqhSIYMBQTPB7UQOlaH"; // @Secreto del endpoint webhook
+    // * 0 - Webhook Stripe || 1 - Webhook Testing 
+    const endpoint_secret = ["whsec_0gqlUqNwq6LAXKqhSIYMBQTPB7UQOlaH", "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g"][1]; // @Secreto del endpoint webhook
     let event = req.body; // @ Lee la información enviada
 
     try { 

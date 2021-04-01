@@ -89,7 +89,7 @@ app.use( (req, res, next) => {
         "https://iknelia-3cd8e.web.app/",
         "https://iknelia-3cd8e.firebaseapp.com/",
         
-    ][0]);
+    ][1]);
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
