@@ -21,6 +21,7 @@ export default function CheckoutDialog({therapist, tid, state}) {
     
     const { user } = useAuth()
     const [open, setOpen] = useState(false)
+    const [submited, setSubmited] =  useState(false)
     const [activeStep, setActiveStep] =  useState(0)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -100,10 +101,11 @@ export default function CheckoutDialog({therapist, tid, state}) {
     const handlePayOxxo = (e) => {
         e.preventDefault();
 
+        setSubmited(true)
+
         api.post('/u/' + user.uid + '/checkout', {
             amount:60000
         }).then(res => {
-            console.log(res)
             stripe.confirmOxxoPayment(
                 res.data.client_secret, 
                 {
@@ -114,23 +116,9 @@ export default function CheckoutDialog({therapist, tid, state}) {
                         }
                     }
                 }
-            ).then(() => {
-                api.post(`/s/new`, {sessiondata: {
-                    cost: 60000,
-                    duration: 60,
-                    end: new Date(new Date(state.date).getTime() + (1000*60*60)),
-                    note: "",
-                    pay_met: "PayPal",
-                    payed: true,
-                    start: state.date,
-                    therapist: tid,
-                    tipo: "Sesion adulto",
-                    ther_name: therapist.name,
-                    user: user.uid,
-                    user_email: user.email,
-                    user_name: user.name
-                }})
-            })
+            )
+        }).catch(error => {
+            console.error(error)
         })
 
     }
@@ -183,7 +171,8 @@ export default function CheckoutDialog({therapist, tid, state}) {
                                     <h4>Costo por sesión: 600.00 MXN</h4>
                                 </div>
                                 <div className="flex-column">
-                                    <TextField 
+                                    <TextField
+                                    disabled={submited} 
                                     required 
                                     id="oxxo-name" 
                                     value={name}
@@ -192,6 +181,7 @@ export default function CheckoutDialog({therapist, tid, state}) {
 
                                     <TextField 
                                     required 
+                                    disabled={submited}
                                     id="oxxo-mail" 
                                     value={email} 
                                     onChange={handleChangeMail}

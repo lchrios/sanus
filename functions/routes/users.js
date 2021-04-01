@@ -113,7 +113,7 @@ exports.assignTherapist = (req, res) => {
         .update({ therapist: req.params.tid })
         .then(() => {
             console.log('Terapeuta asignado correctamente');
-            return res.status(201);
+            return res.status(201).send();
         })
         .catch( error => {
             console.error('Error actualizando el terapeuta del usuario', error);

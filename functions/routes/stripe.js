@@ -1,4 +1,4 @@
-const stripe = require('stripe')("sk_test_51HwA9iItRYlC7M0MQNS8OacWDR17Hgnaf9yXvLOt9QCTfQCtvzD6JDaWnM0dJ9cDivQtGGj53a9keJpimeZps4r500rXFO4372");
+const stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG");
 
 /**La private key será utilizada con una variable de entorno */
 
@@ -13,12 +13,12 @@ exports.sendPaymentInfo = (req, res) => {
         payment_method_types: ['card', 'oxxo'],
     })
     .then((paymentIntent) => {
-        console.log("Ticket de pago generado exitosamente")
+        console.log("Ticket de pago generado exitosamente api")
         return res.status(200).send({
             client_secret: paymentIntent.client_secret, 
             message: 'Ticket de pago generato exitosamente'
         })
-    }) 
+    })
     .catch((error) => {
         console.log('Error al procesar tu pago')
         res.status(400).send(error)
@@ -27,9 +27,11 @@ exports.sendPaymentInfo = (req, res) => {
 
 exports.handleStripeEvent = (req, res) => {
     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
-    // * 0 - Webhook Stripe || 1 - Webhook Testing 
-    const endpoint_secret = ["whsec_0gqlUqNwq6LAXKqhSIYMBQTPB7UQOlaH", "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g"][1]; // @Secreto del endpoint webhook
+
+    //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
+    const endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd","whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"][1]; 
     let event = req.body; // @ Lee la información enviada
+
 
     try { 
         /* 
@@ -42,6 +44,8 @@ exports.handleStripeEvent = (req, res) => {
     } catch (err) {
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
+
+    console.log(event)
 
     switch(event.type) {
         case 'payment_intent.succeeded':

@@ -11,13 +11,25 @@ const BrowseApp = ({ toggleSidenav }) => {
 
     const [therapistList, setTherapistList] = useState([])
     const [docRefs, setDocRefs] = useState([])
+    const [reassigned, setReassigned] = useState()
     const { user } = useAuth()
+
+
+
+    // useEffect(() => {
+
+    // }, [reassigned])
 
     useEffect(() => {
         
         api.get('/t').then(res => {
             setTherapistList(res.data.data)
             setDocRefs(res.data.id)
+        })
+        api.get(`/u/${user.uid}/t`).then( res => {
+            if (res.status === 200 && res.data.id !== undefined) {
+                setReassigned(res.data.id);
+            }
         })
 
     }, [])
@@ -112,8 +124,8 @@ const BrowseApp = ({ toggleSidenav }) => {
                             <IconButton onClick={() => {
                                 api.post(`/u/${user.uid}/t/${docRefs[dataIndex]}`)
                                     .then( res => {
-                                        console.log('Terapeutas reasignados', res.status);
-                                        history.push(`/${user.uid}/changepaymethod`)
+                                        console.log('Terapeutas reasignados',docRefs[dataIndex]);
+                                        setReassigned(docRefs[dataIndex])
                                     })
                                     .then(() => {
                                         history.push(`/${user.uid}/changepaymethod`)
@@ -123,7 +135,7 @@ const BrowseApp = ({ toggleSidenav }) => {
                                     })
                             }}>
                                     
-                                    <Icon>control_point</Icon>
+                                    <Icon>{reassigned === docRefs[dataIndex] ? "check_circle" : "control_point"}</Icon>
 
                             </IconButton>
                     </div>

@@ -122,8 +122,8 @@ const TherapistInfoUser = ({ therapist, loading }) => {
                                     Contactar al terapeuta
                                 </Button>
         
-                                <Button onClick={() => window.location.href='https://zoom.us/j/95739401999?pwd=dkh2NGQxcXBTYWJWRHlRM3U4UnVPQT09'
-                                } className="mb-4" variant="text">
+                                <Button onClick={() => window.location.href=therapist.zoomURL}
+                                 className="mb-4" variant="text">
                                     <Icon className="mr-2" fontSize="small">
                                         comment
                                     </Icon>{' '}
