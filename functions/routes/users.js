@@ -41,13 +41,12 @@ exports.getUser = (req, res) => {
 }
 
 exports.getTherapistByUser = (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
     users
         .doc(req.params.uid)
         .get()
         .then( doc => {
             const ther_id = doc.data().therapist;
-            if (ther_id == null) {
+            if (ther_id === undefined) {
                 console.log("No hay terapeuta");
                 return res.status(204).send({});
             } else {
@@ -72,8 +71,12 @@ exports.getTherapistSchedule = (req, res) => {
     .then( doc => {
         schedules.doc(doc.data().therapist).get()
         .then( docSched => {
-            var data = docSched.data();
-            return res.status(200).send({schedule: data.schedule !== undefined ? data.schedule : undefined, options: data.options})
+            if (docSched.exists) {
+                var data = docSched.data();
+                return res.status(200).send({schedule: data.schedule !== undefined ? data.schedule : undefined, options: data.options})
+            } else {
+                return res.status(204).send({});
+            }
         })
         .catch( er => {
             return res.status(400).send(er)

@@ -143,7 +143,7 @@ const FirebaseLogin = () => {
         if (user){
             firebase.auth().currentUser.getIdTokenResult()
             .then( decodedToken => {
-                console.log(user)
+                console.log(user, decodedToken)
 
                 switch (decodedToken.claims.role) {
                     case "user":
@@ -163,9 +163,7 @@ const FirebaseLogin = () => {
                     default:
                         console.error('No role was detected')
                         assignUserRole(user.uid).then(() => {
-                            
-                            history.push(`/${user.uid}/home`);
-                            
+                            history.push(`/${user.uid}/home`);                           
                         });
                         break;               
                 }

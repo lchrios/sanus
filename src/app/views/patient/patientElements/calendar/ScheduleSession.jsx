@@ -62,12 +62,11 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 
 const getSteps = () => ['Selecciona una fecha', 'Resumen', 'Paga tu cita']   
 
-const ScheduleSession = ({ open, handleClose, therapist, tid }) => {   
-    const { user } = useAuth()
+const ScheduleSession = ({ open, handleClose, therapist, tid }) => {
     const [state, setState] = useState();
-    const [loading, setLoading] = useState(false);
     const classes = useStyles();
     const steps = getSteps();
+    const [hasSched, setHasSched] = useState(false)
     const [activeStep, setActiveStep] = useState(0);
     const [message, setMessage] = useState("");
 
@@ -113,11 +112,12 @@ const ScheduleSession = ({ open, handleClose, therapist, tid }) => {
         //     }) 
         //}
     }
+    
 
     const getSetpContent = (stepContent) => {
         switch (stepContent) {
             case 0: // * Schedule selector
-                return <PaymentSchedule setMessage={setMessage} handleNext={handleNext} state={state} setState={setState}/>
+                return <PaymentSchedule setMessage={setMessage} handleNext={handleNext} state={state} setState={setState} hasSched={hasSched} setHasSched={setHasSched}/>
 
             case 1: // * Information resume
                 return <SessionResume therapist={therapist} setMessage={setMessage} handleNext={handleNext} state={state} handleChange={handleChange}/>
@@ -238,6 +238,7 @@ const ScheduleSession = ({ open, handleClose, therapist, tid }) => {
                                                             color="primary"
                                                             type="submit"
                                                             onClick={handleNext}
+                                                            disabled={!hasSched}
                                                         >
                                                             Siguiente
                                                         </Button>

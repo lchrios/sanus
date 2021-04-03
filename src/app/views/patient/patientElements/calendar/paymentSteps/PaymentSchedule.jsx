@@ -12,11 +12,9 @@ import api from 'app/services/api';
 import useAuth from 'app/hooks/useAuth';
 import { Loading } from 'app/components/Loading/Loading';
 
-const PaymentSchedule = ({ setMessage, handleNext, state, setState }) => {
+const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, setHasSched }) => {
 
-    const selectionSchemes = ['linear', 'square']
     const [loading, setLoading] = useState(true)
-    const [selection, setSelection] = useState();
     const { user } = useAuth() 
     const [options, setOptions] = useState({
         selectionScheme: 'linear',
@@ -28,7 +26,7 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState }) => {
     }) 
 
     const handleChange = newSchedule => {
-        console.log(newSchedule)
+        
         var selected = state.schedule.filter(x => newSchedule.indexOf(x) === -1);
         if (selected.length == 1) {
             setState({
@@ -40,13 +38,13 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState }) => {
     }
 
     useEffect(() => {
-        console.log("Pidiendo")
         api.get(`/u/${user.uid}/schedule`)
         .then( res => {
-            if (res.data.schedule === undefined) {
+            if (res.status === 204) {
                 setMessage("El terapeuta aún no tiene un horario")
             } else {
                 var schedDate = res.data.schedule.map(sched => new Date(sched))
+                setHasSched(true)
                 setState({
                     ...state,
                     schedule: schedDate,
@@ -70,81 +68,85 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState }) => {
     return (<>
         { loading
         ?   <Loading />
-        :   <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-                spacing={3}
-            >
-                <Grid 
-                    item
-                    lg={12}
-                    md={12}
-                    sm={12}
-                    xs={12}
-                >            
-                    <Card elevation={6} className="p-4 h-full">
-                        <Grid
-                            container
-                            direction="row"
-                            justify="center"
-                            alignItems="center"
-                        >
-                            <Grid 
-                                item
-                                lg={12}
-                                md={12}
-                                sm={12}
-                                xs={12}
+        :   <>{ hasSched 
+            ?   <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                    spacing={3}
+                    className="mt-5"
+                >
+                    <Grid 
+                        item
+                        lg={12}
+                        md={12}
+                        sm={12}
+                        xs={12}
+                    >            
+                        <Card elevation={6} className="p-4 h-full">
+                            <Grid
+                                container
+                                direction="row"
+                                justify="center"
+                                alignItems="center"
                             >
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <KeyboardDatePicker
-                                    className="ml-4 mb-4"
-                                        variant="inline"
-                                        format="dd/MM/yyyy"
-                                        margin="normal"
-                                        id="date-picker-inline"
-                                        label="Escpge la fecha"
-                                        name="startDate"
-                                        value={options.startDate}
-                                        onChange={handleDate}
-                                        KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                        }}
-                                    />
-                                </MuiPickersUtilsProvider>
+                                <Grid 
+                                    item
+                                    lg={12}
+                                    md={12}
+                                    sm={12}
+                                    xs={12}
+                                >
+                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                        <KeyboardDatePicker
+                                        className="ml-4 mb-4"
+                                            variant="inline"
+                                            format="dd/MM/yyyy"
+                                            margin="normal"
+                                            id="date-picker-inline"
+                                            label="Escpge la fecha"
+                                            name="startDate"
+                                            value={options.startDate}
+                                            onChange={handleDate}
+                                            KeyboardButtonProps={{
+                                            'aria-label': 'change date',
+                                            }}
+                                        />
+                                    </MuiPickersUtilsProvider>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    
-                    </Card>
-                    
+                        
+                        </Card>
+                        
+                    </Grid>
+                    <Grid 
+                        item
+                        lg={8}
+                        md={8}
+                        sm={12}
+                        xd={12}
+                    >            
+                        <Card className="p-4 h-full">
+                            <ScheduleSelector
+                                selection={state.schedule}
+                                numDays={options.numDays}
+                                minTime={options.minTime}
+                                maxTime={options.maxTime}
+                                hourlyChunks={options.hourlyChunks}
+                                startDate={options.startDate}
+                                selectionScheme={options.selectionScheme}
+                                onChange={handleChange}
+                                renderDataCell={(selected) => {
+                                    console.log(selected)
+                                    return <p>{selected}</p>
+                                }}
+                            />
+                        </Card>
+                    </Grid>  
                 </Grid>
-                <Grid 
-                    item
-                    lg={8}
-                    md={8}
-                    sm={12}
-                    xd={12}
-                >            
-                    <Card className="p-4 h-full">
-                        <ScheduleSelector
-                            selection={state.schedule}
-                            numDays={options.numDays}
-                            minTime={options.minTime}
-                            maxTime={options.maxTime}
-                            hourlyChunks={options.hourlyChunks}
-                            startDate={options.startDate}
-                            selectionScheme={options.selectionScheme}
-                            onChange={handleChange}
-                            renderDataCell={(selected) => {
-                                console.log(selected)
-                                return <p>{selected}</p>
-                            }}
-                        />
-                    </Card>
-                </Grid>  
-            </Grid>
+            :   undefined
+            }</>
         }
     </>
     )

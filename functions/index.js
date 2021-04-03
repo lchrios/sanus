@@ -1,4 +1,7 @@
 const functions = require("firebase-functions");
+var fileUpload = require('express-fileupload');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
 const express = require("express");
 const app = express();
 const cors = require('cors');
@@ -16,6 +19,7 @@ const {
   setTherapist,
   setUser,
   updateTherapistInfo,
+  getFilesAndInfo,
 } = require("./routes/auth");
 
 // * Funciones relativas al usuario
@@ -73,7 +77,10 @@ const { fixAllUsers, fixAllSessions, fixAllTherapists, fixAllBlogs } = require("
 
 // * uso de transformacion a json
 app.use(express.json());
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }));
+app.use(logger('dev'));
+app.use(cookieParser());
+app.use(fileUpload());
 
 // const upload = multer({ 
 //     storage: multer.memoryStorage(),
@@ -86,12 +93,6 @@ app.use( (req, res, next) => {
     res.header("Access-Control-Allow-Origin", [
         "https://iknelia.app",
         "http://localhost:3000",
-        "http://localhost:5000",
-        "https://www.iknelia.app", 
-        "https://iknelia.netlify.app", 
-        "https://iknelia-3cd8e.web.app/",
-        "https://iknelia-3cd8e.firebaseapp.com/",
-        
     ][1]);
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
@@ -161,6 +162,8 @@ app.post("/t/:tid", isAuthenticated, isAuthorized(roles.therapist), updateTherap
 app.put("/auth/:uid/admin", setAdmin);
 app.put("/auth/:uid/therapist", setTherapist);
 app.put("/auth/:uid/user", setUser);
+
+app.post("/files", getFilesAndInfo);
 
 
 // * rutas de fixing 
