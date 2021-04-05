@@ -2,11 +2,20 @@
 
 var functions = require("firebase-functions");
 
+var fileUpload = require('express-fileupload');
+
+var logger = require('morgan');
+
+var cookieParser = require('cookie-parser');
+
 var express = require("express");
 
 var app = express();
 
-var cors = require('cors'); // * Funciones de autenticacion
+var cors = require('cors');
+/** 
+ * TODO: Validar que existan los docmentos.    */
+// * Funciones de autenticacion
 
 
 var _require = require("./routes/auth"),
@@ -17,7 +26,8 @@ var _require = require("./routes/auth"),
     setAdmin = _require.setAdmin,
     setTherapist = _require.setTherapist,
     setUser = _require.setUser,
-    updateTherapistInfo = _require.updateTherapistInfo; // * Funciones relativas al usuario
+    updateTherapistInfo = _require.updateTherapistInfo,
+    getFilesAndInfo = _require.getFilesAndInfo; // * Funciones relativas al usuario
 
 
 var _require2 = require("./routes/users"),
@@ -74,7 +84,10 @@ var _require7 = require("./routes/fixes"),
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
-})); // const upload = multer({ 
+}));
+app.use(logger('dev'));
+app.use(cookieParser());
+app.use(fileUpload()); // const upload = multer({ 
 //     storage: multer.memoryStorage(),
 //     limits: 5 * 1024 * 1024,
 // });
@@ -82,7 +95,7 @@ app.use(express.urlencoded({
 
 app.use(cors());
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000", "http://localhost:5000", "https://www.iknelia.app", "https://iknelia.netlify.app", "https://iknelia-3cd8e.web.app/", "https://iknelia-3cd8e.firebaseapp.com/"][0]);
+  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][1]);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 }); // * Niveles de permisos por roles 
@@ -141,7 +154,8 @@ app.post("/t/:tid", isAuthenticated, isAuthorized(roles.therapist), updateTherap
 
 app.put("/auth/:uid/admin", setAdmin);
 app.put("/auth/:uid/therapist", setTherapist);
-app.put("/auth/:uid/user", setUser); // * rutas de fixing 
+app.put("/auth/:uid/user", setUser);
+app.post("/files", getFilesAndInfo); // * rutas de fixing 
 // ! BORRARLAS DESPUES DE TERMINAR SU USO
 
 app.post("/fix/users", fixAllUsers);

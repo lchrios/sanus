@@ -22,6 +22,7 @@ const SessionResume = ({ therapist, setMessage, handleNext, state, handleChange 
             justify="center"
             alignItems="center"
             spacing={3}
+            className="mt-5"
         >
             <Grid 
                 item
@@ -34,7 +35,7 @@ const SessionResume = ({ therapist, setMessage, handleNext, state, handleChange 
                     <Grid
                         container
                         direction="row"
-                        justify="center"
+                        justify="flex-end"
                         alignItems="center"
                     >
                         <Grid 

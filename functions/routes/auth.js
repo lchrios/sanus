@@ -1,3 +1,4 @@
+const { decode } = require('firebase-functions/lib/providers/https');
 const { admin } = require('../firebase');
 const db = admin.firestore();
 const auth = admin.auth();
@@ -5,21 +6,19 @@ const storage = admin.storage();
 var users = db.collection('users');
 var thers = db.collection('therapists');
 
-exports.isAuthorized = (hasRole, allowSameUser) => {
+exports.isAuthorized = (hasRole) => {
     return (req, res, next) => {
 
         const { role, uid } = res.locals;
-        const id  = req.headers.uid;
-
-        if (allowSameUser && id && uid === id) { // * permite que el usuario pueda pedir informacion propia
-            return next();
-        } else if (!role) { // * no tiene rol el usuario
-            return res.status(403).send('Unauthorized');
+        
+        if (!role) { // * no tiene rol el usuario
+            return res.status(403).send({ status: 'Unauthorized', message: "El usuario no tiene rol" });
         } else if (hasRole.indexOf(role) > -1) { // * revisa que el rol del usuario contenga los permitidos 
+            console.log("Usuario autorizado")
             return next();
         }
 
-        return res.status(403).send('Unauthorized');
+        return res.status(403).send({ status: 'Unauthorized', message: "El usuario no tiene rol" });
     }
 }
 
@@ -57,19 +56,35 @@ exports.isAuthenticated = (req, res, next) => {
     }
 
     // * Una vez obtenido el ID Token, procedemos a verificar que sea correcto mediante firebase auth
-    auth
-        .verifyIdToken(idToken)
-        .then( decodedIdToken => { // * Obtenemos el decodedIDToken como resultado de una operación exitosa
-            console.log('ID Token verificado!');
-            res.locals = { ...res.locals, uid: decodedIdToken.uid, role: decodedIdToken.role }
+    auth.verifyIdToken(idToken)
+    .then( decodedIdToken => { // * Obtenemos el decodedIDToken como resultado de una operación exitosa
+        console.log('ID Token verificado!');
+        auth.getUser(decodedIdToken.uid).then(user => {
+            // * Assign user role in case it doesnt have
+            if (user.customClaims.role === undefined) {
+                console.log("Usuario sin rol asignado :C\nAsignando rol")
+                auth.setCustomUserClaims(user.uid, { role: "user" })
+                .then(() => {
+                    console.log('Usuario registrado con rol "user" correctamente!');
+                    res.locals = { ...res.locals, uid: decodedIdToken.uid, role: "user" }
+                })
+                .catch( error => {
+                    console.error('Error asignando el rol de "user" al usuario', error)
+                    return res.status(400).send(error);
+                })
+            } else {
+                console.log("Usuario con rol")
+                res.locals = { ...res.locals, uid: decodedIdToken.uid, role: user.customClaims.role }
+            }
             next();
             return;
         })
-        .catch( error => {
-            console.error('Error al verififcar el Firebase ID token:', error);
-            res.status(403).send('Unauthorized');
-            return;
-        });
+    })
+    .catch( error => {
+        console.error('Error al verififcar el Firebase ID token:', error);
+        res.status(403).send('Unauthorized');
+        return;
+    });
 }
 
 exports.setAdmin = (req, res) => {
@@ -103,7 +118,7 @@ exports.setUser = (req, res) => {
         .setCustomUserClaims(req.params.uid, { role: "user" } )
         .then(() => {
             console.log('Usuario hecho user exitosamente');
-            return res.status(201);
+            return res.status(201).send({ user: req.params.uid, role: "user"});
         })
         .catch( error => {
             console.error('Error cambiando el rol del usuario', error);
@@ -193,6 +208,18 @@ exports.updateTherapistInfo = (req, res) => {
         console.error('Error registrando el usuario en collection "therapists"', error);
         return res.status(404).send(error);
     })
+}
+
+exports.getFilesAndInfo = () => {
+    // * Validates that the request contains a file
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send({
+            "message": 'No files were uploaded.',
+            "success": false
+        });
+    }
+
+    return res.status(200).send({file: req.files['']});
 }
 
 exports.createTherapistWithEmailAndPassword = (req, res) => {

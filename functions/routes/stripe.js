@@ -29,7 +29,7 @@ exports.handleStripeEvent = (req, res) => {
     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
 
     //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
-    const endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd","whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"][0]; 
+    const endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd","whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"][1]; 
     let event = req.body; // @ Lee la información enviada
 
 
