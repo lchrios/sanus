@@ -28,6 +28,7 @@ import history from '../../../../history'
 import firebase from 'firebase/app'
 import useAuth from 'app/hooks/useAuth'
 import { useLocation } from 'react-router'
+import FormData from 'form-data'
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
         background: '#1A2038',
@@ -102,11 +103,10 @@ const TherapistDataForm = () => {
     
     const onImageChange = (event) => {
         if (event.target.files && event.target.files[0]) {
-            setState({...state, file: event.target.files[0]});
+            setState({...state, img: event.target.files[0]});
             let reader = new FileReader();
             reader.onload = (e) => {
                 setImgRender(e.target.result)
-                    
             }
             reader.readAsDataURL(event.target.files[0]);
         }
@@ -114,7 +114,7 @@ const TherapistDataForm = () => {
 
     const handleFileUpload = (event) => {
         if (event.target.files && event.target.files[0]) {
-            setState({...state, cvfile: event.target.files[0]});
+            setState({...state, cv: event.target.files[0]});
         }
     }
 
@@ -311,34 +311,40 @@ const TherapistDataForm = () => {
                             </label>
 
                         </div>
+                        <div className="max-w-600 mx-auto mt-4">
+                            <h4 className="text-center">Sube tu CV como documento PDF</h4>
+                            <Divider className="mb-8" />
+                            { filePreview }
+                            <input
+                                id="contained-button-file-2"
+                                multiple
+                                accept=".doc, .docx, .pdf"
+                                type="file"
+                                name="CV"
+                                className={classes.input}
+                                onChange={handleFileUpload}
+                            />
+                            
+                            <label  htmlFor="contained-button-file-2">
+                                <Button className="x-center" variant="contained" color="primary" component="span">
+                                        Subir 
+                                </Button>
+                            </label>
+                        </div>
                     </Grid> 
-                    <div className="max-w-600 mx-auto mt-4">
-                        <h4 className="text-center">Sube tu CV como documento PDF</h4>
-                        <Divider className="mb-8" />
-                        <input
-                            id="contained-button-file-2"
-                            multiple
-                            accept=".doc, .docx, .pdf"
-                            type="file"
-                            className={classes.input}
-                            onChange={handleFileUpload}
-                        />
-                        
-                        <label  htmlFor="contained-button-file-2">
-                            <Button className="x-center" variant="contained" color="primary" component="span">
-                                    Subir 
-                            </Button>
-                        </label>
-                    </div>
                 </Box> 
             default: 
         }
     }
 
     var imgPreview = (<div className="image-container"></div>)
-    if (state.file) {
+    var filePreview = (<div className="image-container"></div>)
+    if (state.img) {
         imgPreview = (<div className="image-container text-center" ><img src={imgRender} alt="icon" width="200" /></div>);
-      }
+    }
+    if (state.CV) {
+        filePreview = (<div className="image-container text-center" ><h5>{state.cv.name}</h5></div>);
+    }
 
     const handleNext = () => {
         if (activeStep == 0) {
@@ -380,12 +386,27 @@ const TherapistDataForm = () => {
 
 
     const handleFormSubmit = () => {
-        let { email, password, withProvider, cvfile, file } = state;
-        delete state.cvfile;
-        delete state.file;
+        console.log(state);
+        
+        let { email, password, withProvider, cv, img } = state;
+        delete state.cv;
+        delete state.img;
         delete state.withProvider;
         delete state.grade;
+
+        let data = new FormData();
+        data.append("cv", cv);
+        data.append("img", img);
         
+        api.post('/files', data)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(er => {
+            console.error(er);
+        })
+        
+        return ;
         if (withProvider) {
             delete state.user;
             delete state.token;
@@ -471,6 +492,14 @@ const TherapistDataForm = () => {
                                                 {getStepContent(activeStep)}
                                             </Grid>
                                             <div className="flex mt-3 ml-18">
+                                                    <Button className="capitalize"
+                                                        variant={activeStep === 0 ? 'text' : 'contained'}
+                                                        color={activeStep === 0 ? 'primary' : 'secondary'}
+                                                        onClick={handleBack}
+                                                    >
+                                                        Volver
+                                                    </Button>
+                                                    <span className="mx-2 ml-5">ó</span>
                                                     <Button
                                                         variant="contained"
                                                         color="primary"
@@ -487,14 +516,6 @@ const TherapistDataForm = () => {
                                                             }
                                                         />
                                                     )}
-                                                    <span className="mx-2 ml-5">ó</span>
-                                                        <Button className="capitalize"
-                                                            variant={activeStep === 0 ? 'text' : 'contained'}
-                                                            color={activeStep === 0 ? 'primary' : 'secondary'}
-                                                            onClick={handleBack}
-                                                        >
-                                                            Volver
-                                                        </Button>
                                             </div>
                                         </ValidatorForm>
                                     </div>

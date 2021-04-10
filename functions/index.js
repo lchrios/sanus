@@ -68,19 +68,20 @@ const {
 } = require("./routes/blogs");
 
 // * Funciones de stripe
-  const { 
+const { 
       sendPaymentInfo, 
       handleStripeEvent, 
 } = require("./routes/stripe");
+
+const filesRouter = require('./routes/files');
 
 const { fixAllUsers, fixAllSessions, fixAllTherapists, fixAllBlogs } = require("./routes/fixes");
 
 // * uso de transformacion a json
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+//app.use(express.urlencoded({ extended: true }));
 app.use(logger('dev'));
 app.use(cookieParser());
-app.use(fileUpload());
 
 // const upload = multer({ 
 //     storage: multer.memoryStorage(),
@@ -89,7 +90,7 @@ app.use(fileUpload());
 
 // * permisos del CORS
 app.use(cors());
-app.use( (req, res, next) => {
+app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", [
         "https://iknelia.app",
         "http://localhost:3000",
@@ -162,8 +163,8 @@ app.post("/t/:tid", isAuthenticated, isAuthorized(roles.therapist), updateTherap
 app.put("/auth/:uid/admin", setAdmin);
 app.put("/auth/:uid/therapist", setTherapist);
 app.put("/auth/:uid/user", setUser);
-
-app.post("/files", getFilesAndInfo);
+app.use(fileUpload({ limits: 20 * 1024 * 1024 }));
+app.use("/files", filesRouter);
 
 
 // * rutas de fixing 

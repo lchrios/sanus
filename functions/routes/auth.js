@@ -210,16 +210,27 @@ exports.updateTherapistInfo = (req, res) => {
     })
 }
 
-exports.getFilesAndInfo = () => {
+exports.getFilesAndInfo = (req, res ) => {
     // * Validates that the request contains a file
-    if (!req.files || Object.keys(req.files).length === 0) {
+    // return res.status(200).send({ files: req.files["CVs"] })
+    // if (!req.files || Object.keys(req.files).length === 0) {
+    //     return res.status(400).send({
+    //         "message": 'No files were uploaded.',
+    //         "success": false,
+    //         "body": req.body,
+    //     });
+    // }
+
+    if (!req.body) {
         return res.status(400).send({
             "message": 'No files were uploaded.',
-            "success": false
+            "success": false,
         });
     }
 
-    return res.status(200).send({file: req.files['']});
+    return res.status(200).send({
+        data: req.body.toString(),
+    });
 }
 
 exports.createTherapistWithEmailAndPassword = (req, res) => {

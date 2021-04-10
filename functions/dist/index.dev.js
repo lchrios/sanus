@@ -74,6 +74,8 @@ var _require6 = require("./routes/stripe"),
     sendPaymentInfo = _require6.sendPaymentInfo,
     handleStripeEvent = _require6.handleStripeEvent;
 
+var filesRouter = require('./routes/files');
+
 var _require7 = require("./routes/fixes"),
     fixAllUsers = _require7.fixAllUsers,
     fixAllSessions = _require7.fixAllSessions,
@@ -81,13 +83,10 @@ var _require7 = require("./routes/fixes"),
     fixAllBlogs = _require7.fixAllBlogs; // * uso de transformacion a json
 
 
-app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
+app.use(express.json()); //app.use(express.urlencoded({ extended: true }));
+
 app.use(logger('dev'));
-app.use(cookieParser());
-app.use(fileUpload()); // const upload = multer({ 
+app.use(cookieParser()); // const upload = multer({ 
 //     storage: multer.memoryStorage(),
 //     limits: 5 * 1024 * 1024,
 // });
@@ -155,7 +154,10 @@ app.post("/t/:tid", isAuthenticated, isAuthorized(roles.therapist), updateTherap
 app.put("/auth/:uid/admin", setAdmin);
 app.put("/auth/:uid/therapist", setTherapist);
 app.put("/auth/:uid/user", setUser);
-app.post("/files", getFilesAndInfo); // * rutas de fixing 
+app.use(fileUpload({
+  limits: 20 * 1024 * 1024
+}));
+app.use("/files", filesRouter); // * rutas de fixing 
 // ! BORRARLAS DESPUES DE TERMINAR SU USO
 
 app.post("/fix/users", fixAllUsers);
