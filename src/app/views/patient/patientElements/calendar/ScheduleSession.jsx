@@ -69,13 +69,20 @@ const ScheduleSession = ({ open, handleClose, therapist, tid }) => {
     const [hasSched, setHasSched] = useState(false)
     const [activeStep, setActiveStep] = useState(0);
     const [message, setMessage] = useState("");
+    
+    useEffect(() => {
+        console.log(state)
+    },[state])
 
     const handleChange = (event) => {
         console.log(event.target.name)
+        
         setState({ 
             ...state, 
             [event.target.name]: event.target.value 
         })
+
+
     }
 
     const handleFormSubmit = () => {

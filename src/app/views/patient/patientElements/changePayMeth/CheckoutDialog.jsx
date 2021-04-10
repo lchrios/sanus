@@ -17,6 +17,10 @@ import api from 'app/services/api'
 import useAuth from 'app/hooks/useAuth'
 import history from '../../../../../history'
 
+
+/**
+ * Este elemento es hijo de checkout app y se renderea en el UserProfileContent 
+ */
 export default function CheckoutDialog({therapist, tid, state}) {
     
     const { user } = useAuth()
@@ -57,19 +61,21 @@ export default function CheckoutDialog({therapist, tid, state}) {
         e.preventDefault();
 
 
+
         stripe.createPaymentMethod({
             type:'card',
-            card: elements.getElement(CardElement)
+            card: elements.getElement(CardElement),
         }).then((paymentMethod) => {
             console.log(paymentMethod)
             // TODO: Save payment ID to user
-            api.put()
+            // api.put()
             // * POST a la API
             api.post('/u/' + user.uid + '/checkout', {
                 ...paymentMethod.paymentMethod,
                 amount:60000,
+                email: user.email
             }).then((res) => {
-                console.log(res);
+                console.log(res.data)
                 api.post(`/s/new`, {sessiondata: {
                     cost: 60000,
                     duration: 60,
@@ -85,12 +91,10 @@ export default function CheckoutDialog({therapist, tid, state}) {
                     user_email: user.email,
                     user_name: user.name
                 }})
-                .then( res => {
-                    history.push(`/${user.uid}/home`)
-                })
+                .then(history.push(`/${user.uid}/home`,))
             }).catch((e) => {
-                console.log('Hubo un error al enviar el método de pago al servidor')
                 console.error(e);
+                console.log('Hubo un error al enviar el método de pago al servidor')
             })
 
         }).catch((error) => {
