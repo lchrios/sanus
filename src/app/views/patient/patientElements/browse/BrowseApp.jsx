@@ -1,7 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import MUIDataTable from 'mui-datatables'
 import { Avatar, Grow, Icon, IconButton, TextField} from '@material-ui/core'
-import history from '../../../../../history'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
 
@@ -26,7 +25,7 @@ const BrowseApp = ({ toggleSidenav }) => {
             setTherapistList(res.data.data)
             setDocRefs(res.data.id)
         })
-        api.get(`/u/${user.uid}/t`).then( res => {
+        api.get(`/u/${user.uid}`).then( res => {
             if (res.status === 200 && res.data.id !== undefined) {
                 setReassigned(res.data.id);
             }

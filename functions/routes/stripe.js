@@ -4,17 +4,19 @@ const stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2
 
 exports.sendPaymentInfo = (req, res) => {
     // TODO: Sacar el payment ID y ponerlo en el usuario 
-      const { amount } = req.body;
+      const { amount, email } = req.body;
   
     stripe.paymentIntents.create({
         amount,
         currency:'mxn',
         description: 'Sesión individual',
         payment_method_types: ['card', 'oxxo'],
+        receipt_email: email,
     })
     .then((paymentIntent) => {
-        console.log("Ticket de pago generado exitosamente api")
+        console.log(paymentIntent, "Ticket de pago generado exitosamente api")
         return res.status(200).send({
+            paymentIntent: paymentIntent,
             client_secret: paymentIntent.client_secret, 
             message: 'Ticket de pago generato exitosamente'
         })
@@ -93,10 +95,8 @@ exports.createCheckoutSession = (req, res) => {
                         name:'Sesión simple',
                         description:'Paga por una sesión con el terapeuta que seleccionaste'
                     },
-                    unit_amount: 60000 /** 
-                    *!!! lo puse abajo pa que se vea el color, la cantidad del unit_amount, está en centavos, por eso se usa ese numero */
+                    unit_amount: 60000 
                 },
-                adjustable_quantity:enabled,
             }
         ],
         mode:'payment',
