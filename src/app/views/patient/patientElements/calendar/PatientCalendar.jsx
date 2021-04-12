@@ -62,8 +62,6 @@ const PatientCalendar = ({ sessions, therapist, tid, payed }) => {
     const headerComponentRef = useRef(null);
     const classes = useStyles();
 
-    const { user } = useAuth()
-
 
     const handleDialogClose = () => {
         setShouldShowEventDialog(false)

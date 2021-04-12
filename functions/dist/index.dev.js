@@ -54,7 +54,8 @@ var _require3 = require("./routes/therapists"),
     setSchedule = _require3.setSchedule,
     getSchedule = _require3.getSchedule,
     getTherImage = _require3.getTherImage,
-    uploadTherImg = _require3.uploadTherImg; // * Funcions relativas a las sesiones
+    uploadTherImg = _require3.uploadTherImg,
+    getAllTherImage = _require3.getAllTherImage; // * Funcions relativas a las sesiones
 
 
 var _require4 = require("./routes/sessions"),
@@ -125,7 +126,8 @@ app.get("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), getS
 app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
 app.post("/t/:tid/b", isAuthenticated, isAuthorized(roles.therapist), newBlog);
 app.post("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), setSchedule);
-app.get("/t/image", isAuthenticated, isAuthorized(roles.user), getTherImage);
+app.get("/t/image", isAuthenticated, isAuthorized(roles.user), getAllTherImage);
+app.get("/t/:tid/image", isAuthenticated, isAuthorized(roles.user), getTherImage);
 app.post("/t/:tid/image", isAuthenticated, isAuthorized(roles.therapist), uploadTherImg); // * rutas de usuario
 
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
@@ -137,7 +139,7 @@ app.post("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTher
 app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), submitTest);
 app.get("/u/:uid/schedule", isAuthenticated, isAuthorized(roles.user), getTherapistSchedule);
 app.get("/u/:uid/payed", isAuthenticated, isAuthorized(roles.user), getUserPayed);
-app.get("/u/:uid/image", getUserImage);
+app.get("/u/:uid/image", isAuthenticated, isAuthorized(roles.user), getUserImage);
 app.post("/u/:uid/image", uploadImg); //*rutas de stripe (lado user)
 
 app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo);

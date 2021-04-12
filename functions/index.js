@@ -50,7 +50,8 @@ const {
   connectReAuth,
   handleAccountUpdate,
   getTherImage,
-  uploadTherImg
+  uploadTherImg,
+  getAllTherImage,
 } = require("./routes/therapists");
 
 
@@ -129,7 +130,8 @@ app.get("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), getS
 app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
 app.post("/t/:tid/b", isAuthenticated, isAuthorized(roles.therapist), newBlog);
 app.post("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), setSchedule);
-app.get("/t/image", isAuthenticated, isAuthorized(roles.user), getTherImage);
+app.get("/t/image", isAuthenticated, isAuthorized(roles.user), getAllTherImage);
+app.get("/t/:tid/image", isAuthenticated, isAuthorized(roles.user), getTherImage);
 app.post("/t/:tid/image", isAuthenticated, isAuthorized(roles.therapist), uploadTherImg);
 
 // * rutas de usuario
@@ -142,7 +144,7 @@ app.post("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTher
 app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), submitTest);
 app.get("/u/:uid/schedule", isAuthenticated, isAuthorized(roles.user), getTherapistSchedule)
 app.get("/u/:uid/payed", isAuthenticated, isAuthorized(roles.user), getUserPayed)
-app.get("/u/:uid/image", getUserImage);
+app.get("/u/:uid/image", isAuthenticated, isAuthorized(roles.user), getUserImage);
 app.post("/u/:uid/image", uploadImg);
 
 //*rutas de stripe (lado terapeuta)

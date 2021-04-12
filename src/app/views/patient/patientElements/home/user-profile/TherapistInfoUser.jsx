@@ -28,9 +28,11 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 }))
 
 
-const TherapistInfoUser = ({ therapist, loading }) => {
+const TherapistInfoUser = ({ therapist, loading, t_url }) => {
     const classes = usestyles()
     const { user } = useAuth()
+
+    console.log(t_url)
 
     return (
         <Grid 
@@ -49,7 +51,7 @@ const TherapistInfoUser = ({ therapist, loading }) => {
                                 <div className="flex-column items-center mb-6">
                                     <Avatar
                                         className="w-84 h-84"
-                                        src={man}
+                                        src={t_url}
                                     />
                                     <h5 className="mt-4 mb-2">No tienes ningún terapeuta aún</h5>
                                 </div>
@@ -78,7 +80,7 @@ const TherapistInfoUser = ({ therapist, loading }) => {
                             <div className="flex-column items-center mb-6">
                                 <Avatar
                                     className="w-84 h-84"
-                                    src={therapist?.img}
+                                    src={t_url}
                                 />
                                 <h5 className="mt-4 mb-2">{therapist.name}</h5>
                                 <small className="text-muted">{therapist.cedula}</small>

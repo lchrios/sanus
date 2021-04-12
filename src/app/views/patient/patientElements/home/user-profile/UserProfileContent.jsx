@@ -71,7 +71,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 
 
-const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions, tid, payed }) => {
+const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions, tid, payed, t_url }) => {
     const { user } = useAuth()
     const classes = usestyles()
     // const [open, setOpen] = useState(false)
@@ -261,7 +261,7 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions, tid, 
                                     Tu terapeuta
                                 </h4>
                                 <div className="flex items-center mb-4">
-                                    <TherapistInfoUser therapist={therapist} loading={loading}/>
+                                    <TherapistInfoUser t_url={t_url} therapist={therapist} loading={loading}/>
                                 </div>
                                 <div className="flex items-center">
                                 </div>

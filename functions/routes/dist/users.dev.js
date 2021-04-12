@@ -164,18 +164,23 @@ exports.uploadImg = function (req, res) {
 };
 
 exports.getUserImage = function (req, res) {
-  // * Demo for image upload
+  // * Demo for image uploa
   var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
-  var stor_file = bucket.file('usuarios/placeholders/face-1.png');
-  stor_file.getSignedUrl({
-    version: 'v4',
-    action: 'read',
-    expires: Date.now() + 30 * 60 * 1000 // 15 minutes
+  users.doc(req.params.uid).get().then(function (doc) {
+    var data = doc.data();
+    var stor_file = bucket.file(data.img);
+    stor_file.getSignedUrl({
+      version: 'v4',
+      action: 'read',
+      expires: Date.now() + 30 * 60 * 1000 // 15 minutes
 
-  }).then(function (sURL) {
-    return res.status(200).send(sURL[0]);
-  })["catch"](function (er) {
-    return res.status(404).send(er);
+    }).then(function (sURL) {
+      return res.status(200).send({
+        url: sURL[0]
+      });
+    })["catch"](function (er) {
+      return res.status(404).send(er);
+    });
   });
 };
 
@@ -198,7 +203,7 @@ exports.submitTest = function (req, res) {
 };
 
 exports.getUserPayed = function (req, res) {
-  users.where("payed", "==", false).get().then(function (query) {
+  sess.where("payed", "==", false).where("user", "==", req.params.uid).get().then(function (query) {
     return res.status(200).send({
       payed: query.empty
     });

@@ -34,6 +34,8 @@ const PatientProfile = () => {
     const [payed, setPayed] = useState()
     const [tid, setTid] = useState();
     const [loading, setLoading] = useState(true)  
+    const [url, setUrl] = useState();
+    const [t_url, setTUrl] = useState();
     
 
     const toggleSidenav = () => {
@@ -45,31 +47,6 @@ const PatientProfile = () => {
         else setOpen(true)
     }, [isMobile])
 
-    // useEffect(() => {
-    //     if(loading) {
-    //         getInfo()
-    //     }
-    // }, [])
-
-    // const getInfo = () => {
-
-    //     api.get('/u/' + user.uid + '/t')
-    //     .then(res => {
-    //         setTherapist(res.data)
-    //     })
-    //     .catch((e) => {
-    //         console.error(e);
-    //     })
-    
-    //     api.get('/u/' + user.uid + '/s')
-    //     .then(res => {
-    //         setSessions(res.data)
-    //         setLoading(false)
-    //     })
-    //     .catch((e) => {
-    //         console.error(e)
-    //     })
-    // }
 
     useEffect(() => {
         console.log("Pidiendo Terapeuta")
@@ -79,12 +56,21 @@ const PatientProfile = () => {
             console.log("Pidiendo Sesiones")
             getSessions(user.uid).then( resp => {
                 setSessions(resp?.data);  
-                console.log("Revisando si debes alguna sesion o-[:D]=<-<")
+                console.log("Revisando si debes alguna sesion\no-[>:D]=<-<")
                 api.get(`/u/${user.uid}/payed`)
                 .then(respo => {
                     setPayed(respo.data.payed)
-                    console.log(respo.data.payed)
-                    setLoading(false);
+                    console.log("Obteniendo el URL de tu foto de perfil")
+                    api.get(`/u/${user.uid}/image`)
+                    .then(respon => {
+                        setUrl(respon.data.url);
+                        console.log("Obteniendo el URL de la foto del terapeuta");
+                        api.get(`/t/${res?.id}/image`)
+                        .then(respons => {
+                            setTUrl(respons.data.url)
+                            setLoading(false);
+                        })
+                    })
                 })
                 .catch( er => {
                     console.error(er);
@@ -120,11 +106,11 @@ const PatientProfile = () => {
                             </IconButton>
                         </Hidden>
                     </div>
-                    <UserProfileSidenav therapist={therapist} loading={loading} />
+                    <UserProfileSidenav therapist={therapist} loading={loading} url={url}/>
                 </MatxSidenav>
                     <MatxSidenavContent >
                         <div className={clsx('bg-primary', classes.headerBG)} />
-                        <UserProfileContent toggleSidenav={toggleSidenav} sessions={sessions} loading={loading} payed={payed} therapist={therapist} tid={tid}/>
+                        <UserProfileContent toggleSidenav={toggleSidenav} sessions={sessions} t_url={t_url} loading={loading} payed={payed} therapist={therapist} tid={tid}/>
                     </MatxSidenavContent>
             </MatxSidenavContainer>
             

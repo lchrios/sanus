@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Icon, IconButton, Hidden, MenuItem, Avatar } from '@material-ui/core'
 import { MatxMenu, MatxToolbarMenu} from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
@@ -8,6 +8,7 @@ import useSettings from 'app/hooks/useSettings'
 import useAuth from 'app/hooks/useAuth'
 import history from '../../../../history'
 import { NavLogo } from 'app/views/landing/components/Navbar_sc/NavbarElements'
+import api from 'app/services/api'
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     root: {
@@ -64,6 +65,15 @@ const Layout2Topbar = () => {
         updateSidebarMode({ mode })
     }
 
+    const [url, setUrl] = useState();
+
+    useEffect(() => {
+        api.get(`/u/${user.uid}/image`)
+        .then(res => {
+            setUrl(res.data.url);
+        })
+    }, [user])
+
     return (
         <div className={clsx('relative w-full', classes.root)}>
             <div className="flex justify-between items-center h-full">
@@ -79,7 +89,7 @@ const Layout2Topbar = () => {
                             menuButton={
                                 <Avatar
                                     className="cursor-pointer mx-2"
-                                    src={user.img}
+                                    src={url}
                                 />
                             }
                         >
@@ -90,7 +100,7 @@ const Layout2Topbar = () => {
                             <MenuItem>
                                 <Link
                                     className={classes.menuItem}
-                                    to="/page-layouts/user-profile"
+                                    to={`/${user.uid}/home`}
                                 >
                                     <Icon> person </Icon>
                                     <span className="pl-4"> Profile </span>
