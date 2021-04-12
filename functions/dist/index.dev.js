@@ -54,6 +54,8 @@ var _require3 = require("./routes/therapists"),
     newNote = _require3.newNote,
     setSchedule = _require3.setSchedule,
     getSchedule = _require3.getSchedule,
+    connectReAuth = _require3.connectReAuth,
+    handleAccountUpdate = _require3.handleAccountUpdate,
     getTherImage = _require3.getTherImage,
     uploadTherImg = _require3.uploadTherImg,
     getAllTherImage = _require3.getAllTherImage; // * Funcions relativas a las sesiones
@@ -77,7 +79,8 @@ var _require5 = require("./routes/blogs"),
 
 var _require6 = require("./routes/stripe"),
     sendPaymentInfo = _require6.sendPaymentInfo,
-    handleStripeEvent = _require6.handleStripeEvent;
+    handleStripeEvent = _require6.handleStripeEvent,
+    expressAccount = _require6.expressAccount;
 
 var filesRouter = require('./routes/files');
 
@@ -100,7 +103,7 @@ app.use(cookieParser()); // const upload = multer({
 
 app.use(cors());
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][1]);
+  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][0]);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 }); // * Niveles de permisos por roles 
@@ -142,7 +145,13 @@ app.get("/u/:uid/schedule", isAuthenticated, isAuthorized(roles.user), getTherap
 app.get("/u/:uid/payed", isAuthenticated, isAuthorized(roles.user), getUserPayed);
 app.get("/u/:uid/image", isAuthenticated, isAuthorized(roles.user), getUserImage);
 app.get("/users/image", isAuthenticated, isAuthorized(roles.user), getAllUserImage);
-app.post("/u/:uid/image", uploadImg); //*rutas de stripe (lado user)
+app.post("/u/:uid/image", uploadImg); //*rutas de stripe (lado terapeuta)
+
+app.post("/t/:tid/connect", isAuthenticated, isAuthorized(roles.therapist), expressAccount);
+app.post("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth); // app.post("t/:tid/connectSucceded", isAuthenticated, isAuthorized(roles.therapist), )
+//*rutas de stripe (lado terapeuta)
+
+app.post("/updateAccount", isAuthenticated, isAuthorized(roles.therapist), handleAccountUpdate); //*rutas de stripe (lado user)
 
 app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo);
 app.post("/webhook", handleStripeEvent); // * rutas de blogs

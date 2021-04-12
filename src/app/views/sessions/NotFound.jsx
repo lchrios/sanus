@@ -1,8 +1,10 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+
 
 const NotFound = () => {
+    console.log(useLocation().state);
     return (
         <div className="flex justify-center items-center h-full-screen w-full">
             <div className="flex-column justify-center items-center max-w-320">
