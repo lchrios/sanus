@@ -22,6 +22,7 @@ import NextSessions from './NextSessions'
 import { Loading } from 'app/components/Loading/Loading'
 import PatientsList from './PatientsList'
 import NextSessionsEmpty from './NextSessionsEmpty'
+
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
         marginTop: -345,

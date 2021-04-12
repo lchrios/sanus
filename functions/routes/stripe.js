@@ -5,7 +5,6 @@ const stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2
 exports.sendPaymentInfo = (req, res) => {
     // TODO: Sacar el payment ID y ponerlo en el usuario 
       const { amount, email } = req.body;
-  
     stripe.paymentIntents.create({
         amount,
         currency:'mxn',
@@ -14,10 +13,11 @@ exports.sendPaymentInfo = (req, res) => {
         receipt_email: email,
     })
     .then((paymentIntent) => {
-        console.log(paymentIntent, "Ticket de pago generado exitosamente api")
+        console.log(paymentIntent.receipt_email, "Ticket de pago generado exitosamente api")
         return res.status(200).send({
             paymentIntent: paymentIntent,
             client_secret: paymentIntent.client_secret, 
+            email:paymentIntent.receipt_email,
             message: 'Ticket de pago generato exitosamente'
         })
     })
@@ -106,3 +106,44 @@ exports.createCheckoutSession = (req, res) => {
         res.status(200).send({id: session.id})
     }) 
 }
+
+
+exports.expressAccount = (req, res) => {
+    const { email } = req.body;
+
+    const account = stripe.accounts.create({
+        type:'express',
+        email: email,
+        capabilities: {
+            card_payments: {requested:true},
+            transfers: {requested:true}
+        }
+    })
+    .then(response => {
+        
+        const accountLink = stripe.accountLinks.create({
+            account: response.id,
+            refresh_url: `https://iknelia.app/${req.params.tid}/dashboard`,
+            return_url: `https://iknelia.app/${req.params.tid}/reAuth`
+        })
+
+        return res.status(201).send({result:true, message:'Cuenta creada'})
+    })
+    .catch(e => {
+        console.error(e)
+    })
+}
+
+// exports.reAuth = (req,res) => {
+//     const {email} = req.body
+
+//     const account = stripe.accounts.create({
+//         type:'express',
+//         email: email,
+//         capabilities: {
+//             card_payments: {requested:true},
+//             transfers: {requested:true}
+//         }
+//     })
+
+// }

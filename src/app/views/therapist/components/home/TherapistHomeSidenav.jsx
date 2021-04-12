@@ -8,7 +8,26 @@ import history from 'history.js'
 import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
+import api from 'app/services/api'
 
+const useStripeStyles = makeStyles({
+    stripeConnect: {
+        background: "#635bff",
+        display:"inline-block",
+        height: 38,
+        textDecoration: "none",
+        width: 180,
+        borderRadius: 4,
+        mozBorderRadius: 4,
+        webkitBorderRadius: 4,
+        userSelect: 'none',
+        mozUserSelect: 'none',
+        webkitUserSelect: 'none',
+        msUserSelect: 'none',
+        webkitfontSmoothing: 'antialiased'
+
+    }
+})
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     sidenav: {
@@ -46,6 +65,16 @@ const TherapistHomeSidenav = () => {
         }
 
         setOpen(false)
+    }
+
+    function handleClickConnect() {
+        console.log('Conectando con stripe')
+
+        api.post("/t/:tid/connect", {
+            email: user.email,
+        }).then(res => {
+            
+        })
     }
     return (
         <div>
@@ -148,7 +177,16 @@ const TherapistHomeSidenav = () => {
                                 Comenzar la próxima sesión
                             </h5>
                         </Button >
-                        
+                    </Card>
+                    <Card className="flex items-center mt-2 justify-center text-primary">
+                        <Button 
+                            className={useStripeStyles}
+                            onClick={handleClickConnect}
+                            >
+                            <h5>
+                                Conectar con stripe
+                            </h5>
+                        </Button >
                     </Card>
 
                     <div className="py-2"></div>
