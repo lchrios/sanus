@@ -51,10 +51,12 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
     switch(event.type) {
         case 'payment_intent.succeeded':
             console.log("Pago recibido con " + event["payment_method_types"])
+            
             // * Se hizo el pago del voucher del OXXO exitosamente 
             break;
             
         case 'payment_intent.requires_action':
+            
             // * Se genero el voucher del OXXO
             console.log("Voucher generado")
             // - 1 Crear sesion en firestore con valor
@@ -78,34 +80,6 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
 
     return res.status(200).send({received: true});
 }
-
-exports.createCheckoutSession = (req, res) => {
-    stripe.checkout.sessions.create({
-        payment_method_types: [ 'card' ],
-        line_items: [ 
-            {
-                price_data: {
-                    currency:'mxn',
-                    /**
-                     * TODO ASIGNAR UN ID NUMÉRICO
-                     */
-                    product:'simplesession-id',
-                    product_data: {
-                        name:'Sesión simple',
-                        description:'Paga por una sesión con el terapeuta que seleccionaste'
-                    },
-                    unit_amount: 60000 
-                },
-            }
-        ],
-        mode:'payment',
-        success_url: req.host + '/pago_exitoso?id={CHECKOUT_SESSION_ID}',
-        cancel_url: 'http://localhost:4242/pago_cancelado?id={CHECKOUT_SESSION_ID}'
-    }).then( session => {
-        res.status(200).send({id: session.id})
-    }) 
-}
-
 
 exports.expressAccount = (req, res) => {
     const { email } = req.body;

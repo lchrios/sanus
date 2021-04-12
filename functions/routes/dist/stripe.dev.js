@@ -82,31 +82,3 @@ exports.handleStripeEvent = function (req, res) {
     received: true
   });
 };
-
-exports.createCheckoutSession = function (req, res) {
-  stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: [{
-      price_data: {
-        currency: 'mxn',
-
-        /**
-         * TODO ASIGNAR UN ID NUMÉRICO
-         */
-        product: 'simplesession-id',
-        product_data: {
-          name: 'Sesión simple',
-          description: 'Paga por una sesión con el terapeuta que seleccionaste'
-        },
-        unit_amount: 60000
-      }
-    }],
-    mode: 'payment',
-    success_url: req.host + '/pago_exitoso?id={CHECKOUT_SESSION_ID}',
-    cancel_url: 'http://localhost:4242/pago_cancelado?id={CHECKOUT_SESSION_ID}'
-  }).then(function (session) {
-    res.status(200).send({
-      id: session.id
-    });
-  });
-};

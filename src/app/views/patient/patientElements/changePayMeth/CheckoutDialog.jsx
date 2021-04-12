@@ -9,13 +9,15 @@ import {
     DialogContent,
     DialogActions,
     Grid,
-    TextField
+    TextField,
+    Snackbar
 } from '@material-ui/core'
 import {CreditCard, Money } from '@material-ui/icons'
 import {useStripe, useElements, CardElement} from '@stripe/react-stripe-js'
 import api from 'app/services/api'
 import useAuth from 'app/hooks/useAuth'
 import history from '../../../../../history'
+import MySnackbarContentWrapper from 'app/components/Snackbar/MySnackbarContentWrapper'
 
 
 /**
@@ -25,6 +27,7 @@ export default function CheckoutDialog({therapist, tid, state}) {
     
     const { user } = useAuth()
     const [open, setOpen] = useState(false)
+    const [openSnack, setOpenSnack] = useState(false)
     const [submited, setSubmited] =  useState(false)
     const [activeStep, setActiveStep] =  useState(0)
     const [name, setName] = useState('')
@@ -93,6 +96,7 @@ export default function CheckoutDialog({therapist, tid, state}) {
                 }).then(result => {
                     let payInfo = result.paymentIntent;
                     console.log(payInfo);
+                    setOpenSnack(true)
                     api.post(`/s/new`, {sessiondata: {
                         cost: payInfo.amount,
                         duration: 60,
@@ -142,7 +146,27 @@ export default function CheckoutDialog({therapist, tid, state}) {
                         }
                     }
                 }
-            )
+            ).then(result => {
+                let payInfo = result.paymentIntent;
+
+                api.post(`/s/new`, {sessiondata: {
+                    cost: payInfo.amount,
+                    duration: 60,
+                    start: state.date,
+                    end: new Date(new Date(state.date).getTime() + (1000*60*60)),
+                    note: "",
+                    user: user.uid,
+                    user_name: user.name,
+                    user_email: user.email,
+                    pay_met: payInfo.id,
+                    pay_type: 'oxxo',
+                    payed: false,
+                    therapist: tid,
+                    tipo: payInfo.description,
+                    ther_name: therapist.name,
+                    state: 0,
+                }})
+            })
         }).catch(error => {
             console.error(error)
         })
@@ -253,6 +277,21 @@ export default function CheckoutDialog({therapist, tid, state}) {
                             >
                                 Deposita en OXXO
                         </Button>
+                        <Snackbar
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            open={openSnack}
+                            autoHideDuration={6000}
+                            onClose={handleClose}
+                        >
+                            <MySnackbarContentWrapper
+                                onClose={handleClose}
+                                variant="success"
+                                message="This is a success message!"
+                            />
+                        </Snackbar>
                     </div>
                 </DialogContent>
                 ) : null}
