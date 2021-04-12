@@ -47,6 +47,11 @@ export default function CheckoutDialog({therapist, tid, state}) {
         setOpen(false)
     }
 
+    function handleCloseSnack() {
+        setOpenSnack(false)
+    }
+
+
     function handleBack() {
         {activeStep === 1 ? setActiveStep(prevActiveStep => prevActiveStep - 1) : setActiveStep(prevActiveStep => prevActiveStep - 2)}
     }
@@ -248,11 +253,27 @@ export default function CheckoutDialog({therapist, tid, state}) {
     
     return(
         <div>
+            <Snackbar
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                open={openSnack}
+                autoHideDuration={6000}
+                onClose={handleCloseSnack}
+            >
+                <MySnackbarContentWrapper
+                    onClose={handleCloseSnack}
+                    variant="success"
+                    message="¡Tu pago se ha realizado correctamente! Ya puedes revisar tu sesion en 'Mis sesiones'"
+                />
+            </Snackbar>
            {/**DIALOGO DE SELECCIÓN DE METODO DE PAGO */}
             <Dialog
-            aria-labelledby="customized-dialog-title"
-            open={open}
-            onClose={handleClose}>
+                aria-labelledby="customized-dialog-title"
+                open={open}
+                onClose={handleClose}
+            >
                 <DialogTitle>
                     Selecciona un método de pago
                 </DialogTitle>
@@ -278,21 +299,6 @@ export default function CheckoutDialog({therapist, tid, state}) {
                             >
                                 Deposita en OXXO
                         </Button>
-                        <Snackbar
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            open={openSnack}
-                            autoHideDuration={6000}
-                            onClose={handleClose}
-                        >
-                            <MySnackbarContentWrapper
-                                onClose={handleClose}
-                                variant="success"
-                                message="This is a success message!"
-                            />
-                        </Snackbar>
                     </div>
                 </DialogContent>
                 ) : null}

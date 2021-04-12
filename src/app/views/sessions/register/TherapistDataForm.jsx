@@ -66,7 +66,7 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
 const TherapistDataForm = () => {
     const [loading, setLoading] = useState(false)
     const classes = useStyles()
-    const { user } = useAuth()
+    const { user, isAuthenticated } = useAuth()
     const [activeStep, setActiveStep] = useState(0)
     const [message, setMessage] = useState("")
     const [state, setState] = useState(useLocation().state, {grade:false})
@@ -384,6 +384,11 @@ const TherapistDataForm = () => {
         setActiveStep(0)
     }
 
+    useEffect(() => {
+        if (isAuthenticated) {
+            history.push(`/${user.uid}/dashboard`)
+        }
+    }, [isAuthenticated])
 
     const handleFormSubmit = () => {
         console.log(state);
@@ -393,7 +398,7 @@ const TherapistDataForm = () => {
         delete state.img;
         delete state.withProvider;
         delete state.grade;
-        
+
         if (withProvider) {
             delete state.user;
             delete state.token;
@@ -420,12 +425,12 @@ const TherapistDataForm = () => {
             
         }
         createTherapistWithEmailAndPassword(state)
-        .then( user => {
+        .then( userRec => {
             // * Aqui haces lo de que te mande a otro lado
             firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => {
                 console.log("Sesion iniciada...");
-                //history.push(`/${user.uid}/dashboard`)
+                
             })
             .catch( error => {
                 setMessage(error)

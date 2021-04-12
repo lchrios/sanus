@@ -232,7 +232,7 @@ const TherapistSchedule = () => {
                 <MySnackbarContentWrapper
                     onClose={handleCloseS}
                     variant="success"
-                    message="This is a success message!"
+                    message="Horario actualizado exitosamente!"
                 />
             </Snackbar>
             <Snackbar

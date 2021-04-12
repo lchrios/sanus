@@ -202,7 +202,7 @@ exports.uploadTherImg = (req, res) => {
 
 
 
-exports.getTherImage = (req, res) => { // * Demo for image upload
+exports.getAllTherImage = (req, res) => { // * Demo for image upload
     let t_list = req.body.thers;
     console.log(t_list)
     let urls = [];
@@ -230,5 +230,32 @@ exports.getTherImage = (req, res) => { // * Demo for image upload
         })
     }
     return res.status(200).send({ urls: urls});
+
+}
+
+exports.getTherImage = (req, res) => { // * Demo for image upload
+    
+    var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+    ther.doc(req.params.tid).get()
+    .then(doc => {
+        let imgref = doc.data().img;
+        var stor_file = bucket.file(imgref !== undefined ? imgref : 'terapeutas/placeholders/2.jpg');
+        stor_file.getSignedUrl({
+            version: 'v4',
+            action: 'read',
+            expires: Date.now() + 30 * 60 * 1000, // 30 minutes   
+        }).then(sURL => {
+            return res.status(200).send({ url: sURL[0]});
+        })
+        .catch( er => {
+            console.log("Error leyendo el link de la imagen");
+            return res.status(400).send(er);
+        })
+    })
+    .catch(er => {
+        console.log("Error leyendo el documento del terapeuta");
+        return res.status(400).send(er);
+    })
+
 
 }

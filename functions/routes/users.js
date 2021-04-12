@@ -180,20 +180,24 @@ exports.uploadImg = (req, res) => {
     blobStream.end(req.file.buffer);
 }
 
-exports.getUserImage = (req, res) => { // * Demo for image upload
-
+exports.getUserImage = (req, res) => { // * Demo for image uploa
     var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
-    var stor_file = bucket.file('usuarios/placeholders/face-1.png');
-    stor_file.getSignedUrl({
-        version: 'v4',
-        action: 'read',
-        expires: Date.now() + 30 * 60 * 1000, // 15 minutes
-        
-    }).then(sURL => {
-        return res.status(200).send(sURL[0]);
-    })
-    .catch( er => {
-        return res.status(404).send(er);
+
+    users.doc(req.params.uid).get()
+    .then(doc => {
+        let data = doc.data()
+        var stor_file = bucket.file(data.img);
+        stor_file.getSignedUrl({
+            version: 'v4',
+            action: 'read',
+            expires: Date.now() + 30 * 60 * 1000, // 15 minutes
+            
+        }).then(sURL => {
+            return res.status(200).send({ url: sURL[0] });
+        })
+        .catch( er => {
+            return res.status(404).send(er);
+        })
     })
 }
 
@@ -215,8 +219,9 @@ exports.submitTest = (req, res) => {
 }
 
 exports.getUserPayed = (req, res) => {
-    users
+    sess
         .where("payed", "==", false)
+        .where("user", "==", req.params.uid)
         .get()
     .then(query => {
         return res.status(200).send({ payed: query.empty })
