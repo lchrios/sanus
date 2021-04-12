@@ -8,7 +8,7 @@ import api from 'app/services/api'
 const SessionsHistory = ({toggleSidenav}) => {
 
     const theme = useTheme();
-    const [orderList, setOrderList] = useState(order)
+    const [orderList, setOrderList] = useState()
     const [idList, setIdList] = useState();
     const [loading, setLoading] = useState(true)
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
@@ -20,7 +20,6 @@ const SessionsHistory = ({toggleSidenav}) => {
         api.get('/u/'+user.uid+'/s')
             .then(res => {
                 setOrderList(res.data.data)
-                console.log(res.data.id)
                 setIdList(res.data.id)
                 setLoading(false)
             })    
@@ -28,51 +27,6 @@ const SessionsHistory = ({toggleSidenav}) => {
     
 
     const columns = [
-        {
-            name: '_id',
-            label: 'ID de la Sesión',
-            options: {
-                customBodyRenderLite: (dataIndex) => (
-                    <span className="ellipsis">{idList[dataIndex]}</span>
-                ),
-            },
-        },
-            {
-                name: 'customerName',
-            label: 'Terapeuta',
-            options: {
-                filter: true,
-                customBodyRenderLite: (dataIndex) => (
-                    <span className="ellipsis">
-                        {orderList[dataIndex].thername}
-                    </span>
-                ),
-            },
-        },
-        {
-            name: 'productName',
-            label: 'Tipo de sesión',
-            options: {
-                filter: true,
-                customBodyRenderLite: (dataIndex) => (
-                    <span className="ellipsis">
-                        {orderList[dataIndex].tipo}
-                    </span>
-                ),
-            },
-        },
-        {
-            name: 'date',
-            label: 'Fecha',
-            options: {
-                filter: true,
-                customBodyRenderLite: (dataIndex) => (
-                    <span className="ellipsis">
-                        {orderList[dataIndex].start}
-                    </span>
-                ),
-            },
-        },
         {
             name: 'status',
             label: 'Estado de la sesión',
@@ -85,47 +39,99 @@ const SessionsHistory = ({toggleSidenav}) => {
                         case 1:
                             return (
                                 <small className="capitalize text-white bg-green border-radius-4 px-2 py-2px">
-                                    {status}
+                                    Completada
                                 </small>
                             )
                         case 0:
                             return (
                                 <small className="capitalize bg-secondary border-radius-4 px-2 py-2px">
-                                    {status}
+                                    Pendiente
                                 </small>
                             )
                         case -1:
                             return (
                                 <small className="capitalize text-white bg-error border-radius-4 px-2 py-2px">
-                                    {status}
+                                    Perdida
                                 </small>
                             )
 
                         default:
-                            break
+                            return (
+                                <small className="capitalize text-white bg-error border-radius-4 px-2 py-2px">
+                                    Error
+                                </small>
+                            )
                     }
                 },
             },
         },
-        {
-            name: 'method',
-            label: 'Método de pago',
+        // {
+        //     name: '_id',
+        //     label: 'ID de la Sesión',
+        //     options: {
+        //         customBodyRenderLite: (dataIndex) => (
+        //             <span className="ellipsis">{idList[dataIndex]}</span>
+        //         ),
+        //     },
+        // },
+            {
+                name: 'customerName',
+            label: 'Terapeuta',
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => (
-                    <span className="">
-                        {orderList[dataIndex].pay_met}
+                    <span className="ellipsis">
+                        {orderList[dataIndex].ther_name}
                     </span>
                 ),
             },
         },
         {
+            name: 'date',
+            label: 'Fecha',
+            options: {
+                filter: true,
+                customBodyRenderLite: (dataIndex) => {
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    return (<span className="ellipsis">
+                        {new Date(orderList[dataIndex].start).toLocaleDateString("es-ES", options)}
+                    </span>)
+                },
+            },
+        },
+        // {
+        //     name: 'productName',
+        //     label: 'Tipo de sesión',
+        //     options: {
+        //         filter: true,
+        //         customBodyRenderLite: (dataIndex) => (
+        //             <span className="ellipsis">
+        //                 {orderList[dataIndex].tipo}
+        //             </span>
+        //         ),
+        //     },
+        // },
+        // {
+        //     name: 'method',
+        //     label: 'Método de pago',
+        //     options: {
+        //         filter: true,
+        //         customBodyRenderLite: (dataIndex) => (
+        //             <span className="">
+        //                 {orderList[dataIndex].pay_type}
+        //             </span>
+        //         ),
+        //     },
+        // },
+        {
             name: 'total',
             label: 'Costo de la sesión',
             options: {
                 filter: true,
+                sort: true,
+                hint: "El costo de la sesión se muesta en pesos mexicanos (MXN)",
                 customBodyRenderLite: (dataIndex) => (
-                    <span>${orderList[dataIndex].cost}</span>
+                    <span className="full-width">${orderList[dataIndex].cost/100}</span>
                 ),
             },
         },
@@ -181,12 +187,12 @@ const SessionsHistory = ({toggleSidenav}) => {
                             filterType: 'textField',
                             responsive: 'vertical',
                             selectableRows: "none",
-                            filter: false,
+                            filter: true,
                             download: false,
                             print: false,
-                            viewColumns:false,
-                            elevation: 0,
-                            pagination:false,
+                            viewColumns: true,
+                            elevation: 3,
+                            pagination: true,
                             rowsPerPageOptions: [10, 20, 40, 80, 100],
                             onRowsDelete: (data) => console.log(data),
                             customSearchRender: (
@@ -239,42 +245,4 @@ const SessionsHistory = ({toggleSidenav}) => {
     )
 }
 
-const order = [
-    {
-        _id: 'lkfjdfjdsjdslgkfjdskjfds',
-        date: new Date(),
-        customerName: 'Ben Schieldman',
-        productName: 'Bit Bass Headphone',
-        method: 'PayPal',
-        total: 15.25,
-        status: 'tomada',
-    },
-    {
-        _id: 'fkjjirewoigkjdhvkcxyhuig',
-        date: new Date(),
-        customerName: 'Joyce Watson',
-        productName: 'Comlion Watch',
-        method: 'Tarjeta de crédito',
-        total: 75.25,
-        status: 'perdida',
-    },
-    {
-        _id: 'fdskjkljicuviosduisjd',
-        date: new Date(),
-        customerName: 'Kayle Brown',
-        productName: 'Beats Headphone',
-        method: 'Depósito',
-        total: 45.25,
-        status: 'pendiente',
-    },
-    {
-        _id: 'fdskfjdsuoiucrwevbgd',
-        date: new Date(),
-        customerName: 'Ven Helsing',
-        productName: 'BMW Bumper',
-        method: 'Depósito',
-        total: 2145.25,
-        status: 'tomada',
-    },
-]
 export default SessionsHistory;

@@ -4,25 +4,24 @@ const stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2
 
 exports.sendPaymentInfo = (req, res) => {
     // TODO: Sacar el payment ID y ponerlo en el usuario 
-      const { amount, email } = req.body;
-  
+    const { amount, email, payment_method_id } = req.body
     stripe.paymentIntents.create({
-        amount,
-        currency:'mxn',
-        description: 'Sesión individual',
-        payment_method_types: ['card', 'oxxo'],
-        receipt_email: email,
+        "amount": amount,
+        "currency": 'mxn',
+        "description": 'Sesión individual',
+        "payment_method": payment_method_id,  
+        "payment_method_types": ['card', 'oxxo'],
+        "receipt_email": email,
     })
     .then((paymentIntent) => {
         console.log(paymentIntent, "Ticket de pago generado exitosamente api")
         return res.status(200).send({
-            paymentIntent: paymentIntent,
-            client_secret: paymentIntent.client_secret, 
-            message: 'Ticket de pago generato exitosamente'
+            "client_secret": paymentIntent.client_secret, 
+            "message": 'Ticket de pago generato exitosamente'
         })
     })
     .catch((error) => {
-        console.log('Error al procesar tu pago')
+        console.log('Error al procesar tu pago',error.message)
         res.status(400).send(error)
     })
 } 

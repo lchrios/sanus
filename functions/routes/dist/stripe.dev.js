@@ -1,35 +1,39 @@
 "use strict";
 
-var stripe = require('stripe')("sk_test_51HwA9iItRYlC7M0MQNS8OacWDR17Hgnaf9yXvLOt9QCTfQCtvzD6JDaWnM0dJ9cDivQtGGj53a9keJpimeZps4r500rXFO4372");
+var stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG");
 /**La private key será utilizada con una variable de entorno */
 
 
 exports.sendPaymentInfo = function (req, res) {
   // TODO: Sacar el payment ID y ponerlo en el usuario 
-  var amount = req.body.amount;
+  var _req$body = req.body,
+      amount = _req$body.amount,
+      email = _req$body.email,
+      payment_method_id = _req$body.payment_method_id;
   stripe.paymentIntents.create({
-    amount: amount,
-    currency: 'mxn',
-    description: 'Sesión individual',
-    payment_method_types: ['card', 'oxxo']
+    "amount": amount,
+    "currency": 'mxn',
+    "description": 'Sesión individual',
+    "payment_method": payment_method_id,
+    "payment_method_types": ['card', 'oxxo'],
+    "receipt_email": email
   }).then(function (paymentIntent) {
-    console.log("Ticket de pago generado exitosamente");
+    console.log(paymentIntent, "Ticket de pago generado exitosamente api");
     return res.status(200).send({
-      client_secret: paymentIntent.client_secret,
-      message: 'Ticket de pago generato exitosamente'
+      "client_secret": paymentIntent.client_secret,
+      "message": 'Ticket de pago generato exitosamente'
     });
   })["catch"](function (error) {
-    console.log('Error al procesar tu pago');
+    console.log('Error al procesar tu pago', error.message);
     res.status(400).send(error);
   });
 };
 
 exports.handleStripeEvent = function (req, res) {
   var sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
-  // * 0 - Webhook Stripe || 1 - Webhook Testing 
+  //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
 
-  var endpoint_secret = ["whsec_0gqlUqNwq6LAXKqhSIYMBQTPB7UQOlaH", "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g"][1]; // @Secreto del endpoint webhook
-
+  var endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"][1];
   var event = req.body; // @ Lee la información enviada
 
   try {
@@ -43,6 +47,8 @@ exports.handleStripeEvent = function (req, res) {
   } catch (err) {
     return res.status(400).send("Webhook Error: ".concat(err.message));
   }
+
+  console.log(event);
 
   switch (event.type) {
     case 'payment_intent.succeeded':
@@ -92,11 +98,7 @@ exports.createCheckoutSession = function (req, res) {
           description: 'Paga por una sesión con el terapeuta que seleccionaste'
         },
         unit_amount: 60000
-        /** 
-        *!!! lo puse abajo pa que se vea el color, la cantidad del unit_amount, está en centavos, por eso se usa ese numero */
-
-      },
-      adjustable_quantity: enabled
+      }
     }],
     mode: 'payment',
     success_url: req.host + '/pago_exitoso?id={CHECKOUT_SESSION_ID}',

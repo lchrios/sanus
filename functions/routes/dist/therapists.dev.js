@@ -7,7 +7,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var _require = require('../firebase'),
-    admin = _require.admin;
+    admin = _require.admin,
+    storage = _require.storage;
 
 var db = admin.firestore();
 var users = db.collection('users');
@@ -16,21 +17,54 @@ var sess = db.collection('sessions');
 var blogs = db.collection('blogs');
 var schedules = db.collection("schedules"); // * Get therapist info
 
-exports.getAllTherapists = function (req, res) {
-  ther.get().then(function (query) {
-    var data = [];
-    var refs = [];
-    query.forEach(function (doc) {
-      data.push(doc.data());
-      refs.push(doc.id.toString());
-    });
-    res.status(200).send({
-      id: refs,
-      data: data
-    });
-  })["catch"](function (error) {
-    console.log('Error al obtener terapeutas!', error);
-    return res.status(404).send(error);
+exports.getAllTherapists = function _callee(req, res) {
+  var data, refs, links, bucket;
+  return regeneratorRuntime.async(function _callee$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          data = [];
+          refs = [];
+          links = [];
+          bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+          ther.get().then(function (query) {
+            query.docs.forEach(function (doc) {
+              docdata = doc.data();
+              data.push(docdata);
+              refs.push(doc.id.toString());
+            });
+            data.forEach(function (doc) {
+              var imgref = doc.img;
+              var stor_file = bucket.file(imgref !== undefined ? imgref : 'terapeutas/placeholders/2.jpg');
+              stor_file.getSignedUrl({
+                version: 'v4',
+                action: 'read',
+                expires: Date.now() + 30 * 60 * 1000 // 30 minutes   
+
+              }).then(function (sURL) {
+                console.log(sURL[0][0]);
+                links.push(sURL[0]);
+              });
+            });
+            console.log("Links cargados");
+          })["catch"](function (error) {
+            console.log('Error al obtener terapeutas!', error);
+            return res.status(404).send(error);
+          })["finally"](function () {
+            setTimeout(function () {
+              res.status(200).send({
+                id: refs,
+                data: data,
+                urls: links
+              });
+            }, 100);
+          });
+
+        case 5:
+        case "end":
+          return _context.stop();
+      }
+    }
   });
 };
 
@@ -130,4 +164,93 @@ exports.getNotesByTherapist = function (req, res) {
 
 exports.newNote = function (req, res) {
   console.log('Creando nota');
+};
+
+exports.uploadTherImg = function (req, res) {
+  console.log("Subiendo imagen del usuario ".concat(req.params.uid));
+  console.log(req.body.file);
+
+  if (!req.files || Object.keys(req.files).length === 0) {
+    console.log("No hay archivos :C");
+    return res.status(400).send({
+      success: false,
+      message: 'No files were uploaded'
+    });
+  }
+
+  var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+  var stored_img = bucket.file("usuarios/".concat(req.params.uid, ".").concat(req.file.name.split(".")[1]));
+  var blobStream = stored_img.createWriteStream();
+  blobStream.on('error', function (error) {
+    console.log('Something is wrong! Unable to upload at the moment.' + error);
+  });
+  blobStream.on('finish', function () {
+    var imgURL = "https://storage.googleapis.com/".concat(bucket.name, "/").concat(stored_img.name); //image url from firebase server
+
+    console.log(imgURL);
+    auth.updateUser(user.uid, {
+      photoURL: imgURL
+    }).then(function () {
+      return res.status(200).send({
+        success: true,
+        message: 'File was uploaded',
+        imgURL: imgURL
+      });
+    })["catch"](function (er) {
+      return res.status(400).send(er);
+    });
+  });
+  blobStream.end(req.file.buffer);
+};
+
+exports.getTherImage = function (req, res) {
+  // * Demo for image upload
+  var t_list = req.body.thers;
+  console.log(t_list);
+  var urls = [];
+  var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = t_list[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var t = _step.value;
+      ther.doc(t).get().then(function (doc) {
+        var imgref = doc.data().img;
+        var stor_file = bucket.file(imgref !== undefined ? imgref : 'terapeutas/placeholders/2.jpg');
+        stor_file.getSignedUrl({
+          version: 'v4',
+          action: 'read',
+          expires: Date.now() + 30 * 60 * 1000 // 30 minutes   
+
+        }).then(function (sURL) {
+          urls.push(sURL[0]);
+        })["catch"](function (er) {
+          console.log("Error leyendo el link de la imagen");
+          return res.status(400).send(er);
+        });
+      })["catch"](function (er) {
+        console.log("Error leyendo el documento del terapeuta");
+        return res.status(400).send(er);
+      });
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  return res.status(200).send({
+    urls: urls
+  });
 };

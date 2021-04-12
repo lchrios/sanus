@@ -14,7 +14,7 @@ exports.isAuthorized = (hasRole) => {
         if (!role) { // * no tiene rol el usuario
             return res.status(403).send({ status: 'Unauthorized', message: "El usuario no tiene rol" });
         } else if (hasRole.indexOf(role) > -1) { // * revisa que el rol del usuario contenga los permitidos 
-            console.log("Usuario autorizado")
+            //console.log("Usuario autorizado")
             return next();
         }
 
@@ -23,7 +23,7 @@ exports.isAuthorized = (hasRole) => {
 }
 
 exports.isAuthenticated = (req, res, next) => {
-    console.log('Verificando que el tokenId sea válido');
+    //console.log('Verificando usuario autenticado');
     /* 
      * Verifica que el request contenga un ID Token.
      - Por convención el authorization header al portar 
@@ -42,7 +42,7 @@ exports.isAuthenticated = (req, res, next) => {
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
         // * En este caso se encuentra exitosamente un formato de string que comience con 'Bearer '.
-        console.log('Encontrado "Authorization" header');
+        //console.log('Encontrado "Authorization" header');
         // * Lee el ID Token del authorization header.
         idToken = req.headers.authorization.split('Bearer ')[1];
     } else if (req.cookies) {
@@ -58,7 +58,7 @@ exports.isAuthenticated = (req, res, next) => {
     // * Una vez obtenido el ID Token, procedemos a verificar que sea correcto mediante firebase auth
     auth.verifyIdToken(idToken)
     .then( decodedIdToken => { // * Obtenemos el decodedIDToken como resultado de una operación exitosa
-        console.log('ID Token verificado!');
+        //console.log('ID Token verificado!');
         auth.getUser(decodedIdToken.uid).then(user => {
             // * Assign user role in case it doesnt have
             if (user.customClaims.role === undefined) {
@@ -73,7 +73,7 @@ exports.isAuthenticated = (req, res, next) => {
                     return res.status(400).send(error);
                 })
             } else {
-                console.log("Usuario con rol")
+                //console.log("Usuario con rol")
                 res.locals = { ...res.locals, uid: decodedIdToken.uid, role: user.customClaims.role }
             }
             next();

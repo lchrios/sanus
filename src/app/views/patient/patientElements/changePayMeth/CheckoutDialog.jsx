@@ -59,46 +59,69 @@ export default function CheckoutDialog({therapist, tid, state}) {
     /** COn handlePay, le pido a stripe que cree un metodo de pago que va a recibir, y le digo que lo va a recibir de CardElement con getElement */
     const handlePayCard = async (e) => {
         e.preventDefault();
-
-
-
+        let cardInfo = elements.getElement(CardElement)
         stripe.createPaymentMethod({
             type:'card',
-            card: elements.getElement(CardElement),
+            card: cardInfo,
         }).then((paymentMethod) => {
             console.log(paymentMethod)
             // TODO: Save payment ID to user
             // api.put()
             // * POST a la API
             api.post('/u/' + user.uid + '/checkout', {
-                ...paymentMethod.paymentMethod,
-                amount:60000,
-                email: user.email
+                "payment_method_id": paymentMethod.paymentMethod.id,
+                "amount": 60000,
+                "email": user.email,
             }).then((res) => {
-                console.log(res.data)
-                api.post(`/s/new`, {sessiondata: {
-                    cost: 60000,
-                    duration: 60,
-                    end: new Date(new Date(state.date).getTime() + (1000*60*60)),
-                    note: "",
-                    pay_met: "PayPal",
-                    payed: true,
-                    start: state.date,
-                    therapist: tid,
-                    tipo: "Sesion adulto",
-                    ther_name: therapist.name,
-                    user: user.uid,
-                    user_email: user.email,
-                    user_name: user.name
-                }})
-                .then(history.push(`/${user.uid}/home`,))
-            }).catch((e) => {
-                console.error(e);
-                console.log('Hubo un error al enviar el método de pago al servidor')
+
+                let pm = paymentMethod.paymentMethod;
+                // delete pm.id;
+                // delete pm.object;
+                // delete pm.created;
+                // delete pm.livemode
+                // delete pm.card.brand;
+                // delete pm.card.country;
+                // delete pm.card.funding;
+                // delete pm.card.last4;
+                // delete pm.card.networks;
+                // delete pm.card.three_d_secure_usage;   
+
+                // console.log(pm);
+
+                stripe.confirmCardPayment(res.data.client_secret, {
+                    payment_method: pm.id,
+                    receipt_email: user.email,
+                }).then(result => {
+                    let payInfo = result.paymentIntent;
+                    console.log(payInfo);
+                    api.post(`/s/new`, {sessiondata: {
+                        cost: payInfo.amount,
+                        duration: 60,
+                        start: state.date,
+                        end: new Date(new Date(state.date).getTime() + (1000*60*60)),
+                        note: "",
+                        user: user.uid,
+                        user_name: user.name,
+                        user_email: user.email,
+                        pay_met: payInfo.id,
+                        pay_type: 'card',
+                        payed: payInfo.status === "succeeded" ? true : false,
+                        therapist: tid,
+                        tipo: payInfo.description,
+                        ther_name: therapist.name,
+                        state: 0,
+                    }})
+                    .then(res => history.push(`/${user.uid}/sessions`))
+                    .catch( er => console.error(er))
+                    
+                })
+            }).catch((error) => {
+                console.log(error.message);
+                console.log('Hubo un error al confirmar el pago con el servidor de Stripe')
             })
 
         }).catch((error) => {
-            console.log('Hubo un error al crear el método de pago')
+            console.error('Hubo un error al crear el método de pago', error)
         })
 
     }

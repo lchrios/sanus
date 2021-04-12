@@ -51,7 +51,9 @@ var _require3 = require("./routes/therapists"),
     getNotesByTherapist = _require3.getNotesByTherapist,
     newNote = _require3.newNote,
     setSchedule = _require3.setSchedule,
-    getSchedule = _require3.getSchedule; // * Funcions relativas a las sesiones
+    getSchedule = _require3.getSchedule,
+    getTherImage = _require3.getTherImage,
+    uploadTherImg = _require3.uploadTherImg; // * Funcions relativas a las sesiones
 
 
 var _require4 = require("./routes/sessions"),
@@ -80,7 +82,8 @@ var _require7 = require("./routes/fixes"),
     fixAllUsers = _require7.fixAllUsers,
     fixAllSessions = _require7.fixAllSessions,
     fixAllTherapists = _require7.fixAllTherapists,
-    fixAllBlogs = _require7.fixAllBlogs; // * uso de transformacion a json
+    fixAllBlogs = _require7.fixAllBlogs,
+    fixAllTherapistsImage = _require7.fixAllTherapistsImage; // * uso de transformacion a json
 
 
 app.use(express.json()); //app.use(express.urlencoded({ extended: true }));
@@ -120,7 +123,9 @@ app.get("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), getNotesByT
 app.get("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), getSchedule);
 app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
 app.post("/t/:tid/b", isAuthenticated, isAuthorized(roles.therapist), newBlog);
-app.post("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), setSchedule); // * rutas de usuario
+app.post("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), setSchedule);
+app.get("/t/image", isAuthenticated, isAuthorized(roles.user), getTherImage);
+app.post("/t/:tid/image", isAuthenticated, isAuthorized(roles.therapist), uploadTherImg); // * rutas de usuario
 
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
 app.get("/u/:uid", isAuthenticated, isAuthorized(roles.user), getUser);
@@ -163,6 +168,7 @@ app.use("/files", filesRouter); // * rutas de fixing
 app.post("/fix/users", fixAllUsers);
 app.post("/fix/sessions", fixAllSessions);
 app.post("/fix/therapists", fixAllTherapists);
+app.post("/fix/therapists/img", fixAllTherapistsImage);
 app.post("/fix/blogs", fixAllBlogs); // * export de la api
 
 exports.api = functions.region("us-central1").https.onRequest(app);

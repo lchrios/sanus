@@ -45,7 +45,9 @@ const {
   getNotesByTherapist,
   newNote,
   setSchedule,
-  getSchedule
+  getSchedule,
+  getTherImage,
+  uploadTherImg
 } = require("./routes/therapists");
 
 
@@ -75,7 +77,7 @@ const {
 
 const filesRouter = require('./routes/files');
 
-const { fixAllUsers, fixAllSessions, fixAllTherapists, fixAllBlogs } = require("./routes/fixes");
+const { fixAllUsers, fixAllSessions, fixAllTherapists, fixAllBlogs, fixAllTherapistsImage } = require("./routes/fixes");
 
 // * uso de transformacion a json
 app.use(express.json());
@@ -123,6 +125,8 @@ app.get("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), getS
 app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
 app.post("/t/:tid/b", isAuthenticated, isAuthorized(roles.therapist), newBlog);
 app.post("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), setSchedule);
+app.get("/t/image", isAuthenticated, isAuthorized(roles.user), getTherImage);
+app.post("/t/:tid/image", isAuthenticated, isAuthorized(roles.therapist), uploadTherImg);
 
 // * rutas de usuario
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
@@ -172,6 +176,7 @@ app.use("/files", filesRouter);
 app.post("/fix/users", fixAllUsers);
 app.post("/fix/sessions", fixAllSessions);
 app.post("/fix/therapists", fixAllTherapists);
+app.post("/fix/therapists/img", fixAllTherapistsImage);
 app.post("/fix/blogs", fixAllBlogs);
 
 
