@@ -56,16 +56,17 @@ exports.fixAllTherapists = function (req, res) {
     query.forEach(function (doc) {
       var data = doc.data();
       var fixed_data = {
+        address: data.address || "Direccion Terapeuta",
         age: data.age || 18,
         cedula: data.cedula || "CEDULA_ID",
+        email: data.email || "correo@generico.com",
         experiencia: data.experiencia || "Experiencia del psicologo",
-        email: data.email || "email@mail.com",
+        gender: data.gender || "Hombre",
+        img: data.img || "terapeutas/placeholders/2.jpg",
         name: data.name || "Nombre",
         lname: data.lname || "Apellido",
-        zoomurl: data.zoomurl || "",
-        img: data.img || "usuarios/placeholders/none-user.png",
-        phone: data.phone || "0101010101",
-        gender: data.gender || "Hombre"
+        zoomurl: data.zoomurl || "https://zoom.us",
+        phone: data.phone || "0101010101"
       };
       doc.ref.set(fixed_data).then(function () {
         console.log(doc.id);
@@ -76,6 +77,32 @@ exports.fixAllTherapists = function (req, res) {
     return ers.length === 0 ? res.status(200).send({
       result: true,
       message: "Terapeutas corregidos automaticamente"
+    }) : res.status(400).send({
+      errors: ers,
+      message: "Errores al actualizar ciertos usuarios"
+    });
+  });
+};
+
+exports.fixAllTherapistsImage = function (req, res) {
+  thers.get().then(function (query) {
+    var ers = [];
+    var imgs = [];
+    query.forEach(function (doc) {
+      var numbers = ["2.jpg", "3.jpg", "4.jpg", "5.jpg", "9.jpg", "10.jpg", "12.jpg", "13.jpg", "15.jpg", "16.jpg", "17.jpg"];
+      var rnd_img = "terapeutas/placeholders/".concat(numbers[Math.floor(Math.random() * numbers.length)]);
+      imgs.push(rnd_img);
+      doc.ref.update({
+        img: rnd_img
+      }).then(function () {
+        console.log(doc.id);
+      })["catch"](function (er) {
+        ers.push(er);
+      });
+    });
+    return ers.length === 0 ? res.status(200).send({
+      result: true,
+      message: "Imagenes de terapeutas corregidos automaticamente"
     }) : res.status(400).send({
       errors: ers,
       message: "Errores al actualizar ciertos usuarios"
@@ -111,7 +138,7 @@ exports.fixAllSessions = function (req, res) {
           var d8st = new Date();
           var d8en = d8st.addHours((data.duration || 60) / 60);
           var fixed_data = {
-            cost: data.cost || 600,
+            cost: data.cost || 60000,
             duration: data.duration || 60,
             start: data.start || d8st.toISOString(),
             end: data.end || d8en.toISOString(),
@@ -120,10 +147,11 @@ exports.fixAllSessions = function (req, res) {
             user_name: data.user_name || randomUser.data.name,
             user_email: data.user_email || randomUser.data.email,
             pay_met: data.pay_met || "",
-            payed: data.payer || false,
+            pay_type: data.pay_type || 'card',
+            payed: data.payed || false,
             therapist: data.therapist.toString() || randomTherapist.id.toString(),
             ther_name: data.thername || randomTherapist.data.name || "Nombre terapeuta",
-            state: data.state || "pendiente",
+            state: !data.state.isNaN() ? data.state : 0,
             tipo: data.tipo || "Terapia adulto individual"
           };
           doc.ref.set(fixed_data).then(function () {

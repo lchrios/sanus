@@ -33,7 +33,8 @@ const {
   getUserImage,
   uploadImg,
   submitTest,
-  getTherapistSchedule
+  getTherapistSchedule,
+  getUserPayed
 } = require("./routes/users");
 
 // * Funciones relativas al terapeuta
@@ -46,7 +47,9 @@ const {
   newNote,
   setSchedule,
   getSchedule,
-  connectReAuth
+  connectReAuth,
+  getTherImage,
+  uploadTherImg
 } = require("./routes/therapists");
 
 
@@ -77,7 +80,7 @@ const {
 
 const filesRouter = require('./routes/files');
 
-const { fixAllUsers, fixAllSessions, fixAllTherapists, fixAllBlogs } = require("./routes/fixes");
+const { fixAllUsers, fixAllSessions, fixAllTherapists, fixAllBlogs, fixAllTherapistsImage } = require("./routes/fixes");
 
 // * uso de transformacion a json
 app.use(express.json());
@@ -125,6 +128,8 @@ app.get("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), getS
 app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
 app.post("/t/:tid/b", isAuthenticated, isAuthorized(roles.therapist), newBlog);
 app.post("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), setSchedule);
+app.get("/t/image", isAuthenticated, isAuthorized(roles.user), getTherImage);
+app.post("/t/:tid/image", isAuthenticated, isAuthorized(roles.therapist), uploadTherImg);
 
 // * rutas de usuario
 app.get("/u", isAuthenticated, isAuthorized(roles.admin), getAllUsers);
@@ -135,7 +140,7 @@ app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession)
 app.post("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist);
 app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), submitTest);
 app.get("/u/:uid/schedule", isAuthenticated, isAuthorized(roles.user), getTherapistSchedule)
-
+app.get("/u/:uid/payed", isAuthenticated, isAuthorized(roles.user), getUserPayed)
 app.get("/u/:uid/image", getUserImage);
 app.post("/u/:uid/image", uploadImg);
 
@@ -179,6 +184,7 @@ app.use("/files", filesRouter);
 app.post("/fix/users", fixAllUsers);
 app.post("/fix/sessions", fixAllSessions);
 app.post("/fix/therapists", fixAllTherapists);
+app.post("/fix/therapists/img", fixAllTherapistsImage);
 app.post("/fix/blogs", fixAllBlogs);
 
 

@@ -12,6 +12,7 @@ import UserProfileContent from './patientElements/home/user-profile/UserProfileC
 import UserProfileSidenav from './patientElements/home/user-profile/UserProfileSidenav'
 import { getTherapist, getSessions } from 'app/services/functions/UserService'
 import useAuth from 'app/hooks/useAuth'
+import api from 'app/services/api'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     headerBG: {
@@ -30,6 +31,8 @@ const PatientProfile = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
     const [therapist, setTherapist] = useState() 
     const [sessions, setSessions] = useState()
+    const [payed, setPayed] = useState()
+    const [tid, setTid] = useState();
     const [loading, setLoading] = useState(true)  
     
 
@@ -72,16 +75,24 @@ const PatientProfile = () => {
         console.log("Pidiendo Terapeuta")
         getTherapist(user.uid).then( res => {
             setTherapist(res?.data);
-        })
-        .catch( er => {
-            console.error(er);
-        })
-        
-        console.log("Pidiendo Sesiones")
-        getSessions(user.uid).then( res => {
-            setSessions(res?.data);
-            console.log(res);  
-            setLoading(false);
+            setTid(res?.id);
+            console.log("Pidiendo Sesiones")
+            getSessions(user.uid).then( resp => {
+                setSessions(resp?.data);  
+                console.log("Revisando si debes alguna sesion o-[:D]=<-<")
+                api.get(`/u/${user.uid}/payed`)
+                .then(respo => {
+                    setPayed(respo.data.payed)
+                    console.log(respo.data.payed)
+                    setLoading(false);
+                })
+                .catch( er => {
+                    console.error(er);
+                })
+            })
+            .catch( er => {
+                console.error(er);
+            })
         })
         .catch( er => {
             console.error(er);
@@ -113,7 +124,7 @@ const PatientProfile = () => {
                 </MatxSidenav>
                     <MatxSidenavContent >
                         <div className={clsx('bg-primary', classes.headerBG)} />
-                        <UserProfileContent toggleSidenav={toggleSidenav} sessions={sessions} loading={loading} therapist={therapist} />
+                        <UserProfileContent toggleSidenav={toggleSidenav} sessions={sessions} loading={loading} payed={payed} therapist={therapist} tid={tid}/>
                     </MatxSidenavContent>
             </MatxSidenavContainer>
             

@@ -33,7 +33,7 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, se
                 ...state,
                 date: selected[0].toISOString(),
             })
-            handleNext()
+            handleNext();
         }
     }
 

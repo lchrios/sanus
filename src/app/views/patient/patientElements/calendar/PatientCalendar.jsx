@@ -51,7 +51,7 @@ const DragAndDropCalendar = withDragAndDrop(Calendar)
 
 let viewList = Object.keys(Views).map((key) => Views[key])
 
-const PatientCalendar = ({ sessions }) => {
+const PatientCalendar = ({ sessions, therapist, tid, payed }) => {
     const [events, setEvents] = useState(sessions.map((e) => ({
         title: e.thername,
         start: new Date(e.start),
@@ -59,8 +59,6 @@ const PatientCalendar = ({ sessions }) => {
     })))
     const [newEvent, setNewEvent] = useState(null)
     const [shouldShowEventDialog, setShouldShowEventDialog] = useState(false)
-    const [therapist, setTherapist] = useState();
-    const [tid, setTid] = useState();
     const headerComponentRef = useRef(null);
     const classes = useStyles();
 
@@ -77,17 +75,12 @@ const PatientCalendar = ({ sessions }) => {
             start: new Date(e.start),
             end: new Date(e.end),
         })))
-        api.get(`/u/${user.uid}/t`)
-        .then( res => {
-            setTherapist(res.data.data)
-            setTid(res.data.id)
-        })
     }, [sessions])
 
     const openNewEventDialog = ({ action, ...event }) => {
         if (action === 'doubleClick') {
-        setNewEvent(event)
-        setShouldShowEventDialog(true)
+            setNewEvent(event)
+            setShouldShowEventDialog(true)
         }
         
     }
@@ -99,20 +92,23 @@ const PatientCalendar = ({ sessions }) => {
 
     return (
         <div className="m-sm-30">
-            <Button
-                className="mb-4"
-                variant="contained"
-                color="secondary"
-                onClick={() => {
-                    openNewEventDialog({
-                        action: 'doubleClick',
-                        start: new Date(),
-                        end: new Date().addHours(1),
-                    })
-                }}
-            >
-                Agenda una sesión
-            </Button>
+            {   payed
+            ?   <Button
+                    className="mb-4"
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => {
+                        openNewEventDialog({
+                            action: 'doubleClick',
+                            start: new Date(),
+                            end: new Date().addHours(1),
+                        })
+                    }}
+                >
+                    Agenda una sesión
+                </Button>
+            :   null
+            }
             <div
                 className={clsx('h-full-screen flex-column', classes.calendar)}
             >
@@ -140,15 +136,15 @@ const PatientCalendar = ({ sessions }) => {
                             )
                         },
                     }}
-                    // onNavigate={handleNavigate}
-                    onSelectEvent={(event) => {
-                        openExistingEventDialog(event)
-                    }}
-                    onSelectSlot={(slotDetails) => {
-                        slotDetails.end.addHours(1)
-                        console.log(slotDetails)
-                        openNewEventDialog(slotDetails)
-                    }}
+                    // // onNavigate={handleNavigate}
+                    // onSelectEvent={(event) => {
+                    //     openExistingEventDialog(event)
+                    // }}
+                    // onSelectSlot={(slotDetails) => {
+                    //     slotDetails.end.addHours(1)
+                    //     console.log(slotDetails)
+                    //     openNewEventDialog(slotDetails)
+                    // }}
                 />
             </div>
             {shouldShowEventDialog && (

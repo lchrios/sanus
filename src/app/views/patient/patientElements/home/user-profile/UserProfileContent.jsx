@@ -71,7 +71,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 
 
-const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => {
+const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions, tid, payed }) => {
     const { user } = useAuth()
     const classes = usestyles()
     // const [open, setOpen] = useState(false)
@@ -241,7 +241,7 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions }) => 
                                 :   <>
                                         { hasTher ? 
                                         <Card className="py-4 elevation-z5">
-                                            <PatientCalendar sessions={sessions} />
+                                            <PatientCalendar sessions={sessions} therapist={therapist} tid={tid} payed={payed} />
                                         </Card> 
                                         :
                                         <>

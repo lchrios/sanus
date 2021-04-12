@@ -196,3 +196,13 @@ exports.submitTest = function (req, res) {
     return res.status(400).send(er);
   });
 };
+
+exports.getUserPayed = function (req, res) {
+  users.where("payed", "==", false).get().then(function (query) {
+    return res.status(200).send({
+      payed: query.empty
+    });
+  })["catch"](function (er) {
+    return res.status(500).send(er);
+  });
+};

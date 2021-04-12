@@ -3,6 +3,7 @@ import MUIDataTable from 'mui-datatables'
 import { Avatar, Grow, Icon, IconButton, TextField} from '@material-ui/core'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
+import { Loading } from 'app/components/Loading/Loading'
 
 
 
@@ -10,29 +11,29 @@ const BrowseApp = ({ toggleSidenav }) => {
 
     const [therapistList, setTherapistList] = useState([])
     const [docRefs, setDocRefs] = useState([])
+    const [imgURL, setURL] = useState([])
     const [reassigned, setReassigned] = useState()
     const { user } = useAuth()
-
-
-
-    // useEffect(() => {
-
-    // }, [reassigned])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         
         api.get('/t').then(res => {
             setTherapistList(res.data.data)
             setDocRefs(res.data.id)
-        })
-        api.get(`/u/${user.uid}`).then( res => {
-            if (res.status === 200 && res.data.id !== undefined) {
-                setReassigned(res.data.id);
-            }
+            setURL(res.data.urls)
+            console.log(res.data)
+            api.get(`/u/${user.uid}`).then( resp => {
+                if (resp.status === 200 && resp.data.id !== undefined) {
+                    setReassigned(resp.data.id);
+                }
+                setLoading(false);
+            })
         })
 
     }, [])
     
+
     const columns = [
         {
             name: 'name', // field name in the row object
@@ -44,7 +45,7 @@ const BrowseApp = ({ toggleSidenav }) => {
 
                     return (
                         <div className="flex items-center">
-                            <Avatar className="w-48 h-48" src={therapist?.img} />
+                            <Avatar className="w-48 h-48" src={imgURL[dataIndex]} />
                             <div className="ml-3">
                                 <h5 className="my-0 text-15">{therapist?.name}</h5>
                                 <small className="text-muted">
@@ -143,74 +144,79 @@ const BrowseApp = ({ toggleSidenav }) => {
     return (
     <div>
         <div className="m-sm-30">
-            <div className="overflow-auto">
-            <div className="hide-on-pc flex justify-end menu-button">
-                        <IconButton onClick={toggleSidenav}>
-                            <Icon className="">menu</Icon>
-                        </IconButton>
-            </div>
-                <div className="min-w-300">
-                    <MUIDataTable
-                        title={'Todos los terapeutas'}
-                        data={therapistList}
-                        columns={columns}
-                        options={{
-                            filterType: 'textField',
-                            responsive: 'simple',
-                            selectableRows: "none", // set checkbox for each row
-                            //search: false, // set search option
-                            filter: false, // set data filter option
-                            download: false, // set download option
-                            print: false, // set print option
-                            pagination: false, //set pagination option
-                            viewColumns: false, // set column option
-                            elevation: 0,
-                            rowsPerPageOptions: [10, 20, 40, 80, 100],
-                            customSearchRender: (
-                                searchText,
-                                handleSearch,
-                                hideSearch,
-                                options
-                            ) => {
-                                return (
-                                    <Grow appear in={true} timeout={300}>
-                                        <TextField
-                                            variant="outlined"
-                                            size="small"
-                                            fullWidth
-                                            onChange={({ target: { value } }) =>
-                                                handleSearch(value)
-                                            }
-                                            InputProps={{
-                                                style: {
-                                                    paddingRight: 0,
-                                                },
-                                                startAdornment: (
-                                                    <Icon
-                                                        className="mr-2"
-                                                        fontSize="large"
-                                                    >
-                                                        search
-                                                    </Icon>
-                                                ),
-                                                endAdornment: (
-                                                    <IconButton
-                                                        onClick={hideSearch}
-                                                    >
-                                                        <Icon fontSize="small">
-                                                            clear
-                                                        </Icon>
-                                                    </IconButton>
-                                                ),
-                                            }}
-                                        />
-                                    </Grow>
-                                )
-                            },
-                        }}
-                    />
-                </div>
-            </div>
+            { loading 
+            ?   <Loading />
+            :   <>
+                     <div className="overflow-auto">
+                        <div className="hide-on-pc flex justify-end menu-button">
+                                    <IconButton onClick={toggleSidenav}>
+                                        <Icon className="">menu</Icon>
+                                    </IconButton>
+                        </div>
+                        <div className="min-w-300">
+                            <MUIDataTable
+                                title={'Todos los terapeutas'}
+                                data={therapistList}
+                                columns={columns}
+                                options={{
+                                    filterType: 'textField',
+                                    responsive: 'simple',
+                                    selectableRows: "none", // set checkbox for each row
+                                    //search: false, // set search option
+                                    filter: false, // set data filter option
+                                    download: false, // set download option
+                                    print: false, // set print option
+                                    pagination: false, //set pagination option
+                                    viewColumns: false, // set column option
+                                    elevation: 0,
+                                    rowsPerPageOptions: [10, 20, 40, 80, 100],
+                                    customSearchRender: (
+                                        searchText,
+                                        handleSearch,
+                                        hideSearch,
+                                        options
+                                    ) => {
+                                        return (
+                                            <Grow appear in={true} timeout={300}>
+                                                <TextField
+                                                    variant="outlined"
+                                                    size="small"
+                                                    fullWidth
+                                                    onChange={({ target: { value } }) =>
+                                                        handleSearch(value)
+                                                    }
+                                                    InputProps={{
+                                                        style: {
+                                                            paddingRight: 0,
+                                                        },
+                                                        startAdornment: (
+                                                            <Icon
+                                                                className="mr-2"
+                                                                fontSize="large"
+                                                            >
+                                                                search
+                                                            </Icon>
+                                                        ),
+                                                        endAdornment: (
+                                                            <IconButton
+                                                                onClick={hideSearch}
+                                                            >
+                                                                <Icon fontSize="small">
+                                                                    clear
+                                                                </Icon>
+                                                            </IconButton>
+                                                        ),
+                                                    }}
+                                                />
+                                            </Grow>
+                                        )
+                                    },
+                                }}
+                            />
+                        </div>
+                    </div>
+                </>
+            }
         </div>
     </div>
     )
