@@ -393,20 +393,7 @@ const TherapistDataForm = () => {
         delete state.img;
         delete state.withProvider;
         delete state.grade;
-
-        let data = new FormData();
-        data.append("cv", cv);
-        data.append("img", img);
         
-        api.post('/files', data)
-        .then(res => {
-            console.log(res);
-        })
-        .catch(er => {
-            console.error(er);
-        })
-        
-        return ;
         if (withProvider) {
             delete state.user;
             delete state.token;
