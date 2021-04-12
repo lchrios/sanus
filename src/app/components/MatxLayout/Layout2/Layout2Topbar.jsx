@@ -68,10 +68,17 @@ const Layout2Topbar = () => {
     const [url, setUrl] = useState();
 
     useEffect(() => {
-        api.get(`/u/${user.uid}/image`)
-        .then(res => {
-            setUrl(res.data.url);
-        })
+        if (user.role === "therapist") {
+            api.get(`/t/${user.uid}/image`)
+            .then(res => {
+                setUrl(res.data.url);
+            })
+        } else {
+            api.get(`/t/${user.uid}/image`)
+            .then(res => {
+                setUrl(res.data.url);
+            }) 
+        }
     }, [user])
 
     return (

@@ -58,6 +58,24 @@ const NextSessions = ({ sessions }) => {
     const classes = useStyles()
     const numberSession = 0;
     const { user } = useAuth();
+    const [urls, setUrls] = useState();
+    var user_ses = [];
+    sessions.data.forEach(ses => {
+        if (user_ses.indexOf(ses.user) === -1) {
+            user_ses.push(ses.user);
+        }
+    })
+    console.log(user_ses);
+    
+    useEffect(() => {
+        api.get("/users/image", {
+            "users": user_ses
+        })
+        .then(res => {
+            console.log(res.data)
+            setUrls(res.data.urls)
+        })
+    }, [sessions])
 
     return (
         /**Añadir un contador para que cuando la sesión sea la más próxima muestre los botones correctos */
@@ -72,7 +90,7 @@ const NextSessions = ({ sessions }) => {
                     key={index}>
                     <Card className="p-5">
                         <div className="flex justify-between mb-4">
-                            <Avatar className="h-56 w-56" src={session_info?.img} />
+                            <Avatar className="h-56 w-56" src="" />
                             <div>
                                 <MatxMenu
                                     menuButton={
@@ -84,11 +102,11 @@ const NextSessions = ({ sessions }) => {
                                     {/* 
                                     // TODO: AÑADIR ACTUALIZACIÓN DE HISTORIAL DE SESIONES */}
                                     <MenuItem>
-                                        <Icon fontSize="small"> done </Icon>
+                                        <Icon fontSize="small">done</Icon>
                                         <span className="pl-4"> Marcar como terminado </span>
                                     </MenuItem>
                                     <MenuItem>
-                                        <Icon fontSize="small"> account_circle </Icon>
+                                        <Icon fontSize="small">account_circle</Icon>
                                         <span className="pl-4"> Ver paciente </span>
                                     </MenuItem>
                                     {/* <MenuItem>

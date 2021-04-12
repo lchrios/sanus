@@ -79,7 +79,7 @@ const UserDataForm = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [message, setMessage] = useState("");
     const [imgRender, setImgRender] = useState();
-    const { createUserWithEmailAndPassword, signInWithEmailAndPassword } = useAuth();
+    const { createUserWithEmailAndPassword, signInWithEmailAndPassword, user } = useAuth();
 
 
     const handlePhone = phoneVal => {
@@ -89,6 +89,14 @@ const UserDataForm = () => {
         })
     }
 
+
+    useEffect(() => {
+        if (user) {
+            history.push(`/${user.uid}/home`)
+        }
+    }, [user])
+
+
     const handleFormSubmit = () => {
         let { email, password } = state;
         setLoading(true)
@@ -97,9 +105,6 @@ const UserDataForm = () => {
             .then( res => {
                 // * Aqui haces lo de que te mande a otro lado
                 signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    history.push(`/${firebase.auth().currentUser.uid}/dashboard`)
-                })
                 .catch( error => {
                     console.error("Error al obtener el decodedToken del user", error)
                 })

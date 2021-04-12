@@ -229,7 +229,7 @@ exports.getAllTherImage = (req, res) => { // * Demo for image upload
             return res.status(400).send(er);
         })
     }
-    return res.status(200).send({ urls: urls});
+    return res.status(200).send({ urls: urls });
 
 }
 

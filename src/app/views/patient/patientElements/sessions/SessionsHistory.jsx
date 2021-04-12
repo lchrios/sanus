@@ -33,6 +33,15 @@ const SessionsHistory = ({toggleSidenav}) => {
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => {
+
+                    if (!orderList[dataIndex].payed) {
+                        return (
+                            <small className="capitalize text-white bg-error border-radius-4 px-2 py-2px">
+                                No pagada
+                            </small>
+                        )   
+                    }
+
                     let status = orderList[dataIndex].state
 
                     switch (status) {

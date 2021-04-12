@@ -34,7 +34,8 @@ const {
   uploadImg,
   submitTest,
   getTherapistSchedule,
-  getUserPayed
+  getUserPayed,
+  getAllUserImage
 } = require("./routes/users");
 
 // * Funciones relativas al terapeuta
@@ -142,6 +143,7 @@ app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), submitTest);
 app.get("/u/:uid/schedule", isAuthenticated, isAuthorized(roles.user), getTherapistSchedule)
 app.get("/u/:uid/payed", isAuthenticated, isAuthorized(roles.user), getUserPayed)
 app.get("/u/:uid/image", isAuthenticated, isAuthorized(roles.user), getUserImage);
+app.get("/users/image", isAuthenticated, isAuthorized(roles.user), getAllUserImage);
 app.post("/u/:uid/image", uploadImg);
 
 //*rutas de stripe (lado user)
