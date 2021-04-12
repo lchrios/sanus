@@ -32,7 +32,6 @@ export default function CheckoutDialog({therapist, tid, state}) {
     const [activeStep, setActiveStep] =  useState(0)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
-
     const stripe = useStripe()
     const  elements = useElements();
     function handleCard() {

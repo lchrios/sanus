@@ -14,7 +14,7 @@ exports.sendPaymentInfo = (req, res) => {
         "receipt_email": email,
     })
     .then((paymentIntent) => {
-        console.log(paymentIntent, "Ticket de pago generado exitosamente api")
+        console.log(paymentIntent.receipt_email, "Ticket de pago generado exitosamente api")
         return res.status(200).send({
             "client_secret": paymentIntent.client_secret, 
             "message": 'Ticket de pago generato exitosamente'
@@ -80,3 +80,51 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
 
     return res.status(200).send({received: true});
 }
+
+exports.expressAccount = (req, res) => {
+    const { email } = req.body;
+
+    const account = stripe.accounts.create({
+        type:'express',
+        email: email,
+        country: 'MX',
+        business_type: 'individual'
+    })
+    .then(response => {
+        /**
+         * TODO MOVER TEST DATA
+         */
+        const hosts = [
+            'http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+            'https://iknelia.app' // * cloud api host
+          ]
+        stripe.accountLinks.create({
+            account: response.id,
+            refresh_url: `${hosts[1]}/${req.params.tid}/reAuth`,
+            return_url: `${hosts[1]}/${req.params.tid}/dashboard`,
+            type:"account_onboarding"
+        }).then(response1 => {
+            console.log("Enviando link")
+    
+            return res.status(200).send(response1)
+        })
+    })
+    .catch(e => {
+        console.error('No ha sido posible crear tu cuenta')
+        console.error(e)
+    })
+}
+
+// exports.reAuth = (req,res) => {
+//     const {email} = req.body
+
+//     const account = stripe.accounts.create({
+//         type:'express',
+//         email: email,
+//         capabilities: {
+//             card_payments: {requested:true},
+//             transfers: {requested:true}
+//         }
+//     })
+
+// }
