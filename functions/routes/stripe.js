@@ -26,7 +26,7 @@ exports.sendPaymentInfo = (req, res) => {
     })
 } 
 
-exports.handleStripeEvent = (req, res) => {
+exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
 
     //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook

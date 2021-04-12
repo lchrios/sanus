@@ -213,3 +213,15 @@ exports.submitTest = (req, res) => {
         return res.status(400).send(er);
     })
 }
+
+exports.getUserPayed = (req, res) => {
+    users
+        .where("payed", "==", false)
+        .get()
+    .then(query => {
+        return res.status(200).send({ payed: query.empty })
+    })
+    .catch(er => {
+        return res.status(500).send(er);
+    })
+}

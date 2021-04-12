@@ -40,7 +40,8 @@ var _require2 = require("./routes/users"),
     getUserImage = _require2.getUserImage,
     uploadImg = _require2.uploadImg,
     submitTest = _require2.submitTest,
-    getTherapistSchedule = _require2.getTherapistSchedule; // * Funciones relativas al terapeuta
+    getTherapistSchedule = _require2.getTherapistSchedule,
+    getUserPayed = _require2.getUserPayed; // * Funciones relativas al terapeuta
 
 
 var _require3 = require("./routes/therapists"),
@@ -135,6 +136,7 @@ app.get("/u/:uid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession)
 app.post("/u/:uid/t/:tid", isAuthenticated, isAuthorized(roles.user), assignTherapist);
 app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), submitTest);
 app.get("/u/:uid/schedule", isAuthenticated, isAuthorized(roles.user), getTherapistSchedule);
+app.get("/u/:uid/payed", isAuthenticated, isAuthorized(roles.user), getUserPayed);
 app.get("/u/:uid/image", getUserImage);
 app.post("/u/:uid/image", uploadImg); //*rutas de stripe (lado user)
 
