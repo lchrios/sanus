@@ -5,6 +5,7 @@ const ther = db.collection('therapists');
 const sess = db.collection('sessions');
 const blogs = db.collection('blogs');
 const schedules = db.collection("schedules");
+const stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG");
 
 // * Get therapist info
 exports.getAllTherapists = async (req, res) => {
@@ -160,7 +161,7 @@ exports.newNote = (req,res) => {
 
 exports.connectReAuth = (req,res) => {
     const {email} = req.body;
-    const account = stripe.accounts.create({
+    const account = stripe.accounts.retrieve({
         type:'express',
         email: email,
         capabilities: {
@@ -169,10 +170,52 @@ exports.connectReAuth = (req,res) => {
         }
     })
     .catch(e => {
+        console.error('No ha sido posible autenticarte')
         console.error(e)
     })
 }
 
+exports.handleAccountUpdate = (req, res) => {
+    const hosts = [
+        'http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+        'https://us-central1-iknelia-3cd8e.cloudfunctions.net/api' // * cloud api host
+      ]
+    // const webhookAccountUpdate = await stripe.webhookEndpoints.create({
+    //   url: `${hosts[1]}/t/${req.params.tid}/webhookUpdateAccount`,
+    //   enabled_events: [
+    //     'account_updated'
+    //   ],
+    // })
+
+    const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
+
+    //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
+    const endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd","whsec_ZBv8dScsRtH1S36P3AllVEhr3vA1HnJf", "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"][1]; 
+    let event = req.body; // @ Lee la información enviada
+
+
+    try { 
+        /* 
+          * Se construye unevento a traves de stripe pasando como argumentos:
+            @ Signature de stripe
+            @ secreto del endpoint
+            @ Informacion obtenida del POST
+        */
+       event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
+    } catch (err) {
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    console.log(event)
+    switch(event.type) {
+        case 'account_update':
+            console.log('Se recibió el evento',event)
+        default:
+            console.log('Unhandled type event')
+    }
+
+    return res.status(200).send({event, message:'Se recibió el evento'})
+}
 exports.uploadTherImg = (req, res) => {
     console.log(`Subiendo imagen del usuario ${req.params.uid}`)
     console.log(req.body.file)

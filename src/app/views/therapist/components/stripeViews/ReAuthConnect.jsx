@@ -79,6 +79,8 @@ const ReAuthConnect = () => {
         
         api.post("/t/:tid/reAuth", {
             email: user.email,
+        }).catch(e => {
+            console.error(e)
         })
     }
 

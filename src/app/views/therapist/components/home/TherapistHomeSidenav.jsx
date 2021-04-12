@@ -10,6 +10,7 @@ import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
 
+
 const useStripeStyles = makeStyles({
     stripeConnect: {
         background: "#635bff",
@@ -67,17 +68,20 @@ const TherapistHomeSidenav = () => {
         setOpen(false)
     }
 
+
     function handleClickConnect() {
         console.log('Conectando con stripe')
 
         api.post("/t/:tid/connect", {
             email: user.email,
         }).then(res => {
-            
+            console.log(res)
+            window.location.href=`${res.data.url}`
         })
     }
     return (
         <div>
+
              {/* Dialogo de notas comienza */}
                         <Dialog
                             onClose={handleClose}

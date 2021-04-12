@@ -87,22 +87,30 @@ exports.expressAccount = (req, res) => {
     const account = stripe.accounts.create({
         type:'express',
         email: email,
-        capabilities: {
-            card_payments: {requested:true},
-            transfers: {requested:true}
-        }
+        country: 'MX',
+        business_type: 'individual'
     })
     .then(response => {
-        
-        const accountLink = stripe.accountLinks.create({
+        /**
+         * TODO MOVER TEST DATA
+         */
+        const hosts = [
+            'http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+            'https://iknelia.app' // * cloud api host
+          ]
+        stripe.accountLinks.create({
             account: response.id,
-            refresh_url: `https://iknelia.app/${req.params.tid}/dashboard`,
-            return_url: `https://iknelia.app/${req.params.tid}/reAuth`
+            refresh_url: `${hosts[1]}/${req.params.tid}/reAuth`,
+            return_url: `${hosts[1]}/${req.params.tid}/dashboard`,
+            type:"account_onboarding"
+        }).then(response1 => {
+            console.log("Enviando link")
+    
+            return res.status(200).send(response1)
         })
-
-        return res.status(201).send({result:true, message:'Cuenta creada'})
     })
     .catch(e => {
+        console.error('No ha sido posible crear tu cuenta')
         console.error(e)
     })
 }
