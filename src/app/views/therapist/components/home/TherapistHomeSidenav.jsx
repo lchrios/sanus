@@ -42,6 +42,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 const TherapistHomeSidenav = ({ url }) => {
     const classes = usestyles()
+    const str_classes = useStripeStyles()
     const { user } = useAuth()
 
     const [open, setOpen] = React.useState(false)
@@ -184,7 +185,7 @@ const TherapistHomeSidenav = ({ url }) => {
                     </Card>
                     <Card className="flex items-center mt-2 justify-center text-primary">
                         <Button 
-                            className={useStripeStyles}
+                            className={str_classes.stripeConnect}
                             onClick={handleClickConnect}
                             >
                             <h5>

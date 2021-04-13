@@ -132,6 +132,9 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
             calculateSummary();
         }
     }, [loading])
+
+
+    
     return (
         <Fragment>
             <div className={classes.profileContent}>
@@ -184,7 +187,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                                 </h4>
                                 { sessions.data.length === 0 
                                 ? <NextSessionsEmpty/>
-                                : <NextSessions sessions={sessions} /> }
+                                : <NextSessions sessions={sessions} users={users} /> }
                                 </>
                             }        
                         </Card>
@@ -332,7 +335,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                                 { loading 
                                 ?   <div className="mt-10 mb-10"><Loading /></div> 
                                 :   <>
-                                    { users?.length !== 0 
+                                    { users?.id.length !== 0 
                                     ?    <div><h4 className="font-medium text-muted">
                                             <Icon>group</Icon> Pacientes
                                             </h4>

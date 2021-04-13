@@ -15,7 +15,10 @@ var users = db.collection('users');
 var ther = db.collection('therapists');
 var sess = db.collection('sessions');
 var blogs = db.collection('blogs');
-var schedules = db.collection("schedules"); // * Get therapist info
+var schedules = db.collection("schedules");
+
+var stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG"); // * Get therapist info
+
 
 exports.getAllTherapists = function _callee(req, res) {
   var data, refs, links, bucket;
@@ -69,6 +72,40 @@ exports.getAllTherapists = function _callee(req, res) {
 };
 
 exports.getPatientsbyTherapist = function (req, res) {
+  var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+  users.where("therapist", "==", req.params.tid).get().then(function (query) {
+    var data = [];
+    var refs = [];
+    var urls = [];
+    query.forEach(function (doc) {
+      var docdata = doc.data();
+      data.push(docdata);
+      refs.push(doc.id.toString());
+      var stor_file = bucket.file(docdata.img ? docdata.img : "usuarios/placeholders/none-user.png");
+      stor_file.getSignedUrl({
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + 30 * 60 * 1000 // 30 minutes   
+
+      }).then(function (sURL) {
+        urls.push(sURL[0]);
+      })["catch"](function (er) {
+        console.log("Error leyendo el link de la imagen");
+        return res.status(400).send(er);
+      });
+    });
+    res.status(200).send({
+      id: refs,
+      data: data,
+      url: urls
+    }); //setTimeout(20, () => res.status(200).send({ id: refs, data: data, url: urls }))
+  })["catch"](function (error) {
+    console.log('No fue posible obtener la información de usuarios asignados');
+    return res.status(404).send(error);
+  });
+};
+
+exports.getPatientsImageByTherapist = function (req, res) {
   users.where("therapist", "==", req.params.tid).get().then(function (query) {
     var data = [];
     var refs = [];
@@ -133,6 +170,24 @@ exports.getAllSessionsByTherapist = function (req, res) {
     console.log('Error al obtener sesiones terapeuta!', error);
     return res.status(404).send(error);
   });
+};
+
+exports.getAllUncompletedSessionsByTherapist = function (req, res) {
+  sess.where('therapist', '==', req.params.tid).where('state', '==', 0).get().then(function (query) {
+    var data = [];
+    var refs = [];
+    query.forEach(function (doc) {
+      data.push(doc.data());
+      refs.push(doc.id);
+    });
+    return res.status(200).send({
+      id: refs,
+      data: data
+    });
+  })["catch"](function (error) {
+    console.log('Error al obtener sesiones terapeuta!', error);
+    return res.status(404).send(error);
+  });
 }; // * Obtener notas del terapeuta
 
 
@@ -164,6 +219,69 @@ exports.getNotesByTherapist = function (req, res) {
 
 exports.newNote = function (req, res) {
   console.log('Creando nota');
+};
+
+exports.connectReAuth = function (req, res) {
+  var email = req.body.email;
+  var account = stripe.accounts.retrieve({
+    type: 'express',
+    email: email,
+    capabilities: {
+      card_payments: {
+        requested: true
+      },
+      transfers: {
+        requested: true
+      }
+    }
+  })["catch"](function (e) {
+    console.error('No ha sido posible autenticarte');
+    console.error(e);
+  });
+};
+
+exports.handleAccountUpdate = function (req, res) {
+  var hosts = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+  'https://us-central1-iknelia-3cd8e.cloudfunctions.net/api' // * cloud api host
+  ]; // const webhookAccountUpdate = await stripe.webhookEndpoints.create({
+  //   url: `${hosts[1]}/t/${req.params.tid}/webhookUpdateAccount`,
+  //   enabled_events: [
+  //     'account_updated'
+  //   ],
+  // })
+
+  var sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
+  //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
+
+  var endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", "whsec_ZBv8dScsRtH1S36P3AllVEhr3vA1HnJf", "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"][1];
+  var event = req.body; // @ Lee la información enviada
+
+  try {
+    /* 
+      * Se construye unevento a traves de stripe pasando como argumentos:
+        @ Signature de stripe
+        @ secreto del endpoint
+        @ Informacion obtenida del POST
+    */
+    event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
+  } catch (err) {
+    return res.status(400).send("Webhook Error: ".concat(err.message));
+  }
+
+  console.log(event);
+
+  switch (event.type) {
+    case 'account_update':
+      console.log('Se recibió el evento', event);
+
+    default:
+      console.log('Unhandled type event');
+  }
+
+  return res.status(200).send({
+    event: event,
+    message: 'Se recibió el evento'
+  });
 };
 
 exports.uploadTherImg = function (req, res) {

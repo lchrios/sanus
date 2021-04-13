@@ -159,12 +159,11 @@ exports.createUserWithEmailAndPassword = function (req, res) {
     photoURL: "https://storage.googleapis.com/iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png",
     disabled: false
   }).then(function (user) {
-    console.log('Auth: Usuario creado exitosamene!'); // TODO: SEND EMAIL VERIFICATION
-
+    console.log('Auth: Usuario creado exitosamene!');
     var actionCodeSettings = {
       // URL you want to redirect back to. The domain (www.example.com) for
       // this URL must be whitelisted in the Firebase Console.
-      url: 'https://www.iknelia.app/session/login',
+      url: 'https://www.iknelia.app/home',
       // This must be true for email link sign-in.
       handleCodeInApp: true,
       iOS: {
@@ -177,7 +176,12 @@ exports.createUserWithEmailAndPassword = function (req, res) {
       },
       // FDL custom domain.
       dynamicLinkDomain: 'www.iknelia.app'
-    }; // * Sube el usuario creado a colleccion de usuarios
+    };
+    auth.generateEmailVerificationLink(user.email, actionCodeSettings).then(function (link) {
+      return sendCustomVerificationEmail(user.email, user.displayName, link);
+    })["catch"](function (err) {
+      console.error("Error:", err);
+    }); // * Sube el usuario creado a colleccion de usuarios
 
     users.doc(user.uid).set(req.body.userdata).then(function () {
       console.log('Collection: Users - Listo!', user.uid); // * Actualizar el rol del usuario a 'user'

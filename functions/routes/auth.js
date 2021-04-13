@@ -138,12 +138,11 @@ exports.createUserWithEmailAndPassword = (req, res) => {
         })
         .then( user => {
             console.log('Auth: Usuario creado exitosamene!');
-            
-            // TODO: SEND EMAIL VERIFICATION
+
             const actionCodeSettings = {
                 // URL you want to redirect back to. The domain (www.example.com) for
                 // this URL must be whitelisted in the Firebase Console.
-                url: 'https://www.iknelia.app/session/login',
+                url: 'https://www.iknelia.app/home',
                 // This must be true for email link sign-in.
                 handleCodeInApp: true,
                 iOS: {
@@ -156,8 +155,15 @@ exports.createUserWithEmailAndPassword = (req, res) => {
                 },
                 // FDL custom domain.
                 dynamicLinkDomain: 'www.iknelia.app',
-              };
-            
+            };
+            auth.generateEmailVerificationLink(user.email, actionCodeSettings)
+            .then(link => {
+                return sendCustomVerificationEmail(user.email, user.displayName, link);
+            })
+            .catch((err) => {
+                console.error("Error:", err);
+            });
+
             // * Sube el usuario creado a colleccion de usuarios
             users
                 .doc(user.uid)

@@ -52,7 +52,7 @@ const TherapistHome = () => {
             .then(resU => {
                 console.log("Usuarios obtenidos")
                 setUsers(resU.data)
-                api.get(`/t/${user.uid}/s`) 
+                api.get(`/t/${user.uid}/s/uncompleted`) 
                 .then(resS => {
                     console.log("Sesiones obtenidas")
                     setSessions(resS.data)

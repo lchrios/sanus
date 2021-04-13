@@ -50,6 +50,7 @@ var _require3 = require("./routes/therapists"),
     getAllSessionsByTherapist = _require3.getAllSessionsByTherapist,
     getTherapist = _require3.getTherapist,
     getPatientsbyTherapist = _require3.getPatientsbyTherapist,
+    getPatientsImageByTherapist = _require3.getPatientsImageByTherapist,
     getNotesByTherapist = _require3.getNotesByTherapist,
     newNote = _require3.newNote,
     setSchedule = _require3.setSchedule,
@@ -58,7 +59,8 @@ var _require3 = require("./routes/therapists"),
     handleAccountUpdate = _require3.handleAccountUpdate,
     getTherImage = _require3.getTherImage,
     uploadTherImg = _require3.uploadTherImg,
-    getAllTherImage = _require3.getAllTherImage; // * Funcions relativas a las sesiones
+    getAllTherImage = _require3.getAllTherImage,
+    getAllUncompletedSessionsByTherapist = _require3.getAllUncompletedSessionsByTherapist; // * Funcions relativas a las sesiones
 
 
 var _require4 = require("./routes/sessions"),
@@ -103,7 +105,7 @@ app.use(cookieParser()); // const upload = multer({
 
 app.use(cors());
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][0]);
+  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][1]);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 }); // * Niveles de permisos por roles 
@@ -122,9 +124,11 @@ var roles = {
 app.get("/t", isAuthenticated, isAuthorized(roles.user), getAllTherapists);
 app.get("/t/:tid", isAuthenticated, isAuthorized(roles.user), getTherapist);
 app.get("/t/:tid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByTherapist);
+app.get("/t/:tid/s/uncompleted", isAuthenticated, isAuthorized(roles.user), getAllUncompletedSessionsByTherapist);
 app.get("/t/:tid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
 app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByTherapist);
 app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist);
+app.get("/t/:tid/u/image", isAuthenticated, isAuthorized(roles.therapist), getPatientsImageByTherapist);
 app.get("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), getNotesByTherapist);
 app.get("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), getSchedule);
 app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
@@ -164,8 +168,7 @@ app.put("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), updateBlog); 
 app.post("/s/new", isAuthenticated, isAuthorized(roles.user), newSession);
 app.put("/s/:sid", isAuthenticated, isAuthorized(roles.user), updateSession);
 app.get("/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
-app["delete"]("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession); // TODO: confirmSession function
-// * rutas de autenticacion
+app["delete"]("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession); // * rutas de autenticacion
 
 app.post("/auth/signuser", createUserWithEmailAndPassword);
 app.post("/auth/signtherapist", createTherapistWithEmailAndPassword);
