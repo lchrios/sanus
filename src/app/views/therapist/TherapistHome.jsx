@@ -36,6 +36,7 @@ const TherapistHome = () => {
     const [sessions, setSessions] = useState()
     const [users, setUsers] = useState()
     const [blogs, setBlogs] = useState()
+    const [therapist, setTherapist] = useState()
 
     const toggleSidenav = () => {
         setOpen(!open)
@@ -58,13 +59,19 @@ const TherapistHome = () => {
                     api.get(`/t/${user.uid}/b`) 
                     .then(resB => {
                         console.log("Blogs obtenidos")
-                        setBlogs(resB.data)            
-                        setLoading(false)
+                        setBlogs(resB.data)
+                        api.get(`/t/${user.uid}`).then(resTripe => {
+                            console.log(resTripe)
+                            setTherapist(resTripe.data)
+                            setLoading(false)
+                        })          
                     })
                     
                 })
             })
     }, [])
+
+    
 
     return (
         <div className="relative">

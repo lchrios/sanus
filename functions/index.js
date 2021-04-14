@@ -47,7 +47,6 @@ const {
   newNote,
   setSchedule,
   getSchedule,
-  connectReAuth,
   handleAccountUpdate,
   getTherImage,
   uploadTherImg,
@@ -78,6 +77,7 @@ const {
       sendPaymentInfo, 
       handleStripeEvent, 
       expressAccount,
+      connectReAuth,
 } = require("./routes/stripe");
 
 const filesRouter = require('./routes/files');
@@ -149,10 +149,7 @@ app.post("/u/:uid/image", uploadImg);
 
 //*rutas de stripe (lado terapeuta)
 app.post("/t/:tid/connect", isAuthenticated, isAuthorized(roles.therapist), expressAccount)
-app.post("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth)
-// app.post("t/:tid/connectSucceded", isAuthenticated, isAuthorized(roles.therapist), )
-
-//*rutas de stripe (lado terapeuta)
+app.get("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth)
 app.post("/updateAccount", isAuthenticated, isAuthorized(roles.therapist), handleAccountUpdate)
 
 //*rutas de stripe (lado user)

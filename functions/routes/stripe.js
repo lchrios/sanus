@@ -1,5 +1,8 @@
 const stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG");
 
+const { admin, storage } = require('../firebase');
+var db = admin.firestore().collection('therapists');
+
 /**La private key será utilizada con una variable de entorno */
 
 exports.sendPaymentInfo = (req, res) => {
@@ -98,11 +101,18 @@ exports.expressAccount = (req, res) => {
             'http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
             'https://iknelia.app' // * cloud api host
           ]
+
+        db.doc(req.params.tid).update({stripeId:response.id, charges_enabled:response.charges_enabled})
+        .then(() =>console.log('Actualización de stripeID completada.')
+        ).catch(err => console.error(err))
+
+
         stripe.accountLinks.create({
             account: response.id,
             refresh_url: `${hosts[1]}/${req.params.tid}/reAuth`,
             return_url: `${hosts[1]}/${req.params.tid}/dashboard`,
             type:"account_onboarding"
+
         }).then(response1 => {
             console.log("Enviando link")
     
@@ -111,6 +121,22 @@ exports.expressAccount = (req, res) => {
     })
     .catch(e => {
         console.error('No ha sido posible crear tu cuenta')
+        console.error(e)
+    })
+}
+
+exports.connectReAuth = (req,res) => {
+    db.doc(req.params.tid).get().then(doc => {
+
+        stripe.accounts.retrieve(
+            doc.data().stripeId
+        ).then(account => {
+            res.status(200).send({charges_enabled:account.charges_enabled})
+        })
+
+    })
+    .catch(e => {
+        console.error('No ha sido posible traer tus datos')
         console.error(e)
     })
 }

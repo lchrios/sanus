@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Avatar, Button, Card, Grid, Icon, Dialog } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -72,13 +72,14 @@ const TherapistHomeSidenav = () => {
     function handleClickConnect() {
         console.log('Conectando con stripe')
 
-        api.post("/t/:tid/connect", {
+        api.post(`/t/${user.uid}/connect`, {
             email: user.email,
         }).then(res => {
             console.log(res)
-            window.location.href=`${res.data.url}`
         })
     }
+
+   
     return (
         <div>
 

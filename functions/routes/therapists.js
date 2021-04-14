@@ -159,21 +159,6 @@ exports.newNote = (req,res) => {
     console.log('Creando nota')
 }
 
-exports.connectReAuth = (req,res) => {
-    const {email} = req.body;
-    const account = stripe.accounts.retrieve({
-        type:'express',
-        email: email,
-        capabilities: {
-            card_payments: {requested:true},
-            transfers: {requested:true}
-        }
-    })
-    .catch(e => {
-        console.error('No ha sido posible autenticarte')
-        console.error(e)
-    })
-}
 
 exports.handleAccountUpdate = (req, res) => {
     const hosts = [
