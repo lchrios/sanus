@@ -14,11 +14,18 @@ import firebase from 'firebase/app'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import { IkneliaLogo } from 'app/components/Brand/Brand'
-import MatxDivider from 'app/components/MatxDivider/MatxDivider'
+
+const bg = [
+    '#EB498A',
+    '#E4CFF5',
+    '#1C35C3',
+    '#AFE3ED',
+    '#FFEDCA'
+];
 
 const useStyles = makeStyles(({ palette, ...theme }) => ({
     cardHolder: {
-        background: '#00009C',
+        background: bg[Math.floor(Math.random() * bg.length)],
     },
     card: {
         maxWidth: 800,

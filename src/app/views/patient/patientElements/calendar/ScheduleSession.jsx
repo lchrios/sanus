@@ -69,7 +69,8 @@ const ScheduleSession = ({ open, handleClose, therapist, tid }) => {
     const [hasSched, setHasSched] = useState(false)
     const [activeStep, setActiveStep] = useState(0);
     const [message, setMessage] = useState("");
-    
+    const [back, setBack] = useState(false);
+
     useEffect(() => {
         console.log(state)
     },[state])
@@ -124,13 +125,17 @@ const ScheduleSession = ({ open, handleClose, therapist, tid }) => {
     const getSetpContent = (stepContent) => {
         switch (stepContent) {
             case 0: // * Schedule selector
-                return <PaymentSchedule setMessage={setMessage} handleNext={handleNext} state={state} setState={setState} hasSched={hasSched} setHasSched={setHasSched}/>
+                return <PaymentSchedule setMessage={setMessage} handleNext={handleNext} back={back} state={state} setState={setState} hasSched={hasSched} setHasSched={setHasSched}/>
 
             case 1: // * Information resume
                 return <SessionResume therapist={therapist} setMessage={setMessage} handleNext={handleNext} state={state} handleChange={handleChange}/>
 
             case 2: // * Stripe payment options
-                return <CheckoutApp state={state} therapist={therapist} tid={tid}/>
+                return (
+                    <div className="mt-5">
+                        <CheckoutApp  state={state} therapist={therapist} tid={tid}/>
+                    </div>
+                )
 
             case 4: // * Session confirmation
                 break;
@@ -158,14 +163,14 @@ const ScheduleSession = ({ open, handleClose, therapist, tid }) => {
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1)
-        
+        setBack(true)
     }
 
     return (
         <Dialog
             onClose={handleClose}
             open={open}
-            maxWidth="md"
+            maxWidth="sm"
             fullWidth={true}
         >
             <div className="flex justify-between items-center pl-4 pr-2 py-2 bg-primary">
@@ -175,7 +180,7 @@ const ScheduleSession = ({ open, handleClose, therapist, tid }) => {
                 </IconButton>
             </div>
 
-            <div className="p-4">
+            <div className="p-4 m-auto align-self-center">
                 <Card className={classes.card}>
                     <Stepper activeStep={activeStep} alternativeLabel>
                         {steps.map((label) => (
@@ -219,37 +224,48 @@ const ScheduleSession = ({ open, handleClose, therapist, tid }) => {
                                                         justify="center"
                                                         alignItems="center"
                                                         spacing={2}   
-                                                        className="flex mt-3"
+                                                        className="flex mt-3 p-4 m-auto align-self-center"
                                                     >
-                                                        { activeStep === 2 ? <></> : <>
-                                                            <Button className="capitalize"
+                                                        { activeStep === 2 
+                                                        ?   <Button className="capitalize"
                                                                 variant={activeStep === 0 ? 'text' : 'contained'}
                                                                 color={activeStep === 0 ? 'primary' : 'secondary'}
                                                                 disabled={activeStep === 0}
                                                                 onClick={handleBack}
                                                             >
-                                                                Volver
-                                                        </Button>
-                                                        <span className="mx-2 ml-5 mr-5">ó</span>
-                                                        { activeStep === 1 ? 
-                                                        <Button
-                                                            variant="contained"
-                                                            color="primary"
-                                                            onClick={handleNext}
-                                                        >
-                                                            Pagar <Icon className="ml-5">shopping_cart</Icon>
-                                                        </Button>
-                                                        :
-                                                        <Button
-                                                            variant="contained"
-                                                            color="primary"
-                                                            type="submit"
-                                                            onClick={handleNext}
-                                                            disabled={!hasSched}
-                                                        >
-                                                            Siguiente
-                                                        </Button>
-                                                        }</>}
+                                                                    Volver
+                                                            </Button> 
+                                                        :   <>
+                                                                <Button className="capitalize"
+                                                                    variant={activeStep === 0 ? 'text' : 'contained'}
+                                                                    color={activeStep === 0 ? 'primary' : 'secondary'}
+                                                                    disabled={activeStep === 0}
+                                                                    onClick={handleBack}
+                                                                >
+                                                                    Volver
+                                                                </Button>
+                                                            <span className="mx-2 ml-5 mr-5">ó</span>
+                                                            {   activeStep === 1 
+                                                            ?   <Button
+                                                                    variant="contained"
+                                                                    color="primary"
+                                                                    onClick={handleNext}
+                                                                    disabled={activeStep === 2}
+                                                                >
+                                                                    Pagar <Icon className="ml-5">shopping_cart</Icon>
+                                                                </Button>
+                                                            :   <Button
+                                                                    variant="contained"
+                                                                    color="primary"
+                                                                    type="submit"
+                                                                    onClick={handleNext}
+                                                                    disabled={!hasSched}
+                                                                >
+                                                                    Siguiente
+                                                                </Button>
+                                                            }
+                                                            </>
+                                                        }
                                                     </Grid>
                                                 </Grid>
                                                 <Grid item lg={12} md={12} sm={12} xs={12}>

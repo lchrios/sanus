@@ -12,9 +12,9 @@ import api from 'app/services/api';
 import useAuth from 'app/hooks/useAuth';
 import { Loading } from 'app/components/Loading/Loading';
 
-const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, setHasSched }) => {
+const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, setHasSched, back }) => {
 
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(!back)
     const { user } = useAuth() 
     const [options, setOptions] = useState({
         selectionScheme: 'linear',
@@ -38,24 +38,32 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, se
     }
 
     useEffect(() => {
-        api.get(`/u/${user.uid}/schedule`)
-        .then( res => {
-            if (res.status === 204) {
-                setMessage("El terapeuta aún no tiene un horario")
-            } else {
-                var schedDate = res.data.schedule.map(sched => new Date(sched))
-                setHasSched(true)
-                setState({
-                    ...state,
-                    schedule: schedDate,
-                })
-                setOptions(res.data.options)
-            }
-            setLoading(false);
-        })
-        .catch( er => {
-            console.error(er);
-        })
+        if (state?.date && !back) {
+            handleNext();
+        }
+    }, [state])
+
+    useEffect(() => {
+        if (!back) {
+            api.get(`/u/${user.uid}/schedule`)
+            .then( res => {
+                if (res.status === 204) {
+                    setMessage("El terapeuta aún no tiene un horario")
+                } else {
+                    var schedDate = res.data.schedule.map(sched => new Date(sched))
+                    setHasSched(true)
+                    setState({
+                        ...state,
+                        schedule: schedDate,
+                    })
+                    setOptions(res.data.options)
+                }
+                setLoading(false);
+            })
+            .catch( er => {
+                console.error(er);
+            })
+        }
     }, [])
     
     const handleDate = date => {
@@ -67,7 +75,7 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, se
 
     return (<>
         { loading
-        ?   <Loading />
+        ?   <Loading className="p-4 m-5 align-self-center"/>
         :   <>{ hasSched 
             ?   <Grid
                     container
@@ -138,7 +146,6 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, se
                                 selectionScheme={options.selectionScheme}
                                 onChange={handleChange}
                                 renderDataCell={(selected) => {
-                                    console.log(selected)
                                     return <p>{selected}</p>
                                 }}
                             />

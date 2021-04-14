@@ -190,4 +190,31 @@ export const themeColors = {
             error: errorColor,
         },
     },
+    iknelia: {
+        palette: {
+            type: 'light',
+            primary: {
+                main: false ? '#1C35C3' : '#1976D2',
+                contrastText: '#ffffff',
+            },
+            secondary: {
+                main: '#FFEDCA',
+                contrastText: textLight.primary,
+            },
+            blue: {
+                main: '#AFE3ED',
+                contrastText: textLight.primary,
+            },
+            beige: {
+                main: '#E4CFF5',
+                contrastText: textLight.primary,
+            },
+            pink: {
+                main: '#EB498A',
+                contrastText: textLight.primary,
+            },
+            error: errorColor,
+            text: textLight,
+        },
+    },
 }

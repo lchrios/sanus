@@ -10,7 +10,7 @@ var Layout2Settings = {
   topbar: {
     show: true,
     fixed: true,
-    theme: 'slateDark1'
+    theme: 'slateDark2'
   },
   navbar: {
     show: true,

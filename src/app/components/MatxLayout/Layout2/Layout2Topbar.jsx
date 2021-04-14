@@ -74,7 +74,7 @@ const Layout2Topbar = () => {
                 setUrl(res.data.url);
             })
         } else {
-            api.get(`/t/${user.uid}/image`)
+            api.get(`/u/${user.uid}/image`)
             .then(res => {
                 setUrl(res.data.url);
             }) 
