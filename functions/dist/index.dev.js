@@ -41,7 +41,8 @@ var _require2 = require("./routes/users"),
     uploadImg = _require2.uploadImg,
     submitTest = _require2.submitTest,
     getTherapistSchedule = _require2.getTherapistSchedule,
-    getUserPayed = _require2.getUserPayed; // * Funciones relativas al terapeuta
+    getUserPayed = _require2.getUserPayed,
+    getAllUserImage = _require2.getAllUserImage; // * Funciones relativas al terapeuta
 
 
 var _require3 = require("./routes/therapists"),
@@ -49,13 +50,17 @@ var _require3 = require("./routes/therapists"),
     getAllSessionsByTherapist = _require3.getAllSessionsByTherapist,
     getTherapist = _require3.getTherapist,
     getPatientsbyTherapist = _require3.getPatientsbyTherapist,
+    getPatientsImageByTherapist = _require3.getPatientsImageByTherapist,
     getNotesByTherapist = _require3.getNotesByTherapist,
     newNote = _require3.newNote,
     setSchedule = _require3.setSchedule,
     getSchedule = _require3.getSchedule,
+    connectReAuth = _require3.connectReAuth,
+    handleAccountUpdate = _require3.handleAccountUpdate,
     getTherImage = _require3.getTherImage,
     uploadTherImg = _require3.uploadTherImg,
-    getAllTherImage = _require3.getAllTherImage; // * Funcions relativas a las sesiones
+    getAllTherImage = _require3.getAllTherImage,
+    getAllUncompletedSessionsByTherapist = _require3.getAllUncompletedSessionsByTherapist; // * Funcions relativas a las sesiones
 
 
 var _require4 = require("./routes/sessions"),
@@ -76,7 +81,8 @@ var _require5 = require("./routes/blogs"),
 
 var _require6 = require("./routes/stripe"),
     sendPaymentInfo = _require6.sendPaymentInfo,
-    handleStripeEvent = _require6.handleStripeEvent;
+    handleStripeEvent = _require6.handleStripeEvent,
+    expressAccount = _require6.expressAccount;
 
 var filesRouter = require('./routes/files');
 
@@ -118,9 +124,11 @@ var roles = {
 app.get("/t", isAuthenticated, isAuthorized(roles.user), getAllTherapists);
 app.get("/t/:tid", isAuthenticated, isAuthorized(roles.user), getTherapist);
 app.get("/t/:tid/s", isAuthenticated, isAuthorized(roles.user), getAllSessionsByTherapist);
+app.get("/t/:tid/s/uncompleted", isAuthenticated, isAuthorized(roles.user), getAllUncompletedSessionsByTherapist);
 app.get("/t/:tid/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
 app.get("/t/:tid/b", isAuthenticated, isAuthorized(roles.user), getAllBlogsByTherapist);
 app.get("/t/:tid/u", isAuthenticated, isAuthorized(roles.therapist), getPatientsbyTherapist);
+app.get("/t/:tid/u/image", isAuthenticated, isAuthorized(roles.therapist), getPatientsImageByTherapist);
 app.get("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), getNotesByTherapist);
 app.get("/t/:tid/schedule", isAuthenticated, isAuthorized(roles.therapist), getSchedule);
 app.post("/t/:tid/n", isAuthenticated, isAuthorized(roles.therapist), newNote);
@@ -140,7 +148,14 @@ app.post("/u/:uid/test", isAuthenticated, isAuthorized(roles.user), submitTest);
 app.get("/u/:uid/schedule", isAuthenticated, isAuthorized(roles.user), getTherapistSchedule);
 app.get("/u/:uid/payed", isAuthenticated, isAuthorized(roles.user), getUserPayed);
 app.get("/u/:uid/image", isAuthenticated, isAuthorized(roles.user), getUserImage);
-app.post("/u/:uid/image", uploadImg); //*rutas de stripe (lado user)
+app.get("/users/image", isAuthenticated, isAuthorized(roles.user), getAllUserImage);
+app.post("/u/:uid/image", uploadImg); //*rutas de stripe (lado terapeuta)
+
+app.post("/t/:tid/connect", isAuthenticated, isAuthorized(roles.therapist), expressAccount);
+app.post("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth); // app.post("t/:tid/connectSucceded", isAuthenticated, isAuthorized(roles.therapist), )
+//*rutas de stripe (lado terapeuta)
+
+app.post("/updateAccount", isAuthenticated, isAuthorized(roles.therapist), handleAccountUpdate); //*rutas de stripe (lado user)
 
 app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo);
 app.post("/webhook", handleStripeEvent); // * rutas de blogs
@@ -153,8 +168,7 @@ app.put("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), updateBlog); 
 app.post("/s/new", isAuthenticated, isAuthorized(roles.user), newSession);
 app.put("/s/:sid", isAuthenticated, isAuthorized(roles.user), updateSession);
 app.get("/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
-app["delete"]("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession); // TODO: confirmSession function
-// * rutas de autenticacion
+app["delete"]("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession); // * rutas de autenticacion
 
 app.post("/auth/signuser", createUserWithEmailAndPassword);
 app.post("/auth/signtherapist", createTherapistWithEmailAndPassword);

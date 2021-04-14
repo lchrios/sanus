@@ -50,6 +50,7 @@ const PatientProfile = () => {
 
     useEffect(() => {
         console.log("Pidiendo Terapeuta")
+        
         getTherapist(user.uid).then( res => {
             setTherapist(res?.data);
             setTid(res?.id);
@@ -64,12 +65,16 @@ const PatientProfile = () => {
                     api.get(`/u/${user.uid}/image`)
                     .then(respon => {
                         setUrl(respon.data.url);
-                        console.log("Obteniendo el URL de la foto del terapeuta");
-                        api.get(`/t/${res?.id}/image`)
-                        .then(respons => {
-                            setTUrl(respons.data.url)
-                            setLoading(false);
-                        })
+                        if (res) {
+                            console.log("Obteniendo el URL de la foto del terapeuta");
+                            api.get(`/t/${res?.id}/image`)
+                            .then(respons => {
+                                setTUrl(respons.data.url)
+                            })
+                        }
+                    })
+                    .finally(() => {
+                        setLoading(false);
                     })
                 })
                 .catch( er => {

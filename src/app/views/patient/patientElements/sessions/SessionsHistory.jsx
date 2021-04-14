@@ -33,6 +33,15 @@ const SessionsHistory = ({toggleSidenav}) => {
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => {
+
+                    if (!orderList[dataIndex].payed) {
+                        return (
+                            <small className="capitalize text-white bg-error border-radius-4 px-2 py-2px">
+                                No pagada
+                            </small>
+                        )   
+                    }
+
                     let status = orderList[dataIndex].state
 
                     switch (status) {
@@ -99,18 +108,23 @@ const SessionsHistory = ({toggleSidenav}) => {
                 },
             },
         },
-        // {
-        //     name: 'productName',
-        //     label: 'Tipo de sesión',
-        //     options: {
-        //         filter: true,
-        //         customBodyRenderLite: (dataIndex) => (
-        //             <span className="ellipsis">
-        //                 {orderList[dataIndex].tipo}
-        //             </span>
-        //         ),
-        //     },
-        // },
+        {
+            name: 'tipo_pago',
+            label: 'Pagado con',
+            options: {
+                filter: true,
+                customBodyRenderLite: (dataIndex) => (
+                    <img
+                        className="overflow-hidden"
+                        style={{
+                            width: "50px",
+                        }}
+                        src={orderList[dataIndex].pay_type === 'card' ? '/assets/images/payment-methods/visa.png' : '/assets/images/payment-methods/oxxo.png' }
+                        alt="master card"
+                    />
+                ),
+            },
+        },
         // {
         //     name: 'method',
         //     label: 'Método de pago',

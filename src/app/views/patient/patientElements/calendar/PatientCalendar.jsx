@@ -66,10 +66,10 @@ const PatientCalendar = ({ sessions, therapist, tid, payed }) => {
     const handleDialogClose = () => {
         setShouldShowEventDialog(false)
     }
-
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', };
     useEffect(() => {
         setEvents(sessions.map((e) => ({
-            title: e.thername,
+            title: new Date(e.start).toLocaleTimeString("es-ES", options).slice(28),
             start: new Date(e.start),
             end: new Date(e.end),
         })))
@@ -92,9 +92,13 @@ const PatientCalendar = ({ sessions, therapist, tid, payed }) => {
         <div className="m-sm-30">
             {   payed
             ?   <Button
-                    className="mb-4"
+                    className="mb-4 h1"
                     variant="contained"
                     color="secondary"
+                    fullWidth
+                    style={{
+                        height: "55px",
+                    }}
                     onClick={() => {
                         openNewEventDialog({
                             action: 'doubleClick',

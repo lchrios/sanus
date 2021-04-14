@@ -37,6 +37,7 @@ const TherapistHome = () => {
     const [users, setUsers] = useState()
     const [blogs, setBlogs] = useState()
     const [therapist, setTherapist] = useState()
+    const [url, setUrl] = useState();
 
     const toggleSidenav = () => {
         setOpen(!open)
@@ -52,7 +53,7 @@ const TherapistHome = () => {
             .then(resU => {
                 console.log("Usuarios obtenidos")
                 setUsers(resU.data)
-                api.get(`/t/${user.uid}/s`) 
+                api.get(`/t/${user.uid}/s/uncompleted`) 
                 .then(resS => {
                     console.log("Sesiones obtenidas")
                     setSessions(resS.data)
@@ -63,10 +64,14 @@ const TherapistHome = () => {
                         api.get(`/t/${user.uid}`).then(resTripe => {
                             console.log(resTripe)
                             setTherapist(resTripe.data)
-                            setLoading(false)
+                            api.get(`/t/${user.uid}/image`) 
+                            .then(resC => {
+                                console.log("Imagen obtenida")
+                                setUrl(resC.data.url)            
+                                setLoading(false)
+                            })
                         })          
                     })
-                    
                 })
             })
     }, [])
@@ -93,7 +98,7 @@ const TherapistHome = () => {
                             </IconButton>
                         </Hidden>
                     </div>
-                    <TherapistHomeSidenav />
+                    <TherapistHomeSidenav url={url} />
                 </MatxSidenav>
                 <MatxSidenavContent open={open}>
                     <div className={clsx('bg-primary', classes.headerBG)} />

@@ -32,8 +32,6 @@ const TherapistInfoUser = ({ therapist, loading, t_url }) => {
     const classes = usestyles()
     const { user } = useAuth()
 
-    console.log(t_url)
-
     return (
         <Grid 
             container 

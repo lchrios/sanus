@@ -14,6 +14,7 @@ import { Loading } from 'app/components/Loading/Loading';
 
 const SessionResume = ({ therapist, setMessage, handleNext, state, handleChange }) => {
     const { user } = useAuth() 
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', };
 
     return (
         <Grid
@@ -50,9 +51,10 @@ const SessionResume = ({ therapist, setMessage, handleNext, state, handleChange 
                                 label="Terapeuta"
                                 onChange={handleChange}
                                 type="text"
-                                name="nombre"
+                                name="therapist"
                                 value={therapist?.name || ''}
-                                disabled={true}
+                                disabled={false}
+                                variant="filled"
                             />
                         </Grid>
                         <Grid 
@@ -66,9 +68,27 @@ const SessionResume = ({ therapist, setMessage, handleNext, state, handleChange 
                                 className="mb-6 w-full"
                                 label="Fecha"
                                 type="text"
-                                name="nombre"
-                                value={new Date(state.date)}
+                                name="date"
+                                value={new Date(state.date).toLocaleString("es-ES", options)}
                                 disabled={false}
+                                variant="filled"
+                            />
+                        </Grid>
+                        <Grid 
+                            item
+                            lg={12}
+                            md={12}
+                            sm={12}
+                            xs={12}
+                        >
+                            <TextValidator
+                                className="mb-6 w-full"
+                                label="Hora"
+                                type="text"
+                                name="time"
+                                value={new Date(state.date).toTimeString()}
+                                disabled={false}
+                                variant="filled"
                             />
                         </Grid>
                         <Grid 
@@ -82,9 +102,10 @@ const SessionResume = ({ therapist, setMessage, handleNext, state, handleChange 
                                 className="mb-6 w-full"
                                 label="Tipo de Sesion"
                                 type="text"
-                                name="nombre"
+                                name="session_type"
                                 value="Sesion adulto individual"
-                                disabled={true}
+                                disabled={false}
+                                variant="filled"
                             />
                         </Grid>
                         <Grid 
@@ -98,9 +119,10 @@ const SessionResume = ({ therapist, setMessage, handleNext, state, handleChange 
                                 className="mb-6 w-full"
                                 label="Costo"
                                 type="text"
-                                name="nombre"
+                                name="cost"
                                 value="$600"
-                                disabled={true}
+                                disabled={false}
+                                variant="filled"
                             />
                         </Grid>
                     </Grid>

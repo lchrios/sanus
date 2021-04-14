@@ -130,7 +130,7 @@ const FirebaseRegister = () => {
                         </div>
                     </Grid>
                     <Grid item lg={7} md={7} sm={7} xs={12}>
-                        <div className="px-8 pt-8">
+                        {/* <div className="px-8 pt-8">
                             <Button
                                 onClick={handleGoogleRegister}
                                 variant="contained"
@@ -142,8 +142,8 @@ const FirebaseRegister = () => {
                                 />
                                 Iniciar sesión con Google
                             </Button>
-                        </div>
-                        <p className="text-center mb-0">Ó</p>
+                        </div>*/}
+                        <p className="text-center mb-0 h3 mt-5">Crea una cuenta:</p> 
                         <div className="p-8 h-full">
                             <ValidatorForm onSubmit={handleFormSubmit}>
                                 <TextValidator

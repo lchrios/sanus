@@ -4,7 +4,7 @@ import { Badge, Fab, Grid } from "@material-ui/core"
 
 const PatientsList = ({ users }) => {
     return users.data.map((patient, index) =>
-        <Grid item key={users.id[index]} className="flex items-center mb-4">
+        <Grid item key={users.id[index]} className="flex items-center mb-4 mt-2">
             {!patient.answered
             ?   <Badge badgeContent="Nuevo" color='secondary'>
                     <Fab className='primary'>

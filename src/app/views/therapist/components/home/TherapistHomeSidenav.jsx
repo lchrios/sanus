@@ -40,8 +40,9 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const TherapistHomeSidenav = () => {
+const TherapistHomeSidenav = ({ url }) => {
     const classes = usestyles()
+    const str_classes = useStripeStyles()
     const { user } = useAuth()
 
     const [open, setOpen] = React.useState(false)
@@ -84,43 +85,43 @@ const TherapistHomeSidenav = () => {
         <div>
 
              {/* Dialogo de notas comienza */}
-                        <Dialog
-                            onClose={handleClose}
-                            aria-labelledby="customized-dialog-title"
-                            open={open}
-                        >
-                            <DialogTitle
-                                id="customized-dialog-title"
-                                onClose={handleClose}
-                            >
-                                Notas de mis sesiones
-                            </DialogTitle>
-                            <DialogContent dividers>
-                               <Button
-                               variant="contained"
-                               color="primary"
-                               className="x-center"
-                               size="large"
-                               onClick={() => history.push('/:pid/notes')}>
-                                    <Typography gutterBottom>
-                                        Crear nota
-                                    </Typography>
-                                </Button>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button onClick={handleClose} className="bg-error" variant="outlined" size="small">
-                                    <Icon>clear</Icon>Cerrar
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
+                <Dialog
+                    onClose={handleClose}
+                    aria-labelledby="customized-dialog-title"
+                    open={open}
+                >
+                    <DialogTitle
+                        id="customized-dialog-title"
+                        onClose={handleClose}
+                    >
+                        Notas de mis sesiones
+                    </DialogTitle>
+                    <DialogContent dividers>
+                        <Button
+                        variant="contained"
+                        color="primary"
+                        className="x-center"
+                        size="large"
+                        onClick={() => history.push('/:pid/notes')}>
+                            <Typography gutterBottom>
+                                Crear nota
+                            </Typography>
+                        </Button>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} className="bg-error" variant="outlined" size="small">
+                            <Icon>clear</Icon>Cerrar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 {/**Dialogo de notas termina */}
 
             <div className={clsx('flex-column items-center', classes.sidenav)}>
                 <Avatar
                     className="h-84 w-84 mb-5"
-                    src="/assets/images/face-7.jpg"
+                    src={url}
                 />
-                <p className="text-white">{user.name}</p>
+                <p className="text-white">{user.email}</p>
                 <div className="py-3" />
                 <div className="flex flex-wrap w-full px-12 mb-11">
                     <div className="flex-grow">
@@ -185,7 +186,7 @@ const TherapistHomeSidenav = () => {
                     </Card>
                     <Card className="flex items-center mt-2 justify-center text-primary">
                         <Button 
-                            className={useStripeStyles}
+                            className={str_classes.stripeConnect}
                             onClick={handleClickConnect}
                             >
                             <h5>

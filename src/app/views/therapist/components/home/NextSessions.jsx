@@ -14,6 +14,7 @@ import clsx from 'clsx'
 import { MatxMenu, GoogleIcon } from 'app/components'
 import api from 'app/services/api'
 import useAuth from 'app/hooks/useAuth'
+import DoneDialog from './DoneDialog'
 
 Date.prototype.addHours = function(h) {
     this.setTime(this.getTime() + (h*60*60*1000));
@@ -53,15 +54,47 @@ const patients = [
     },
 ]
 
-const NextSessions = ({ sessions }) => {
+const NextSessions = ({ sessions, users }) => {
 
-    const classes = useStyles()
-    const numberSession = 0;
-    const { user } = useAuth();
+    const classes = useStyles();
+    const [open, setOpen] = useState(false);
+   
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    const getUserMatch = (us) => {
+        let ind = users.id.indexOf(us);
+        if (ind <= -1 ) {
+            return console.log("No se tiene registro del usuario xd"); 
+        }
+        console.log("Se encontró un registro del usuario. Pasando imagen...")
+        return users.url[ind];
+    }
+
+    const openDone = (index) => {
+        if (index === 0) {
+            setOpen(true);
+        }
+    };
+
+    const closeDone = (event) => {
+        setOpen(false);
+    }
+
+    const getClasses = (st) => {
+        switch (st) {
+            case 0:
+                
+                break;
+        
+            default:
+                break;
+        }
+    }
+
 
     return (
         /**Añadir un contador para que cuando la sesión sea la más próxima muestre los botones correctos */
-        <Grid container spacing={3} direction="column">
+        <Grid container spacing={2} direction="column">
             {sessions.data.map((session_info, index) => (
                 <Grid
                     item
@@ -70,25 +103,34 @@ const NextSessions = ({ sessions }) => {
                     sm={12}
                     xs={12}
                     key={index}>
-                    <Card className="p-5">
+                    <Card className="p-5 ml-5 mr-5" elevation={12}>
                         <div className="flex justify-between mb-4">
-                            <Avatar className="h-56 w-56" src={session_info?.img} />
+                            <Avatar className="h-56 w-56" src={getUserMatch(session_info.user)} />
                             <div>
+                                {open && (
+                                    <DoneDialog
+                                        closeDone={closeDone}
+                                        open={open}
+                                        session={session_info}
+                                        sid={sessions.id[index]}
+                                        img={getUserMatch(session_info.user)}
+                                    />
+                                )}
                                 <MatxMenu
                                     menuButton={
                                         <Icon className="cursor-pointer">more_horiz</Icon>
                                     }
                                 >
-
-
                                     {/* 
-                                    // TODO: AÑADIR ACTUALIZACIÓN DE HISTORIAL DE SESIONES */}
+                                    // TODO: AÑADIR ACTUALIZACIÓN DE HISTORIAL DE SESIONES 
+                                    */}
                                     <MenuItem>
-                                        <Icon fontSize="small"> done </Icon>
-                                        <span className="pl-4"> Marcar como terminado </span>
+                                        <Icon fontSize="small">done</Icon>
+                                        <span className="pl-4" > Marcar como terminado </span>
                                     </MenuItem>
+                                    
                                     <MenuItem>
-                                        <Icon fontSize="small"> account_circle </Icon>
+                                        <Icon fontSize="small">account_circle</Icon>
                                         <span className="pl-4"> Ver paciente </span>
                                     </MenuItem>
                                     {/* <MenuItem>
@@ -104,7 +146,7 @@ const NextSessions = ({ sessions }) => {
                             <Grid item>
                                 <h4 className="text-muted mt-2">Fecha pactada:</h4>
                                 <p className="text-muted">
-                                    {session_info?.start}
+                                    {new Date(session_info?.start).toLocaleTimeString("es-ES", options)}
                                 </p>
                             </Grid>
                             <div className="mb-4">
@@ -120,20 +162,23 @@ const NextSessions = ({ sessions }) => {
                                 <Button
                                     variant="contained"
                                     size="small"
-                                    startIcon={numberSession == 1 ? <CheckCircle /> : <Icon>face</Icon>}
+                                    onClick={() => {
+                                        openDone(index)
+                                    }}
+                                    startIcon={index == 0 ? <CheckCircle /> : <Icon>face</Icon>}
                                     className={clsx("bg-light-primary hover-bg-primary text-primary px-5", classes.button)}
                                 >
-                                    {numberSession == 1 ? 'Comenzar sesión' : 'Contactar paciente'}
+                                    {index == 0 ? 'Marcar como completada' : 'Contactar paciente'}
                                     
                                 </Button>
                                 <Button
                                     size="small"
                                     variant="contained"
-                                    startIcon={numberSession == 1 ? <Icon>watch_later</Icon> : <Icon>visibility</Icon>}
+                                    startIcon={index == 1 ? <Icon>watch_later</Icon> : <Icon>visibility</Icon>}
                                     className={clsx("bg-light-primary hover-bg-primary text-primary px-5 mr-1", classes.button)}
                                 >
 
-                                    {numberSession == 1 ? 'Posponer sesión' : 'Ver perfil de usuario'}
+                                    {index == 1 ? 'Posponer sesión' : 'Ver perfil de usuario'}
                                     
                                 </Button>
                             </div>

@@ -113,6 +113,7 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions, tid, 
                 min_date = tmpDate;
             }
         }
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', };
         setSesInfo([
             {
                 title: "Sesiones agendadas",
@@ -124,7 +125,7 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions, tid, 
             },
             {
                 title: "Proxima cita",
-                amount: min_date !== undefined ? min_date.toUTCString() : "No tienes próxima cita",
+                amount: min_date !== undefined ? min_date.toLocaleTimeString("es-ES", options) : "No tienes próxima cita",
             }
         ])
     }

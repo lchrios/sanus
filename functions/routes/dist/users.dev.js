@@ -42,16 +42,17 @@ exports.getUser = function (req, res) {
 
 exports.getTherapistByUser = function (req, res) {
   users.doc(req.params.uid).get().then(function (doc) {
-    var ther_id = doc.data().therapist;
+    var data = doc.data();
+    console.log(data.therapist);
 
-    if (ther_id === undefined) {
+    if (data.therapist === undefined || data.therapist === "") {
       console.log("No hay terapeuta");
       return res.status(204).send({});
     } else {
-      ther.doc(ther_id).get().then(function (docther) {
+      ther.doc(data.therapist).get().then(function (docther) {
         console.log('Datos de terapeuta obtenidos correctamente!');
         return res.status(200).send({
-          id: ther_id,
+          id: docther.id,
           data: docther.data()
         });
       })["catch"](function (error) {
@@ -210,4 +211,60 @@ exports.getUserPayed = function (req, res) {
   })["catch"](function (er) {
     return res.status(500).send(er);
   });
+};
+
+exports.getAllUserImage = function (req, res) {
+  // * Demo for image upload
+  var u_list = req.body.users;
+  var url = [];
+  var ers = [];
+  var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = u_list[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var u = _step.value;
+      users.doc(u).get().then(function (doc) {
+        var data = doc.data();
+        var imgref = data.img;
+        var stor_file = bucket.file(imgref !== undefined ? imgref : 'usuarios/placeholders/face-1.png');
+        stor_file.getSignedUrl({
+          version: 'v4',
+          action: 'read',
+          expires: Date.now() + 30 * 60 * 1000 // 30 minutes   
+
+        }).then(function (sURL) {
+          console.log(sURL[0]);
+          url.push(sURL[0]);
+        })["catch"](function (er) {
+          ers.push(er);
+        });
+      })["catch"](function (er) {
+        console.log("Error leyendo el documento del usuario");
+        return res.status(400).send(er);
+      });
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  setTimeout(function () {
+    res.status(200).send({
+      result: true,
+      urls: url
+    });
+  }, 20);
 };

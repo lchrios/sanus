@@ -53,7 +53,10 @@ exports.isAuthenticated = function (req, res, next) {
   */
   if (!(req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) && !(req.cookies && req.cookies.__session)) {
     console.error('Ningun Firebase ID token fue pasado como Bearer token en el Authorization header.', 'Asegurate que autorizas tu request proveyendo el siguiente HTTP header:', 'Authorization: Bearer <Firebase ID Token>', 'o pasando una "__session" cookie.');
-    return res.status(403).send('Unauthorized');
+    return res.status(403).send({
+      state: 'Unauthorized',
+      message: 'No se encontró un Token o Session en el request'
+    });
   }
 
   var idToken;
@@ -70,7 +73,10 @@ exports.isAuthenticated = function (req, res, next) {
     idToken = req.cookies.__session;
   } else {
     // * No se encontró ni un authorization header válido o alguna cookie. 
-    return res.status(403).send('Unauthorized');
+    return res.status(403).send({
+      state: 'Unauthorized',
+      message: 'No se encontró un Token o Session en el request'
+    });
   } // * Una vez obtenido el ID Token, procedemos a verificar que sea correcto mediante firebase auth
 
 
@@ -106,8 +112,10 @@ exports.isAuthenticated = function (req, res, next) {
     });
   })["catch"](function (error) {
     console.error('Error al verififcar el Firebase ID token:', error);
-    res.status(403).send('Unauthorized');
-    return;
+    return res.status(403).send({
+      state: 'Unauthorized',
+      message: 'El Token o Cookie ya expiró o no es válido.'
+    });
   });
 };
 
@@ -159,12 +167,11 @@ exports.createUserWithEmailAndPassword = function (req, res) {
     photoURL: "https://storage.googleapis.com/iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png",
     disabled: false
   }).then(function (user) {
-    console.log('Auth: Usuario creado exitosamene!'); // TODO: SEND EMAIL VERIFICATION
-
+    console.log('Auth: Usuario creado exitosamene!');
     var actionCodeSettings = {
       // URL you want to redirect back to. The domain (www.example.com) for
       // this URL must be whitelisted in the Firebase Console.
-      url: 'https://www.iknelia.app/session/login',
+      url: 'https://www.iknelia.app/home',
       // This must be true for email link sign-in.
       handleCodeInApp: true,
       iOS: {
@@ -177,7 +184,12 @@ exports.createUserWithEmailAndPassword = function (req, res) {
       },
       // FDL custom domain.
       dynamicLinkDomain: 'www.iknelia.app'
-    }; // * Sube el usuario creado a colleccion de usuarios
+    };
+    auth.generateEmailVerificationLink(user.email, actionCodeSettings).then(function (link) {
+      return sendCustomVerificationEmail(user.email, user.displayName, link);
+    })["catch"](function (err) {
+      console.error("Error:", err);
+    }); // * Sube el usuario creado a colleccion de usuarios
 
     users.doc(user.uid).set(req.body.userdata).then(function () {
       console.log('Collection: Users - Listo!', user.uid); // * Actualizar el rol del usuario a 'user'

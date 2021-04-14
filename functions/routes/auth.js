@@ -35,7 +35,10 @@ exports.isAuthenticated = (req, res, next) => {
             'Asegurate que autorizas tu request proveyendo el siguiente HTTP header:',
             'Authorization: Bearer <Firebase ID Token>',
             'o pasando una "__session" cookie.');
-            return res.status(403).send('Unauthorized');
+            return res.status(403).send({ 
+                state:'Unauthorized',
+                message: 'No se encontró un Token o Session en el request'
+            });
     }
 
     let idToken;
@@ -52,7 +55,10 @@ exports.isAuthenticated = (req, res, next) => {
         idToken = req.cookies.__session;
     } else {
         // * No se encontró ni un authorization header válido o alguna cookie. 
-        return res.status(403).send('Unauthorized');
+        return res.status(403).send({ 
+            state:'Unauthorized',
+            message: 'No se encontró un Token o Session en el request'
+        });
     }
 
     // * Una vez obtenido el ID Token, procedemos a verificar que sea correcto mediante firebase auth
@@ -82,8 +88,10 @@ exports.isAuthenticated = (req, res, next) => {
     })
     .catch( error => {
         console.error('Error al verififcar el Firebase ID token:', error);
-        res.status(403).send('Unauthorized');
-        return;
+        return res.status(403).send({ 
+            state:'Unauthorized',
+            message: 'El Token o Cookie ya expiró o no es válido.'
+        });
     });
 }
 
@@ -138,12 +146,11 @@ exports.createUserWithEmailAndPassword = (req, res) => {
         })
         .then( user => {
             console.log('Auth: Usuario creado exitosamene!');
-            
-            // TODO: SEND EMAIL VERIFICATION
+
             const actionCodeSettings = {
                 // URL you want to redirect back to. The domain (www.example.com) for
                 // this URL must be whitelisted in the Firebase Console.
-                url: 'https://www.iknelia.app/session/login',
+                url: 'https://www.iknelia.app/home',
                 // This must be true for email link sign-in.
                 handleCodeInApp: true,
                 iOS: {
@@ -156,8 +163,15 @@ exports.createUserWithEmailAndPassword = (req, res) => {
                 },
                 // FDL custom domain.
                 dynamicLinkDomain: 'www.iknelia.app',
-              };
-            
+            };
+            auth.generateEmailVerificationLink(user.email, actionCodeSettings)
+            .then(link => {
+                return sendCustomVerificationEmail(user.email, user.displayName, link);
+            })
+            .catch((err) => {
+                console.error("Error:", err);
+            });
+
             // * Sube el usuario creado a colleccion de usuarios
             users
                 .doc(user.uid)

@@ -47,6 +47,43 @@ exports.getAllTherapists = async (req, res) => {
 }
 
 exports.getPatientsbyTherapist = (req,res) => {
+    var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+    users
+        .where("therapist", "==", req.params.tid)
+        .get()
+        .then(query => {
+            var data = [];
+            var refs = [];
+            var urls = [];
+            query.forEach(doc => {
+                let docdata = doc.data()
+                data.push(docdata);
+                refs.push(doc.id.toString());
+                var stor_file = bucket.file(docdata.img ? docdata.img : "usuarios/placeholders/none-user.png")
+                stor_file.getSignedUrl({
+                    version: 'v4',
+                    action: 'read',
+                    expires: Date.now() + 30 * 60 * 1000, // 30 minutes   
+                }).then(sURL => {
+                    urls.push(sURL[0]);
+                })
+                .catch( er => {
+                    console.log("Error leyendo el link de la imagen");
+                    return res.status(400).send(er);
+                })
+                
+            })
+
+            res.status(200).send({ id: refs, data: data, url: urls })
+            //setTimeout(20, () => res.status(200).send({ id: refs, data: data, url: urls }))
+        })
+        .catch(error => {
+            console.log('No fue posible obtener la información de usuarios asignados')
+            return res.status(404).send(error)
+        })
+}
+
+exports.getPatientsImageByTherapist = (req,res) => {
     users
         .where("therapist", "==", req.params.tid)
         .get()
@@ -106,6 +143,26 @@ exports.setSchedule = (req, res) => {
 exports.getAllSessionsByTherapist = (req, res) => {
     sess
         .where('therapist', '==', req.params.tid)
+        .get()
+        .then((query) => {
+            const data = [];
+            const refs = [];
+            query.forEach((doc) => {
+                data.push(doc.data());
+                refs.push(doc.id);
+            })
+            return res.status(200).send({ id: refs, data: data })
+        })
+        .catch(error => {
+            console.log('Error al obtener sesiones terapeuta!', error);
+            return res.status(404).send(error)
+        })
+}
+
+exports.getAllUncompletedSessionsByTherapist = (req, res) => {
+    sess
+        .where('therapist', '==', req.params.tid)
+        .where('state', '==', 0)
         .get()
         .then((query) => {
             const data = [];
@@ -201,6 +258,7 @@ exports.handleAccountUpdate = (req, res) => {
 
     return res.status(200).send({event, message:'Se recibió el evento'})
 }
+
 exports.uploadTherImg = (req, res) => {
     console.log(`Subiendo imagen del usuario ${req.params.uid}`)
     console.log(req.body.file)
@@ -272,7 +330,7 @@ exports.getAllTherImage = (req, res) => { // * Demo for image upload
             return res.status(400).send(er);
         })
     }
-    return res.status(200).send({ urls: urls});
+    return res.status(200).send({ urls: urls });
 
 }
 

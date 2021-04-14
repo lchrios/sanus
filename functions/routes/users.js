@@ -45,17 +45,18 @@ exports.getTherapistByUser = (req, res) => {
         .doc(req.params.uid)
         .get()
         .then( doc => {
-            const ther_id = doc.data().therapist;
-            if (ther_id === undefined) {
+            const data = doc.data()
+            console.log(data.therapist)
+            if (data.therapist === undefined || data.therapist === "") {
                 console.log("No hay terapeuta");
                 return res.status(204).send({});
             } else {
                 ther
-                .doc(ther_id)
+                .doc(data.therapist)
                 .get()
                 .then( docther => {
                     console.log('Datos de terapeuta obtenidos correctamente!');
-                    return res.status(200).send({ id: ther_id, data: docther.data() })
+                    return res.status(200).send({ id: docther.id, data: docther.data() })
                 })
                 .catch( error => {
                      console.error('Error obteniendo los datos del terapeuta', error);
@@ -229,4 +230,39 @@ exports.getUserPayed = (req, res) => {
     .catch(er => {
         return res.status(500).send(er);
     })
+}
+
+exports.getAllUserImage = (req, res) => { // * Demo for image upload
+    var u_list = req.body.users;
+    var url = [];
+    var ers = [];
+    var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+    for (let u of u_list) {
+        users.doc(u).get()
+        .then(doc => {
+            let data = doc.data()
+            let imgref = data.img;
+            var stor_file = bucket.file(imgref !== undefined ? imgref : 'usuarios/placeholders/face-1.png');
+            stor_file.getSignedUrl({
+                version: 'v4',
+                action: 'read',
+                expires: Date.now() + 30 * 60 * 1000, // 30 minutes   
+            }).then(sURL => {
+                console.log(sURL[0])
+                url.push(sURL[0])
+            })
+            .catch( er => {
+                ers.push(er);
+            })
+        })
+        .catch(er => {
+            console.log("Error leyendo el documento del usuario");
+            return res.status(400).send(er);
+        })
+    }
+
+    setTimeout(() => {
+        res.status(200).send({ result: true, urls: url })
+    }, 20)
+
 }
