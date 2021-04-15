@@ -38,7 +38,7 @@ const landingRoutes = [
         settings
     },
     {
-        path:'/psychologists',
+        path:'/therapists',
         component: Psychologists,
         settings
     },

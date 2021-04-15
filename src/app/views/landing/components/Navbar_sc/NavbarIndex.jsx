@@ -90,7 +90,7 @@ const Navbar = ({ toggle }) => {
                                         .catch( error => {
                                             console.error("Error al obtener el decodedToken del user", error)
                                         })
-                                }}><p className="h4 mt-1 text-muted">{ user.name }</p></NavBtnLink>
+                                }}><p className="h4 mt-1 text-muted">{"¡Bienvenido/a " + user.name + "!"}</p></NavBtnLink>
                             </NavBtn>
                         :   <NavBtn to='/session/signin'>
                                 <NavBtnLink to='/session/signin' onClick={() => history.push('/session/signin')}>Iniciar Sesión</NavBtnLink>

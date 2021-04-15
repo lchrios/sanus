@@ -16,6 +16,7 @@ import SearchBox from './components/searchBoxStyle'
 import SubscribeLine from "./components/subscribeLine";
 import landingBlogStyles from "../landingBlog/landingBlogStyles/landingBlogStyles.js";
 import LandingPsySection from "./components/landingPsySection";
+import clsx from "clsx";
 
 
 
@@ -37,28 +38,28 @@ export default function landingPsy() {
   return (
 
     
-    <div>
-      <Sidebar is0pen={is0pen} toggle={toggle}/>
-      <Navbar toggle={toggle}/>
-      <Parallax image={require("assets/images/psychologists/session1.jpg")} filter={true} small>
-        <div className={classes.container}>
-          <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={8} className={classes.textCenter}>
-              <h2 className={classes.title}>
-                Buscar un profesional
-              </h2>
-              <SearchBox />
-              {/*<SearchBoxBlog></SearchBoxBlog>*/}
-            </GridItem>
-          </GridContainer>
+        <div>
+            <Sidebar is0pen={is0pen} toggle={toggle}/>
+            <Navbar toggle={toggle}/>
+            <Parallax image={require("assets/images/psychologists/session1.jpg")} filter={true} small>
+                <div className={clsx(classes.container, "mb-5")}>
+                    <GridContainer justify="center">
+                        <GridItem xs={12} sm={12} md={8} className={classes.textCenter}>
+                            <h2 className={classes.title}>
+                                Buscar un profesional
+                            </h2>
+                            <SearchBox />
+                            {/*<SearchBoxBlog></SearchBoxBlog>*/}
+                        </GridItem>
+                    </GridContainer>
+                </div>
+            </Parallax>
+            <div className={classes.main}>
+                <div className={classes.container}>
+                    <LandingPsySection/>
+                </div>
+                <SubscribeLine />
+            </div>
         </div>
-      </Parallax>
-      <div className={classes.main}>
-        <div className={classes.container}>
-          <LandingPsySection/>
-        </div>
-        <SubscribeLine />
-      </div>
-    </div>
   );
 }

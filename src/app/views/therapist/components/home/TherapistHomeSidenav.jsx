@@ -185,7 +185,7 @@ const TherapistHomeSidenav = ({ url }) => {
                         </Button >
                     </Card>
                     <Card className="flex items-center mt-2 justify-center text-primary">
-                        <Button 
+                        { !therapist_data?.charge_enabled ? <Button 
                             className={str_classes.stripeConnect}
                             onClick={handleClickConnect}
                             >
@@ -193,6 +193,8 @@ const TherapistHomeSidenav = ({ url }) => {
                                 Conectar con stripe
                             </h5>
                         </Button >
+                        : null
+                        }
                     </Card>
 
                     <div className="py-2"></div>

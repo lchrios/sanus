@@ -140,100 +140,105 @@ const TherapistBlogs = () => {
             </div>
             <Divider></Divider>
 
-            { loading ? 
-            <Loading />
-            :
-            blogs.data.map((blog_entry, index) => (
-                <div key={blogs.id[index]} className="py-4 px-4">
-                    <Grid container alignItems="center">
-                        <Grid item lg={3} md={3} sm={3} xs={3}>
-                            <div className="flex items-center">
-                                <div className="px-4">
-                                    <img
-                                        className="border-radius-4 w-full"
-                                        height="200"
-                                        width="200"
-                                        src="/src/assets/images/blog/terapia2.jpg"
-                                        alt={blog_entry.title}
-                                    />
+            {   loading 
+            ?   <Loading />
+            :   <>
+                {   blogs.id.length === 0 
+                ?   <h3 align="center" className="m-5">No hay blogs a mostrar...</h3>
+                :   <>{blogs.data.map((blog_entry, index) => (
+                    <div key={blogs.id[index]} className="py-4 px-4">
+                        <Grid container alignItems="center">
+                            <Grid item lg={3} md={3} sm={3} xs={3}>
+                                <div className="flex items-center">
+                                    <div className="px-4">
+                                        <img
+                                            className="border-radius-4 w-full"
+                                            height="200"
+                                            width="200"
+                                            src="/src/assets/images/blog/terapia2.jpg"
+                                            alt={blog_entry.title}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                        </Grid>
-                        <Grid item lg={4} md={4} sm={4} xs={4}>
-                            <h6 className="m-0">{blog_entry.title}</h6>
-                            {parse(blog_entry.content)}
-                            <p id={`cont${index}`} className="mt-2 m-0 text-muted">
-                                
-                            </p>
-                        </Grid>
-                        <Grid
-                            item
-                            lg={true}
-                            md={true}
-                            sm={true}
-                            xs={true}
-                            className="text-center"
-                        >
-                            <h6 className="m-0">{blog_entry.likes.length}</h6>
-                        </Grid>
-                        <Grid
-                            item
-                            lg={true}
-                            md={true}
-                            sm={true}
-                            xs={true}
-                            className="text-center"
-                        >
-                            <h6 className="m-0">{blog_entry.comments.length}</h6>
-                        </Grid>
-                        <Grid
-                            item
-                            lg={true}
-                            md={true}
-                            sm={true}
-                            xs={true}
-                            className="text-center"
-                        >
-                            <Fab
-                                size="small"
-                                color="primary"
-                                aria-label="View"
-                                onClick={() => {
-                                    history.push('/blog/' + blogs.id[index])
-                                }}
-                                className={classes.button}
+                            </Grid>
+                            <Grid item lg={4} md={4} sm={4} xs={4}>
+                                <h6 className="m-0">{blog_entry.title}</h6>
+                                {parse(blog_entry.content)}
+                                <p id={`cont${index}`} className="mt-2 m-0 text-muted">
+                                    
+                                </p>
+                            </Grid>
+                            <Grid
+                                item
+                                lg={true}
+                                md={true}
+                                sm={true}
+                                xs={true}
+                                className="text-center"
                             >
-                                <Icon>play_circle_outline</Icon>
-                            </Fab>
-                            <Fab
-                                size="small"
-                                color="secondary"
-                                aria-label="Edit"
-                                onClick={() => {
-                                    console.log("/" + user.uid + "/editblog?bid=" + blogs.id[index])
-                                    history.push("/" + user.uid + "/editblog?bid=" + blogs.id[index])
-                                }}
-                                className={classes.button}
+                                <h6 className="m-0">{blog_entry.likes.length}</h6>
+                            </Grid>
+                            <Grid
+                                item
+                                lg={true}
+                                md={true}
+                                sm={true}
+                                xs={true}
+                                className="text-center"
                             >
-                                <Icon>edit_icon</Icon>
-                            </Fab>
-                            <Fab
-                                size="small"
-                                color="secondary"
-                                aria-label="Delete"
-                                onClick={() => {
-                                    api.delete("/b/" + blogs.id[index]).then(() => {
-                                        window.location.reload()
-                                    })
-                                }}
-                                className={classes.button}
+                                <h6 className="m-0">{blog_entry.comments.length}</h6>
+                            </Grid>
+                            <Grid
+                                item
+                                lg={true}
+                                md={true}
+                                sm={true}
+                                xs={true}
+                                className="text-center"
                             >
-                                <Icon>delete</Icon>
-                            </Fab>
+                                <Fab
+                                    size="small"
+                                    color="primary"
+                                    aria-label="View"
+                                    onClick={() => {
+                                        history.push('/blog/' + blogs.id[index])
+                                    }}
+                                    className={classes.button}
+                                >
+                                    <Icon>play_circle_outline</Icon>
+                                </Fab>
+                                <Fab
+                                    size="small"
+                                    color="secondary"
+                                    aria-label="Edit"
+                                    onClick={() => {
+                                        console.log("/" + user.uid + "/editblog?bid=" + blogs.id[index])
+                                        history.push("/" + user.uid + "/editblog?bid=" + blogs.id[index])
+                                    }}
+                                    className={classes.button}
+                                >
+                                    <Icon>edit_icon</Icon>
+                                </Fab>
+                                <Fab
+                                    size="small"
+                                    color="secondary"
+                                    aria-label="Delete"
+                                    onClick={() => {
+                                        api.delete("/b/" + blogs.id[index]).then(() => {
+                                            window.location.reload()
+                                        })
+                                    }}
+                                    className={classes.button}
+                                >
+                                    <Icon>delete</Icon>
+                                </Fab>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </div>
-            ))}
+                    </div>
+                ))}</> 
+                }
+                </>
+            }
             <div>
                 <Divider className="mb-12"></Divider>
             </div>

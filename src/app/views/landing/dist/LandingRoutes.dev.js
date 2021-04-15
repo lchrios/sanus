@@ -75,7 +75,7 @@ var landingRoutes = [{
   component: LandingBlog,
   settings: settings
 }, {
-  path: '/psychologists',
+  path: '/therapists',
   component: Psychologists,
   settings: settings
 }, {
