@@ -9,7 +9,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import useAuth from "app/hooks/useAuth";
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import clsx from "clsx";
-import axios from "axios";
 import history from "../../../../../history";
 import { useLocation } from "react-router-dom";
 import api from "app/services/api";
@@ -37,11 +36,8 @@ const EditBlogForm = () => {
     useEffect(() => {        
         api.get("/b/" + bid)
             .then(res => {
-                setLoading(false);
                 setEntry(res.data);
-            })
-            .then(() => {
-                console.log(entry)
+                setLoading(false);
             })
     }, [])
 

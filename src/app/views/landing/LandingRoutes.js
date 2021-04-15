@@ -2,6 +2,7 @@ import React from "react";
 const Home = React.lazy(() => import('./Home'))
 const LandingBlog = React.lazy(() => import('./landingBlog/landingBlog'))
 const Psychologists = React.lazy(() => import('./psychologists/landingPsy'))
+const LandingBlogEntry = React.lazy(() => import('./landingBlog/LandingBlogEntry'))
 
 const settings = {
   activeLayout: "layout1",
@@ -26,21 +27,26 @@ const settings = {
 };
 
 const landingRoutes = [
-  {
-    path: "/home",
-    component: Home,
-    settings
-  },
-  {
-    path:'/blogs',
-    component:LandingBlog,
-    settings
-  },
-  {
-    path:'/psychologists',
-    component: Psychologists,
-    settings
-  }
+    {
+        path: "/home",
+        component: Home,
+        settings
+    },
+    {
+        path:'/blogs',
+        component:LandingBlog,
+        settings
+    },
+    {
+        path:'/psychologists',
+        component: Psychologists,
+        settings
+    },
+    {
+        path: '/blog/:bid',
+        component: LandingBlogEntry,
+        settings
+    },
 ];
 
 export default landingRoutes;

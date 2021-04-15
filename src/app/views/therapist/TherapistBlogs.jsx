@@ -196,11 +196,22 @@ const TherapistBlogs = () => {
                         >
                             <Fab
                                 size="small"
+                                color="primary"
+                                aria-label="View"
+                                onClick={() => {
+                                    history.push('/blog/' + blogs.id[index])
+                                }}
+                                className={classes.button}
+                            >
+                                <Icon>play_circle_outline</Icon>
+                            </Fab>
+                            <Fab
+                                size="small"
                                 color="secondary"
                                 aria-label="Edit"
                                 onClick={() => {
-                                    console.log("/" + user.uid + "/editblog?bid=" + blog_entry.id)
-                                    history.push("/" + user.uid + "/editblog?bid=" + blog_entry.id)
+                                    console.log("/" + user.uid + "/editblog?bid=" + blogs.id[index])
+                                    history.push("/" + user.uid + "/editblog?bid=" + blogs.id[index])
                                 }}
                                 className={classes.button}
                             >
@@ -211,8 +222,9 @@ const TherapistBlogs = () => {
                                 color="secondary"
                                 aria-label="Delete"
                                 onClick={() => {
-                                    api.delete("/b/"+blog_entry.id)
-                                    window.location.reload()
+                                    api.delete("/b/" + blogs.id[index]).then(() => {
+                                        window.location.reload()
+                                    })
                                 }}
                                 className={classes.button}
                             >

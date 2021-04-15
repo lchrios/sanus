@@ -30,6 +30,7 @@ const App = () => {
                                         <Route path="/home" exact={true} component={landingRoutes[0].component} />
                                         <Route path="/blogs" exact={true} component={landingRoutes[1].component} />
                                         <Route path="/psychologists" exact={true} component={landingRoutes[2].component} />
+                                        <Route path="/blog/bid" component={landingRoutes[3].component} />
                                         
                                         {/* AUTHENTICATION PAGES (SIGNIN, SIGNUP ETC.) */}
                                         {sessionRoutes.map((item, i) => (

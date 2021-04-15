@@ -21,7 +21,7 @@ var Home = _react["default"].lazy(function () {
   });
 });
 
-var Blog = _react["default"].lazy(function () {
+var LandingBlog = _react["default"].lazy(function () {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require('./landingBlog/landingBlog'));
   });
@@ -30,6 +30,12 @@ var Blog = _react["default"].lazy(function () {
 var Psychologists = _react["default"].lazy(function () {
   return Promise.resolve().then(function () {
     return _interopRequireWildcard(require('./psychologists/landingPsy'));
+  });
+});
+
+var LandingBlogEntry = _react["default"].lazy(function () {
+  return Promise.resolve().then(function () {
+    return _interopRequireWildcard(require('./landingBlog/LandingBlogEntry'));
   });
 });
 
@@ -66,11 +72,15 @@ var landingRoutes = [{
   settings: settings
 }, {
   path: '/blogs',
-  component: Blog,
+  component: LandingBlog,
   settings: settings
 }, {
   path: '/psychologists',
   component: Psychologists,
+  settings: settings
+}, {
+  path: '/blog/:bid',
+  component: LandingBlogEntry,
   settings: settings
 }];
 var _default = landingRoutes;
