@@ -18,7 +18,7 @@ import firebase from 'firebase/app'
 
 const Navbar = ({ toggle }) => {
     const [scrollNav, setScrollNav ] =  useState(false)
-    const { assignUserRole, user } = useAuth()
+    const { assignUserRole, user, isAuthenticated } = useAuth()
     const changeNav = () => {
         if(window.scrollY >= 80) {
             setScrollNav(true)
@@ -54,9 +54,9 @@ const Navbar = ({ toggle }) => {
                         <NavItem>
                             <NavLinks to='/psychologists' onClick={() => {history.push('/psychologists')}}>Psicólogos</NavLinks>
                         </NavItem>
-                        <NavItem>
+                        { !isAuthenticated ? <NavItem>
                             <NavLinks to='/session/signup' onClick={() => {history.push('/session/signup')}}>Comienza ahora</NavLinks>
-                        </NavItem>
+                        </NavItem> : null}
                         { user 
                         ?   <NavBtn to='/session/signin'>
                                 <NavBtnLink to='/session/signin' onClick={() => {
@@ -90,7 +90,7 @@ const Navbar = ({ toggle }) => {
                                         .catch( error => {
                                             console.error("Error al obtener el decodedToken del user", error)
                                         })
-                                }}><p className="h4 text-muted">{user.name}</p></NavBtnLink>
+                                }}><p className="h4 mt-1 text-muted">{ user.name }</p></NavBtnLink>
                             </NavBtn>
                         :   <NavBtn to='/session/signin'>
                                 <NavBtnLink to='/session/signin' onClick={() => history.push('/session/signin')}>Iniciar Sesión</NavBtnLink>

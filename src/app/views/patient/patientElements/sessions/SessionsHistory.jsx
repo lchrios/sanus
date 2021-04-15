@@ -102,8 +102,8 @@ const SessionsHistory = ({toggleSidenav}) => {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => {
                     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-                    return (<span className="ellipsis">
-                        {new Date(orderList[dataIndex].start).toLocaleDateString("es-ES", options)}
+                    return (<span className="ellipsis pr-5">
+                        {new Date(orderList[dataIndex].start).toLocaleTimeString("es-ES", options)}
                     </span>)
                 },
             },

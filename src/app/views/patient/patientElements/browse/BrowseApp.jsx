@@ -22,8 +22,8 @@ const BrowseApp = ({ toggleSidenav }) => {
             setTherapistList(res.data.data)
             setDocRefs(res.data.id)
             setURL(res.data.urls)
-            console.log(res.data)
-            api.get(`/u/${user.uid}`).then( resp => {
+            api.get(`/u/${user.uid}/t`).then( resp => {
+                console.log(resp)
                 if (resp.status === 200 && resp.data.id !== undefined) {
                     setReassigned(resp.data.id);
                 }
@@ -132,8 +132,7 @@ const BrowseApp = ({ toggleSidenav }) => {
                                     })
                             }}>
                                     
-                                    <Icon>{reassigned === docRefs[dataIndex] ? "check_circle" : "control_point"}</Icon>
-
+                                    <Icon color={reassigned !== docRefs[dataIndex] ? "primary" : "secondary"}>{reassigned === docRefs[dataIndex] ? "check_circle" : "control_point"}</Icon> 
                             </IconButton>
                     </div>
                 ),
@@ -149,9 +148,9 @@ const BrowseApp = ({ toggleSidenav }) => {
             :   <>
                      <div className="overflow-auto">
                         <div className="hide-on-pc flex justify-end menu-button">
-                                    <IconButton onClick={toggleSidenav}>
-                                        <Icon className="">menu</Icon>
-                                    </IconButton>
+                            <IconButton onClick={toggleSidenav}>
+                                <Icon className="">menu</Icon>
+                            </IconButton>
                         </div>
                         <div className="min-w-300">
                             <MUIDataTable

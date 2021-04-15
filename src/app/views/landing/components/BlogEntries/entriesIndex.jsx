@@ -1,6 +1,6 @@
 import React from 'react'
 import {EntriesContainer, EntriesH1, EntriesWrapper} from './entriesElements'
-import BlogEntriesCards from './blogEntries'
+import BlogEntriesCards from './BlogEntries'
 
 const BlogEntries = () => {
     return (

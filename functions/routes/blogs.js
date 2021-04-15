@@ -23,6 +23,27 @@ exports.getAllBlogs = (req, res) => {
         })
 }
 
+exports.getLandBlogs = (req, res) => { 
+    // * Obtiene los blogs más recientes
+    blogs
+        .orderBy('date', 'desc')
+        .limit(3)
+        .get()
+        .then(query => {
+            var data = [];
+            var refs = [];
+            query.forEach(doc => {
+                data.push(doc.data());
+                refs.push(doc.id.toString());
+            })
+            return res.status(200).send({ id: refs, data: data });
+        })
+        .catch(error => {
+            console.log('Error obteniendo todos los blog documents', error);
+            return res.status(404).send(error);
+        })
+}
+
 
 exports.getAllBlogsByTherapist = (req, res) => {
     blogs

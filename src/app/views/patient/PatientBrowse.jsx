@@ -42,69 +42,90 @@ const PatientBrowse = () => {
     }, [isMobile])
 
 
-    if (isMobile)
-    return(
-        <div className="relative ">
-            <MatxSidenavContainer>
-                <MatxSidenav
-                    width="300px"
-                    open={open}
-                    toggleSidenav={toggleSidenav}
-                >
-                    <div
-                        className={clsx(
-                            'bg-primary text-right',
-                            classes.headerBG
-                        )}
-                    >
-                        <Hidden smUp>
-                            <IconButton onClick={toggleSidenav}>
-                                <Icon className="text-white mt-2">clear</Icon>
-                            </IconButton>
-                        </Hidden>
-                    </div>
-                    <UserProfileSidenav />
-                </MatxSidenav>
-                    <MatxSidenavContent >
-                        <div className={clsx('bg-primary', classes.headerBG)} />
-                        <BrowseApp toggleSidenav={toggleSidenav} />
-
-                        
-                    </MatxSidenavContent>
-            </MatxSidenavContainer>
-            
-        </div>
-
-        
-        
-    )
-
-    else {
-        return (
-            <Fragment>
-                 <div className="m-sm-30">
-                     <div className="mb-sm-30">
-                    
-                     </div>
-                     <div>
-                        <Button 
-                        className="x-center" 
+    return  (
+        <Fragment>
+            <div className="m-sm-30">
+                <div>
+                    <Button 
+                        className="x-center mb-5" 
                         color="secondary" 
                         variant="contained"
                         onClick={() => history.push('/' + user.uid + '/home')}
-                        >
-                            Volver al escritorio
-                        </Button>
-                     </div>
-                     <div>
-                         <h1>Encuentra a tu terapeuta favorito</h1>
-                     </div>
-                     <BrowseApp/>
-                 </div>
-             </Fragment>
-        )
+                    >
+                        Volver al escritorio
+                    </Button>
+                </div>
+                <div className="align-self-center">
+                    <h1>Encuentra a tu terapeuta favorito</h1>
+                </div>
+                <BrowseApp />
+            </div>
+        </Fragment>
+    )
 
-    }
+    // if (isMobile)
+    // return(
+    //     <div className="relative ">
+    //         <MatxSidenavContainer>
+    //             <MatxSidenav
+    //                 width="300px"
+    //                 open={open}
+    //                 toggleSidenav={toggleSidenav}
+    //             >
+    //                 <div
+    //                     className={clsx(
+    //                         'bg-primary text-right',
+    //                         classes.headerBG
+    //                     )}
+    //                 >
+    //                     <Hidden smUp>
+    //                         <IconButton onClick={toggleSidenav}>
+    //                             <Icon className="text-white mt-2">clear</Icon>
+    //                         </IconButton>
+    //                     </Hidden>
+    //                 </div>
+    //                 <UserProfileSidenav />
+    //             </MatxSidenav>
+    //                 <MatxSidenavContent >
+    //                     <div className={clsx('bg-primary', classes.headerBG)} />
+    //                         <BrowseApp toggleSidenav={toggleSidenav} />
+
+                        
+    //                 </MatxSidenavContent>
+    //         </MatxSidenavContainer>
+            
+    //     </div>
+
+        
+        
+    // )
+
+    // else {
+    //     return (
+    //         <Fragment>
+    //              <div className="m-sm-30">
+    //                  <div className="mb-sm-30">
+                    
+    //                  </div>
+    //                  <div>
+    //                     <Button 
+    //                         className="x-center mb-5" 
+    //                         color="secondary" 
+    //                         variant="contained"
+    //                         onClick={() => history.push('/' + user.uid + '/home')}
+    //                     >
+    //                         Volver al escritorio
+    //                     </Button>
+    //                  </div>
+    //                  <div className="align-self-center">
+    //                      <h1>Encuentra a tu terapeuta favorito</h1>
+    //                  </div>
+    //                  <BrowseApp />
+    //              </div>
+    //          </Fragment>
+    //     )
+
+    // }
 }
 // class PatientBrowse extends Component {
 //     state = {};

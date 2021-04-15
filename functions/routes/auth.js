@@ -64,27 +64,24 @@ exports.isAuthenticated = (req, res, next) => {
     // * Una vez obtenido el ID Token, procedemos a verificar que sea correcto mediante firebase auth
     auth.verifyIdToken(idToken)
     .then( decodedIdToken => { // * Obtenemos el decodedIDToken como resultado de una operación exitosa
-        //console.log('ID Token verificado!');
-        auth.getUser(decodedIdToken.uid).then(user => {
-            // * Assign user role in case it doesnt have
-            if (user.customClaims.role === undefined) {
-                console.log("Usuario sin rol asignado :C\nAsignando rol")
-                auth.setCustomUserClaims(user.uid, { role: "user" })
-                .then(() => {
-                    console.log('Usuario registrado con rol "user" correctamente!');
-                    res.locals = { ...res.locals, uid: decodedIdToken.uid, role: "user" }
-                })
-                .catch( error => {
-                    console.error('Error asignando el rol de "user" al usuario', error)
-                    return res.status(400).send(error);
-                })
-            } else {
-                //console.log("Usuario con rol")
-                res.locals = { ...res.locals, uid: decodedIdToken.uid, role: user.customClaims.role }
-            }
-            next();
-            return;
-        })
+        console.log('ID Token verificado!');
+        
+        if (decodedIdToken.role === undefined) {
+            console.log("Usuario sin rol asignado :C\nAsignando rol")
+            auth.setCustomUserClaims(decodedIdToken.uid, { role: "user" })
+            .then(() => {
+                console.log('Usuario registrado con rol "user" correctamente!');
+                res.locals = { ...res.locals, uid: decodedIdToken.uid, role: "user" }
+            })
+            .catch( error => {
+                console.error('Error asignando el rol de "user" al usuario', error)
+                return res.status(400).send(error);
+            })
+        } else {
+            //console.log("Usuario con rol")
+            res.locals = { ...res.locals, uid: decodedIdToken.uid, role: decodedIdToken.role }
+        }
+        next();
     })
     .catch( error => {
         console.error('Error al verififcar el Firebase ID token:', error);

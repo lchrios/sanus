@@ -6,6 +6,7 @@ var _require = require('../firebase'),
 var db = admin.firestore();
 var ther = db.collection('therapists');
 var blogs = db.collection('blogs');
+var storage = admin.storage();
 
 exports.getAllBlogs = function (req, res) {
   blogs.orderBy('date', 'desc').get().then(function (query) {
@@ -25,8 +26,28 @@ exports.getAllBlogs = function (req, res) {
   });
 };
 
+exports.getLandBlogs = function (req, res) {
+  // * Obtiene los blogs más recientes
+  blogs.orderBy('date', 'desc').limit(3).get().then(function (query) {
+    var data = [];
+    var refs = [];
+    query.forEach(function (doc) {
+      data.push(doc.data());
+      refs.push(doc.id.toString());
+    });
+    return res.status(200).send({
+      id: refs,
+      data: data
+    });
+  })["catch"](function (error) {
+    console.log('Error obteniendo todos los blog documents', error);
+    return res.status(404).send(error);
+  });
+};
+
 exports.getAllBlogsByTherapist = function (req, res) {
-  blogs.where('author', '==', req.params.tid).orderBy('date', 'desc').get().then(function (query) {
+  blogs.where('author', '==', req.params.tid) // .orderBy('date', 'desc')
+  .get().then(function (query) {
     var data = [];
     var refs = [];
     query.forEach(function (doc) {
@@ -54,8 +75,10 @@ exports.getBlog = function (req, res) {
 
 exports.newBlog = function (req, res) {
   blogs.add(req.body.blogdata).then(function (blogdoc) {
+    var bucket = storage.bucket("iknelia-3cd8e.appspot.com");
+    var stored_img = bucket.file("usuarios/".concat(req.params.tid, ".png"));
+    req.body.blogdata.imgBLOG;
     /*
-    
     // actualizar campo de id
      ! no sirve por lo pronto,
      TODO: Arreglar el upload de la foto
@@ -71,23 +94,6 @@ exports.newBlog = function (req, res) {
             return res.status(404).send(error);
         }) 
       */
-    // actualiar campos de terapeuta
-    author = ther.doc(req.body.blogdata.author);
-    author.get().then(function (doc) {
-      upblogs = doc.data().blogs;
-      upblogs.push(blogdoc.id);
-      author.update({
-        blogs: upblogs
-      }).then(function () {
-        return res.status(201).send(doc.id);
-      })["catch"](function (error) {
-        console.log('Error actualizando el campo blogs en author document', error);
-        return res.status(404).send(error);
-      });
-    })["catch"](function (error) {
-      console.log('Error obteniendo author document', error);
-      return res.status(404).send(error);
-    });
   })["catch"](function (error) {
     console.log('Error creando el blog document', error);
     return res.status(404).send(error);
@@ -107,8 +113,11 @@ exports.deleteBlog = function (req, res) {
 exports.updateBlog = function (req, res) {
   blogs.doc(req.params.bid).update(req.body.blogdata).then(function () {
     console.log('Acutalización del blog document exitosa!');
-    return res.status(204);
+    return res.status(201).send({
+      message: "Blog editado correctamente",
+      bid: req.params.bid
+    });
   })["catch"](function (error) {
-    return res.status(404).send('Error al actualizar el blog document', error);
+    return res.status(404).send(error);
   });
 };

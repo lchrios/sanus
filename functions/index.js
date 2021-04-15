@@ -73,6 +73,7 @@ const {
   deleteBlog,
   updateBlog,
   getAllBlogsByTherapist,
+  getLandBlogs,
 } = require("./routes/blogs");
 
 // * Funciones de stripe
@@ -164,6 +165,7 @@ app.post("/webhook", handleStripeEvent);
 
 // * rutas de blogs
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
+app.get("/b/land", getLandBlogs);
 app.get("/b/:bid", isAuthenticated, isAuthorized(roles.user), getBlog);
 app.delete("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), deleteBlog);
 app.put("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), updateBlog);

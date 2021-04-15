@@ -55,7 +55,6 @@ var _require3 = require("./routes/therapists"),
     newNote = _require3.newNote,
     setSchedule = _require3.setSchedule,
     getSchedule = _require3.getSchedule,
-    connectReAuth = _require3.connectReAuth,
     handleAccountUpdate = _require3.handleAccountUpdate,
     getTherImage = _require3.getTherImage,
     uploadTherImg = _require3.uploadTherImg,
@@ -76,13 +75,15 @@ var _require5 = require("./routes/blogs"),
     newBlog = _require5.newBlog,
     deleteBlog = _require5.deleteBlog,
     updateBlog = _require5.updateBlog,
-    getAllBlogsByTherapist = _require5.getAllBlogsByTherapist; // * Funciones de stripe
+    getAllBlogsByTherapist = _require5.getAllBlogsByTherapist,
+    getLandBlogs = _require5.getLandBlogs; // * Funciones de stripe
 
 
 var _require6 = require("./routes/stripe"),
     sendPaymentInfo = _require6.sendPaymentInfo,
     handleStripeEvent = _require6.handleStripeEvent,
-    expressAccount = _require6.expressAccount;
+    expressAccount = _require6.expressAccount,
+    connectReAuth = _require6.connectReAuth;
 
 var filesRouter = require('./routes/files');
 
@@ -152,15 +153,14 @@ app.get("/users/image", isAuthenticated, isAuthorized(roles.user), getAllUserIma
 app.post("/u/:uid/image", uploadImg); //*rutas de stripe (lado terapeuta)
 
 app.post("/t/:tid/connect", isAuthenticated, isAuthorized(roles.therapist), expressAccount);
-app.post("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth); // app.post("t/:tid/connectSucceded", isAuthenticated, isAuthorized(roles.therapist), )
-//*rutas de stripe (lado terapeuta)
-
+app.get("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth);
 app.post("/updateAccount", isAuthenticated, isAuthorized(roles.therapist), handleAccountUpdate); //*rutas de stripe (lado user)
 
 app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user), sendPaymentInfo);
 app.post("/webhook", handleStripeEvent); // * rutas de blogs
 
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
+app.get("/b/land", getLandBlogs);
 app.get("/b/:bid", isAuthenticated, isAuthorized(roles.user), getBlog);
 app["delete"]("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), deleteBlog);
 app.put("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), updateBlog); // * rutas de sesiones

@@ -4,9 +4,11 @@ import history from '../../../../../history';
 import { HeroContainer, HeroBg, VideoBg } from './HeroElements';
 import { HeroContent, HeroH1, HeroP, HeroBtnWrapper, ArrowForward, ArrowRight } from './HeroElements';
 import { Button } from '../buttonElement_sc';
+import useAuth from 'app/hooks/useAuth';
 
 const HeroSection = () => {
     const [hover, setHover] = useState(false)
+    const { isAuthenticated } = useAuth();
 
     const onHover = () => {
         setHover(!hover)
@@ -20,22 +22,25 @@ const HeroSection = () => {
             <HeroContent>
                 <HeroH1>Empieza a vivir con la libertad que mereces</HeroH1>
                 <HeroP>Iknelia está contigo</HeroP>
-              <HeroBtnWrapper>
-                <Button 
-                    to='/session/signup'
-                    onClick={() =>{
-                        history.push('/session/signup')
-                    }} 
-                    onMouseEnter = {onHover}
-                    onMouseLeave = {onHover}
-                    primary = 'true'
-                    dark = 'true'
-                    fontbig = 'true'
-                >
-                
-                    Registrate { hover ? <ArrowForward /> : <ArrowRight />} 
-                </Button>
-              </HeroBtnWrapper>
+                {   isAuthenticated 
+                ?   null 
+                :   <HeroBtnWrapper>
+                        <Button 
+                            to='/session/signup'
+                            onClick={() =>{
+                                history.push('/session/signup')
+                            }} 
+                            onMouseEnter = {onHover}
+                            onMouseLeave = {onHover}
+                            primary = 'true'
+                            dark = 'true'
+                            fontbig = 'true'
+                        >
+                        
+                            Registrate { hover ? <ArrowForward /> : <ArrowRight />} 
+                        </Button>
+                    </HeroBtnWrapper>
+                }
             </HeroContent>
 
         </HeroContainer>

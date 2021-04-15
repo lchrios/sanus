@@ -82,34 +82,31 @@ exports.isAuthenticated = function (req, res, next) {
 
   auth.verifyIdToken(idToken).then(function (decodedIdToken) {
     // * Obtenemos el decodedIDToken como resultado de una operación exitosa
-    //console.log('ID Token verificado!');
-    auth.getUser(decodedIdToken.uid).then(function (user) {
-      // * Assign user role in case it doesnt have
-      if (user.customClaims.role === undefined) {
-        console.log("Usuario sin rol asignado :C\nAsignando rol");
-        auth.setCustomUserClaims(user.uid, {
-          role: "user"
-        }).then(function () {
-          console.log('Usuario registrado con rol "user" correctamente!');
-          res.locals = _objectSpread({}, res.locals, {
-            uid: decodedIdToken.uid,
-            role: "user"
-          });
-        })["catch"](function (error) {
-          console.error('Error asignando el rol de "user" al usuario', error);
-          return res.status(400).send(error);
-        });
-      } else {
-        //console.log("Usuario con rol")
+    console.log('ID Token verificado!');
+
+    if (decodedIdToken.role === undefined) {
+      console.log("Usuario sin rol asignado :C\nAsignando rol");
+      auth.setCustomUserClaims(decodedIdToken.uid, {
+        role: "user"
+      }).then(function () {
+        console.log('Usuario registrado con rol "user" correctamente!');
         res.locals = _objectSpread({}, res.locals, {
           uid: decodedIdToken.uid,
-          role: user.customClaims.role
+          role: "user"
         });
-      }
+      })["catch"](function (error) {
+        console.error('Error asignando el rol de "user" al usuario', error);
+        return res.status(400).send(error);
+      });
+    } else {
+      //console.log("Usuario con rol")
+      res.locals = _objectSpread({}, res.locals, {
+        uid: decodedIdToken.uid,
+        role: decodedIdToken.role
+      });
+    }
 
-      next();
-      return;
-    });
+    next();
   })["catch"](function (error) {
     console.error('Error al verififcar el Firebase ID token:', error);
     return res.status(403).send({
