@@ -1,13 +1,15 @@
 const stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG");
 
 const { admin, storage } = require('../firebase');
-var db = admin.firestore().collection('therapists');
+var db = admin.firestore();
+var thers = db.collection('therapists');
 
 /**La private key será utilizada con una variable de entorno */
 
 exports.sendPaymentInfo = (req, res) => {
-    // TODO: Sacar el payment ID y ponerlo en el usuario 
+
     const { amount, email, payment_method_id } = req.body
+
     stripe.paymentIntents.create({
         "amount": amount,
         "currency": 'mxn',
@@ -33,9 +35,13 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
 
     //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
-    const endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd","whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"][1]; 
+    const endpoint_secret = [
+        "whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd",
+        "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", 
+        "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"
+    ][1]; 
+    
     let event = req.body; // @ Lee la información enviada
-
 
     try { 
         /* 
@@ -49,10 +55,9 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    console.log(event)
-
     switch(event.type) {
         case 'payment_intent.succeeded':
+            
             console.log("Pago recibido con " + event["payment_method_types"])
             
             // * Se hizo el pago del voucher del OXXO exitosamente 

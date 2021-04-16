@@ -192,7 +192,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                             }        
                         </Card>
                         <div className="py-6"></div>
-                        <Card className="overflow-unset flex py-4">
+                        {/* <Card className="overflow-unset flex py-4">
                             <div className="w-100 min-w-100 text-center">
                                 <Fab
                                     className="relative mt--14"
@@ -321,7 +321,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                                     text ever since the 1500s
                                 </p>
                             </div>
-                        </Card>
+                        </Card> */}
                     </Grid>
                     
 
@@ -336,8 +336,9 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                                 ?   <div className="mt-10 mb-10"><Loading /></div> 
                                 :   <>
                                     { users?.id.length !== 0 
-                                    ?    <div><h4 className="font-medium text-muted">
-                                            <Icon>group</Icon> Pacientes
+                                    ?    <div>
+                                            <h4 className="font-medium text-muted">
+                                                <Icon>group</Icon> Pacientes
                                             </h4>
                                             <div style={{maxHeight: 400, overflow: 'auto'}}>
                                                 <Grid

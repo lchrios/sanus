@@ -97,18 +97,18 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions, tid, 
     }, [loading])
     
     const generateSessionReport = () => {
-        var total_ses = sessions.length;
+        var total_ses = sessions.id.length;
         var completed_ses = 0;
         var min_date;
         var curr_date = new Date();
         for (var i = 0; i < total_ses; i++) {
-            if (sessions[i].state === 1) { // * Sesion completada
+            if (sessions.data[i].state === 1) { // * Sesion completada
                 completed_ses += 1;
             }
-            var tmpDate = new Date(sessions[i].start);
+            var tmpDate = new Date(sessions.data[i].start);
             if (min_date === undefined && tmpDate > curr_date) {
                 min_date = tmpDate
-            } else if (min_date !== undefined && tmpDate < min_date && sessions[i].state === 0 && tmpDate > curr_date) { // * Sesion mas proxima
+            } else if (min_date !== undefined && tmpDate < min_date && sessions.data[i].state === 0 && tmpDate > curr_date) { // * Sesion mas proxima
                 console.log("Nuevo MINIMO Enc", tmpDate);
                 min_date = tmpDate;
             }

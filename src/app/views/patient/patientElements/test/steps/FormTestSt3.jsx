@@ -14,7 +14,7 @@ const FormTestSt3 = ({ state, handleChange, handleNext }) => {
             <div className="max-w-600 mx-auto">
             <ValidatorForm onSubmit={handleNext}>
                     <TextValidator
-                        className="mb-6 w-full"
+                        className="mb-6 mt-5 w-full"
                         variant="outlined"
                         label="¿Qué enfermedades padece o ha padecido?"
                         onChange={handleChange}

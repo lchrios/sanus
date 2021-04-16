@@ -107,7 +107,7 @@ const NextSessions = ({ sessions, users }) => {
                         <div className="flex justify-between mb-4">
                             <Avatar className="h-56 w-56" src={getUserMatch(session_info.user)} />
                             <div>
-                                {open && (
+                                <>{open && (
                                     <DoneDialog
                                         closeDone={closeDone}
                                         open={open}
@@ -115,15 +115,12 @@ const NextSessions = ({ sessions, users }) => {
                                         sid={sessions.id[index]}
                                         img={getUserMatch(session_info.user)}
                                     />
-                                )}
-                                <MatxMenu
+                                )}</>
+                                {/* <MatxMenu
                                     menuButton={
                                         <Icon className="cursor-pointer">more_horiz</Icon>
                                     }
                                 >
-                                    {/* 
-                                    // TODO: AÑADIR ACTUALIZACIÓN DE HISTORIAL DE SESIONES 
-                                    */}
                                     <MenuItem>
                                         <Icon fontSize="small">done</Icon>
                                         <span className="pl-4" > Marcar como terminado </span>
@@ -133,12 +130,12 @@ const NextSessions = ({ sessions, users }) => {
                                         <Icon fontSize="small">account_circle</Icon>
                                         <span className="pl-4"> Ver paciente </span>
                                     </MenuItem>
-                                    {/* <MenuItem>
+                                    <MenuItem>
                                         <Icon fontSize="small"> edit </Icon>
                                         <span className="pl-4"> Editar sesion </span>
-                                    </MenuItem> */}
+                                    </MenuItem>
 
-                                </MatxMenu>
+                                </MatxMenu> */}
                             </div>
                         </div>
                         <div>

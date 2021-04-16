@@ -108,7 +108,7 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, se
                                 >
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                         <KeyboardDatePicker
-                                        className="ml-4 mb-4"
+                                            className="ml-4 mb-4"
                                             variant="inline"
                                             format="dd/MM/yyyy"
                                             margin="normal"
@@ -118,7 +118,7 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, se
                                             value={options.startDate}
                                             onChange={handleDate}
                                             KeyboardButtonProps={{
-                                            'aria-label': 'change date',
+                                                'aria-label': 'change date',
                                             }}
                                         />
                                     </MuiPickersUtilsProvider>

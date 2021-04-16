@@ -36,6 +36,7 @@ const PatientProfile = () => {
     const [loading, setLoading] = useState(true)  
     const [url, setUrl] = useState();
     const [t_url, setTUrl] = useState();
+    const [counter, setCounter] = useState(5);
     
 
     const toggleSidenav = () => {
@@ -47,46 +48,52 @@ const PatientProfile = () => {
         else setOpen(true)
     }, [isMobile])
 
+    useEffect(() => {
+        if (counter === 0) {
+            setLoading(false)
+        }
+    }, [counter])
+
+    const finishedReq = () => {
+        setCounter(cnt => cnt - 1)
+    }
 
     useEffect(() => {
-        console.log("Pidiendo Terapeuta")
         
-        getTherapist(user.uid).then( res => {
+        console.log("Pidiendo Terapeuta")
+        getTherapist(user.uid).then(res => {
             setTherapist(res?.data);
             setTid(res?.id);
-            console.log("Pidiendo Sesiones")
-            getSessions(user.uid).then( resp => {
-                setSessions(resp?.data);  
-                console.log("Revisando si debes alguna sesion\no-[>:D]=<-<")
-                api.get(`/u/${user.uid}/payed`)
-                .then(respo => {
-                    setPayed(respo.data.payed)
-                    console.log("Obteniendo el URL de tu foto de perfil")
-                    api.get(`/u/${user.uid}/image`)
-                    .then(respon => {
-                        setUrl(respon.data.url);
-                        if (res) {
-                            console.log("Obteniendo el URL de la foto del terapeuta");
-                            api.get(`/t/${res?.id}/image`)
-                            .then(respons => {
-                                setTUrl(respons.data.url)
-                            })
-                        }
-                    })
-                    .finally(() => {
-                        setLoading(false);
-                    })
+            finishedReq();
+            if (res) {
+                console.log("Obteniendo el URL de la foto del terapeuta");
+                api.get(`/t/${res?.id}/image`)
+                .then(respons => {
+                    setTUrl(respons.data.url)
+                    finishedReq();
                 })
-                .catch( er => {
-                    console.error(er);
-                })
-            })
-            .catch( er => {
-                console.error(er);
-            })
+            }
         })
-        .catch( er => {
-            console.error(er);
+        
+        console.log("Pidiendo Sesiones")
+        getSessions(user.uid).then( resp => {
+            setSessions(resp);
+            finishedReq();  
+        })
+        
+        console.log("Revisando si debes alguna sesion\no-[>:D]=<-<")
+        api.get(`/u/${user.uid}/payed`)
+        .then(respo => {
+            setPayed(respo.data.payed)
+            finishedReq();
+        })
+        
+        console.log("Obteniendo el URL de tu foto de perfil")
+        api.get(`/u/${user.uid}/image`)
+        .then(respon => {
+            setUrl(respon.data.url);
+            finishedReq();
+            
         })
     }, [user.uid])
     
