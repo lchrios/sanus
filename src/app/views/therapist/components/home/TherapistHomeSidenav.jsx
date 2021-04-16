@@ -9,11 +9,12 @@ import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
+import { useState } from 'react'
 
 
-const useStripeStyles = makeStyles({
+const useStripeStyles = makeStyles(({palette, ...theme}) => ({
     stripeConnect: {
-        background: "#635bff",
+        background: palette.primary.main,
         display:"inline-block",
         height: 38,
         textDecoration: "none",
@@ -28,7 +29,7 @@ const useStripeStyles = makeStyles({
         webkitfontSmoothing: 'antialiased'
 
     }
-})
+}))
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     sidenav: {
@@ -43,6 +44,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 const TherapistHomeSidenav = ({ url, therapist }) => {
     const classes = usestyles()
     const str_classes = useStripeStyles()
+    const [charge, setCharge] = useState(false)
     const { user } = useAuth()
 
     const [open, setOpen] = React.useState(false)
@@ -76,9 +78,17 @@ const TherapistHomeSidenav = ({ url, therapist }) => {
         api.post(`/t/${user.uid}/connect`, {
             email: user.email,
         }).then(res => {
-            console.log(res)
+            window.location.href=res.data.url
         })
     }
+
+    useEffect(() => {
+            api.get(`/t/${user.uid}/reAuth`)
+            .then(res => {
+                console.log(res)
+                setCharge(res.data.charges_enabled)
+            })
+    },[])
 
    
     return (
@@ -185,14 +195,14 @@ const TherapistHomeSidenav = ({ url, therapist }) => {
                         </Button >
                     </Card>
                     <Card className="flex items-center mt-2 justify-center text-primary">
-                        { !therapist?.charge_enabled ? <Button 
-                            className={str_classes.stripeConnect}
+                        { !charge ? <Button 
+                            fullWidth
                             onClick={handleClickConnect}
                             >
                             <h5>
                                 Conectar con stripe
                             </h5>
-                        </Button >
+                        </Button>
                         : null
                         }
                     </Card>
