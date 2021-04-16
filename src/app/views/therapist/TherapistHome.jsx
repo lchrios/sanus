@@ -38,9 +38,14 @@ const TherapistHome = () => {
     const [blogs, setBlogs] = useState()
     const [therapist, setTherapist] = useState()
     const [url, setUrl] = useState();
+    const [counter, setCounter] = useState(5); // * Numero de requests  que se hacen
 
     const toggleSidenav = () => {
         setOpen(!open)
+    }
+
+    const finishReq = () => {
+        setCounter(cnt => cnt - 1);
     }
 
     useEffect(() => {
@@ -49,31 +54,49 @@ const TherapistHome = () => {
     }, [isMobile])
 
     useEffect(() => {
+        console.log(counter)
+        if (counter === 0) {
+            setLoading(false);
+        }
+    }, [counter])
+
+    useEffect(() => {
+
         api.get(`/t/${user.uid}/u`) 
-            .then(resU => {
-                console.log("Usuarios obtenidos")
-                setUsers(resU.data)
-                api.get(`/t/${user.uid}/s/uncompleted`) 
-                .then(resS => {
-                    console.log("Sesiones obtenidas")
-                    setSessions(resS.data)
-                    api.get(`/t/${user.uid}/b`) 
-                    .then(resB => {
-                        console.log("Blogs obtenidos")
-                        setBlogs(resB.data)
-                        api.get(`/t/${user.uid}`).then(resTripe => {
-                            console.log(resTripe)
-                            setTherapist(resTripe.data)
-                            api.get(`/t/${user.uid}/image`) 
-                            .then(resC => {
-                                console.log("Imagen obtenida")
-                                setUrl(resC.data.url)            
-                                setLoading(false)
-                            })
-                        })          
-                    })
-                })
-            })
+        .then(resU => {
+            console.log("OK: Usuarios obtenidos")
+            setUsers(resU.data)
+            finishReq()
+        })
+
+        api.get(`/t/${user.uid}/s/uncompleted`) 
+        .then(resS => {
+            console.log("OK: Sesiones obtenidas")
+            setSessions(resS.data)
+            finishReq();
+        })
+
+        api.get(`/t/${user.uid}/b`) 
+        .then(resB => {
+            console.log("OK: Blogs obtenidos")
+            setBlogs(resB.data)
+            finishReq()
+        })
+
+        api.get(`/t/${user.uid}`)
+        .then(resTripe => {
+            console.log("OK: Informacion del terapeuta cargada")
+            setTherapist(resTripe.data)
+            finishReq()
+        })
+
+        api.get(`/t/${user.uid}/image`) 
+        .then(resC => {
+            console.log("OK: Imagen obtenida")
+            setUrl(resC.data.url)
+            finishReq()               
+        })
+
     }, [])
 
     
@@ -98,7 +121,7 @@ const TherapistHome = () => {
                             </IconButton>
                         </Hidden>
                     </div>
-                    <TherapistHomeSidenav url={url} />
+                    <TherapistHomeSidenav url={url} therapist={therapist} loading={loading} />
                 </MatxSidenav>
                 <MatxSidenavContent open={open}>
                     <div className={clsx('bg-primary', classes.headerBG)} />

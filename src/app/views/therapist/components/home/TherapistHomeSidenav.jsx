@@ -40,7 +40,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const TherapistHomeSidenav = ({ url }) => {
+const TherapistHomeSidenav = ({ url, therapist }) => {
     const classes = usestyles()
     const str_classes = useStripeStyles()
     const { user } = useAuth()
@@ -185,7 +185,7 @@ const TherapistHomeSidenav = ({ url }) => {
                         </Button >
                     </Card>
                     <Card className="flex items-center mt-2 justify-center text-primary">
-                        { !therapist_data?.charge_enabled ? <Button 
+                        { !therapist?.charge_enabled ? <Button 
                             className={str_classes.stripeConnect}
                             onClick={handleClickConnect}
                             >
@@ -203,202 +203,6 @@ const TherapistHomeSidenav = ({ url }) => {
         </div>
     )
 }
-
-const generateRandomId = () => {
-    let tempId = Math.random().toString()
-    let id = tempId.substr(2, tempId.length - 1)
-    return id
-}
-
-const therapist_data = [
-    {
-        name: "Mark Zuckerberg",
-        email: "mark.zucaritas@gmail.com",
-        age: 56,
-        phone: "3156548942",
-        img: "/src/assets/images/faces/2.jpg",
-        patients: [],
-        sessions: [],
-        address: null,
-        cons_add: null,
-        zoom: "URL de zoom",
-        cedula: "cedula",
-        exp: "Experiencia",
-        location: [
-            "Guadalajara", "Jalisco", "Mexico" 
-        ]
-    },
-    {
-        name: "Porfirio Díaz",
-        email: "donporfirio@gmail.com",
-        age: 56,
-        phone: "3156548942",
-        img: "/src/assets/images/faces/3.jpg",
-        patients: [],
-        sessions: [],
-        address: null,
-        cons_add: null,
-        zoom: "URL de zoom",
-        cedula: "cedula",
-        exp: "Experiencia",
-        location: [
-            "Guadalajara", "Jalisco", "Mexico" 
-        ]
-    },
-    {
-        name: "Alma Marcela",
-        email: "alma.marcela@gmail.com",
-        age: 56,
-        phone: "3156548942",
-        img: "/src/assets/images/faces/4.jpg",
-        patients: [],
-        sessions: [],
-        address: null,
-        cons_add: null,
-        zoom: "URL de zoom",
-        cedula: "cedula",
-        exp: "Experiencia",
-        location: [
-            "Guadalajara", "Jalisco", "Mexico" 
-        ]
-    },
-    {
-        name: "Javier Hernandez",
-        email: "elchicharito@gmail.com",
-        age: 56,
-        phone: "3156548942",
-        img: "/src/assets/images/faces/5.jpg",
-        patients: [],
-        sessions: [],
-        address: null,
-        cons_add: null,
-        zoom: "URL de zoom",
-        cedula: "cedula",
-        exp: "Experiencia",
-        location: [
-            "Guadalajara", "Jalisco", "Mexico" 
-        ]
-    },
-    {
-        name: "Sean Smith",
-        email: "sean.s@gmail.com",
-        age: 56,
-        phone: "3156548942",
-        img: "/src/assets/images/faces/9.jpg",
-        patients: [],
-        sessions: [],
-        address: null,
-        cons_add: null,
-        zoom: "URL de zoom",
-        cedula: "cedula",
-        exp: "Experiencia",
-        location: [
-            "Guadalajara", "Jalisco", "Mexico" 
-        ]
-    },
-    {
-        name: "Aldeous Huxley",
-        email: "aldeous.h@gmail.com",
-        age: 56,
-        phone: "3156548942",
-        img: "/src/assets/images/faces/10.jpg",
-        patients: [],
-        sessions: [],
-        address: null,
-        cons_add: null,
-        zoom: "URL de zoom",
-        cedula: "cedula",
-        exp: "Experiencia",
-        location: [
-            "Guadalajara", "Jalisco", "Mexico" 
-        ]
-    },
-    {
-        name: "Marie Curie",
-        email: "marie.curie@gmail.com",
-        age: 56,
-        phone: "3156548942",
-        img: "/src/assets/images/faces/12.jpg",
-        patients: [],
-        sessions: [],
-        address: null,
-        cons_add: null,
-        zoom: "URL de zoom",
-        cedula: "cedula",
-        exp: "Experiencia",
-        location: [
-            "Guadalajara", "Jalisco", "Mexico" 
-        ]
-    },
-    {
-        name: "Ernest Hemmingway",
-        email: "marie.curie@gmail.com",
-        age: 56,
-        phone: "3156548942",
-        img: "/src/assets/images/faces/13.jpg",
-        patients: [],
-        sessions: [],
-        address: null,
-        cons_add: null,
-        zoom: "URL de zoom",
-        cedula: "cedula",
-        exp: "Experiencia",
-        location: [
-            "Guadalajara", "Jalisco", "Mexico" 
-        ]
-    },
-    {
-        name: "Hipster guy",
-        email: "hipster@gmail.com",
-        age: 56,
-        phone: "3156548942",
-        img: "/src/assets/images/faces/15.jpg",
-        patients: [],
-        sessions: [],
-        address: null,
-        cons_add: null,
-        zoom: "URL de zoom",
-        cedula: "cedula",
-        exp: "Experiencia",
-        location: [
-            "Guadalajara", "Jalisco", "Mexico" 
-        ]
-    },
-    {
-        name: "Oprah Whinfrey",
-        email: "oprah@gmail.com",
-        age: 56,
-        phone: "3156548942",
-        img: "/src/assets/images/faces/16.jpg",
-        patients: [],
-        sessions: [],
-        address: null,
-        cons_add: null,
-        zoom: "URL de zoom",
-        cedula: "cedula",
-        exp: "Experiencia",
-        location: [
-            "Guadalajara", "Jalisco", "Mexico" 
-        ]
-    },
-    {
-        name: "Belle Delphine",
-        email: "belle.delphine@gmail.com",
-        age: 56,
-        phone: "3156548942",
-        img: "/src/assets/images/faces/17.jpg",
-        patients: [],
-        sessions: [],
-        address: null,
-        cons_add: null,
-        zoom: "URL de zoom",
-        cedula: "cedula",
-        exp: "Experiencia",
-        location: [
-            "Guadalajara", "Jalisco", "Mexico" 
-        ]
-    }
-]
 
 const shortcutList = [
     {
