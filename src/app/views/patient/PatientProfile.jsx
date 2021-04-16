@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Icon, IconButton, Hidden, useMediaQuery } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
+import { withStyles } from "@material-ui/styles";
 import {
     MatxSidenavContainer,
     MatxSidenav,
@@ -8,8 +9,8 @@ import {
 } from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import UserProfileContent from './patientElements/home/user-profile/UserProfileContent'
-import UserProfileSidenav from './patientElements/home/user-profile/UserProfileSidenav'
+import UserProfileContent from './patientElements/home/UserProfileContent'
+import UserProfileSidenav from './patientElements/home/UserProfileSidenav'
 import { getTherapist, getSessions } from 'app/services/functions/UserService'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
@@ -99,7 +100,7 @@ const PatientProfile = () => {
     
 
     return (
-        <div className="relative ">
+        <div className="relative">
             <MatxSidenavContainer>
                 <MatxSidenav
                     width="300px"
@@ -130,4 +131,4 @@ const PatientProfile = () => {
     )
 }
 
-export default PatientProfile
+export default withStyles({}, { withTheme: true })(PatientProfile)

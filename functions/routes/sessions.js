@@ -1,7 +1,8 @@
 const {admin} = require('../firebase');
 const db = admin.firestore();
 const users = db.collection('users');
-const ther = db.collection('therapists');
+const thers = db.collection('therapists');
+const schedules = db.collection('schedules');
 const sess = db.collection('sessions');
 
 
@@ -18,73 +19,47 @@ exports.getSession = (req, res) => {
 }
 
 exports.newSession = (req, res) => {
-    //console.log(req.body.sessiondata)
+    let { therapist, start } = req.body.sessiondata;
     sess.add(req.body.sessiondata)
-        .then( doc => {
-            
-            /* 
-            ! no es necesario ya utilizar este codigo
-            ! se comenta por si sirve luego
-            // actualizar el id del documento
-            sess
-                .doc(doc.id)
-                .update({id: doc.id})
-                .then(() => {
-                    console.log('Campo session.id actualizado exitosamente!');
-                })
-                .catch(error => {
-                    console.log('Error actualizando el campo session.id', error);
-                    return res.status(404).send(error);
-                })
-            */
-            return res.status(201).send({id: doc.id});
+    .then( doc => {
+        // * Actualizar el schedule del terapeuta
+        schedules.doc(therapist).get()
+        .then(docsched => {
+            let sched = docsched.data().schedule;
 
-            // * añade la cita al paciente
-            // const userref = users.doc(req.body.sessiondata.patient)
-            // userref
-            //     .get()
-            //     .then( usdoc => {
-            //         const sessdata = usdoc.data().sessions;
-            //         sessdata.push(doc.id);
-            //         userref.update({sessions: sessdata}).then(() => {
-            //             console.log('Campo user.sessions actualizado correctamente')
-            //         })
-            //         .catch(error => {
-            //             console.log('Error actualizando el campo user.sessions', error);
-            //             return res.status(404).send(error);
-            //         })
-            //     })
-            //     .then(() => {
-            //         // * añade la cita al terapeuta 
-            //         const terref = ther.doc(req.body.sessiondata.therapist)
-            //         terref.get()
-            //             .then( terdoc => {
-            //                 const data = terdoc.data().sessions;
-            //                 data.push(doc.id);
-            //                 userref.update({sessions: data})
-            //                     .then(() => {
-            //                         console.log('Campo user.sessions actualizado correctamente')
-            //                         
-            //                     })
-            //                 .catch(error => {
-            //                     console.log('Error actualizando el campo therapist.sessions', error);
-            //                     return res.status(404).send(error);
-            //                 })
-            //             })
-            //             .catch(error => {
-            //                 console.log('Error obteniendo los datos del terapeuta', error);
-            //                 return res.status(404).send(error);
-            //             })  
-            //     })
-            //     .catch(error => {
-            //         console.log('Error obteniendo los datos del usuario', error);
-            //         return res.status(404).send(error);
-            //     })
+            // * Obtener el index de la fecha
+            let ind = sched.indexOf(start);
+            if (ind > -1) {
+
+                // * Borrar el schedule 
+                sched.slice(ind, 1)
+
+                // * Subir el nuevo schedule
+                docsched.ref.update({schedule: sched})
+                .then(() => {
+                    console.log("Schedule actualizada")
+                    return res.status(201).send({id: doc.id});
+                })
+                .catch(er => {
+                    return res.status(400).send({
+                        code: er.code,
+                        message: er.message,
+                    });
+                })
+                
+            }
         })
-        .catch(error => {
-            console.log("Unable to create new blog", error);
-            return res.status(404).send(error);
-        })
+        .catch(er => {
+            return res.status(400).send({
+                code: er.code,
+                message: er.message,
+            });
+        })  
+    })
+    .catch(error => {
+        console.log("Unable to create new blog", error);
+        return res.status(404).send(error);
+    })
 }
 
 exports.updateSession = (req, res) => {

@@ -8,6 +8,7 @@ var _require = require('../firebase'),
 
 var db = admin.firestore();
 var thers = db.collection('therapists');
+var users = db.collection('users');
 /**La private key será utilizada con una variable de entorno */
 
 exports.sendPaymentInfo = function (req, res) {
@@ -15,6 +16,17 @@ exports.sendPaymentInfo = function (req, res) {
       amount = _req$body.amount,
       email = _req$body.email,
       payment_method_id = _req$body.payment_method_id;
+  users.doc(req.params.uid).get().then(function (doc) {
+    var pm = doc.data().payment_met;
+    pm.push(payment_method_id);
+    doc.ref.update({
+      payment_met: pm
+    }).then(function () {
+      console.log("PMs actualizados");
+    })["catch"](function (er) {
+      console.error(er.message);
+    });
+  });
   stripe.paymentIntents.create({
     "amount": amount,
     "currency": 'mxn',
@@ -100,7 +112,7 @@ exports.expressAccount = function (req, res) {
     var hosts = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
     'https://iknelia.app' // * cloud api host
     ];
-    db.doc(req.params.tid).update({
+    thers.doc(req.params.tid).update({
       stripeId: response.id,
       charges_enabled: response.charges_enabled
     }).then(function () {
@@ -124,7 +136,7 @@ exports.expressAccount = function (req, res) {
 };
 
 exports.connectReAuth = function (req, res) {
-  db.doc(req.params.tid).get().then(function (doc) {
+  thers.doc(req.params.tid).get().then(function (doc) {
     stripe.accounts.retrieve(doc.data().stripeId).then(function (account) {
       res.status(200).send({
         charges_enabled: account.charges_enabled

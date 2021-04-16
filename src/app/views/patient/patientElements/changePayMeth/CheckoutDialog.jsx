@@ -66,14 +66,13 @@ export default function CheckoutDialog({therapist, tid, state}) {
     /** COn handlePay, le pido a stripe que cree un metodo de pago que va a recibir, y le digo que lo va a recibir de CardElement con getElement */
     const handlePayCard = async (e) => {
         e.preventDefault();
+        setSubmited(true)
         let cardInfo = elements.getElement(CardElement)
         stripe.createPaymentMethod({
             type:'card',
             card: cardInfo,
         }).then((paymentMethod) => {
             console.log(paymentMethod)
-            // TODO: Save payment ID to user
-            // api.put()
             // * POST a la API
             api.post('/u/' + user.uid + '/checkout', {
                 "payment_method_id": paymentMethod.paymentMethod.id,
@@ -82,18 +81,6 @@ export default function CheckoutDialog({therapist, tid, state}) {
             }).then((res) => {
 
                 let pm = paymentMethod.paymentMethod;
-                // delete pm.id;
-                // delete pm.object;
-                // delete pm.created;
-                // delete pm.livemode
-                // delete pm.card.brand;
-                // delete pm.card.country;
-                // delete pm.card.funding;
-                // delete pm.card.last4;
-                // delete pm.card.networks;
-                // delete pm.card.three_d_secure_usage;   
-
-                // console.log(pm);
 
                 stripe.confirmCardPayment(res.data.client_secret, {
                     payment_method: pm.id,
@@ -133,6 +120,7 @@ export default function CheckoutDialog({therapist, tid, state}) {
         })
 
     }
+
     const handlePayOxxo = (e) => {
         e.preventDefault();
 
@@ -154,23 +142,25 @@ export default function CheckoutDialog({therapist, tid, state}) {
             ).then(result => {
                 let payInfo = result.paymentIntent;
 
-                api.post(`/s/new`, {sessiondata: {
-                    cost: payInfo.amount,
-                    duration: 60,
-                    start: state.date,
-                    end: new Date(new Date(state.date).getTime() + (1000*60*60)),
-                    note: "",
-                    user: user.uid,
-                    user_name: user.name,
-                    user_email: user.email,
-                    pay_met: payInfo.id,
-                    pay_type: 'oxxo',
-                    payed: false,
-                    therapist: tid,
-                    tipo: payInfo.description,
-                    ther_name: therapist.name,
-                    state: 0,
-                }})
+                api.post(`/s/new`, {
+                    sessiondata: {
+                        cost: payInfo.amount,
+                        duration: 60,
+                        start: state.date,
+                        end: new Date(new Date(state.date).getTime() + (1000*60*60)),
+                        note: "",
+                        user: user.uid,
+                        user_name: user.name,
+                        user_email: user.email,
+                        pay_met: payInfo.id,
+                        pay_type: 'oxxo',
+                        payed: false,
+                        therapist: tid,
+                        tipo: payInfo.description,
+                        ther_name: therapist.name,
+                        state: 0,
+                    }
+                })
             })
         }).catch(error => {
             console.error(error)

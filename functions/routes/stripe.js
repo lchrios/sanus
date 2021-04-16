@@ -3,12 +3,26 @@ const stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2
 const { admin, storage } = require('../firebase');
 var db = admin.firestore();
 var thers = db.collection('therapists');
+var users = db.collection('users');
 
 /**La private key será utilizada con una variable de entorno */
 
 exports.sendPaymentInfo = (req, res) => {
 
     const { amount, email, payment_method_id } = req.body
+
+    users.doc(req.params.uid).get()
+    .then(doc => {
+        let pm = doc.data().payment_met;
+        pm.push(payment_method_id)
+        doc.ref.update({payment_met: pm})
+        .then(() => {
+            console.log("PMs actualizados")
+        })
+        .catch(er => {
+            console.error(er.message);
+        })
+    })
 
     stripe.paymentIntents.create({
         "amount": amount,
@@ -107,7 +121,7 @@ exports.expressAccount = (req, res) => {
             'https://iknelia.app' // * cloud api host
           ]
 
-        db.doc(req.params.tid).update({stripeId:response.id, charges_enabled:response.charges_enabled})
+        thers.doc(req.params.tid).update({stripeId:response.id, charges_enabled:response.charges_enabled})
         .then(() =>console.log('Actualización de stripeID completada.')
         ).catch(err => console.error(err))
 
@@ -131,7 +145,7 @@ exports.expressAccount = (req, res) => {
 }
 
 exports.connectReAuth = (req,res) => {
-    db.doc(req.params.tid).get().then(doc => {
+    thers.doc(req.params.tid).get().then(doc => {
 
         stripe.accounts.retrieve(
             doc.data().stripeId

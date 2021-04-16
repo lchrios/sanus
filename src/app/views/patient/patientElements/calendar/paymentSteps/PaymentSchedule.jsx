@@ -1,5 +1,6 @@
 import 'date-fns';
 import { Card, Grid, Icon, Button, Snackbar, IconButton, SnackbarContent } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
@@ -12,7 +13,15 @@ import api from 'app/services/api';
 import useAuth from 'app/hooks/useAuth';
 import { Loading } from 'app/components/Loading/Loading';
 
+const usestyles = makeStyles(({ palette, ...theme}) => ({
+    hover: {
+        color: palette.secondary.main
+    }
+}))
+
 const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, setHasSched, back }) => {
+
+    const classes = usestyles();
 
     const [loading, setLoading] = useState(!back)
     const { user } = useAuth() 
@@ -130,8 +139,8 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, se
                     </Grid>
                     <Grid 
                         item
-                        lg={8}
-                        md={8}
+                        lg={12}
+                        md={12}
                         sm={12}
                         xd={12}
                     >            
@@ -143,6 +152,8 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, se
                                 maxTime={options.maxTime}
                                 hourlyChunks={options.hourlyChunks}
                                 startDate={options.startDate}
+                                hoveredColor={classes.hover.color}
+                                dateFormat="D/MM"
                                 selectionScheme={options.selectionScheme}
                                 onChange={handleChange}
                                 renderDataCell={(selected) => {
