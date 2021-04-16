@@ -114,32 +114,31 @@ export default function BlogEntriesCards() {
                     <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
                         <Card plain blog>
                             <CardHeader plain image>
-                            <a href={`/blog/${blogs.id[1]}`}>
+                                <a href={`/blog/${blogs.id[1]}`}>
                                     <img src={images[1]} alt="..." />
                                 </a>
-                            <div
-                                className={classes.coloredShadow}
-                                style={{
-                                    backgroundImage: "url(" + images[1] + ")",
-                                    opacity: "1"
-                                }}
-                            />
+                                <div
+                                    className={classes.coloredShadow}
+                                    style={{
+                                        backgroundImage: "url(" + images[1] + ")",
+                                        opacity: "1"
+                                    }}
+                                />
                             </CardHeader>
                             <CardBody plain>
-                            
-                            <h6>DUDAS</h6>
-                            
-                            <h4 className={classes.cardTitle}>
-                                <a href={`/blog/${blogs.id[1]}`}>
-                                {blogs.data[1].title}
-                                </a>
-                            </h4>
-                            <p className={classes.description}>
-                                {parse(blogs.data[1].content)}
-                                <br />
-                                <br />
-                                <a href={`/blog/${blogs.id[1]}`}> Leer artículo </a>
-                            </p>
+                                <h6>DUDAS</h6>
+                                
+                                <h4 className={classes.cardTitle}>
+                                    <a href={`/blog/${blogs.id[1]}`}>
+                                    {blogs.data[1].title}
+                                    </a>
+                                </h4>
+                                <p className={classes.description}>
+                                    {parse(blogs.data[1].content)}
+                                    <br />
+                                    <br />
+                                    <a href={`/blog/${blogs.id[1]}`}> Leer artículo </a>
+                                </p>
                             </CardBody>
                         </Card>
                     </Grid>

@@ -90,27 +90,25 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
         case 'payment_intent.requires_action':
             
             // * Se genero el voucher del OXXO
-            console.log("Voucher generado")
-            // - 1 Crear sesion en firestore con valor
-            // - 
+            console.log("Voucher generado");
+            return res.status(200).send({received: true});
 
         case 'payment_intent.processing':
             // * Se esta procesando el outcome del pago
             console.log("Voucher en proceso")
-            break;
+            return res.status(200).send({received: true});
 
         case 'payment_intent.payment_failed':
             // * No se hizo el pago exitosamente :C
             console.log("Pago no realizado")
-            break;
+            return res.status(200).send({received: true});
                     
         
         // ... handle other event types
         default:
             console.log(`Unhandled event type ${event.type}`);
+            return res.status(200).send({received: true});
     }
-
-    return res.status(200).send({received: true});
 }
 
 exports.expressAccount = (req, res) => {
@@ -126,10 +124,10 @@ exports.expressAccount = (req, res) => {
         /**
          * TODO MOVER TEST DATA
          */
-        const hosts = [
+        const host = [
             'http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
             'https://iknelia.app' // * cloud api host
-          ]
+          ][1]
 
         thers.doc(req.params.tid).update({stripeId:response.id, charges_enabled:response.charges_enabled})
         .then(() =>console.log('Actualización de stripeID completada.')
@@ -138,8 +136,8 @@ exports.expressAccount = (req, res) => {
 
         stripe.accountLinks.create({
             account: response.id,
-            refresh_url: `${hosts[1]}/${req.params.tid}/reAuth`,
-            return_url: `${hosts[1]}/${req.params.tid}/dashboard`,
+            refresh_url: `${host}/${req.params.tid}/reAuth`,
+            return_url: `${host}/${req.params.tid}/dashboard`,
             type:"account_onboarding"
 
         }).then(response1 => {
@@ -156,13 +154,14 @@ exports.expressAccount = (req, res) => {
 
 exports.connectReAuth = (req,res) => {
     thers.doc(req.params.tid).get().then(doc => {
-
-        stripe.accounts.retrieve(
-            doc.data().stripeId
-        ).then(account => {
-            res.status(200).send({charges_enabled:account.charges_enabled})
-        })
-
+        if (!doc.data().charges_enabled) {
+            stripe.accounts.retrieve(
+                doc.data().stripeId
+            ).then(account => {
+                return res.status(200).send({charges_enabled:account.charges_enabled})
+            })
+        }
+        return res.status(200).send({charges_enabled: true })
     })
     .catch(e => {
         console.error('No ha sido posible traer tus datos')

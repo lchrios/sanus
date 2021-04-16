@@ -87,27 +87,31 @@ exports.handleStripeEvent = function (req, res) {
     case 'payment_intent.requires_action':
       // * Se genero el voucher del OXXO
       console.log("Voucher generado");
-    // - 1 Crear sesion en firestore con valor
-    // - 
+      return res.status(200).send({
+        received: true
+      });
 
     case 'payment_intent.processing':
       // * Se esta procesando el outcome del pago
       console.log("Voucher en proceso");
-      break;
+      return res.status(200).send({
+        received: true
+      });
 
     case 'payment_intent.payment_failed':
       // * No se hizo el pago exitosamente :C
       console.log("Pago no realizado");
-      break;
+      return res.status(200).send({
+        received: true
+      });
     // ... handle other event types
 
     default:
       console.log("Unhandled event type ".concat(event.type));
+      return res.status(200).send({
+        received: true
+      });
   }
-
-  return res.status(200).send({
-    received: true
-  });
 };
 
 exports.expressAccount = function (req, res) {
@@ -121,9 +125,9 @@ exports.expressAccount = function (req, res) {
     /**
      * TODO MOVER TEST DATA
      */
-    var hosts = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+    var host = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
     'https://iknelia.app' // * cloud api host
-    ];
+    ][1];
     thers.doc(req.params.tid).update({
       stripeId: response.id,
       charges_enabled: response.charges_enabled
@@ -134,8 +138,8 @@ exports.expressAccount = function (req, res) {
     });
     stripe.accountLinks.create({
       account: response.id,
-      refresh_url: "".concat(hosts[1], "/").concat(req.params.tid, "/reAuth"),
-      return_url: "".concat(hosts[1], "/").concat(req.params.tid, "/dashboard"),
+      refresh_url: "".concat(host, "/").concat(req.params.tid, "/reAuth"),
+      return_url: "".concat(host, "/").concat(req.params.tid, "/dashboard"),
       type: "account_onboarding"
     }).then(function (response1) {
       console.log("Enviando link");
@@ -149,10 +153,16 @@ exports.expressAccount = function (req, res) {
 
 exports.connectReAuth = function (req, res) {
   thers.doc(req.params.tid).get().then(function (doc) {
-    stripe.accounts.retrieve(doc.data().stripeId).then(function (account) {
-      res.status(200).send({
-        charges_enabled: account.charges_enabled
+    if (!doc.data().charges_enabled) {
+      stripe.accounts.retrieve(doc.data().stripeId).then(function (account) {
+        return res.status(200).send({
+          charges_enabled: account.charges_enabled
+        });
       });
+    }
+
+    return res.status(200).send({
+      charges_enabled: true
     });
   })["catch"](function (e) {
     console.error('No ha sido posible traer tus datos');

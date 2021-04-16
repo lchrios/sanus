@@ -221,40 +221,13 @@ exports.newNote = function (req, res) {
   console.log('Creando nota');
 };
 
-exports.connectReAuth = function (req, res) {
-  var email = req.body.email;
-  var account = stripe.accounts.retrieve({
-    type: 'express',
-    email: email,
-    capabilities: {
-      card_payments: {
-        requested: true
-      },
-      transfers: {
-        requested: true
-      }
-    }
-  })["catch"](function (e) {
-    console.error('No ha sido posible autenticarte');
-    console.error(e);
-  });
-};
-
 exports.handleAccountUpdate = function (req, res) {
-  var hosts = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
-  'https://us-central1-iknelia-3cd8e.cloudfunctions.net/api' // * cloud api host
-  ]; // const webhookAccountUpdate = await stripe.webhookEndpoints.create({
-  //   url: `${hosts[1]}/t/${req.params.tid}/webhookUpdateAccount`,
-  //   enabled_events: [
-  //     'account_updated'
-  //   ],
-  // })
-
+  console.log("Recibiendo account update");
   var sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
   //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
 
   var endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", "whsec_ZBv8dScsRtH1S36P3AllVEhr3vA1HnJf", "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"][1];
-  var event = req.body; // @ Lee la información enviada
+  var event; // @ Lee la información enviada
 
   try {
     /* 
@@ -265,22 +238,33 @@ exports.handleAccountUpdate = function (req, res) {
     */
     event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
   } catch (err) {
+    console.log(err.message);
     return res.status(400).send("Webhook Error: ".concat(err.message));
   }
 
-  console.log(event);
+  console.log('Se recibió el evento', event);
 
   switch (event.type) {
     case 'account_update':
-      console.log('Se recibió el evento', event);
+      var _event$data$object = event.data.object,
+          id = _event$data$object.id,
+          charges_enabled = _event$data$object.charges_enabled;
+      ther.where("stripeId", "==", id).get().then(function (query) {
+        query.forEach(function (doc) {
+          doc.ref.update({
+            charges_enabled: charges_enabled
+          }).then(function () {
+            console.log("Cuenta actualizada");
+          });
+        });
+      });
 
     default:
       console.log('Unhandled type event');
   }
 
   return res.status(200).send({
-    event: event,
-    message: 'Se recibió el evento'
+    received: true
   });
 };
 
