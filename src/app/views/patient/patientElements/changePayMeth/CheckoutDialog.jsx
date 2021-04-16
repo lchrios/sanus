@@ -77,7 +77,7 @@ export default function CheckoutDialog({therapist, tid, state}) {
             // * POST a la API
             api.post('/u/' + user.uid + '/checkout', {
                 "payment_method_id": paymentMethod.paymentMethod.id,
-                "amount": 60000,
+                "amount": 600,
                 "email": user.email,
             }).then((res) => {
 
