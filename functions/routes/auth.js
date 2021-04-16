@@ -6,14 +6,14 @@ const storage = admin.storage();
 var users = db.collection('users');
 var thers = db.collection('therapists');
 
-exports.isAuthorized = (hasRole, sameId) => {
+exports.isAuthorized = (hasRole, sameId = false) => {
     return (req, res, next) => {
 
         const { role, uid } = res.locals;
 
-        if (role === "therapist" && req.params.tid !== uid) { // * Revisa que el terapeuta no esté pidiendo información de algún otro terapeuta 
+        if (sameId && role === "therapist" && req.params.tid !== uid) { // * Revisa que el terapeuta no esté pidiendo información de algún otro terapeuta 
             return res.status(403).send({ status: 'Unauthorized', message: "El cliente no puede acceder la información de otro terapeuta" });
-        } else if (role === "user" && req.params.uid !== uid) {
+        } else if ( sameId && role === "user" && req.params.uid !== uid) {
             return res.status(403).send({ status: 'Unauthorized', message: "El usuario no puede acceder a la información de otro usuario" });
         }
         

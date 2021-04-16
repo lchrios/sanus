@@ -1,5 +1,0 @@
-<<<<<<< HEAD:build/static/js/35.908d9f7e.chunk.js
-(this.webpackJsonpiknelia=this.webpackJsonpiknelia||[]).push([[35],{1861:function(t,a,n){"use strict";n.d(a,"b",(function(){return r})),n.d(a,"a",(function(){return e}));var i=n(1843);function r(t){return Object(i.a)({tag:"svg",attr:{viewBox:"0 0 24 24"},child:[{tag:"path",attr:{d:"M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"}}]})(t)}function e(t){return Object(i.a)({tag:"svg",attr:{viewBox:"0 0 24 24"},child:[{tag:"path",attr:{d:"M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"}}]})(t)}}}]);
-=======
-(this.webpackJsonpiknelia=this.webpackJsonpiknelia||[]).push([[35],{1860:function(t,a,n){"use strict";n.d(a,"b",(function(){return r})),n.d(a,"a",(function(){return e}));var i=n(1842);function r(t){return Object(i.a)({tag:"svg",attr:{viewBox:"0 0 24 24"},child:[{tag:"path",attr:{d:"M8.59 16.34l4.58-4.59-4.58-4.59L10 5.75l6 6-6 6z"}}]})(t)}function e(t){return Object(i.a)({tag:"svg",attr:{viewBox:"0 0 24 24"},child:[{tag:"path",attr:{d:"M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"}}]})(t)}}}]);
->>>>>>> c5097de0ae959b06eef1952a885325a1561e650f:build/static/js/35.b65d6c3b.chunk.js

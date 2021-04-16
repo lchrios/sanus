@@ -52,8 +52,9 @@ const DragAndDropCalendar = withDragAndDrop(Calendar)
 let viewList = Object.keys(Views).map((key) => Views[key])
 
 const PatientCalendar = ({ sessions, therapist, tid, payed }) => {
-    const [events, setEvents] = useState(sessions.map((e) => ({
-        title: e.thername,
+    const [events, setEvents] = useState(sessions.data.map((e, ind) => ({
+        title: new Date(new Date(e.start).getTime() + (new Date().getTimezoneOffset() * 60000)).toTimeString(),
+        id: sessions.id[ind],
         start: new Date(e.start),
         end: new Date(e.end),
     })))
@@ -68,8 +69,9 @@ const PatientCalendar = ({ sessions, therapist, tid, payed }) => {
     }
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', };
     useEffect(() => {
-        setEvents(sessions.map((e) => ({
-            title: new Date(e.start).toLocaleTimeString("es-ES", options).slice(28),
+        setEvents(sessions.data.map((e, ind) => ({
+            title: new Date(new Date(e.start).getTime() + (new Date().getTimezoneOffset() * 60000)).toTimeString(),
+            id: sessions.id[ind],
             start: new Date(e.start),
             end: new Date(e.end),
         })))
@@ -139,9 +141,10 @@ const PatientCalendar = ({ sessions, therapist, tid, payed }) => {
                         },
                     }}
                     // // onNavigate={handleNavigate}
-                    // onSelectEvent={(event) => {
-                    //     openExistingEventDialog(event)
-                    // }}
+                    onSelectEvent={(event) => {
+                        console.log(event)
+                        //openExistingEventDialog(event)
+                    }}
                     // onSelectSlot={(slotDetails) => {
                     //     slotDetails.end.addHours(1)
                     //     console.log(slotDetails)

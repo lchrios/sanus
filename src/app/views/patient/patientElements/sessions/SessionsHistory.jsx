@@ -97,13 +97,26 @@ const SessionsHistory = ({toggleSidenav}) => {
         },
         {
             name: 'date',
+            label: 'Hora',
+            options: {
+                filter: true,
+                customBodyRenderLite: (dataIndex) => {
+                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    return (<span className="ellipsis pr-5">
+                        {new Date(new Date(orderList[dataIndex].start).getTime() + (new Date().getTimezoneOffset() * 60000)).toTimeString()}
+                    </span>)
+                },
+            },
+        },
+        {
+            name: 'date',
             label: 'Fecha',
             options: {
                 filter: true,
                 customBodyRenderLite: (dataIndex) => {
                     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
                     return (<span className="ellipsis pr-5">
-                        {new Date(orderList[dataIndex].start).toLocaleTimeString("es-ES", options)}
+                        {new Date(orderList[dataIndex].start).toLocaleDateString("es-ES", options)}
                     </span>)
                 },
             },

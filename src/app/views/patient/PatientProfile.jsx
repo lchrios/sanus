@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Icon, IconButton, Hidden, useMediaQuery } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles'
+import { withStyles } from "@material-ui/styles";
 import {
     MatxSidenavContainer,
     MatxSidenav,
@@ -8,8 +9,8 @@ import {
 } from 'app/components'
 import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx'
-import UserProfileContent from './patientElements/home/user-profile/UserProfileContent'
-import UserProfileSidenav from './patientElements/home/user-profile/UserProfileSidenav'
+import UserProfileContent from './patientElements/home/UserProfileContent'
+import UserProfileSidenav from './patientElements/home/UserProfileSidenav'
 import { getTherapist, getSessions } from 'app/services/functions/UserService'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
@@ -36,6 +37,7 @@ const PatientProfile = () => {
     const [loading, setLoading] = useState(true)  
     const [url, setUrl] = useState();
     const [t_url, setTUrl] = useState();
+    const [counter, setCounter] = useState(5);
     
 
     const toggleSidenav = () => {
@@ -47,52 +49,58 @@ const PatientProfile = () => {
         else setOpen(true)
     }, [isMobile])
 
+    useEffect(() => {
+        if (counter === 0) {
+            setLoading(false)
+        }
+    }, [counter])
+
+    const finishedReq = () => {
+        setCounter(cnt => cnt - 1)
+    }
 
     useEffect(() => {
-        console.log("Pidiendo Terapeuta")
         
-        getTherapist(user.uid).then( res => {
+        console.log("Pidiendo Terapeuta")
+        getTherapist(user.uid).then(res => {
             setTherapist(res?.data);
             setTid(res?.id);
-            console.log("Pidiendo Sesiones")
-            getSessions(user.uid).then( resp => {
-                setSessions(resp?.data);  
-                console.log("Revisando si debes alguna sesion\no-[>:D]=<-<")
-                api.get(`/u/${user.uid}/payed`)
-                .then(respo => {
-                    setPayed(respo.data.payed)
-                    console.log("Obteniendo el URL de tu foto de perfil")
-                    api.get(`/u/${user.uid}/image`)
-                    .then(respon => {
-                        setUrl(respon.data.url);
-                        if (res) {
-                            console.log("Obteniendo el URL de la foto del terapeuta");
-                            api.get(`/t/${res?.id}/image`)
-                            .then(respons => {
-                                setTUrl(respons.data.url)
-                            })
-                        }
-                    })
-                    .finally(() => {
-                        setLoading(false);
-                    })
+            finishedReq();
+            if (res) {
+                console.log("Obteniendo el URL de la foto del terapeuta");
+                api.get(`/t/${res?.id}/image`)
+                .then(respons => {
+                    setTUrl(respons.data.url)
+                    finishedReq();
                 })
-                .catch( er => {
-                    console.error(er);
-                })
-            })
-            .catch( er => {
-                console.error(er);
-            })
+            }
         })
-        .catch( er => {
-            console.error(er);
+        
+        console.log("Pidiendo Sesiones")
+        getSessions(user.uid).then( resp => {
+            setSessions(resp);
+            finishedReq();  
+        })
+        
+        console.log("Revisando si debes alguna sesion\no-[>:D]=<-<")
+        api.get(`/u/${user.uid}/payed`)
+        .then(respo => {
+            setPayed(respo.data.payed)
+            finishedReq();
+        })
+        
+        console.log("Obteniendo el URL de tu foto de perfil")
+        api.get(`/u/${user.uid}/image`)
+        .then(respon => {
+            setUrl(respon.data.url);
+            finishedReq();
+            
         })
     }, [user.uid])
     
 
     return (
-        <div className="relative ">
+        <div className="relative">
             <MatxSidenavContainer>
                 <MatxSidenav
                     width="300px"
@@ -123,4 +131,4 @@ const PatientProfile = () => {
     )
 }
 
-export default PatientProfile
+export default withStyles({}, { withTheme: true })(PatientProfile)

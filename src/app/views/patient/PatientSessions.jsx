@@ -6,7 +6,7 @@ import clsx from 'clsx'
 import { Card, Button, Icon, IconButton,  useMediaQuery, Hidden  } from "@material-ui/core";
 import { withStyles, useTheme } from "@material-ui/styles";
 import {makeStyles } from '@material-ui/core/styles'
-import UserProfileSidenav from '../patient/patientElements/home/user-profile/UserProfileSidenav'
+import UserProfileSidenav from './patientElements/home/UserProfileSidenav'
 import useAuth from 'app/hooks/useAuth'
 import history from '../../../history'
 

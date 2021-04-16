@@ -1,26 +1,37 @@
 const stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG");
 
 const { admin, storage } = require('../firebase');
-var db = admin.firestore().collection('therapists');
+var db = admin.firestore();
+var thers = db.collection('therapists');
+var users = db.collection('users');
 
 /**La private key será utilizada con una variable de entorno */
 
 exports.sendPaymentInfo = (req, res) => {
-    // TODO: Sacar el payment ID y ponerlo en el usuario 
+
     const { amount, email, payment_method_id } = req.body
-    db.doc(req.params.tid).get().then(() => {
-        let stripeId = doc.data().stripeId
-        stripe.paymentIntents.create({
-            "amount": amount,
-            "currency": 'mxn',
-            "description": 'Sesión individual',
-            "payment_method": payment_method_id,  
-            "payment_method_types": ['card', 'oxxo'],
-            "receipt_email": email,
-            "application_fee_amount": 100,
-            "transfer_data" :{
-                "destination": stripeId
-            }
+
+    users.doc(req.params.uid).get()
+    .then(doc => {
+        let pm = doc.data().payment_met;
+        pm.push(payment_method_id)
+        doc.ref.update({payment_met: pm})
+        .then(() => {
+            console.log("PMs actualizados")
+        })
+        .catch(er => {
+            console.error(er.message);
+        })
+    })
+
+    stripe.paymentIntents.create({
+        "amount": amount,
+        "currency": 'mxn',
+        "description": 'Sesión individual',
+        "payment_method": payment_method_id,
+        "application_fee_amount": 100,
+        "payment_method_types": ['card', 'oxxo'],
+        "receipt_email": email,
     })
     .then((paymentIntent) => {
     console.log(paymentIntent.receipt_email, "Ticket de pago generado exitosamente api")
@@ -33,19 +44,19 @@ exports.sendPaymentInfo = (req, res) => {
         console.log('Error al procesar tu pago',error.message)
         res.status(400).send(error)
     })
-    }).catch(error => {
-        console.error('Error al obtener tus datos')
-        res.status(400).send(error)
-    })
 } 
 
 exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
 
     //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
-    const endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd","whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"][1]; 
+    const endpoint_secret = [
+        "whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd",
+        "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", 
+        "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"
+    ][1]; 
+    
     let event = req.body; // @ Lee la información enviada
-
 
     try { 
         /* 
@@ -59,10 +70,9 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    console.log(event)
-
     switch(event.type) {
         case 'payment_intent.succeeded':
+            
             console.log("Pago recibido con " + event["payment_method_types"])
             
             // * Se hizo el pago del voucher del OXXO exitosamente 
@@ -112,7 +122,7 @@ exports.expressAccount = (req, res) => {
             'https://iknelia.app' // * cloud api host
           ]
 
-        db.doc(req.params.tid).update({stripeId:response.id, charges_enabled:response.charges_enabled})
+        thers.doc(req.params.tid).update({stripeId:response.id, charges_enabled:response.charges_enabled})
         .then(() =>console.log('Actualización de stripeID completada.')
         ).catch(err => console.error(err))
 
@@ -136,7 +146,7 @@ exports.expressAccount = (req, res) => {
 }
 
 exports.connectReAuth = (req,res) => {
-    db.doc(req.params.tid).get().then(doc => {
+    thers.doc(req.params.tid).get().then(doc => {
 
         stripe.accounts.retrieve(
             doc.data().stripeId

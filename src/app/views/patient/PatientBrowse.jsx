@@ -9,7 +9,7 @@ import {
     MatxSidenavContent,
 } from 'app/components'
 import BrowseApp from './patientElements/browse/BrowseApp';
-import UserProfileSidenav from '../patient/patientElements/home/user-profile/UserProfileSidenav'
+import UserProfileSidenav from './patientElements/home/UserProfileSidenav'
 import useAuth from 'app/hooks/useAuth'
 import history from '../../../history'
 
