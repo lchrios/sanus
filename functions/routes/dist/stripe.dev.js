@@ -9,6 +9,7 @@ var _require = require('../firebase'),
 var db = admin.firestore();
 var thers = db.collection('therapists');
 var users = db.collection('users');
+var sess = db.collection('sessions');
 /**La private key será utilizada con una variable de entorno */
 
 exports.sendPaymentInfo = function (req, res) {
@@ -70,6 +71,17 @@ exports.handleStripeEvent = function (req, res) {
     case 'payment_intent.succeeded':
       console.log("Pago recibido con " + event["payment_method_types"]); // * Se hizo el pago del voucher del OXXO exitosamente 
 
+      sess.where("pay_met", "==", event.id).get().then(function (query) {
+        query.forEach(function (doc) {
+          doc.ref.update({
+            payed: true
+          }).then(function () {
+            return res.status(200).send({
+              received: true
+            });
+          });
+        });
+      });
       break;
 
     case 'payment_intent.requires_action':
