@@ -224,9 +224,10 @@ exports.newNote = function (req, res) {
 exports.handleAccountUpdate = function (req, res) {
   console.log("Recibiendo account update");
   var sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
-  //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
 
-  var endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", "whsec_ZBv8dScsRtH1S36P3AllVEhr3vA1HnJf", "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"][1];
+  console.log("SIG: " + sig.toString()); //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
+
+  var endpoint_secret = ["whsec_ZBv8dScsRtH1S36P3AllVEhr3vA1HnJf"][0];
   var event; // @ Lee la información enviada
 
   try {
