@@ -23,26 +23,37 @@ exports.sendPaymentInfo = (req, res) => {
         .catch(er => {
             console.error(er.message);
         })
-    })
-
-    stripe.paymentIntents.create({
-        "amount": amount,
-        "currency": 'mxn',
-        "description": 'Sesión individual',
-        "payment_method": payment_method_id,  
-        "payment_method_types": ['card', 'oxxo'],
-        "receipt_email": email,
-    })
-    .then((paymentIntent) => {
-        console.log(paymentIntent.receipt_email, "Ticket de pago generado exitosamente api")
-        return res.status(200).send({
-            "client_secret": paymentIntent.client_secret, 
-            "message": 'Ticket de pago generato exitosamente'
+        thers.doc(doc.data().therapist).get().then(ther => {
+            console.log()
+            stripe.paymentIntents.create({
+                "amount": amount,
+                "currency": 'mxn',
+                "description": 'Sesión individual',
+                "payment_method": payment_method_id,
+                "application_fee_amount": 10000,
+                "transfer_data": {
+                    "destination":ther.data().stripeId,
+                },
+                "payment_method_types": ['card', 'oxxo'],
+                "receipt_email": email,
+            })
+            .then((paymentIntent) => {
+            console.log(paymentIntent.receipt_email, "Ticket de pago generado exitosamente api")
+            return res.status(200).send({
+                "client_secret": paymentIntent.client_secret, 
+                    "message": 'Ticket de pago generato exitosamente'
+                })
+            })
+            .catch((error) => {
+                console.log('Error al crear el intento de pago',error.message)
+                res.status(400).send(error)
+            })
+            
         })
-    })
-    .catch((error) => {
-        console.log('Error al procesar tu pago',error.message)
-        res.status(400).send(error)
+        .catch((error) => {
+            console.log('Error al obtener los datos de el terapeuta del usuario',error.message)
+            res.status(400).send(error)
+        })
     })
 } 
 
@@ -154,11 +165,12 @@ exports.expressAccount = (req, res) => {
 
 exports.connectReAuth = (req,res) => {
     thers.doc(req.params.tid).get().then(doc => {
+
         if (!doc.data().charges_enabled) {
             stripe.accounts.retrieve(
                 doc.data().stripeId
             ).then(account => {
-                return res.status(200).send({charges_enabled:account.charges_enabled})
+                return res.status(200).send({ charges_enabled: account.charges_enabled })
             })
         }
         return res.status(200).send({charges_enabled: true })

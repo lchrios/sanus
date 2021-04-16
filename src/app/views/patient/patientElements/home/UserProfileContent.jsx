@@ -266,6 +266,7 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions, tid, 
                                 <div className="flex items-center">
                                 </div>
                             </Card>
+                            {/* <CheckoutApp /> */}
                         </Grid>
                     </Grid>
                     <div className="py-2"></div>

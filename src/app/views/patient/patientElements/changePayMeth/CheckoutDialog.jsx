@@ -78,6 +78,7 @@ export default function CheckoutDialog({therapist, tid, state}) {
                 "payment_method_id": paymentMethod.paymentMethod.id,
                 "amount": 60000,
                 "email": user.email,
+
             }).then((res) => {
 
                 let pm = paymentMethod.paymentMethod;
