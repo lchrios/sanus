@@ -52,7 +52,7 @@ const Navbar = ({ toggle }) => {
                             <NavLinks to='/blogs' onClick={() => {history.push('/blogs')}}>Blog</NavLinks>
                         </NavItem>
                         <NavItem>
-                            <NavLinks to='/psychologists' onClick={() => {history.push('/psychologists')}}>Psicólogos</NavLinks>
+                            <NavLinks to='/therapists' onClick={() => {history.push('/therapists')}}>Psicólogos</NavLinks>
                         </NavItem>
                         { !isAuthenticated ? <NavItem>
                             <NavLinks to='/session/signup' onClick={() => {history.push('/session/signup')}}>Comienza ahora</NavLinks>
