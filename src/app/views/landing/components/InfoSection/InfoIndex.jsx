@@ -13,7 +13,7 @@ import {
   Heading,
   Subtitle, 
   BtnWrapper} from './InfoElements'
-  import terapia1 from '../../../../../../src/assets/images/blog/terapia2.jpg'
+  import terapia1 from '../../../../../../src/assets/images/FOTOS LANDING PAGE/IMG_4300.PNG'
   import InterestedSectionStyle from '../../landingBlog/landingBlogStyles/lessImpBlogStyles'
   import Card from '../../landingBlog/components/card'
   import CardHeader from '../../landingBlog/components/cardHeader'
@@ -75,13 +75,13 @@ export const InfoSection = ({
                                     <a href="/landingblog">
                                     <img src={terapia1} alt="..." />
                                     </a>
-                                    <div
+                                    {/* <div
                                     className={classes.coloredShadow}
                                     style={{
                                         backgroundImage: "url(" + terapia1 + ")",
                                         opacity: "0"
                                     }}
-                                    />
+                                    /> */}
                                 </CardHeader>
                                 </Card>
                             
