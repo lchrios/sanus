@@ -27,23 +27,33 @@ exports.sendPaymentInfo = function (req, res) {
     })["catch"](function (er) {
       console.error(er.message);
     });
-  });
-  stripe.paymentIntents.create({
-    "amount": amount,
-    "currency": 'mxn',
-    "description": 'Sesión individual',
-    "payment_method": payment_method_id,
-    "payment_method_types": ['card', 'oxxo'],
-    "receipt_email": email
-  }).then(function (paymentIntent) {
-    console.log(paymentIntent.receipt_email, "Ticket de pago generado exitosamente api");
-    return res.status(200).send({
-      "client_secret": paymentIntent.client_secret,
-      "message": 'Ticket de pago generato exitosamente'
+    thers.doc(doc.data().therapist).get().then(function (ther) {
+      console.log();
+      stripe.paymentIntents.create({
+        "amount": amount,
+        "currency": 'mxn',
+        "description": 'Sesión individual',
+        "payment_method": payment_method_id,
+        "application_fee_amount": 10000,
+        "transfer_data": {
+          "destination": ther.data().stripeId
+        },
+        "payment_method_types": ['card', 'oxxo'],
+        "receipt_email": email
+      }).then(function (paymentIntent) {
+        console.log(paymentIntent.receipt_email, "Ticket de pago generado exitosamente api");
+        return res.status(200).send({
+          "client_secret": paymentIntent.client_secret,
+          "message": 'Ticket de pago generato exitosamente'
+        });
+      })["catch"](function (error) {
+        console.log('Error al crear el intento de pago', error.message);
+        res.status(400).send(error);
+      });
+    })["catch"](function (error) {
+      console.log('Error al obtener los datos de el terapeuta del usuario', error.message);
+      res.status(400).send(error);
     });
-  })["catch"](function (error) {
-    console.log('Error al procesar tu pago', error.message);
-    res.status(400).send(error);
   });
 };
 
@@ -87,27 +97,31 @@ exports.handleStripeEvent = function (req, res) {
     case 'payment_intent.requires_action':
       // * Se genero el voucher del OXXO
       console.log("Voucher generado");
-    // - 1 Crear sesion en firestore con valor
-    // - 
+      return res.status(200).send({
+        received: true
+      });
 
     case 'payment_intent.processing':
       // * Se esta procesando el outcome del pago
       console.log("Voucher en proceso");
-      break;
+      return res.status(200).send({
+        received: true
+      });
 
     case 'payment_intent.payment_failed':
       // * No se hizo el pago exitosamente :C
       console.log("Pago no realizado");
-      break;
+      return res.status(200).send({
+        received: true
+      });
     // ... handle other event types
 
     default:
       console.log("Unhandled event type ".concat(event.type));
+      return res.status(200).send({
+        received: true
+      });
   }
-
-  return res.status(200).send({
-    received: true
-  });
 };
 
 exports.expressAccount = function (req, res) {
@@ -121,9 +135,9 @@ exports.expressAccount = function (req, res) {
     /**
      * TODO MOVER TEST DATA
      */
-    var hosts = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+    var host = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
     'https://iknelia.app' // * cloud api host
-    ];
+    ][1];
     thers.doc(req.params.tid).update({
       stripeId: response.id,
       charges_enabled: response.charges_enabled
@@ -134,8 +148,8 @@ exports.expressAccount = function (req, res) {
     });
     stripe.accountLinks.create({
       account: response.id,
-      refresh_url: "".concat(hosts[1], "/").concat(req.params.tid, "/reAuth"),
-      return_url: "".concat(hosts[1], "/").concat(req.params.tid, "/dashboard"),
+      refresh_url: "".concat(host, "/").concat(req.params.tid, "/reAuth"),
+      return_url: "".concat(host, "/").concat(req.params.tid, "/dashboard"),
       type: "account_onboarding"
     }).then(function (response1) {
       console.log("Enviando link");
@@ -149,10 +163,16 @@ exports.expressAccount = function (req, res) {
 
 exports.connectReAuth = function (req, res) {
   thers.doc(req.params.tid).get().then(function (doc) {
-    stripe.accounts.retrieve(doc.data().stripeId).then(function (account) {
-      res.status(200).send({
-        charges_enabled: account.charges_enabled
+    if (!doc.data().charges_enabled) {
+      stripe.accounts.retrieve(doc.data().stripeId).then(function (account) {
+        return res.status(200).send({
+          charges_enabled: account.charges_enabled
+        });
       });
+    }
+
+    return res.status(200).send({
+      charges_enabled: true
     });
   })["catch"](function (e) {
     console.error('No ha sido posible traer tus datos');

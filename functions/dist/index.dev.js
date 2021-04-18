@@ -106,7 +106,7 @@ app.use(cookieParser()); // const upload = multer({
 
 app.use(cors());
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][1]);
+  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][0]);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 }); // * Niveles de permisos por roles 
@@ -153,10 +153,11 @@ app.get("/users/image", isAuthenticated, isAuthorized(roles.user), getAllUserIma
 app.post("/u/:uid/image", uploadImg); //*rutas de stripe (lado terapeuta)
 
 app.post("/t/:tid/connect", isAuthenticated, isAuthorized(roles.therapist), expressAccount);
-app.get("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth);
-app.post("/updateAccount", isAuthenticated, isAuthorized(roles.therapist), handleAccountUpdate); //*rutas de stripe (lado user)
+app.get("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth); //*rutas de stripe (lado user)
 
-app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user, true), sendPaymentInfo);
+app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user, true), sendPaymentInfo); // * rutas de stripe (manejo de eventos de stripe)
+
+app.post("/updateAccount", handleAccountUpdate);
 app.post("/webhook", handleStripeEvent); // * rutas de blogs
 
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
