@@ -60,7 +60,7 @@ export const InfoSection = ({
                                             dark={dark ? 1 : 0 }
                                             dark2={dark2 ? 1 : 0 }
                                             onClick={buttonClick}
-                                            to='/psychologists'
+                                            to='/therapists'
                                             className="elevation-z5"
                                         >
                                             {buttonLabel}
@@ -72,7 +72,7 @@ export const InfoSection = ({
                             
                                 <Card plain >
                                 <CardHeader plain image >
-                                    <a href="/landingblog">
+                                    <a href="/therapists">
                                     <img src={terapia1} alt="..." />
                                     </a>
                                     {/* <div
