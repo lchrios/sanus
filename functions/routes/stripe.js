@@ -1,6 +1,7 @@
-const stripe = require('stripe')(['sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG',
-"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"], 
-[0]);
+const stripe = require('stripe')([
+"sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG",
+"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",
+][1]);
 
 const { DoneSharp } = require('@material-ui/icons');
 const { admin, storage } = require('../firebase');
@@ -62,7 +63,6 @@ exports.sendPaymentInfo = (req, res) => {
 } 
 
 exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
-    console.log(req.headers)
     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
 
     //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
@@ -146,12 +146,11 @@ exports.expressAccount = (req, res) => {
 
     const account = stripe.accounts.create({
         "type":'express',
-        "email": email,
+        // "email": email,
         "country": 'MX',
         "business_type": 'individual',
         "capabilities": {
             "transfers": {requested:true},
-            "legacy_payments": {requested:true} 
         }
     })
     .then(response => {
@@ -216,6 +215,7 @@ exports.connectReAuth = (req,res) => {
             stripe.accounts.retrieve(
                 doc.data().stripeId
             ).then(account => {
+            console.log(account)
              return res.status(200).send(account)
             })
         }

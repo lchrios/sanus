@@ -9,8 +9,8 @@ import Typography from '@material-ui/core/Typography'
 import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
-import { useState } from 'react'
 import NoStripeSnack from '../snackBars/NoStripeSnack'
+
 
 
 const useStripeStyles = makeStyles(({palette, ...theme}) => ({
@@ -131,9 +131,7 @@ const TherapistHomeSidenav = ({ url, therapist }) => {
                 </Dialog>
                 {/**Dialogo de notas termina */}
 
-                {/**SNACKBAR DE STRIPE */}
-
-                <NoStripeSnack></NoStripeSnack>
+                  
             <div className={clsx('flex-column items-center', classes.sidenav)}>
                 <Avatar
                     className="h-84 w-84 mb-5"
@@ -218,6 +216,7 @@ const TherapistHomeSidenav = ({ url, therapist }) => {
                     <div className="py-2"></div>
                 </div>
             </div>
+            <NoStripeSnack></NoStripeSnack> 
         </div>
     )
 }

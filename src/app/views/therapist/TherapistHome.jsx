@@ -15,6 +15,7 @@ import useAuth from "app/hooks/useAuth";
 import api from "app/services/api";
 
 
+
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     headerBG: {
         height: 345,
@@ -84,13 +85,6 @@ const TherapistHome = () => {
             setBlogs(resB.data)
             finishReq()
         })
-
-        // api.post(`/webhook`)
-        // .then(resTripe => {
-        //     console.log(resTripe, 'HOLA ESTE ES EL WEBHOOK')
-        //     setTherapist(resTripe)
-        //     finishReq()
-        // },[])
 
         api.get(`/t/${user.uid}/image`) 
         .then(resC => {

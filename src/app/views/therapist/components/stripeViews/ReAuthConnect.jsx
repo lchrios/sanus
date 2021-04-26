@@ -82,6 +82,7 @@ const ReAuthConnect = () => {
         })
         .then(res => {
             console.log(res)
+            window.location.href=res.data.url;
         })
         .catch(e => {
             console.error(e)
