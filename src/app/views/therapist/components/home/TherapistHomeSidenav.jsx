@@ -10,6 +10,7 @@ import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
 import { useState } from 'react'
+import NoStripeSnack from '../snackBars/NoStripeSnack'
 
 
 const useStripeStyles = makeStyles(({palette, ...theme}) => ({
@@ -44,7 +45,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 const TherapistHomeSidenav = ({ url, therapist }) => {
     const classes = usestyles()
     const str_classes = useStripeStyles()
-    const [charge, setCharge] = useState(false)
+    const [charge, setCharge] = React.useState(false)
     const { user } = useAuth()
 
     const [open, setOpen] = React.useState(false)
@@ -73,21 +74,25 @@ const TherapistHomeSidenav = ({ url, therapist }) => {
 
 
     function handleClickConnect() {
-        console.log('Conectando con stripe')
+        console.log('Conectando con stripe', charge)
+        if (charge == false) {
+        history.push(`/${user.uid}/connectFailedView`)    
+        } 
+        else if(charge == undefined || null) {
+            api.post(`/t/${user.uid}/connect`, {
+                email: user.email,
+            }).then(res => {
+                window.location.href=res.data.url
+            })
 
-        api.post(`/t/${user.uid}/connect`, {
-            email: user.email,
-        }).then(res => {
-            window.location.href=res.data.url
-        })
+        }
     }
 
     useEffect(() => {
-            api.get(`/t/${user.uid}/reAuth`)
-            .then(res => {
-                console.log(res)
-                setCharge(res.data.charges_enabled)
-            })
+        api.get(`/t/${user.uid}/reAuth`)
+        .then(res => {
+            setCharge(res.data.charges_enabled)
+        })
     },[])
 
    
@@ -126,6 +131,9 @@ const TherapistHomeSidenav = ({ url, therapist }) => {
                 </Dialog>
                 {/**Dialogo de notas termina */}
 
+                {/**SNACKBAR DE STRIPE */}
+
+                <NoStripeSnack></NoStripeSnack>
             <div className={clsx('flex-column items-center', classes.sidenav)}>
                 <Avatar
                     className="h-84 w-84 mb-5"

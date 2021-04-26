@@ -72,14 +72,18 @@ const useStripeStyles = makeStyles(() => ({
 const ReAuthConnect = () => {
     const [loading, setLoading] = useState(false)
     const classes = useStyles()
-    const user = useAuth()
+    const {user} = useAuth()
     
     function handleClickConnect() {
         console.log('Conectando con stripe')
         
-        api.post("/t/:tid/reAuth", {
+        api.post(`/t/${user.uid}/connect`, {
             email: user.email,
-        }).catch(e => {
+        })
+        .then(res => {
+            console.log(res)
+        })
+        .catch(e => {
             console.error(e)
         })
     }

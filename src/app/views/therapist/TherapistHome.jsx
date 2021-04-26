@@ -24,6 +24,8 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
+
+
 const TherapistHome = () => {
     
     const [open, setOpen] = useState(true)
@@ -38,7 +40,7 @@ const TherapistHome = () => {
     const [blogs, setBlogs] = useState()
     const [therapist, setTherapist] = useState()
     const [url, setUrl] = useState();
-    const [counter, setCounter] = useState(5); // * Numero de requests  que se hacen
+    const [counter, setCounter] = useState(4); // * Numero de requests  que se hacen
 
     const toggleSidenav = () => {
         setOpen(!open)
@@ -83,12 +85,12 @@ const TherapistHome = () => {
             finishReq()
         })
 
-        api.get(`/t/${user.uid}`)
-        .then(resTripe => {
-            console.log("OK: Informacion del terapeuta cargada")
-            setTherapist(resTripe.data)
-            finishReq()
-        })
+        // api.post(`/webhook`)
+        // .then(resTripe => {
+        //     console.log(resTripe, 'HOLA ESTE ES EL WEBHOOK')
+        //     setTherapist(resTripe)
+        //     finishReq()
+        // },[])
 
         api.get(`/t/${user.uid}/image`) 
         .then(resC => {

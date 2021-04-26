@@ -75,7 +75,7 @@ const therapistRoutes = [
         auth: authRoles.therapist
     },
     {
-        path:"/:tid/reAuth",
+        path:"/:tid/connectFailedView",
         component:ReAuthConnect,
         exact:false,
         auth:authRoles.therapist

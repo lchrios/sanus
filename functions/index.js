@@ -82,6 +82,7 @@ const {
       handleStripeEvent, 
       expressAccount,
       connectReAuth,
+      connectFailed,
 } = require("./routes/stripe");
 
 const filesRouter = require('./routes/files');
@@ -105,7 +106,7 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", [
         "https://iknelia.app",
         "http://localhost:3000",
-    ][0]);
+    ][1]);
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
@@ -157,13 +158,13 @@ app.post("/u/:uid/image", uploadImg);
 //*rutas de stripe (lado terapeuta)
 app.post("/t/:tid/connect", isAuthenticated, isAuthorized(roles.therapist), expressAccount)
 app.get("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth)
+app.post("/t/:tid/connectFailed", isAuthenticated, isAuthorized(roles.therapist), connectFailed)
 
 //*rutas de stripe (lado user)
 app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user, true), sendPaymentInfo);
 
 
 // * rutas de stripe (manejo de eventos de stripe)
-app.post("/updateAccount", handleAccountUpdate)
 app.post("/webhook", handleStripeEvent);
 
 // * rutas de blogs

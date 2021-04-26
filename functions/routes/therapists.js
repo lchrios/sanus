@@ -5,7 +5,6 @@ const ther = db.collection('therapists');
 const sess = db.collection('sessions');
 const blogs = db.collection('blogs');
 const schedules = db.collection("schedules");
-const stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG");
 
 // * Get therapist info
 exports.getAllTherapists = async (req, res) => {
@@ -217,52 +216,52 @@ exports.newNote = (req,res) => {
 }
 
 
-exports.handleAccountUpdate = (req, res) => {
-    console.log("Recibiendo account update")
-    const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
-    console.log("SIG: " + sig.toString())
-    //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
-    const endpoint_secret = [
-        "whsec_ZBv8dScsRtH1S36P3AllVEhr3vA1HnJf"
-    ][0]; 
+// exports.handleAccountUpdate = (req, res) => {
+//     console.log("Recibiendo account update")
+//     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
+//     console.log("SIG: " + sig.toString())
+//     //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
+//     const endpoint_secret = [
+//         "whsec_ZBv8dScsRtH1S36P3AllVEhr3vA1HnJf"
+//     ][0]; 
     
-    let event; // @ Lee la información enviada
+//     let event; // @ Lee la información enviada
     
-    try { 
-        /* 
-          * Se construye unevento a traves de stripe pasando como argumentos:
-            @ Signature de stripe
-            @ secreto del endpoint
-            @ Informacion obtenida del POST
-        */
-       event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
-    } catch (err) {
-        console.log(err.message);
-        return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
+//     try { 
+//         /* 
+//           * Se construye unevento a traves de stripe pasando como argumentos:
+//             @ Signature de stripe
+//             @ secreto del endpoint
+//             @ Informacion obtenida del POST
+//         */
+//        event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
+//     } catch (err) {
+//         console.log(err.message);
+//         return res.status(400).send(`Webhook Error: ${err.message}`);
+//     }
 
-    console.log('Se recibió el evento',event)
-    switch(event.type) {
-        case 'account_update':
-            let { id, charges_enabled } = event.data.object;
+//     console.log('Se recibió el evento',event)
+//     switch(event.type) {
+//         case 'account_update':
+//             let { id, charges_enabled } = event.data.object;
 
-            ther.where("stripeId", "==", id).get()
-            .then(query => {
-                query.forEach(doc => {
-                    doc.ref.update({ charges_enabled: charges_enabled })
-                    .then(() => {
-                        console.log("Cuenta actualizada")
-                    })
-                })
-            })
+//             ther.where("stripeId", "==", id).get()
+//             .then(query => {
+//                 query.forEach(doc => {
+//                     doc.ref.update({ charges_enabled: charges_enabled })
+//                     .then(() => {
+//                         console.log("Cuenta actualizada")
+//                     })
+//                 })
+//             })
 
 
-        default:
-            console.log('Unhandled type event')
-    }
+//         default:
+//             console.log('Unhandled type event')
+//     }
 
-    return res.status(200).send({received: true})
-}
+//     return res.status(200).send({received: true})
+// }
 
 exports.uploadTherImg = (req, res) => {
     console.log(`Subiendo imagen del usuario ${req.params.uid}`)

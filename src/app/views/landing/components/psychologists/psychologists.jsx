@@ -17,7 +17,7 @@ import fake1 from 'assets/images/faces/profile faces/card-profile5-square.jpg'
 import psyCardsStyle from "./styles/psyCardsStyles.js";
 import psyCardStyle from "./styles/psyCardStyle";
 
-
+  
 const style = {
   ...psyCardsStyle,
   ...psyCardStyle,
