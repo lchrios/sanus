@@ -5,7 +5,7 @@ import img2 from '../../../../../assets/images/bg-1.png'
 import history from '../../../../../history'
 
 const clickObjOne = function() {
-    history.push('/psychologists')
+    history.push('/therapists')
 }
 
 export const homeObjOne = {
@@ -27,7 +27,7 @@ export const homeObjOne = {
 }
 
 const clickObjTwo = function() {
-    history.push('/psychologists')
+    history.push('/therapists')
 }
 
 export const homeObjTwo = {

@@ -5,7 +5,6 @@ const ther = db.collection('therapists');
 const sess = db.collection('sessions');
 const blogs = db.collection('blogs');
 const schedules = db.collection("schedules");
-const stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG");
 
 // * Get therapist info
 exports.getAllTherapists = async (req, res) => {
@@ -230,12 +229,12 @@ exports.handleAccountUpdate = (req, res) => {
     
     try { 
         /* 
-            * Se construye unevento a traves de stripe pasando como argumentos:
-            @ Informacion obtenida del POST
+          * Se construye unevento a traves de stripe pasando como argumentos:
             @ Signature de stripe
             @ secreto del endpoint
+            @ Informacion obtenida del POST
         */
-        event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
+       event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
     } catch (err) {
         console.log(err.message);
         return res.status(400).send(`Webhook Error: ${err.message}`);

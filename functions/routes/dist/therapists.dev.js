@@ -15,10 +15,7 @@ var users = db.collection('users');
 var ther = db.collection('therapists');
 var sess = db.collection('sessions');
 var blogs = db.collection('blogs');
-var schedules = db.collection("schedules");
-
-var stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG"); // * Get therapist info
-
+var schedules = db.collection("schedules"); // * Get therapist info
 
 exports.getAllTherapists = function _callee(req, res) {
   var data, refs, links, bucket;
@@ -232,10 +229,10 @@ exports.handleAccountUpdate = function (req, res) {
 
   try {
     /* 
-        * Se construye unevento a traves de stripe pasando como argumentos:
-        @ Informacion obtenida del POST
+      * Se construye unevento a traves de stripe pasando como argumentos:
         @ Signature de stripe
         @ secreto del endpoint
+        @ Informacion obtenida del POST
     */
     event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
   } catch (err) {

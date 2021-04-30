@@ -17,7 +17,7 @@ import fake1 from 'assets/images/faces/profile faces/card-profile5-square.jpg'
 import psyCardsStyle from "./styles/psyCardsStyles.js";
 import psyCardStyle from "./styles/psyCardStyle";
 
-
+  
 const style = {
   ...psyCardsStyle,
   ...psyCardStyle,
@@ -63,6 +63,7 @@ export default function PsySection() {
                       15 años de experiencia profesional en el ámbito clínico y
                       empresarial.
                       </p>
+                      <Button onClick={() => history.push('/session/signup')} color="primary">Agendar una sesión</Button>
                     </CardBody>
                     <CardFooter profile plain>
                     </CardFooter>
@@ -98,6 +99,7 @@ export default function PsySection() {
                       <p className={classes.description}>
                       11 años de experiencia en terapia psicológica.
                       </p>
+                      <Button onClick={() => history.push('/session/signup')} color="primary">Agendar una sesión</Button>
                     </CardBody>
                     <CardFooter profile plain>
                     </CardFooter>
@@ -132,6 +134,7 @@ export default function PsySection() {
                       5 años de experiencia en terapia psicológica y  
                       maestría en psicoanálisis.
                       </p>
+                      <Button onClick={() => history.push('/session/signup')} color="primary">Agendar una sesión</Button>
                     </CardBody>
                     <CardFooter profile plain>
                     </CardFooter>
@@ -165,6 +168,7 @@ export default function PsySection() {
                       <p className={classes.description}>
                       7 años de experiencia en terapia familiar y de pareja.
                       </p>
+                      <Button onClick={() => history.push('/session/signup')} color="primary">Agendar una sesión</Button>
                     </CardBody>
                     <CardFooter profile plain>
                     </CardFooter>
@@ -172,7 +176,7 @@ export default function PsySection() {
                 </GridContainer>
               </Card>
             </GridItem>
-            <Button className="x-center mt-10" color="twitter" onClick={() => history.push('/therapists')}>Ver todos los terapeutas</Button>
+            <Button className="x-center mt-10" color="twitter" onClick={() => history.push('/therapists')}>Conoce a todos nuestros profesionales</Button>
           </GridContainer>
           
       </div>

@@ -1,10 +1,13 @@
 "use strict";
 
-var stripe = require('stripe')("sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG");
+var stripe = require('stripe')(["sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG", "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"][1]);
 
-var _require = require('../firebase'),
-    admin = _require.admin,
-    storage = _require.storage;
+var _require = require('@material-ui/icons'),
+    DoneSharp = _require.DoneSharp;
+
+var _require2 = require('../firebase'),
+    admin = _require2.admin,
+    storage = _require2.storage;
 
 var db = admin.firestore();
 var thers = db.collection('therapists');
@@ -74,6 +77,7 @@ exports.handleStripeEvent = function (req, res) {
     */
     event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
   } catch (err) {
+    console.log(err);
     return res.status(400).send("Webhook Error: ".concat(err.message));
   }
 
@@ -114,6 +118,21 @@ exports.handleStripeEvent = function (req, res) {
       return res.status(200).send({
         received: true
       });
+
+    case 'account_update':
+      var _event$data$object = event.data.object,
+          id = _event$data$object.id,
+          charges_enabled = _event$data$object.charges_enabled;
+      ther.where(stripeId == id).get().then(function (query) {
+        query.forEach(function (doc) {
+          doc.ref.update({
+            charges_enabled: charges_enabled
+          }).then(function () {
+            console.log("Cuenta actualizada;");
+          });
+          return res.status.send(charges_enabled);
+        });
+      });
     // ... handle other event types
 
     default:
@@ -127,10 +146,15 @@ exports.handleStripeEvent = function (req, res) {
 exports.expressAccount = function (req, res) {
   var email = req.body.email;
   var account = stripe.accounts.create({
-    type: 'express',
-    email: email,
-    country: 'MX',
-    business_type: 'individual'
+    "type": 'express',
+    // "email": email,
+    "country": 'MX',
+    "business_type": 'individual',
+    "capabilities": {
+      "transfers": {
+        requested: true
+      }
+    }
   }).then(function (response) {
     /**
      * TODO MOVER TEST DATA
@@ -148,11 +172,11 @@ exports.expressAccount = function (req, res) {
     });
     stripe.accountLinks.create({
       account: response.id,
-      refresh_url: "".concat(host, "/").concat(req.params.tid, "/reAuth"),
+      refresh_url: "".concat(host, "/").concat(req.params.tid, "/connectFailedView"),
       return_url: "".concat(host, "/").concat(req.params.tid, "/dashboard"),
       type: "account_onboarding"
     }).then(function (response1) {
-      console.log("Enviando link");
+      // console.log("Enviando link")
       return res.status(200).send(response1);
     });
   })["catch"](function (e) {
@@ -161,23 +185,40 @@ exports.expressAccount = function (req, res) {
   });
 };
 
+exports.connectFailed = function (req, res) {
+  var host = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+  'https://iknelia.app' // * cloud api host
+  ][1];
+  thers.doc(req.params.tid).get().then(function (doc) {
+    console.log(doc.id);
+    stripe.accountLinks.create({
+      account: doc.id,
+      refresh_url: "".concat(host, "/").concat(req.params.tid, "/connectFailedView"),
+      return_url: "".concat(host, "/").concat(req.params.tid, "/dashboard"),
+      type: "account_onboarding"
+    }).then(function (response1) {
+      // console.log("Enviando link")
+      return res.status(200).send(response1);
+    });
+  });
+};
+
 exports.connectReAuth = function (req, res) {
   thers.doc(req.params.tid).get().then(function (doc) {
+    console.log(doc);
+
     if (!doc.data().charges_enabled) {
       stripe.accounts.retrieve(doc.data().stripeId).then(function (account) {
         console.log(account);
-        return res.status(200).send({
-          charges_enabled: account.charges_enabled
-        });
+        return res.status(200).send(account);
       });
     }
 
-    return res.status(200).send({
-      charges_enabled: doc.data().charges_enabled
-    });
+    return res.status(200);
   })["catch"](function (e) {
     console.error('No ha sido posible traer tus datos');
     console.error(e);
+    return res.status(400).send(e);
   });
 }; // exports.reAuth = (req,res) => {
 //     const {email} = req.body

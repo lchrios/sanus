@@ -24,41 +24,37 @@ export const Footer = () => {
                     <FooterLinksWrapper>
                         <FooterLinkItems>
                             <FooterLinkTitle> Sobre nosotros  </FooterLinkTitle>
-                                <FooterLink to="/signin">Registrate</FooterLink>
-                                <FooterLink to="/signin">Conoce más</FooterLink>
-                                <FooterLink to="/signin">Especialistas</FooterLink>
-                                <FooterLink to="/signin">Contacto</FooterLink>
-                                <FooterLink to="/signin">CKÑDSCKS</FooterLink>
+                            <FooterLink to="/signin">Registrate</FooterLink>
+                                <FooterLink to="/blogs">Conoce más</FooterLink>
+                                <FooterLink to="/therapists">Especialistas</FooterLink>
+                                <FooterLink to="/">Contacto</FooterLink>
                         </FooterLinkItems>
                     </FooterLinksWrapper>
                     <FooterLinksWrapper>
                         <FooterLinkItems>
                             <FooterLinkTitle> Uso de datos  </FooterLinkTitle>
                                 <FooterLink to="/signin">Registrate</FooterLink>
-                                <FooterLink to="/signin">Conoce más</FooterLink>
-                                <FooterLink to="/signin">Especialistas</FooterLink>
-                                <FooterLink to="/signin">Contacto</FooterLink>
-                                <FooterLink to="/signin">CKÑDSCKS</FooterLink>
+                                <FooterLink to="/blogs">Conoce más</FooterLink>
+                                <FooterLink to="/therapists">Especialistas</FooterLink>
+                                <FooterLink to="/">Contacto</FooterLink>
                         </FooterLinkItems>
                     </FooterLinksWrapper>
                     <FooterLinksWrapper>
                         <FooterLinkItems>
                             <FooterLinkTitle> Trabaja con nosotros </FooterLinkTitle>
                                 <FooterLink to="/signin">Registrate</FooterLink>
-                                <FooterLink to="/signin">Conoce más</FooterLink>
-                                <FooterLink to="/signin">Especialistas</FooterLink>
-                                <FooterLink to="/signin">Contacto</FooterLink>
-                                <FooterLink to="/signin">CKÑDSCKS</FooterLink>
+                                <FooterLink to="/blogs">Conoce más</FooterLink>
+                                <FooterLink to="/therapists">Especialistas</FooterLink>
+                                <FooterLink to="/">Contacto</FooterLink>
                         </FooterLinkItems>
                     </FooterLinksWrapper>
                     <FooterLinksWrapper>
                         <FooterLinkItems>
                             <FooterLinkTitle> Contacto </FooterLinkTitle>
                                 <FooterLink to="/signin">Registrate</FooterLink>
-                                <FooterLink to="/signin">Conoce más</FooterLink>
-                                <FooterLink to="/signin">Especialistas</FooterLink>
-                                <FooterLink to="/signin">Contacto</FooterLink>
-                                <FooterLink to="/signin">CKÑDSCKS</FooterLink>
+                                <FooterLink to="/blogs">Conoce más</FooterLink>
+                                <FooterLink to="/therapists">Especialistas</FooterLink>
+                                <FooterLink to="/">Contacto</FooterLink>
                         </FooterLinkItems>
                     </FooterLinksWrapper>
                 </FooterLinksContainer>
@@ -71,14 +67,11 @@ export const Footer = () => {
                             Derechos de autor {new Date().getFullYear() } todos los derechos reservados.
                         </WebsiteRights>
                         <SocialIcons>
-                            <SocialIconLink href="//www.facebook.com" target="_blank" aria-label="Facebook">
+                            <SocialIconLink href="https://www.facebook.com/ikneliacontigo/" target="_blank" aria-label="Facebook">
                                 <FaFacebook />
                             </SocialIconLink>
-                            <SocialIconLink href="//www.instagram.com" target="_blank" aria-label="Instagram">
+                            <SocialIconLink href="https://www.instagram.com/ikneliacontigo/" target="_blank" aria-label="Instagram">
                                 <FaInstagram />
-                            </SocialIconLink>
-                            <SocialIconLink href="//www.youtube.com" target="_blank" aria-label="Youtube">
-                                <FaYoutube />
                             </SocialIconLink>
                         </SocialIcons>
                     </SocialMediaWrap>

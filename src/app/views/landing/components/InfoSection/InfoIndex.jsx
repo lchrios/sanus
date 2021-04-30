@@ -13,7 +13,7 @@ import {
   Heading,
   Subtitle, 
   BtnWrapper} from './InfoElements'
-  import terapia1 from '../../../../../../src/assets/images/blog/terapia2.jpg'
+  import terapia1 from '../../../../../../src/assets/images/FOTOS LANDING PAGE/IMG_4300.PNG'
   import InterestedSectionStyle from '../../landingBlog/landingBlogStyles/lessImpBlogStyles'
   import Card from '../../landingBlog/components/card'
   import CardHeader from '../../landingBlog/components/cardHeader'
@@ -60,7 +60,7 @@ export const InfoSection = ({
                                             dark={dark ? 1 : 0 }
                                             dark2={dark2 ? 1 : 0 }
                                             onClick={buttonClick}
-                                            to='/psychologists'
+                                            to='/therapists'
                                             className="elevation-z5"
                                         >
                                             {buttonLabel}
@@ -72,16 +72,16 @@ export const InfoSection = ({
                             
                                 <Card plain >
                                 <CardHeader plain image >
-                                    <a href="/landingblog">
+                                    <a href="/therapists">
                                     <img src={terapia1} alt="..." />
                                     </a>
-                                    <div
+                                    {/* <div
                                     className={classes.coloredShadow}
                                     style={{
                                         backgroundImage: "url(" + terapia1 + ")",
                                         opacity: "0"
                                     }}
-                                    />
+                                    /> */}
                                 </CardHeader>
                                 </Card>
                             

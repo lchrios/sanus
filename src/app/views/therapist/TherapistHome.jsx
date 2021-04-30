@@ -15,6 +15,7 @@ import useAuth from "app/hooks/useAuth";
 import api from "app/services/api";
 
 
+
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     headerBG: {
         height: 345,
@@ -23,6 +24,8 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
         },
     },
 }))
+
+
 
 const TherapistHome = () => {
     
@@ -38,7 +41,7 @@ const TherapistHome = () => {
     const [blogs, setBlogs] = useState()
     const [therapist, setTherapist] = useState()
     const [url, setUrl] = useState();
-    const [counter, setCounter] = useState(5); // * Numero de requests  que se hacen
+    const [counter, setCounter] = useState(4); // * Numero de requests  que se hacen
 
     const toggleSidenav = () => {
         setOpen(!open)
@@ -80,13 +83,6 @@ const TherapistHome = () => {
         .then(resB => {
             console.log("OK: Blogs obtenidos")
             setBlogs(resB.data)
-            finishReq()
-        })
-
-        api.get(`/t/${user.uid}`)
-        .then(resTripe => {
-            console.log("OK: Informacion del terapeuta cargada")
-            setTherapist(resTripe.data)
             finishReq()
         })
 
