@@ -102,7 +102,7 @@ app.use(logger('dev'));
         res.header("Access-Control-Allow-Origin", [
             "https://iknelia.app",
             "http://localhost:3000",
-        ][0]);
+        ][1]);
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         next();
     });

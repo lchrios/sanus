@@ -15,8 +15,10 @@ import { useSelector } from 'react-redux'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 
+const pk_stripe = 'pk_test_51HwA9iItRYlC7M0MPdgUx6sp5UH48s3NRq8JOwcxxSMcHRW0i1tNzqlIiMu6NXcWj3uWVcgqNSiUzaGa2I2YgTuP00RTEVFY43';
+
 const PatientPaymentForm = () => {
-    const sripePromise = loadStripe("pk_test_51HwA9iItRYlC7M0MPdgUx6sp5UH48s3NRq8JOwcxxSMcHRW0i1tNzqlIiMu6NXcWj3uWVcgqNSiUzaGa2I2YgTuP00RTEVFY43")
+    const sripePromise = loadStripe(pk_stripe.toString());
     const [state, setState] = useState({})
     const [open, setOpen] = useState(false)
 

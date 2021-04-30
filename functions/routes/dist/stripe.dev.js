@@ -3,8 +3,10 @@
 var stripe = require('stripe')(["sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG", "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"][0]); // ~ 0 - stripe live mode 1-stripe-test 2 - testCLI @Secreto del endpoint webhook    
 
 
-var endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g" // * temp local sig
-][2];
+var endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", // * Stripe LIVE
+"whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", // * Stripe TEST
+"whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g" // * temp local sig
+][1];
 
 var _require = require('../firebase'),
     admin = _require.admin,
@@ -69,8 +71,8 @@ exports.sendPaymentInfo = function (req, res) {
 exports.handleStripeEvent = function (req, res) {
   // * Código que maneja el otso
   var sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
-  //console.log(req.headers);
 
+  console.log(sig);
   var event = req.body; // @ Lee la información enviada
 
   try {

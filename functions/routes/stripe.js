@@ -6,10 +6,10 @@ const stripe = require('stripe')([
 
 // ~ 0 - stripe live mode 1-stripe-test 2 - testCLI @Secreto del endpoint webhook    
 const endpoint_secret = [
-    "whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd",
-    "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI",
+    "whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", // * Stripe LIVE
+    "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", // * Stripe TEST
     "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g", // * temp local sig
-][2]; 
+][1]; 
 
 const { admin, storage } = require('../firebase');
 var db = admin.firestore();
@@ -73,7 +73,7 @@ exports.sendPaymentInfo = (req, res) => {
 
 exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
-    //console.log(req.headers);
+    console.log(sig);
 
   
     let event = req.body; // @ Lee la información enviada
