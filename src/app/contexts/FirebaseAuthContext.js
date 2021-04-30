@@ -118,7 +118,9 @@ export const AuthProvider = ({ children }) => {
                 lname: state.lastname,
                 answered: false,
                 experiencia:"therapist/cv", 
-                img: "usuarios/placeholders/none-user.png", 
+                img: "usuarios/placeholders/none-user.png",
+                stripeId: "",
+                charges_enabled: false, 
             }, 
             email: email, 
             password: password

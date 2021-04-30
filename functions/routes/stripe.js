@@ -24,7 +24,7 @@ exports.sendPaymentInfo = (req, res) => {
             console.error(er.message);
         })
         thers.doc(doc.data().therapist).get().then(ther => {
-            console.log()
+            console.log(ther.data())
             stripe.paymentIntents.create({
                 "amount": amount,
                 "currency": 'mxn',
@@ -32,7 +32,7 @@ exports.sendPaymentInfo = (req, res) => {
                 "payment_method": payment_method_id,
                 "application_fee_amount": 10000,
                 "transfer_data": {
-                    "destination":ther.data().stripeId,
+                    "destination": ther.data().stripeId,
                 },
                 "payment_method_types": ['card', 'oxxo'],
                 "receipt_email": email,
@@ -170,10 +170,11 @@ exports.connectReAuth = (req,res) => {
             stripe.accounts.retrieve(
                 doc.data().stripeId
             ).then(account => {
+                console.log(account)
                 return res.status(200).send({ charges_enabled: account.charges_enabled })
             })
         }
-        return res.status(200).send({charges_enabled: true })
+        return res.status(200).send({charges_enabled: doc.data().charges_enabled })
     })
     .catch(e => {
         console.error('No ha sido posible traer tus datos')

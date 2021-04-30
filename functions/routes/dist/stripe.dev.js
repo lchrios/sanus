@@ -28,7 +28,7 @@ exports.sendPaymentInfo = function (req, res) {
       console.error(er.message);
     });
     thers.doc(doc.data().therapist).get().then(function (ther) {
-      console.log();
+      console.log(ther.data());
       stripe.paymentIntents.create({
         "amount": amount,
         "currency": 'mxn',
@@ -165,6 +165,7 @@ exports.connectReAuth = function (req, res) {
   thers.doc(req.params.tid).get().then(function (doc) {
     if (!doc.data().charges_enabled) {
       stripe.accounts.retrieve(doc.data().stripeId).then(function (account) {
+        console.log(account);
         return res.status(200).send({
           charges_enabled: account.charges_enabled
         });
@@ -172,7 +173,7 @@ exports.connectReAuth = function (req, res) {
     }
 
     return res.status(200).send({
-      charges_enabled: true
+      charges_enabled: doc.data().charges_enabled
     });
   })["catch"](function (e) {
     console.error('No ha sido posible traer tus datos');

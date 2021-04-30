@@ -37,7 +37,7 @@ const PatientProfile = () => {
     const [loading, setLoading] = useState(true)  
     const [url, setUrl] = useState();
     const [t_url, setTUrl] = useState();
-    const [counter, setCounter] = useState(5);
+    const [counter, setCounter] = useState(4);
     
 
     const toggleSidenav = () => {
@@ -62,17 +62,20 @@ const PatientProfile = () => {
     useEffect(() => {
         
         console.log("Pidiendo Terapeuta")
-        getTherapist(user.uid).then(res => {
-            setTherapist(res?.data);
-            setTid(res?.id);
-            finishedReq();
-            if (res) {
+        api.get(`/u/${user.uid}/t`).then(res => {
+            if (res.status === 200 && res.data.data) {
+                
+                setTherapist(res.data.data);
+                setTid(res.data.id);
+                
                 console.log("Obteniendo el URL de la foto del terapeuta");
-                api.get(`/t/${res?.id}/image`)
+                api.get(`/t/${res.data.id}/image`)
                 .then(respons => {
                     setTUrl(respons.data.url)
                     finishedReq();
                 })
+            } else {
+                finishedReq();
             }
         })
         
@@ -123,7 +126,15 @@ const PatientProfile = () => {
                 </MatxSidenav>
                     <MatxSidenavContent >
                         <div className={clsx('bg-primary', classes.headerBG)} />
-                        <UserProfileContent toggleSidenav={toggleSidenav} sessions={sessions} t_url={t_url} loading={loading} payed={payed} therapist={therapist} tid={tid}/>
+                        <UserProfileContent 
+                            toggleSidenav={toggleSidenav} 
+                            sessions={sessions} 
+                            t_url={t_url} 
+                            loading={loading} 
+                            payed={payed} 
+                            therapist={therapist} 
+                            tid={tid}
+                        />
                     </MatxSidenavContent>
             </MatxSidenavContainer>
             

@@ -41,7 +41,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const TherapistHomeSidenav = ({ url, therapist }) => {
+const TherapistHomeSidenav = ({ url, loading, therapist }) => {
     const classes = usestyles()
     const str_classes = useStripeStyles()
     const [charge, setCharge] = useState(false)
@@ -83,12 +83,15 @@ const TherapistHomeSidenav = ({ url, therapist }) => {
     }
 
     useEffect(() => {
-            api.get(`/t/${user.uid}/reAuth`)
-            .then(res => {
-                console.log(res)
-                setCharge(res.data.charges_enabled)
-            })
-    },[])
+        if (!loading) {
+            setCharge(therapist.charges_enabled);
+        }
+            // api.get(`/t/${user.uid}/reAuth`)
+            // .then(res => {
+            //     console.log(res)
+            //     setCharge(res.data.charges_enabled)
+            // })
+    },[loading])
 
    
     return (

@@ -232,10 +232,10 @@ exports.handleAccountUpdate = function (req, res) {
 
   try {
     /* 
-      * Se construye unevento a traves de stripe pasando como argumentos:
+        * Se construye unevento a traves de stripe pasando como argumentos:
+        @ Informacion obtenida del POST
         @ Signature de stripe
         @ secreto del endpoint
-        @ Informacion obtenida del POST
     */
     event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
   } catch (err) {

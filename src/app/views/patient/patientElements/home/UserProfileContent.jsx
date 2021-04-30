@@ -230,8 +230,6 @@ const UserProfileContent = ({ toggleSidenav, loading, therapist, sessions, tid, 
                                 </>
                             }
                             
-                            
-                            
                             <Card className="py-4 elevation-z5">
                                 <h4 className="font-medium text-muted px-4 pt-4 pb-0">
                                     Calendario de sesiones
