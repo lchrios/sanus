@@ -49,7 +49,6 @@ const {
   newNote,
   setSchedule,
   getSchedule,
-  handleAccountUpdate,
   getTherImage,
   uploadTherImg,
   getAllTherImage,
@@ -103,7 +102,7 @@ app.use(logger('dev'));
         res.header("Access-Control-Allow-Origin", [
             "https://iknelia.app",
             "http://localhost:3000",
-        ][1]);
+        ][0]);
         res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         next();
     });
@@ -125,7 +124,7 @@ app.use(logger('dev'));
     
     
     // * rutas de stripe (manejo de eventos de stripe)
-    app.post("/updateAccount", handleAccountUpdate)
+    //app.post("/updateAccount", handleAccountUpdate)
     app.post("/webhook", handleStripeEvent);
     
     app.use(cookieParser());

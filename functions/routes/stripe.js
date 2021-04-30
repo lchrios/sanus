@@ -11,7 +11,6 @@ const endpoint_secret = [
     "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g", // * temp local sig
 ][2]; 
 
-const { DoneSharp } = require('@material-ui/icons');
 const { admin, storage } = require('../firebase');
 var db = admin.firestore();
 var thers = db.collection('therapists');
@@ -22,7 +21,7 @@ var sess = db.collection('sessions');
 
 exports.sendPaymentInfo = (req, res) => {
 
-    const { amount, email, payment_method_id } = req.body
+    const { amount, email, payment_method_id, date } = req.body
 
     users.doc(req.params.uid).get()
     .then(doc => {
@@ -37,8 +36,7 @@ exports.sendPaymentInfo = (req, res) => {
         })
         thers.doc(doc.data().therapist).get().then(ther => {
             console.log(ther.data())
-            stripe.paymentIntents.create(
-                {
+            stripe.paymentIntents.create({
                 "amount": amount,
                 "currency": 'mxn',
                 "description": 'Sesión individual',
@@ -49,6 +47,9 @@ exports.sendPaymentInfo = (req, res) => {
                 },
                 "payment_method_types": ['card', 'oxxo'],
                 "receipt_email": email,
+                "payment_method_options": {
+                    "expires_after_days": 2, // TODO:NESTOR Ver los días a poner según el modelo de negocios
+                }
             })
             .then((paymentIntent) => {
             console.log(paymentIntent.receipt_email, "Ticket de pago generado exitosamente api")
@@ -120,6 +121,9 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
 
         case 'payment_intent.payment_failed':
             // * No se hizo el pago exitosamente :C
+
+            // TODO: Regresar la cita a modo disponible
+
             console.log("Pago no realizado")
             return res.status(200).send({received: true});
     

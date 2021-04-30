@@ -128,7 +128,8 @@ export default function CheckoutDialog({therapist, tid, state}) {
         setSubmited(true)
 
         api.post('/u/' + user.uid + '/checkout', {
-            amount:60000
+            amount:60000,
+            date: state.date,
         }).then(res => {
             stripe.confirmOxxoPayment(
                 res.data.client_secret, 

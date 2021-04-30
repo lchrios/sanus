@@ -6,12 +6,9 @@ var stripe = require('stripe')(["sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2B
 var endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g" // * temp local sig
 ][2];
 
-var _require = require('@material-ui/icons'),
-    DoneSharp = _require.DoneSharp;
-
-var _require2 = require('../firebase'),
-    admin = _require2.admin,
-    storage = _require2.storage;
+var _require = require('../firebase'),
+    admin = _require.admin,
+    storage = _require.storage;
 
 var db = admin.firestore();
 var thers = db.collection('therapists');
@@ -23,7 +20,8 @@ exports.sendPaymentInfo = function (req, res) {
   var _req$body = req.body,
       amount = _req$body.amount,
       email = _req$body.email,
-      payment_method_id = _req$body.payment_method_id;
+      payment_method_id = _req$body.payment_method_id,
+      date = _req$body.date;
   users.doc(req.params.uid).get().then(function (doc) {
     var pm = doc.data().payment_met;
     pm.push(payment_method_id);
@@ -46,7 +44,11 @@ exports.sendPaymentInfo = function (req, res) {
           "destination": ther.data().stripeId
         },
         "payment_method_types": ['card', 'oxxo'],
-        "receipt_email": email
+        "receipt_email": email,
+        "payment_method_options": {
+          "expires_after_days": 2 // TODO:NESTOR Ver los días a poner según el modelo de negocios
+
+        }
       }).then(function (paymentIntent) {
         console.log(paymentIntent.receipt_email, "Ticket de pago generado exitosamente api");
         return res.status(200).send({
@@ -117,6 +119,7 @@ exports.handleStripeEvent = function (req, res) {
 
     case 'payment_intent.payment_failed':
       // * No se hizo el pago exitosamente :C
+      // TODO: Regresar la cita a modo disponible
       console.log("Pago no realizado");
       return res.status(200).send({
         received: true
