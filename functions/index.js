@@ -123,6 +123,7 @@ app.use(logger('dev'));
     // * uso de transformacion a json
     app.use(express.json());
     
+    
     // * rutas de stripe (manejo de eventos de stripe)
     app.post("/updateAccount", handleAccountUpdate)
     app.post("/webhook", handleStripeEvent);
