@@ -89,15 +89,6 @@ const TherapistHomeSidenav = ({ url, loading, therapist }) => {
     }
 
     useEffect(() => {
-    //     if (!loading) {
-    //         setCharge(therapist.charges_enabled);
-    //     }
-    //         // api.get(`/t/${user.uid}/reAuth`)
-    //         // .then(res => {
-    //         //     console.log(res)
-    //         //     setCharge(res.data.charges_enabled)
-    //         // })
-    // },[loading])
         api.get(`/t/${user.uid}/reAuth`)
         .then(res => {
             setCharge(res.data.charges_enabled)
@@ -210,7 +201,11 @@ const TherapistHomeSidenav = ({ url, loading, therapist }) => {
                         </Button >
                     </Card>
                     <Card className="flex items-center mt-2 justify-center text-primary">
-                        { !charge ? <Button 
+                        { charge ? null
+
+                        : 
+
+                        <Button 
                             fullWidth
                             onClick={handleClickConnect}
                             >
@@ -218,14 +213,16 @@ const TherapistHomeSidenav = ({ url, loading, therapist }) => {
                                 Conectar con stripe
                             </h5>
                         </Button>
-                        : null
+                        
                         }
                     </Card>
 
                     <div className="py-2"></div>
                 </div>
             </div>
-            <NoStripeSnack></NoStripeSnack> 
+            {
+                charge ? null :  <NoStripeSnack/>  
+            }
         </div>
     )
 }

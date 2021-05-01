@@ -106,25 +106,30 @@ export default function CustomizedSnackbars() {
     //     setOpen(false)
     // }
 
-    useEffect((newState) => {
-            api.get(`/t/${user.uid}/reAuth`)
-            .then(res => {
-                console.log(res,'HOLA ESTE ES EL REAUTH de SNACK')
-                if (res.data.charges_enabled === false) {
-                    setState({
-                        open:true,
-                        ...newState
-                    })
-                }
-            })
-        },[])
+    // useEffect((newState) => {
+    //         api.get(`/t/${user.uid}/reAuth`)
+    //         .then(res => {
+    //             console.log(res.data.charges_enabled,'HOLA ESTE ES EL REAUTH de SNACK');
+    //             if (res.data.charges_enabled) {
+    //                 setState({
+    //                     open:false,
+    //                     ...newState
+    //                 });
+    //             } else {
+    //                 setState({
+    //                     open:true,
+    //                     ...newState
+    //                 });
+    //             };
+    //         });
+    //     },[]);
 
     return (
         <div>
             <MySnackbarContentWrapper
                 anchorOrigin={{vertical:'bottom',horizontal: 'center'}}
-                open={state.open}
                 variant="error"
+                open={state.open}
                 className={classes.margin}
                 TransitionComponent={state.Transition}
                 message={<span id="message-id">No haz completado tu información para recibir pagos, presiona el botón 'conectar con stripe'</span>}

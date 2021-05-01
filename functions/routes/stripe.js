@@ -1,7 +1,7 @@
 const stripe = require('stripe')([
     "sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG",
     "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",
-][0]);
+][1]);
 
 
 // ~ 0 - stripe live mode 1-stripe-test 2 - testCLI @Secreto del endpoint webhook    
@@ -9,7 +9,7 @@ const endpoint_secret = [
     "whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", // * Stripe LIVE
     "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", // * Stripe TEST
     "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g", // * temp local sig
-][1]; 
+][0]; 
 
 const { admin, storage } = require('../firebase');
 var db = admin.firestore();
@@ -245,17 +245,3 @@ exports.connectReAuth = (req,res) => {
         return res.status(400).send(e);
     })
 }
-
-// exports.reAuth = (req,res) => {
-//     const {email} = req.body
-
-//     const account = stripe.accounts.create({
-//         type:'express',
-//         email: email,
-//         capabilities: {
-//             card_payments: {requested:true},
-//             transfers: {requested:true}
-//         }
-//     })
-
-// }
