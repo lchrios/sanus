@@ -1,7 +1,7 @@
 const stripe = require('stripe')([
 "sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG",
 "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",
-][1]);
+][0]);
 
 const { DoneSharp } = require('@material-ui/icons');
 const { admin, storage } = require('../firebase');
@@ -226,17 +226,3 @@ exports.connectReAuth = (req,res) => {
         console.error(e)
     })
 }
-
-// exports.reAuth = (req,res) => {
-//     const {email} = req.body
-
-//     const account = stripe.accounts.create({
-//         type:'express',
-//         email: email,
-//         capabilities: {
-//             card_payments: {requested:true},
-//             transfers: {requested:true}
-//         }
-//     })
-
-// }
