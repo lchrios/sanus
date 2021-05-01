@@ -71,8 +71,7 @@ exports.handleStripeEvent = function (req, res) {
   // * Código que maneja el otso
   var sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
 
-  console.log(sig);
-  var event = req.body; // @ Lee la información enviada
+  var event = req.body; // * Lee la información enviada
 
   try {
     /* 
@@ -89,18 +88,26 @@ exports.handleStripeEvent = function (req, res) {
 
   switch (event.type) {
     case 'payment_intent.succeeded':
-      console.log("Pago recibido con " + event["payment_method_types"]); // * Se hizo el pago del voucher del OXXO exitosamente 
+      console.log("Pago recibido con " + event.data.object["payment_method_types"]); // * Se hizo el pago del voucher del OXXO exitosamente 
 
-      sess.where("pay_met", "==", event.id).get().then(function (query) {
+      sess.where("pay_met", "==", event.data.object.id).get().then(function (query) {
+        console.log("Iniciando la actualizacion de las sesiones");
         query.forEach(function (doc) {
+          console.log("doc: ".concat(doc.data().user_name));
           doc.ref.update({
             payed: true
           }).then(function () {
             return res.status(200).send({
               received: true
             });
+          })["catch"](function (err) {
+            console.log(err.message);
+            return res.status(400).send(err.message);
           });
         });
+      })["catch"](function (err) {
+        console.log(err.message);
+        return res.status(400).send(err.message);
       });
       break;
 
