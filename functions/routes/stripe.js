@@ -25,9 +25,11 @@ exports.sendPaymentInfo = (req, res) => {
 
     users.doc(req.params.uid).get()
     .then(doc => {
+        //console.log(payment_method_id);
         let pm = doc.data().payment_met;
-        pm.push(payment_method_id)
-        doc.ref.update({payment_met: pm})
+        pm.push(payment_method_id);
+        
+        doc.ref.update({ "payment_met": pm })
         .then(() => {
             console.log("PMs actualizados")
         })
@@ -35,7 +37,7 @@ exports.sendPaymentInfo = (req, res) => {
             console.error(er.message);
         })
         thers.doc(doc.data().therapist).get().then(ther => {
-            console.log(ther.data())
+            //console.log(ther.data())
             stripe.paymentIntents.create({
                 "amount": amount,
                 "currency": 'mxn',
@@ -48,7 +50,7 @@ exports.sendPaymentInfo = (req, res) => {
                 "payment_method_types": ['card', 'oxxo'],
                 "receipt_email": email,
                 "payment_method_options": {
-                    "expires_after_days": 2, // TODO:NESTOR Ver los días a poner según el modelo de negocios
+                    //"expires_after_days": 2, // TODO:NESTOR Ver los días a poner según el modelo de negocios
                 }
             })
             .then((paymentIntent) => {

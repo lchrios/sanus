@@ -25,17 +25,18 @@ exports.sendPaymentInfo = function (req, res) {
       payment_method_id = _req$body.payment_method_id,
       date = _req$body.date;
   users.doc(req.params.uid).get().then(function (doc) {
+    //console.log(payment_method_id);
     var pm = doc.data().payment_met;
     pm.push(payment_method_id);
     doc.ref.update({
-      payment_met: pm
+      "payment_met": pm
     }).then(function () {
       console.log("PMs actualizados");
     })["catch"](function (er) {
       console.error(er.message);
     });
     thers.doc(doc.data().therapist).get().then(function (ther) {
-      console.log(ther.data());
+      //console.log(ther.data())
       stripe.paymentIntents.create({
         "amount": amount,
         "currency": 'mxn',
@@ -47,9 +48,7 @@ exports.sendPaymentInfo = function (req, res) {
         },
         "payment_method_types": ['card', 'oxxo'],
         "receipt_email": email,
-        "payment_method_options": {
-          "expires_after_days": 2 // TODO:NESTOR Ver los días a poner según el modelo de negocios
-
+        "payment_method_options": {//"expires_after_days": 2, // TODO:NESTOR Ver los días a poner según el modelo de negocios
         }
       }).then(function (paymentIntent) {
         console.log(paymentIntent.receipt_email, "Ticket de pago generado exitosamente api");
