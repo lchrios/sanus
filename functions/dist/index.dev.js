@@ -58,7 +58,8 @@ var _require3 = require("./routes/therapists"),
     getTherImage = _require3.getTherImage,
     uploadTherImg = _require3.uploadTherImg,
     getAllTherImage = _require3.getAllTherImage,
-    getAllUncompletedSessionsByTherapist = _require3.getAllUncompletedSessionsByTherapist; // * Funcions relativas a las sesiones
+    getAllUncompletedSessionsByTherapist = _require3.getAllUncompletedSessionsByTherapist,
+    handleAccountUpdate = _require3.handleAccountUpdate; // * Funcions relativas a las sesiones
 
 
 var _require4 = require("./routes/sessions"),
@@ -106,7 +107,7 @@ app.use(logger('dev')); // const upload = multer({
 
 app.use(cors());
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][1]);
+  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][0]);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 }); // * Niveles de permisos por roles 
@@ -126,6 +127,7 @@ app.use(express.json()); // * rutas de stripe (manejo de eventos de stripe)
 //app.post("/updateAccount", handleAccountUpdate)
 
 app.post("/webhook", handleStripeEvent);
+app.post("/updateAccount", handleAccountUpdate);
 app.use(cookieParser()); // * rutas de terapeuta
 
 app.get("/t", isAuthenticated, isAuthorized(roles.user), getAllTherapists);
