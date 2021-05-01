@@ -15,7 +15,10 @@ var users = db.collection('users');
 var ther = db.collection('therapists');
 var sess = db.collection('sessions');
 var blogs = db.collection('blogs');
-var schedules = db.collection("schedules"); // * Get therapist info
+var schedules = db.collection("schedules");
+
+var stripe = require('stripe')(["sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG", "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"][0]); // * Get therapist info
+
 
 exports.getAllTherapists = function _callee(req, res) {
   var data, refs, links, bucket;
@@ -354,19 +357,21 @@ exports.handleAccountUpdate = function (req, res) {
     return res.status(400).send("Webhook Error: ".concat(err.message));
   }
 
-  console.log('Se recibió el evento', event);
+  console.log('Se recibió el evento');
 
   switch (event.type) {
-    case 'account_update':
+    case 'account.updated':
       var _event$data$object = event.data.object,
           id = _event$data$object.id,
           charges_enabled = _event$data$object.charges_enabled;
+      console.log("charges_enabled", charges_enabled);
       ther.where("stripeId", "==", id).get().then(function (query) {
         query.forEach(function (doc) {
+          console.log("Cuenta encontrada: ".concat(doc.id));
           doc.ref.update({
             charges_enabled: charges_enabled
           }).then(function () {
-            console.log("Cuenta actualizada");
+            console.log("Cuenta actualizada!");
             return res.status(200).send({
               "received": true
             });
@@ -376,6 +381,7 @@ exports.handleAccountUpdate = function (req, res) {
 
     default:
       console.log('Unhandled type event', event.type);
+      break;
   }
 
   return res.status(200).send({

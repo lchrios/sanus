@@ -6,6 +6,11 @@ const sess = db.collection('sessions');
 const blogs = db.collection('blogs');
 const schedules = db.collection("schedules");
 
+const stripe = require('stripe')([
+    "sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG",
+    "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",
+][0]);
+
 // * Get therapist info
 exports.getAllTherapists = async (req, res) => {
     var data = [];
@@ -342,18 +347,21 @@ exports.handleAccountUpdate = (req, res) => {
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    console.log('Se recibió el evento',event)
+    console.log('Se recibió el evento');
+    
     switch(event.type) {
-        case 'account_update':
+        case 'account.updated':
             let { id, charges_enabled } = event.data.object;
+            console.log("charges_enabled", charges_enabled);
 
             ther.where("stripeId", "==", id).get()
             .then(query => {
                 query.forEach(doc => {
+                    console.log(`Cuenta encontrada: ${doc.id}`)
                     doc.ref.update({ charges_enabled: charges_enabled })
                     .then(() => {
-                        console.log("Cuenta actualizada")
-                        return res.status(200).send({ "received": true })
+                        console.log("Cuenta actualizada!")
+                        return res.status(200).send({ "received": true });
                     })
                 })
             })
@@ -361,6 +369,7 @@ exports.handleAccountUpdate = (req, res) => {
 
         default:
             console.log('Unhandled type event', event.type);
+            break;
     }
 
     return res.status(200).send({ received: true })
