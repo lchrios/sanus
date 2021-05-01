@@ -32,6 +32,10 @@ const useStyles = makeStyles(({ palette, ...theme }) => ({
         borderRadius: 12,
         margin: '1rem',
     },
+    delete: {
+        background: palette.error.main,
+        color: palette.error.contrastText
+    }
 }))
 
 const titles_data = [
@@ -103,35 +107,35 @@ const TherapistBlogs = () => {
                 <div className="py-2"></div>
                 <Grid container>
                     <Grid item lg={3} md={3} sm={3} xs={3}></Grid>
-                    <Grid item lg={4} md={4} sm={4} xs={4}>
+                    <Grid item lg={true} md={true} sm={true} xs={true}>
                         <h6 className="m-0">Contenido</h6>
                     </Grid>
                     <Grid
                         item
-                        lg={true}
-                        md={true}
-                        sm={true}
-                        xs={true}
+                        lg={1}
+                        md={1}
+                        sm={1}
+                        xs={1}
                         className="text-center"
                     >
                         <h6 className="m-0">Likes</h6>
                     </Grid>
                     <Grid
                         item
-                        lg={true}
-                        md={true}
-                        sm={true}
-                        xs={true}
+                        lg={1}
+                        md={1}
+                        sm={1}
+                        xs={1}
                         className="text-center"
                     >
                         <h6 className="m-0">Comentarios</h6>
                     </Grid>
                     <Grid
                         item
-                        lg={true}
-                        md={true}
-                        sm={true}
-                        xs={true}
+                        lg={2}
+                        md={2}
+                        sm={2}
+                        xs={2}
                         className="text-center"
                     >
                         <h6 className="m-0">Editar</h6>
@@ -161,7 +165,7 @@ const TherapistBlogs = () => {
                                     </div>
                                 </div>
                             </Grid>
-                            <Grid item lg={4} md={4} sm={4} xs={4}>
+                            <Grid item lg={true} md={true} sm={true} xs={true}>
                                 <h6 className="m-0">{blog_entry.title}</h6>
                                 {parse(blog_entry.content)}
                                 <p id={`cont${index}`} className="mt-2 m-0 text-muted">
@@ -170,30 +174,30 @@ const TherapistBlogs = () => {
                             </Grid>
                             <Grid
                                 item
-                                lg={true}
-                                md={true}
-                                sm={true}
-                                xs={true}
+                                lg={1}
+                                md={1}
+                                sm={1}
+                                xs={1}
                                 className="text-center"
                             >
                                 <h6 className="m-0">{blog_entry.likes.length}</h6>
                             </Grid>
                             <Grid
                                 item
-                                lg={true}
-                                md={true}
-                                sm={true}
-                                xs={true}
+                                lg={1}
+                                md={1}
+                                sm={1}
+                                xs={1}
                                 className="text-center"
                             >
                                 <h6 className="m-0">{blog_entry.comments.length}</h6>
                             </Grid>
                             <Grid
                                 item
-                                lg={true}
-                                md={true}
-                                sm={true}
-                                xs={true}
+                                lg={2}
+                                md={2}
+                                sm={2}
+                                xs={2}
                                 className="text-center"
                             >
                                 <Fab
@@ -221,14 +225,14 @@ const TherapistBlogs = () => {
                                 </Fab>
                                 <Fab
                                     size="small"
-                                    color="secondary"
+                                    color="error"
                                     aria-label="Delete"
                                     onClick={() => {
                                         api.delete("/b/" + blogs.id[index]).then(() => {
                                             window.location.reload()
                                         })
                                     }}
-                                    className={classes.button}
+                                    className={clsx(classes.button, classes.delete)}
                                 >
                                     <Icon>delete</Icon>
                                 </Fab>

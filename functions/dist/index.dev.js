@@ -55,7 +55,6 @@ var _require3 = require("./routes/therapists"),
     newNote = _require3.newNote,
     setSchedule = _require3.setSchedule,
     getSchedule = _require3.getSchedule,
-    handleAccountUpdate = _require3.handleAccountUpdate,
     getTherImage = _require3.getTherImage,
     uploadTherImg = _require3.uploadTherImg,
     getAllTherImage = _require3.getAllTherImage,
@@ -83,7 +82,8 @@ var _require6 = require("./routes/stripe"),
     sendPaymentInfo = _require6.sendPaymentInfo,
     handleStripeEvent = _require6.handleStripeEvent,
     expressAccount = _require6.expressAccount,
-    connectReAuth = _require6.connectReAuth;
+    connectReAuth = _require6.connectReAuth,
+    connectFailed = _require6.connectFailed;
 
 var filesRouter = require('./routes/files');
 
@@ -92,13 +92,10 @@ var _require7 = require("./routes/fixes"),
     fixAllSessions = _require7.fixAllSessions,
     fixAllTherapists = _require7.fixAllTherapists,
     fixAllBlogs = _require7.fixAllBlogs,
-    fixAllTherapistsImage = _require7.fixAllTherapistsImage; // * uso de transformacion a json
+    fixAllTherapistsImage = _require7.fixAllTherapistsImage; //app.use(express.urlencoded({ extended: true }));
 
 
-app.use(express.json()); //app.use(express.urlencoded({ extended: true }));
-
-app.use(logger('dev'));
-app.use(cookieParser()); // const upload = multer({ 
+app.use(logger('dev')); // const upload = multer({ 
 //     storage: multer.memoryStorage(),
 //     limits: 5 * 1024 * 1024,
 // });
@@ -106,7 +103,7 @@ app.use(cookieParser()); // const upload = multer({
 
 app.use(cors());
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][0]);
+  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][1]);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 }); // * Niveles de permisos por roles 
@@ -120,7 +117,13 @@ var roles = {
 
 }; // - La ventaja de esta modalidad de autorizacion es que así podemos
 // - definir los permisos de acceso individualmente por ruta
-// * rutas de terapeuta
+// * uso de transformacion a json
+
+app.use(express.json()); // * rutas de stripe (manejo de eventos de stripe)
+//app.post("/updateAccount", handleAccountUpdate)
+
+app.post("/webhook", handleStripeEvent);
+app.use(cookieParser()); // * rutas de terapeuta
 
 app.get("/t", isAuthenticated, isAuthorized(roles.user), getAllTherapists);
 app.get("/t/:tid", isAuthenticated, isAuthorized(roles.user), getTherapist);
@@ -153,12 +156,10 @@ app.get("/users/image", isAuthenticated, isAuthorized(roles.user), getAllUserIma
 app.post("/u/:uid/image", uploadImg); //*rutas de stripe (lado terapeuta)
 
 app.post("/t/:tid/connect", isAuthenticated, isAuthorized(roles.therapist), expressAccount);
-app.get("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth); //*rutas de stripe (lado user)
+app.get("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth);
+app.post("/t/:tid/connectFailed", isAuthenticated, isAuthorized(roles.therapist), connectFailed); //*rutas de stripe (lado user)
 
-app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user, true), sendPaymentInfo); // * rutas de stripe (manejo de eventos de stripe)
-
-app.post("/updateAccount", handleAccountUpdate);
-app.post("/webhook", handleStripeEvent); // * rutas de blogs
+app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user, true), sendPaymentInfo); // * rutas de blogs
 
 app.get("/b", isAuthenticated, isAuthorized(roles.user), getAllBlogs);
 app.get("/b/land", getLandBlogs);

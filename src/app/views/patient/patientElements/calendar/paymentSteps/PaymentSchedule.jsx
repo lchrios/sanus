@@ -145,6 +145,7 @@ const PaymentSchedule = ({ setMessage, handleNext, state, setState, hasSched, se
                         xd={12}
                     >            
                         <Card className="p-4 h-full">
+                            <p className="h5 text-primary">Selecciona uno de los horarios resaltados</p>
                             <ScheduleSelector
                                 selection={state.schedule}
                                 numDays={options.numDays}

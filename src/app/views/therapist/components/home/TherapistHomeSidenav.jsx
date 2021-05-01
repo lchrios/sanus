@@ -42,7 +42,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const TherapistHomeSidenav = ({ url, therapist }) => {
+const TherapistHomeSidenav = ({ url, loading, therapist }) => {
     const classes = usestyles()
     const str_classes = useStripeStyles()
     const [charge, setCharge] = React.useState(false)
@@ -201,7 +201,11 @@ const TherapistHomeSidenav = ({ url, therapist }) => {
                         </Button >
                     </Card>
                     <Card className="flex items-center mt-2 justify-center text-primary">
-                        { !charge ? <Button 
+                        { charge ? null
+
+                        : 
+
+                        <Button 
                             fullWidth
                             onClick={handleClickConnect}
                             >
@@ -209,14 +213,16 @@ const TherapistHomeSidenav = ({ url, therapist }) => {
                                 Conectar con stripe
                             </h5>
                         </Button>
-                        : null
+                        
                         }
                     </Card>
 
                     <div className="py-2"></div>
                 </div>
             </div>
-            <NoStripeSnack></NoStripeSnack> 
+            {
+                charge ? null :  <NoStripeSnack/>  
+            }
         </div>
     )
 }

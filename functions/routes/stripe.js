@@ -1,9 +1,16 @@
 const stripe = require('stripe')([
-"sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG",
-"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",
+    "sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG",
+    "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",
 ][0]);
 
-const { DoneSharp } = require('@material-ui/icons');
+
+// ~ 0 - stripe live mode 1-stripe-test 2 - testCLI @Secreto del endpoint webhook    
+const endpoint_secret = [
+    "whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", // * Stripe LIVE
+    "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", // * Stripe TEST
+    "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g", // * temp local sig
+][1]; 
+
 const { admin, storage } = require('../firebase');
 var db = admin.firestore();
 var thers = db.collection('therapists');
@@ -14,13 +21,15 @@ var sess = db.collection('sessions');
 
 exports.sendPaymentInfo = (req, res) => {
 
-    const { amount, email, payment_method_id } = req.body
+    const { amount, email, payment_method_id, date } = req.body
 
     users.doc(req.params.uid).get()
     .then(doc => {
+        //console.log(payment_method_id);
         let pm = doc.data().payment_met;
-        pm.push(payment_method_id)
-        doc.ref.update({payment_met: pm})
+        pm.push(payment_method_id);
+        
+        doc.ref.update({ "payment_met": pm })
         .then(() => {
             console.log("PMs actualizados")
         })
@@ -28,19 +37,21 @@ exports.sendPaymentInfo = (req, res) => {
             console.error(er.message);
         })
         thers.doc(doc.data().therapist).get().then(ther => {
-            console.log(ther)
-            stripe.paymentIntents.create(
-                {
+            //console.log(ther.data())
+            stripe.paymentIntents.create({
                 "amount": amount,
                 "currency": 'mxn',
                 "description": 'Sesión individual',
                 "payment_method": payment_method_id,
                 "application_fee_amount": 10000,
                 "transfer_data": {
-                    "destination":ther.data().stripeId,
+                    "destination": ther.data().stripeId,
                 },
                 "payment_method_types": ['card', 'oxxo'],
                 "receipt_email": email,
+                "payment_method_options": {
+                    //"expires_after_days": 2, // TODO:NESTOR Ver los días a poner según el modelo de negocios
+                }
             })
             .then((paymentIntent) => {
             console.log(paymentIntent.receipt_email, "Ticket de pago generado exitosamente api")
@@ -64,14 +75,9 @@ exports.sendPaymentInfo = (req, res) => {
 
 exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
+    console.log(sig);
 
-    //0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
-    const endpoint_secret = [
-        "whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd",
-        "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", 
-        "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy"
-    ][1]; 
-    
+  
     let event = req.body; // @ Lee la información enviada
 
     try { 
@@ -81,9 +87,9 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
             @ secreto del endpoint
             @ Informacion obtenida del POST
         */
-        event = stripe.webhooks.constructEvent(req.body, sig, endpoint_secret);
+        event = stripe.webhooks.constructEvent(req.rawBody, sig, endpoint_secret);
     } catch (err) {
-        console.log(err)
+        console.log(err.message)
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
@@ -117,6 +123,9 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
 
         case 'payment_intent.payment_failed':
             // * No se hizo el pago exitosamente :C
+
+            // TODO: Regresar la cita a modo disponible
+
             console.log("Pago no realizado")
             return res.status(200).send({received: true});
     
@@ -145,7 +154,7 @@ exports.expressAccount = (req, res) => {
     const { email } = req.body;
 
     const account = stripe.accounts.create({
-        "type":'express',
+        "type": 'express',
         // "email": email,
         "country": 'MX',
         "business_type": 'individual',
@@ -219,10 +228,11 @@ exports.connectReAuth = (req,res) => {
              return res.status(200).send(account)
             })
         }
-        return res.status(200)//{charges_enabled: true }
+        return res.status(200)
     })
     .catch(e => {
         console.error('No ha sido posible traer tus datos')
         console.error(e)
+        return res.status(400).send(e);
     })
 }

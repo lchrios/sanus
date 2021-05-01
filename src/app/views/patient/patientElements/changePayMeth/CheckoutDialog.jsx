@@ -127,46 +127,57 @@ export default function CheckoutDialog({therapist, tid, state}) {
 
         setSubmited(true)
 
-        api.post('/u/' + user.uid + '/checkout', {
-            amount:60000
-        }).then(res => {
-            stripe.confirmOxxoPayment(
-                res.data.client_secret, 
-                {
-                    payment_method: {
-                        billing_details: {
-                            name: name,
-                            email: email
+        stripe.createPaymentMethod({
+            type:'oxxo',
+            billing_details: {
+                name: name,
+                email: email
+            }
+        }).then((paymentMethod) => {
+            // console.log(paymentMethod);
+            // return;
+            api.post('/u/' + user.uid + '/checkout', {
+                "payment_method_id": paymentMethod.paymentMethod.id,
+                "amount": 60000,
+                "date": state.date,
+            }).then(res => {
+                stripe.confirmOxxoPayment(
+                    res.data.client_secret, 
+                    {
+                        payment_method: {
+                            billing_details: {
+                                name: name,
+                                email: email
+                            }
                         }
                     }
-                }
-            ).then(result => {
-                let payInfo = result.paymentIntent;
+                ).then(result => {
+                    let payInfo = result.paymentIntent;
 
-                api.post(`/s/new`, {
-                    sessiondata: {
-                        cost: payInfo.amount,
-                        duration: 60,
-                        start: state.date,
-                        end: new Date(new Date(state.date).getTime() + (1000*60*60)),
-                        note: "",
-                        user: user.uid,
-                        user_name: user.name,
-                        user_email: user.email,
-                        pay_met: payInfo.id,
-                        pay_type: 'oxxo',
-                        payed: false,
-                        therapist: tid,
-                        tipo: payInfo.description,
-                        ther_name: therapist.name,
-                        state: 0,
-                    }
+                    api.post(`/s/new`, {
+                        sessiondata: {
+                            cost: payInfo.amount,
+                            duration: 60,
+                            start: state.date,
+                            end: new Date(new Date(state.date).getTime() + (1000*60*60)),
+                            note: "",
+                            user: user.uid,
+                            user_name: user.name,
+                            user_email: user.email,
+                            pay_met: payInfo.id,
+                            pay_type: 'oxxo',
+                            payed: false,
+                            therapist: tid,
+                            tipo: payInfo.description,
+                            ther_name: therapist.name,
+                            state: 0,
+                        }
+                    })
                 })
+            }).catch(error => {
+                console.error(error)
             })
-        }).catch(error => {
-            console.error(error)
         })
-
     }
     
     function handleOpen() {
@@ -218,20 +229,21 @@ export default function CheckoutDialog({therapist, tid, state}) {
                                 </div>
                                 <div className="flex-column">
                                     <TextField
-                                    disabled={submited} 
-                                    required 
-                                    id="oxxo-name" 
-                                    value={name}
-                                    onChange={handleChangeName} 
-                                    label='Nombre'></TextField>
-
+                                        disabled={submited} 
+                                        required 
+                                        id="oxxo-name" 
+                                        value={name}
+                                        onChange={handleChangeName} 
+                                        label='Nombre' 
+                                    />
                                     <TextField 
-                                    required 
-                                    disabled={submited}
-                                    id="oxxo-mail" 
-                                    value={email} 
-                                    onChange={handleChangeMail}
-                                    label='Correo electrónico'></TextField>
+                                        required 
+                                        disabled={submited}
+                                        id="oxxo-mail" 
+                                        value={email} 
+                                        onChange={handleChangeMail}
+                                        label='Correo electrónico' 
+                                    />
                                 </div>
                             </Card>
                         </Grid>
