@@ -176,7 +176,7 @@ exports.expressAccount = (req, res) => {
          * TODO MOVER TEST DATA
          */
         const host = [
-            'http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+            'http://localhost:3000', // * local emulator dev host
             'https://iknelia.app' // * cloud api host
           ][1]
 
@@ -205,7 +205,7 @@ exports.expressAccount = (req, res) => {
 
 exports.connectFailed = (req,res) => {
     const host = [
-        'http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+        'http://localhost:3000', // * local emulator dev host
         'https://iknelia.app' // * cloud api host
       ][1]
 

@@ -74,7 +74,52 @@ exports.mailPaymentFailed = (req, res) => {}
 
 // ~ Terapeutas
 // * 1 - Nueva cuenta terapeuta
-exports.mailNewTherapist = (req, res) => {}
+exports.mailNewTherapist = (email) => {
+    oAuth2Client.getAccessToken()
+        .then(accessToken => {
+        //console.log(accessToken)
+        const transport = nodemailer.createTransport({
+            "service": 'gmail',
+            "auth": {
+                "type": 'OAuth2',
+                "user": 'iknelia.noreply.test@gmail.com',
+                "clientId": CLIENT_ID,
+                "clientSecret": CLEINT_SECRET,
+                "refreshToken": REFRESH_TOKEN,
+                "accessToken": accessToken
+            }
+        });
+        
+        readFile('./mails/NuevoTerapeuta.html', 'utf8')
+        .then(html2send => {    
+            const mailOptions = {
+                "from": "iknelia no-reply <iknelia.noreply.test@gmail.com>",
+                "to": email,
+                "subject": 'Te has registrado exitosamente como terapeuta en Iknelia',
+                "text": 'Este es un mensaje confirmando tu registro exitoso como terapeuta en https://iknela.app',
+                "html": html2send
+            };
+            
+            transport.sendMail(mailOptions, (err, info) => {
+                if (err) {
+                    console.error(err.message);
+                    return reject(err);
+                }
+                //console.log(info);
+                return resolve(info);
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            return reject(err);
+        }); 
+    })
+    .catch(err => {
+        console.log("Hubo un error obteniendo el accessToken de la API de OAuth2");
+        console.error(err);
+        return reject(err);
+    });
+}
 // * 2 - Envio de datos al admin de los terapeutas (mandar a Male el resumen del registro)
 exports.mailSendTherapistResume = (req, res) => {}
 // * 3 - Sesion agendada

@@ -170,7 +170,7 @@ exports.expressAccount = function (req, res) {
     /**
      * TODO MOVER TEST DATA
      */
-    var host = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+    var host = ['http://localhost:3000', // * local emulator dev host
     'https://iknelia.app' // * cloud api host
     ][1];
     thers.doc(req.params.tid).update({
@@ -197,7 +197,7 @@ exports.expressAccount = function (req, res) {
 };
 
 exports.connectFailed = function (req, res) {
-  var host = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+  var host = ['http://localhost:3000', // * local emulator dev host
   'https://iknelia.app' // * cloud api host
   ][1];
   thers.doc(req.params.tid).get().then(function (doc) {

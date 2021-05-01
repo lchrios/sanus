@@ -13,7 +13,8 @@ var _require2 = require('../firebase'),
     admin = _require2.admin;
 
 var _require3 = require('./mails'),
-    mailNewUser = _require3.mailNewUser;
+    mailNewUser = _require3.mailNewUser,
+    mailNewTherapist = _require3.mailNewTherapist;
 
 var db = admin.firestore();
 var auth = admin.auth();
@@ -266,6 +267,7 @@ exports.createTherapistWithEmailAndPassword = function (req, res) {
         role: "therapist"
       }).then(function () {
         console.log('Usuario registrado con rol "therapist" correctamente!');
+        mailNewTherapist(req.body.email);
         return res.status(201).send(user);
       })["catch"](function (error) {
         console.error('Error asignando el rol de "therapist" al usuario', eror);
