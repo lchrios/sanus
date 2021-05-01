@@ -93,7 +93,7 @@ const UserDataForm = () => {
 
     useEffect(() => {
         if (user) {
-            api.post(`/u/${user.uid}/mails/new`, { "email": user.email }) // * Sends confirmation email
+            //api.post(`/u/${user.uid}/mails/new`, { "email": user.email }) // * Sends confirmation email
             history.push(`/${user.uid}/home`)
         }
     }, [user])
@@ -115,7 +115,6 @@ const UserDataForm = () => {
             setLoading(false)
             console.log(e)
             setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
-            
         })
     }
 

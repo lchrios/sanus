@@ -18,11 +18,10 @@ oAuth2Client.setCredentials({ "refresh_token": REFRESH_TOKEN })
 
 // ~ Usuarios
 // * 1 - Nueva cuenta usuario
-exports.mailNewUser = (req, res) => {
-
+exports.mailNewUser = async (email) => {
     oAuth2Client.getAccessToken()
-    .then(accessToken => {
-        console.log(accessToken)
+        .then(accessToken => {
+        //console.log(accessToken)
         const transport = nodemailer.createTransport({
             "service": 'gmail',
             "auth": {
@@ -34,36 +33,35 @@ exports.mailNewUser = (req, res) => {
                 "accessToken": accessToken
             }
         });
-
-        readFile('./mails/NuevoUsuario.html', 'utf8').then(html2send => {
-            
+        
+        readFile('./mails/NuevoUsuario.html', 'utf8')
+        .then(html2send => {    
             const mailOptions = {
                 "from": "iknelia no-reply <iknelia.noreply.test@gmail.com>",
-                "to": req.body.email,
-                "subject": 'TEST nodemailer',
-                "text": 'This is a testing!!!',
+                "to": email,
+                "subject": 'Te has registrado exitosamente en Iknelia',
+                "text": 'Este es un mensaje confirmando tu registro exitoso en https://iknela.app',
                 "html": html2send
             };
-    
+            
             transport.sendMail(mailOptions, (err, info) => {
                 if (err) {
                     console.error(err.message);
-                    return res.status(400).send(err.message);
+                    return reject(err);
                 }
-                console.log(info);
-                return res.status(200).send(info);
+                //console.log(info);
+                return resolve(info);
             });
         })
         .catch(err => {
             console.error(err);
-            return res.send(400).send(err)
-        });
-
+            return reject(err);
+        }); 
     })
     .catch(err => {
         console.log("Hubo un error obteniendo el accessToken de la API de OAuth2");
         console.error(err);
-        return res.status(400).send(err)
+        return reject(err);
     });
 }
 // * 2 - Voucher OXXO

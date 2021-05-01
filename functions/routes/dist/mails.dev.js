@@ -21,45 +21,56 @@ oAuth2Client.setCredentials({
 }); // ~ Usuarios
 // * 1 - Nueva cuenta usuario
 
-exports.mailNewUser = function (req, res) {
-  oAuth2Client.getAccessToken().then(function (accessToken) {
-    console.log(accessToken);
-    var transport = nodemailer.createTransport({
-      "service": 'gmail',
-      "auth": {
-        "type": 'OAuth2',
-        "user": 'iknelia.noreply.test@gmail.com',
-        "clientId": CLIENT_ID,
-        "clientSecret": CLEINT_SECRET,
-        "refreshToken": REFRESH_TOKEN,
-        "accessToken": accessToken
-      }
-    });
-    readFile('./mails/NuevoUsuario.html', 'utf8').then(function (html2send) {
-      var mailOptions = {
-        "from": "iknelia no-reply <iknelia.noreply.test@gmail.com>",
-        "to": req.body.email,
-        "subject": 'TEST nodemailer',
-        "text": 'This is a testing!!!',
-        "html": html2send
-      };
-      transport.sendMail(mailOptions, function (err, info) {
-        if (err) {
-          console.error(err.message);
-          return res.status(400).send(err.message);
-        }
+exports.mailNewUser = function _callee(email) {
+  return regeneratorRuntime.async(function _callee$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          oAuth2Client.getAccessToken().then(function (accessToken) {
+            //console.log(accessToken)
+            var transport = nodemailer.createTransport({
+              "service": 'gmail',
+              "auth": {
+                "type": 'OAuth2',
+                "user": 'iknelia.noreply.test@gmail.com',
+                "clientId": CLIENT_ID,
+                "clientSecret": CLEINT_SECRET,
+                "refreshToken": REFRESH_TOKEN,
+                "accessToken": accessToken
+              }
+            });
+            readFile('./mails/NuevoUsuario.html', 'utf8').then(function (html2send) {
+              var mailOptions = {
+                "from": "iknelia no-reply <iknelia.noreply.test@gmail.com>",
+                "to": email,
+                "subject": 'Te has registrado exitosamente en Iknelia',
+                "text": 'Este es un mensaje confirmando tu registro exitoso en https://iknela.app',
+                "html": html2send
+              };
+              transport.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                  console.error(err.message);
+                  return reject(err);
+                } //console.log(info);
 
-        console.log(info);
-        return res.status(200).send(info);
-      });
-    })["catch"](function (err) {
-      console.error(err);
-      return res.send(400).send(err);
-    });
-  })["catch"](function (err) {
-    console.log("Hubo un error obteniendo el accessToken de la API de OAuth2");
-    console.error(err);
-    return res.status(400).send(err);
+
+                return resolve(info);
+              });
+            })["catch"](function (err) {
+              console.error(err);
+              return reject(err);
+            });
+          })["catch"](function (err) {
+            console.log("Hubo un error obteniendo el accessToken de la API de OAuth2");
+            console.error(err);
+            return reject(err);
+          });
+
+        case 1:
+        case "end":
+          return _context.stop();
+      }
+    }
   });
 }; // * 2 - Voucher OXXO
 
