@@ -9,7 +9,7 @@ const schedules = db.collection("schedules");
 const stripe = require('stripe')([
     "sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG",
     "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",
-][0]);
+][1]);
 
 // * Get therapist info
 exports.getAllTherapists = async (req, res) => {
@@ -330,7 +330,7 @@ exports.handleAccountUpdate = (req, res) => {
     const endpoint_secret = [
         "whsec_KuPDxetqqKx0DO12qmhsjQZrvfP8NU0L", // * LIVE mode
         "whsec_ZBv8dScsRtH1S36P3AllVEhr3vA1HnJf"  // * TEST mode
-    ][1]; 
+    ][0]; 
     
     let event; // @ Lee la información enviada
     
