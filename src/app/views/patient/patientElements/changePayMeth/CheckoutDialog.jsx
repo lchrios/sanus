@@ -229,6 +229,7 @@ export default function CheckoutDialog({therapist, tid, state}) {
                                 </div>
                                 <div className="flex-column">
                                     <TextField
+                                        className="mx-3 my-2"
                                         disabled={submited} 
                                         required 
                                         id="oxxo-name" 
@@ -237,6 +238,7 @@ export default function CheckoutDialog({therapist, tid, state}) {
                                         label='Nombre' 
                                     />
                                     <TextField 
+                                        className="mx-3 my-5"
                                         required 
                                         disabled={submited}
                                         id="oxxo-mail" 
@@ -316,6 +318,7 @@ export default function CheckoutDialog({therapist, tid, state}) {
                     <Button
                     color="secondary"
                     variant='contained'
+                    disabled={submited}
                     className={activeStep === 0 ? 'hidden' : ''}
                     onClick={activeStep === 1 ? handlePayCard : handlePayOxxo}
                     >

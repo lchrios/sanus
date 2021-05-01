@@ -75,10 +75,9 @@ exports.sendPaymentInfo = (req, res) => {
 
 exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
-    console.log(sig);
-
+    
   
-    let event = req.body; // @ Lee la información enviada
+    let event = req.body; // * Lee la información enviada
 
     try { 
         /* 
@@ -96,17 +95,27 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
     switch(event.type) {
         case 'payment_intent.succeeded':
             
-            console.log("Pago recibido con " + event["payment_method_types"])
+            console.log("Pago recibido con " + event.data.object["payment_method_types"])
             
             // * Se hizo el pago del voucher del OXXO exitosamente 
-            sess.where("pay_met", "==", event.id).get()
+            sess.where("pay_met", "==", event.data.object.id).get()
             .then(query => {
+                console.log("Iniciando la actualizacion de las sesiones")
                 query.forEach(doc => {
+                    console.log(`doc: ${doc.data().user_name}`)
                     doc.ref.update({payed: true})
                     .then(() => {
-                        return res.status(200).send({received: true});
+                        return res.status(200).send({ received: true });
+                    })
+                    .catch(err => {
+                        console.log(err.message);
+                        return res.status(400).send(err.message);
                     })
                 })
+            })
+            .catch(err => {
+                console.log(err.message);
+                return res.status(400).send(err.message);
             })
             break;
             
