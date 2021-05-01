@@ -44,7 +44,6 @@
     "mui-datatables": "^3.2.0",
     "multer": "^1.4.2",
     "node-sass": "^4.14.1",
-    "nodemailer": "^6.6.0",
     "notistack": "^0.8.8",
     "prop-types": "^15.7.2",
     "qwest": "^4.5.0",

@@ -92,7 +92,10 @@ var _require7 = require("./routes/fixes"),
     fixAllSessions = _require7.fixAllSessions,
     fixAllTherapists = _require7.fixAllTherapists,
     fixAllBlogs = _require7.fixAllBlogs,
-    fixAllTherapistsImage = _require7.fixAllTherapistsImage; //app.use(express.urlencoded({ extended: true }));
+    fixAllTherapistsImage = _require7.fixAllTherapistsImage;
+
+var _require8 = require("./routes/mails"),
+    mailNewUser = _require8.mailNewUser; //app.use(express.urlencoded({ extended: true }));
 
 
 app.use(logger('dev')); // const upload = multer({ 
@@ -170,7 +173,9 @@ app.put("/b/:bid", isAuthenticated, isAuthorized(roles.therapist), updateBlog); 
 app.post("/s/new", isAuthenticated, isAuthorized(roles.user), newSession);
 app.put("/s/:sid", isAuthenticated, isAuthorized(roles.user), updateSession);
 app.get("/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
-app["delete"]("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession); // * rutas de autenticacion
+app["delete"]("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession); // * rutas de correos
+
+app.post("/u/:uid/mails/new", isAuthenticated, isAuthorized(roles.user, true), mailNewUser); // * rutas de autenticacion
 
 app.post("/auth/signuser", createUserWithEmailAndPassword);
 app.post("/auth/signtherapist", createTherapistWithEmailAndPassword);

@@ -6,6 +6,7 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 
+
 /** 
  * TODO: Validar que existan los docmentos.    */
 
@@ -87,6 +88,7 @@ const {
 const filesRouter = require('./routes/files');
 
 const { fixAllUsers, fixAllSessions, fixAllTherapists, fixAllBlogs, fixAllTherapistsImage } = require("./routes/fixes");
+const { mailNewUser } = require("./routes/mails");
 
 //app.use(express.urlencoded({ extended: true }));
 app.use(logger('dev'));
@@ -183,6 +185,9 @@ app.put("/s/:sid", isAuthenticated, isAuthorized(roles.user), updateSession);
 app.get("/s/:sid", isAuthenticated, isAuthorized(roles.user), getSession);
 app.delete("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession);
 
+// * rutas de correos
+app.post("/u/:uid/mails/new", isAuthenticated, isAuthorized(roles.user, true), mailNewUser);
+
 // * rutas de autenticacion
 app.post("/auth/signuser", createUserWithEmailAndPassword);
 app.post("/auth/signtherapist", createTherapistWithEmailAndPassword)
@@ -194,6 +199,7 @@ app.put("/auth/:uid/therapist", setTherapist);
 app.put("/auth/:uid/user", setUser);
 app.use(fileUpload({ limits: 20 * 1024 * 1024 }));
 app.use("/files", filesRouter);
+
 
 
 // * rutas de fixing 

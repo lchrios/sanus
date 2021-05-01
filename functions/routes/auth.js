@@ -1,5 +1,6 @@
 const { decode } = require('firebase-functions/lib/providers/https');
 const { admin } = require('../firebase');
+const { mailNewUser } = require('./mails');
 const db = admin.firestore();
 const auth = admin.auth();
 const storage = admin.storage();
@@ -187,6 +188,7 @@ exports.createUserWithEmailAndPassword = (req, res) => {
                     auth.setCustomUserClaims(user.uid, { role: "user" })
                     .then(() => {
                         console.log('Usuario registrado con rol "user" correctamente!');
+                        // Envia email
                         return res.status(201).send(user);
                     })
                     .catch( error => {

@@ -12,6 +12,9 @@ var _require = require('firebase-functions/lib/providers/https'),
 var _require2 = require('../firebase'),
     admin = _require2.admin;
 
+var _require3 = require('./mails'),
+    mailNewUser = _require3.mailNewUser;
+
 var db = admin.firestore();
 var auth = admin.auth();
 var storage = admin.storage();
@@ -208,7 +211,8 @@ exports.createUserWithEmailAndPassword = function (req, res) {
       auth.setCustomUserClaims(user.uid, {
         role: "user"
       }).then(function () {
-        console.log('Usuario registrado con rol "user" correctamente!');
+        console.log('Usuario registrado con rol "user" correctamente!'); // Envia email
+
         return res.status(201).send(user);
       })["catch"](function (error) {
         console.error('Error asignando el rol de "user" al usuario', error);

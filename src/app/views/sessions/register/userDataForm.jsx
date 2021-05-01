@@ -28,6 +28,7 @@ import history from '../../../../history'
 import { useLocation } from 'react-router'
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator'
 import { Loading } from 'app/components/Loading/Loading'
+import api from 'app/services/api'
 
 const getSteps = () => ['Bienvenido', 'Contacto', 'Perfil']   
 
@@ -92,6 +93,7 @@ const UserDataForm = () => {
 
     useEffect(() => {
         if (user) {
+            api.post(`/u/${user.uid}/mails/new`, { "email": user.email }) // * Sends confirmation email
             history.push(`/${user.uid}/home`)
         }
     }, [user])
@@ -101,20 +103,20 @@ const UserDataForm = () => {
         let { email, password } = state;
         setLoading(true)
 
-            createUserWithEmailAndPassword(state)
-            .then( res => {
-                // * Aqui haces lo de que te mande a otro lado
-                signInWithEmailAndPassword(email, password)
-                .catch( error => {
-                    console.error("Error al obtener el decodedToken del user", error)
-                })
+        createUserWithEmailAndPassword(state)
+        .then( res => {
+            // * Aqui haces lo de que te mande a otro lado
+            signInWithEmailAndPassword(email, password)
+            .catch( error => {
+                console.error("Error al obtener el decodedToken del user", error)
             })
-            .catch( e => {
-                setLoading(false)
-                console.log(e)
-                setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
-                
-            })
+        })
+        .catch( e => {
+            setLoading(false)
+            console.log(e)
+            setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
+            
+        })
     }
 
 
