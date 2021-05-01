@@ -234,7 +234,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                                                 <small className="text-muted">Promociona tu perfil</small>
                                             </div>
                                         
-                                            <Table className="mb-6">
+                                            {/* <Table className="mb-6">
                                                 <TableBody>
                                                     <TableRow>
                                                         <TableCell>
@@ -252,7 +252,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                                                         </TableCell>
                                                     </TableRow>
                                                 </TableBody>
-                                            </Table>
+                                            </Table> */}
                                         </div>
                                     }
                                     </>
