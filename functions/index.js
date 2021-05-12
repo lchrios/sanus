@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 const express = require("express");
 const app = express();
 const cors = require('cors');
+const { admin } = require('./firebase');
 
 
 /** 
@@ -199,8 +200,133 @@ app.post("/t/:tid", isAuthenticated, isAuthorized(roles.therapist, true), update
 app.put("/auth/:uid/admin", setAdmin);
 app.put("/auth/:uid/therapist", setTherapist);
 app.put("/auth/:uid/user", setUser);
-app.use(fileUpload({ limits: 20 * 1024 * 1024 }));
+app.use(fileUpload({ "limits": 20 * 1024 * 1024 }));
 app.use("/files", filesRouter);
+app.get("/schedules/clean", (req, res) => {
+    let firestore = admin.firestore(); 
+    let sched = firestore.collection("schedules");
+    sched.get()
+    .then(query => { // * Obtain and return all the existing therapists 
+        
+        // * Variables meant for a resume about behavior
+        let updated_scheds = [];
+        let deleted_scheds = []; 
+        let errors_updating = [];
+        let ok_upd8 = 0;
+        let total_del = 0;
+        
+        query.forEach(sched_doc => {
+
+            // * Read data from the doc
+            let { schedule, options } = sched_doc.data(); 
+            let new_schedule, deleted_sched = []; 
+            
+            // * Generate new schedule
+            new_schedule = schedule.filter(d => new Date(d).valueOf() >= new Date().valueOf());
+            // * Check which dates where erased
+            deleted_sched = schedule.filter(d => !new_schedule.includes(d)); 
+            
+            // * Update options startDate to prevent users seeing old dates
+            options.startDate = new Date().toISOString(); 
+            
+            // * Save this info for the report
+            updated_scheds.push(new_schedule);
+            deleted_scheds.push(deleted_sched);
+            total_del += deleted_sched.length;
+            
+            // * Update the schedule into the firebase document
+            sched_doc.ref.update({
+                "schedule": new_schedule,
+                "options": options,
+            })
+            .then(() => {
+                ok_upd8++;
+            })
+            .catch(er => {
+                errors_updating.push(er);
+            })
+
+        })
+
+        return res.status(200).send({
+            "success": true,
+            "updated_schedules": updated_scheds,
+            "deleted_schedules": deleted_scheds,
+            "errors_updating": errors_updating,
+            "success_updating": ok_upd8,
+            "failed_updating": ok_upd8 - errors_updating.length,
+            "total_deleted": total_del
+        })
+
+    })
+    .catch(err => {
+        console.log(err);
+    })
+})
+
+let HOURS = 12;
+
+setTimeout(() =>{
+    let firestore = admin.firestore(); 
+    let sched = firestore.collection("schedules");
+    sched.get()
+    .then(query => { // * Obtain and return all the existing therapists 
+        
+        // * Variables meant for a resume about behavior
+        let updated_scheds = [];
+        let deleted_scheds = []; 
+        let errors_updating = [];
+        let ok_upd8 = 0;
+        let total_del = 0;
+        
+        query.forEach(sched_doc => {
+
+            // * Read data from the doc
+            let { schedule, options } = sched_doc.data(); 
+            let new_schedule, deleted_sched = []; 
+            
+            // * Generate new schedule
+            new_schedule = schedule.filter(d => new Date(d).valueOf() >= new Date().valueOf());
+            // * Check which dates where erased
+            deleted_sched = schedule.filter(d => !new_schedule.includes(d)); 
+            
+            // * Update options startDate to prevent users seeing old dates
+            options.startDate = new Date().toISOString(); 
+            
+            // * Save this info for the report
+            updated_scheds.push(new_schedule);
+            deleted_scheds.push(deleted_sched);
+            total_del += deleted_sched.length;
+            
+            // * Update the schedule into the firebase document
+            sched_doc.ref.update({
+                "schedule": new_schedule,
+                "options": options,
+            })
+            .then(() => {
+                ok_upd8++;
+            })
+            .catch(er => {
+                errors_updating.push(er);
+            })
+
+        })
+
+        return res.status(200).send({
+            "success": true,
+            "updated_schedules": updated_scheds,
+            "deleted_schedules": deleted_scheds,
+            "errors_updating": errors_updating,
+            "success_updating": ok_upd8,
+            "failed_updating": ok_upd8 - errors_updating.length,
+            "total_deleted": total_del
+        })
+
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}, 3600 * 1000 * HOURS);
 
 
 

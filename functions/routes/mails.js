@@ -18,7 +18,7 @@ oAuth2Client.setCredentials({ "refresh_token": REFRESH_TOKEN })
 
 // ~ Usuarios
 // * 1 - Nueva cuenta usuario
-exports.mailNewUser = async (email) => {
+exports.mailNewUser = (email) => {
     oAuth2Client.getAccessToken()
         .then(accessToken => {
         //console.log(accessToken)
