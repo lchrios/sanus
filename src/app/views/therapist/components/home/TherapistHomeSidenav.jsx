@@ -46,12 +46,8 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 const TherapistHomeSidenav = ({ url, loading, therapist, charge }) => {
     const classes = usestyles()
     const str_classes = useStripeStyles()
-<<<<<<< HEAD
     // const [charge, setCharge] = React.useState(false)
-=======
-    const [charge, setCharge] = React.useState(false)
     const [sched, setSched] = useState(true);
->>>>>>> 9fc31d7dbaff10ff4117282cdfcab02ce8db1594
     const { user } = useAuth()
 
     const [open, setOpen] = React.useState(false)
@@ -269,19 +265,11 @@ const shortcutList = [
         icon: 'edit',
         route: 'newblog'
     },
-<<<<<<< HEAD
     {
         title:'Configuración',
         icon: 'settings',
         route:'settings'
     }
-=======
-    // {
-    //     title:'Configuración',
-    //     icon: 'settings',
-    //     route:'dashboard'
-    // }
->>>>>>> 9fc31d7dbaff10ff4117282cdfcab02ce8db1594
 ]
 
 export default TherapistHomeSidenav
