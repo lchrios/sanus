@@ -1,12 +1,12 @@
 "use strict";
 
-var stripe = require('stripe')(["sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG", "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"][0]); // ~ 0 - stripe live mode 1-stripe-test 2 - testCLI @Secreto del endpoint webhook    
+var stripe = require('stripe')(["sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG", "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"][1]); // ~ 0 - stripe live mode 1-stripe-test 2 - testCLI @Secreto del endpoint webhook    
 
 
-var endpoint_secret = ["whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", // * Stripe LIVE
+var endpoint_secret = ["whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy", // * Stripe LIVE
 "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", // * Stripe TEST
 "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g" // * temp local sig
-][1];
+][0];
 
 var _require = require('../firebase'),
     admin = _require.admin,
@@ -132,21 +132,18 @@ exports.handleStripeEvent = function (req, res) {
       return res.status(200).send({
         received: true
       });
-
-    case 'account_update':
-      var _event$data$object = event.data.object,
-          id = _event$data$object.id,
-          charges_enabled = _event$data$object.charges_enabled;
-      ther.where(stripeId == id).get().then(function (query) {
-        query.forEach(function (doc) {
-          doc.ref.update({
-            charges_enabled: charges_enabled
-          }).then(function () {
-            console.log("Cuenta actualizada;");
-          });
-          return res.status.send(charges_enabled);
-        });
-      });
+    // case 'account_update':
+    //     let { id, charges_enabled } = event.data.object;
+    //     ther.where(stripeId == id).get()
+    //     .then(query => {
+    //         query.forEach(doc => {
+    //             doc.ref.update({ charges_enabled: charges_enabled })
+    //             .then(() => {
+    //                 console.log("Cuenta actualizada;")
+    //             });
+    //             return res.status.send(charges_enabled)
+    //         });
+    //     });
     // ... handle other event types
 
     default:
@@ -173,7 +170,7 @@ exports.expressAccount = function (req, res) {
     /**
      * TODO MOVER TEST DATA
      */
-    var host = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+    var host = ['http://localhost:3000', // * local emulator dev host
     'https://iknelia.app' // * cloud api host
     ][1];
     thers.doc(req.params.tid).update({
@@ -200,7 +197,7 @@ exports.expressAccount = function (req, res) {
 };
 
 exports.connectFailed = function (req, res) {
-  var host = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+  var host = ['http://localhost:3000', // * local emulator dev host
   'https://iknelia.app' // * cloud api host
   ][1];
   thers.doc(req.params.tid).get().then(function (doc) {
@@ -234,14 +231,4 @@ exports.connectReAuth = function (req, res) {
     console.error(e);
     return res.status(400).send(e);
   });
-}; // exports.reAuth = (req,res) => {
-//     const {email} = req.body
-//     const account = stripe.accounts.create({
-//         type:'express',
-//         email: email,
-//         capabilities: {
-//             card_payments: {requested:true},
-//             transfers: {requested:true}
-//         }
-//     })
-// }
+};

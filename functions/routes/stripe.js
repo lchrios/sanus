@@ -6,7 +6,7 @@ const stripe = require('stripe')([
 
 // ~ 0 - stripe live mode 1-stripe-test 2 - testCLI @Secreto del endpoint webhook    
 const endpoint_secret = [
-    "whsec_OMF9oQSkPJsmHdMFJlTsWYe8pgLahNBd", // * Stripe LIVE
+    "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy", // * Stripe LIVE
     "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", // * Stripe TEST
     "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g", // * temp local sig
 ][0]; 
@@ -138,19 +138,19 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
             console.log("Pago no realizado")
             return res.status(200).send({received: true});
     
-        case 'account_update':
-            let { id, charges_enabled } = event.data.object;
+        // case 'account_update':
+        //     let { id, charges_enabled } = event.data.object;
 
-            ther.where(stripeId == id).get()
-            .then(query => {
-                query.forEach(doc => {
-                    doc.ref.update({ charges_enabled: charges_enabled })
-                    .then(() => {
-                        console.log("Cuenta actualizada;")
-                    });
-                    return res.status.send(charges_enabled)
-                });
-            });
+        //     ther.where(stripeId == id).get()
+        //     .then(query => {
+        //         query.forEach(doc => {
+        //             doc.ref.update({ charges_enabled: charges_enabled })
+        //             .then(() => {
+        //                 console.log("Cuenta actualizada;")
+        //             });
+        //             return res.status.send(charges_enabled)
+        //         });
+        //     });
         
         // ... handle other event types
         default:
@@ -174,7 +174,7 @@ exports.expressAccount = (req, res) => {
          * TODO MOVER TEST DATA
          */
         const host = [
-            'http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+            'http://localhost:3000', // * local emulator dev host
             'https://iknelia.app' // * cloud api host
           ][1]
 
@@ -207,7 +207,7 @@ exports.expressAccount = (req, res) => {
 
 exports.connectFailed = (req,res) => {
     const host = [
-        'http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local emulator dev host
+        'http://localhost:3000', // * local emulator dev host
         'https://iknelia.app' // * cloud api host
       ][1]
 

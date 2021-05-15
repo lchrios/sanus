@@ -125,14 +125,14 @@ export default function CustomizedSnackbars() {
     //     },[]);
 
     return (
-        <div>
+        <div className="my-4">
             <MySnackbarContentWrapper
                 anchorOrigin={{vertical:'bottom',horizontal: 'center'}}
                 variant="error"
                 open={state.open}
                 className={classes.margin}
                 TransitionComponent={state.Transition}
-                message={<span id="message-id">No haz completado tu información para recibir pagos, presiona el botón 'conectar con stripe'</span>}
+                message={<span id="message-id">No has completado tu información para recibir pagos, presiona el botón 'conectar con stripe'</span>}
             />
         </div>
     )

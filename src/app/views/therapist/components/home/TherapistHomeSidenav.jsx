@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, Button, Card, Grid, Icon, Dialog } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -10,6 +10,7 @@ import clsx from 'clsx'
 import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
 import NoStripeSnack from '../snackBars/NoStripeSnack'
+import NoScheduleSnack from '../snackBars/NoScheduleSnack'
 
 
 
@@ -45,7 +46,12 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 const TherapistHomeSidenav = ({ url, loading, therapist, charge }) => {
     const classes = usestyles()
     const str_classes = useStripeStyles()
+<<<<<<< HEAD
     // const [charge, setCharge] = React.useState(false)
+=======
+    const [charge, setCharge] = React.useState(false)
+    const [sched, setSched] = useState(true);
+>>>>>>> 9fc31d7dbaff10ff4117282cdfcab02ce8db1594
     const { user } = useAuth()
 
     const [open, setOpen] = React.useState(false)
@@ -75,10 +81,9 @@ const TherapistHomeSidenav = ({ url, loading, therapist, charge }) => {
 
     function handleClickConnect() {
         console.log('Conectando con stripe', charge)
-        if (charge == false) {
-        history.push(`/${user.uid}/connectFailedView`)    
-        } 
-        else if(charge == undefined || null) {
+        if (charge === false) {
+            history.push(`/${user.uid}/connectFailedView`)    
+        } else if (charge == undefined || null) {
             api.post(`/t/${user.uid}/connect`, {
                 email: user.email,
             }).then(res => {
@@ -88,12 +93,20 @@ const TherapistHomeSidenav = ({ url, loading, therapist, charge }) => {
         }
     }
 
-    // useEffect(() => {
-    //     api.get(`/t/${user.uid}/reAuth`)
-    //     .then(res => {
-    //         setCharge(res.data.charges_enabled)
-    //     })
-    // },[])
+    useEffect(() => {
+        api.get(`/t/${user.uid}/reAuth`)
+        .then(res => {
+            setCharge(res.data.charges_enabled)
+        })
+
+        api.get(`/t/${user.uid}/schedule`)
+        .then(res => {
+            if (res.data.schedule) {
+                setSched(res.data.schedule.length !== 0);
+            }
+        })
+
+    },[])
 
    
     return (
@@ -221,20 +234,23 @@ const TherapistHomeSidenav = ({ url, loading, therapist, charge }) => {
                 </div>
             </div>
             {
-                charge ? null :  <NoStripeSnack/>  
+                charge ? null : <NoStripeSnack/>  
+            }
+            {
+                sched ? null : <NoScheduleSnack />  
             }
         </div>
     )
 }
 
 const shortcutList = [
+    // {
+    //     title: 'Comentarios',
+    //     icon: 'comment',
+    //     route: 'comments'
+    // },
     {
-        title: 'Comentarios',
-        icon: 'comment',
-        route: 'comments'
-    },
-    {
-        title: 'Calendario',
+        title: 'Horarios',
         icon: 'event',
         route: 'schedule'
     },
@@ -253,11 +269,19 @@ const shortcutList = [
         icon: 'edit',
         route: 'newblog'
     },
+<<<<<<< HEAD
     {
         title:'Configuración',
         icon: 'settings',
         route:'settings'
     }
+=======
+    // {
+    //     title:'Configuración',
+    //     icon: 'settings',
+    //     route:'dashboard'
+    // }
+>>>>>>> 9fc31d7dbaff10ff4117282cdfcab02ce8db1594
 ]
 
 export default TherapistHomeSidenav

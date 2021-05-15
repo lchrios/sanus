@@ -1,5 +1,6 @@
 const { decode } = require('firebase-functions/lib/providers/https');
 const { admin } = require('../firebase');
+const { mailNewUser, mailNewTherapist } = require('./mails');
 const db = admin.firestore();
 const auth = admin.auth();
 const storage = admin.storage();
@@ -138,71 +139,46 @@ exports.setUser = (req, res) => {
 }
 
 exports.createUserWithEmailAndPassword = (req, res) => {
-    auth
-        .createUser({
-            email: req.body.email,
-            emailVerified: false,
-            password: req.body.password,
-            displayName: req.body.userdata.name,
-            photoURL: "https://storage.googleapis.com/iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png",
-            disabled: false,
-        })
-        .then( user => {
-            console.log('Auth: Usuario creado exitosamene!');
-
-            const actionCodeSettings = {
-                // URL you want to redirect back to. The domain (www.example.com) for
-                // this URL must be whitelisted in the Firebase Console.
-                url: 'https://www.iknelia.app/home',
-                // This must be true for email link sign-in.
-                handleCodeInApp: true,
-                iOS: {
-                  bundleId: 'com.example.ios',
-                },
-                android: {
-                  packageName: 'com.example.android',
-                  installApp: true,
-                  minimumVersion: '12',
-                },
-                // FDL custom domain.
-                dynamicLinkDomain: 'www.iknelia.app',
-            };
-            auth.generateEmailVerificationLink(user.email, actionCodeSettings)
-            .then(link => {
-                return sendCustomVerificationEmail(user.email, user.displayName, link);
+    auth.createUser({
+        email: req.body.email,
+        emailVerified: false,
+        password: req.body.password,
+        displayName: req.body.userdata.name,
+        photoURL: "https://storage.googleapis.com/iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png",
+        disabled: false,
+    })
+    .then( user => {
+        console.log('Auth: Usuario creado exitosamene!');
+        // * Sube el usuario creado a colleccion de usuarios
+        users
+            .doc(user.uid)
+            .set(req.body.userdata)
+            .then(() => {
+                console.log('Collection: Users - Listo!', user.uid);
             })
-            .catch((err) => {
-                console.error("Error:", err);
-            });
-
-            // * Sube el usuario creado a colleccion de usuarios
-            users
-                .doc(user.uid)
-                .set(req.body.userdata)
+            .then(() => {
+                // * Actualizar el rol del usuario a 'user'
+                auth.setCustomUserClaims(user.uid, { role: "user" })
                 .then(() => {
-                    console.log('Collection: Users - Listo!', user.uid);
-                    // * Actualizar el rol del usuario a 'user'
-                })
-                .then(() => {
-                    auth.setCustomUserClaims(user.uid, { role: "user" })
-                    .then(() => {
-                        console.log('Usuario registrado con rol "user" correctamente!');
-                        return res.status(201).send(user);
-                    })
-                    .catch( error => {
-                        console.error('Error asignando el rol de "user" al usuario', error)
-                        return res.status(404).send(error);
-                    })
+                    console.log('Usuario registrado con rol "user" correctamente!');
+                    // * Envia email de registro exitoso
+                    mailNewUser(req.body.email);
+                    return res.status(201).send(user);
                 })
                 .catch( error => {
-                    console.error('Error registrando el usuario en collection "users"', error);
-                    return res.status(400).send(error);
+                    console.error('Error asignando el rol de "user" al usuario', error)
+                    return res.status(404).send(error);
                 })
-        })
-        .catch(error => {
-            console.log('Error creando usuario!', error);
-            return res.status(500).send(error)
-        });
+            })
+            .catch( error => {
+                console.error('Error registrando el usuario en collection "users"', error);
+                return res.status(400).send(error);
+            })
+    })
+    .catch(error => {
+        console.log('Error creando usuario!', error);
+        return res.status(500).send(error)
+    });
 }
 
 exports.updateTherapistInfo = (req, res) => {
@@ -251,41 +227,38 @@ exports.getFilesAndInfo = (req, res ) => {
 }
 
 exports.createTherapistWithEmailAndPassword = (req, res) => {
-    auth
-        .createUser({
-            email: req.body.email,
-            emailVerified: false,
-            password: req.body.password,
-            displayName: req.body.therapistdata.name,
-            photoURL: "https://storage.googleapis.com/iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png",
-            disabled: false,
+    auth.createUser({
+        email: req.body.email,
+        emailVerified: false,
+        password: req.body.password,
+        displayName: req.body.therapistdata.name,
+        photoURL: "https://storage.googleapis.com/iknelia-3cd8e.appspot.com/usuarios/placeholders/none-user.png",
+        disabled: false,
+    })
+    .then(user => {
+        // subir a colleccion de usuarios
+        thers.doc(user.uid).set(req.body.therapistdata)
+        .then(() => {
+            console.log('Collection: Therapist- Listo!');
+            // * Actualizar el rol del usuario a 'user'
+            auth.setCustomUserClaims(user.uid, { role: "therapist" })
+            .then(() => {
+                console.log('Usuario registrado con rol "therapist" correctamente!');
+                mailNewTherapist(req.body.email);
+                return res.status(201).send(user);
+            })
+            .catch( error => {
+                console.error('Error asignando el rol de "therapist" al usuario', eror)
+                return res.status(404).send(error);
+            })
         })
-        .then(user => {
-            // subir a colleccion de usuarios
-            thers
-                .doc(user.uid)
-                .set(req.body.therapistdata)
-                .then(() => {
-                    console.log('Collection: Therapist- Listo!');
-                    // * Actualizar el rol del usuario a 'user'
-                    auth
-                        .setCustomUserClaims(user.uid, { role: "therapist" })
-                        .then(() => {
-                            console.log('Usuario registrado con rol "therapist" correctamente!');
-                            return res.status(201).send(user);
-                        })
-                        .catch( error => {
-                            console.error('Error asignando el rol de "therapist" al usuario', eror)
-                            return res.status(404).send(error);
-                        })
-                })
-                .catch( error => {
-                    console.error('Error registrando el usuario en collection "therapists"', error);
-                    return res.status(404).send(error);
-                })
+        .catch( error => {
+            console.error('Error registrando el usuario en collection "therapists"', error);
+            return res.status(404).send(error);
         })
-        .catch(error => {
-            console.log('Error creando terapeuta!', error);
-            return res.status(404).send(error)
-        });
+    })
+    .catch(error => {
+        console.log('Error creando terapeuta!', error);
+        return res.status(404).send(error)
+    });
 }

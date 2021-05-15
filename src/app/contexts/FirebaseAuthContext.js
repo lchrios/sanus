@@ -95,16 +95,18 @@ export const AuthProvider = ({ children }) => {
         //         'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
         //     }
         // })
+        let userdata = {
+            ...state, 
+            "answered": false, 
+            "img": "usuarios/placeholders/none-user.png", 
+            "therapist": "", 
+            "payment_met": [], 
+        };
+        console.log(userdata);
         return api.post('/auth/signuser', { 
-            userdata: {
-                ...state, 
-                answered: false, 
-                img: "usuarios/placeholders/none-user.png", 
-                therapist: "", 
-                payment_met: [], 
-            }, 
-            email: email, 
-            password: password
+            "userdata": userdata, 
+            "email": email, 
+            "password": password
         })
     }
 

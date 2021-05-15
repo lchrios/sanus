@@ -6,6 +6,11 @@ const sess = db.collection('sessions');
 const blogs = db.collection('blogs');
 const schedules = db.collection("schedules");
 
+const stripe = require('stripe')([
+    "sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG",
+    "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",
+][1]);
+
 // * Get therapist info
 exports.getAllTherapists = async (req, res) => {
     var data = [];
@@ -318,49 +323,54 @@ exports.getTherImage = (req, res) => { // * Demo for image upload
 }
 
 
-// exports.handleAccountUpdate = (req, res) => {
-//     console.log("Recibiendo account update")
-//     const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
-//     console.log("SIG: " + sig.toString())
-//     0-testCLI 1-stripe-test 2-stripe live mode @Secreto del endpoint webhook
-//     const endpoint_secret = [
-//         "whsec_ZBv8dScsRtH1S36P3AllVEhr3vA1HnJf"
-//     ][0]; 
+exports.handleAccountUpdate = (req, res) => {
+    console.log("Recibiendo account update")
+    const sig = req.headers['stripe-signature']; // @Signature de la API de Stripe
     
-//     let event; // @ Lee la información enviada
+    const endpoint_secret = [
+        "whsec_KuPDxetqqKx0DO12qmhsjQZrvfP8NU0L", // * LIVE mode
+        "whsec_ZBv8dScsRtH1S36P3AllVEhr3vA1HnJf"  // * TEST mode
+    ][0]; 
     
-//     try { 
-//         /* 
-//           * Se construye unevento a traves de stripe pasando como argumentos:
-//             @ Signature de stripe
-//             @ secreto del endpoint
-//             @ Informacion obtenida del POST
-//         */
-//        event = stripe.webhooks.constructEvent(req.rawBody, sig, endpoint_secret);
-//     } catch (err) {
-//         console.log(err.message);
-//         return res.status(400).send(`Webhook Error: ${err.message}`);
-//     }
+    let event; // @ Lee la información enviada
+    
+    try { 
+        /* 
+          * Se construye unevento a traves de stripe pasando como argumentos:
+            @ Signature de stripe
+            @ secreto del endpoint
+            @ Informacion obtenida del POST
+        */
+       event = stripe.webhooks.constructEvent(req.rawBody, sig, endpoint_secret);
+    } catch (err) {
+        console.log(err.message);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
 
-//     console.log('Se recibió el evento',event)
-//     switch(event.type) {
-//         case 'account_update':
-//             let { id, charges_enabled } = event.data.object;
+    console.log('Se recibió el evento');
+    
+    switch(event.type) {
+        case 'account.updated':
+            let { id, charges_enabled } = event.data.object;
+            console.log("charges_enabled", charges_enabled);
 
-//             ther.where("stripeId", "==", id).get()
-//             .then(query => {
-//                 query.forEach(doc => {
-//                     doc.ref.update({ charges_enabled: charges_enabled })
-//                     .then(() => {
-//                         console.log("Cuenta actualizada")
-//                     })
-//                 })
-//             })
+            ther.where("stripeId", "==", id).get()
+            .then(query => {
+                query.forEach(doc => {
+                    console.log(`Cuenta encontrada: ${doc.id}`)
+                    doc.ref.update({ charges_enabled: charges_enabled })
+                    .then(() => {
+                        console.log("Cuenta actualizada!")
+                        return res.status(200).send({ "received": true });
+                    })
+                })
+            })
 
 
-//         default:
-//             console.log('Unhandled type event')
-//     }
+        default:
+            console.log('Unhandled type event', event.type);
+            break;
+    }
 
-//     return res.status(200).send({received: true})
-// }
+    return res.status(200).send({ received: true })
+}
