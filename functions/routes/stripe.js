@@ -230,7 +230,6 @@ exports.connectFailed = (req,res) => {
 exports.connectReAuth = (req,res) => {
     thers.doc(req.params.tid).get().then(doc => {
 
-        console.log(doc)
         if (!doc.data().charges_enabled) {
             stripe.accounts.retrieve(
                 doc.data().stripeId

@@ -11,6 +11,7 @@ import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
 import NoStripeSnack from '../snackBars/NoStripeSnack'
 import NoScheduleSnack from '../snackBars/NoScheduleSnack'
+import { ContinuousSizeLegend } from 'react-vis'
 
 
 
@@ -90,10 +91,10 @@ const TherapistHomeSidenav = ({ url, loading, therapist, charge }) => {
     }
 
     useEffect(() => {
-        api.get(`/t/${user.uid}/reAuth`)
-        .then(res => {
-            setCharge(res.data.charges_enabled)
-        })
+        // api.get(`/t/${user.uid}/reAuth`)
+        // .then(res => {
+        //     setCharge(res.data.charges_enabled)
+        // })
 
         api.get(`/t/${user.uid}/schedule`)
         .then(res => {
@@ -104,7 +105,6 @@ const TherapistHomeSidenav = ({ url, loading, therapist, charge }) => {
 
     },[])
 
-   
     return (
         <div>
 

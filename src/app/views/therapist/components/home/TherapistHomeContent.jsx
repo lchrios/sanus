@@ -147,7 +147,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions, 
                 <div className={classes.headerCardHolder}>
                     { loading 
                     ?   <Grid container direction="column" alignItems="center"><Grid item><CircularProgress color="secondary" /></Grid></Grid> 
-                    :   <Grid container spacing={6}>
+                    :   <Grid container spacing={3}>
                             {summary.map((project) => (
                                 <Grid
                                     item
@@ -157,7 +157,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions, 
                                     xs={12}
                                     key={project.title}
                                 >
-                                    <Card className="h-96 bg-gray bg-default flex items-center justify-between p-4">
+                                    <Card className="bg-gray bg-default flex items-center justify-between p-2">
                                         <div>
                                             <span className="text-light-white uppercase">
                                                 {project.title}
