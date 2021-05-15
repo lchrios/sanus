@@ -110,7 +110,7 @@ const PatientList = () => {
                 className="x-center pb-2 mb-2" 
                 color="secondary" 
                 variant="contained"
-                onCick={() => history.push('/' + user.uid + '/dashboard')}
+                onClick={() => history.push(`/${user.uid}/dashboard`)}
                 >
                     Volver al escritorio
                 </Button>

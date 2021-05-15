@@ -160,11 +160,9 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
 }
 
 exports.expressAccount = (req, res) => {
-    const { email } = req.body;
 
     const account = stripe.accounts.create({
         "type": 'express',
-        // "email": email,
         "country": 'MX',
         "business_type": 'individual',
         "capabilities": {
@@ -182,7 +180,11 @@ exports.expressAccount = (req, res) => {
 
         thers.doc(req.params.tid).update({stripeId:response.id, charges_enabled:response.charges_enabled})
         .then(() =>console.log('Actualización de stripeID completada.')
-        ).catch(err => console.error(err))
+        ).catch(err => {
+            
+            console.error('no hemos podido actualizar tu id',err)
+
+        })
 
 
         stripe.accountLinks.create({

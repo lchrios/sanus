@@ -32,6 +32,7 @@ const TherapistHome = () => {
     const [open, setOpen] = useState(true)
 
     const { user } = useAuth();
+    const [charge, setCharge] = useState()
     const theme = useTheme()
     const classes = usestyles()
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
@@ -50,6 +51,13 @@ const TherapistHome = () => {
     const finishReq = () => {
         setCounter(cnt => cnt - 1);
     }
+
+    useEffect(() => {
+        api.get(`/t/${user.uid}/reAuth`)
+        .then(res => {
+            setCharge(res.data.charges_enabled)
+        })
+    },[])
 
     useEffect(() => {
         if (isMobile) setOpen(false)
@@ -119,11 +127,11 @@ const TherapistHome = () => {
                             </IconButton>
                         </Hidden>
                     </div>
-                    <TherapistHomeSidenav url={url} therapist={therapist} loading={loading} />
+                    <TherapistHomeSidenav chargesEnabled={charge} url={url} therapist={therapist} loading={loading} />
                 </MatxSidenav>
                 <MatxSidenavContent open={open}>
                     <div className={clsx('bg-primary', classes.headerBG)} />
-                    <TherapistHomeContent toggleSidenav={toggleSidenav}  loading={loading} users={users} blogs={blogs} sessions={sessions} />
+                    <TherapistHomeContent chargesEnabled={charge} toggleSidenav={toggleSidenav}  loading={loading} users={users} blogs={blogs} sessions={sessions} />
                 </MatxSidenavContent>
             </MatxSidenavContainer>
         </div>

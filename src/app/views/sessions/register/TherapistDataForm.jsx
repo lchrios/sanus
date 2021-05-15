@@ -439,8 +439,7 @@ const TherapistDataForm = () => {
         })
         .catch( e => {
             setLoading(false)
-            console.log(e)
-            setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.")
+            setMessage("No es posible iniciar sesión, Quizá tu contraseña sea incorrecta o es probable que no estés registrado. Intenta registrarte.", e)
             
         })
     }

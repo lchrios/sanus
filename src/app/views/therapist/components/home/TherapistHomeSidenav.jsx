@@ -42,10 +42,10 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const TherapistHomeSidenav = ({ url, loading, therapist }) => {
+const TherapistHomeSidenav = ({ url, loading, therapist, charge }) => {
     const classes = usestyles()
     const str_classes = useStripeStyles()
-    const [charge, setCharge] = React.useState(false)
+    // const [charge, setCharge] = React.useState(false)
     const { user } = useAuth()
 
     const [open, setOpen] = React.useState(false)
@@ -88,12 +88,12 @@ const TherapistHomeSidenav = ({ url, loading, therapist }) => {
         }
     }
 
-    useEffect(() => {
-        api.get(`/t/${user.uid}/reAuth`)
-        .then(res => {
-            setCharge(res.data.charges_enabled)
-        })
-    },[])
+    // useEffect(() => {
+    //     api.get(`/t/${user.uid}/reAuth`)
+    //     .then(res => {
+    //         setCharge(res.data.charges_enabled)
+    //     })
+    // },[])
 
    
     return (
@@ -256,7 +256,7 @@ const shortcutList = [
     {
         title:'Configuración',
         icon: 'settings',
-        route:'dashboard'
+        route:'settings'
     }
 ]
 

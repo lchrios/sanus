@@ -12,6 +12,7 @@ const Comments = React.lazy(() => import('./CommentsApp'))
 const NotesApp = React.lazy(() => import('./components/notes/NotesApp'))
 const Schedule = React.lazy(() => import('./TherapistSchedule'))
 const ReAuthConnect = React.lazy(() => import('./components/stripeViews/ReAuthConnect'))
+const Settings = React.lazy(() => import('./SettingsView')) 
 
 const therapistRoutes = [
     {
@@ -79,6 +80,12 @@ const therapistRoutes = [
         component:ReAuthConnect,
         exact:false,
         auth:authRoles.therapist
+    },
+    {
+      path:"/:tid/settings",
+      component: Settings,
+      auth: authRoles.therapist
+
     }
 ];
 

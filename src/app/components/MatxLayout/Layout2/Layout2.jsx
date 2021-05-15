@@ -95,7 +95,7 @@ const Layout2 = () => {
 
                 {settings.footer.show && settings.footer.fixed && <Footer />}
             </div>
-            {settings.secondarySidebar.show && <SecondarySidebar />}
+            {/* {settings.secondarySidebar.show && <SecondarySidebar />} */}
         </Fragment>
     )
 }

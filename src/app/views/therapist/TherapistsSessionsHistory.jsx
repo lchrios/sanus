@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Breadcrumb, SimpleCard } from "app/components/index";
 import { Card, Grid } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
-import SessionsHistory from './components/SessionsComponent'
+import SessionsHistory from './SessionsComponent'
 
 
 class TherapistHistory extends Component {

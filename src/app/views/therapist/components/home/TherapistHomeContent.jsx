@@ -76,7 +76,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     
 }))
 
-const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }) => {
+const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions, charge }) => {
     const classes = usestyles()
 
     const calculateSummary = () => {
@@ -224,89 +224,58 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
                                                 </Grid>
                                             </div> 
                                         </div>
-                                    :   <div className="mt-12">
-                                            <div className="flex-column items-center mb-6">
-                                                <Avatar
-                                                    className="w-84 h-84"
-                                                    src={''}
-                                                />
-                                                <h5 className="mt-4 mb-2">Aún no atiendes a ningún paciente</h5>
-                                                <small className="text-muted">Promociona tu perfil</small>
-                                            </div>
-                                        
-                                            <Table className="mb-6">
-                                                <TableBody>
-                                                    <TableRow>
-                                                        <TableCell>
-                                                            <Button
-                                                            onClick={() => {
-                                                                console.log("Conecta con stripe... :D")
-                                                            }}
-                                                            variant="contained"
-                                                            color="primary"
-                                                            className="x-center"
-                                                            >
+                                    :   <>
+                                            { charge 
+                                            ?   <div className="mt-12">
+                                                    <div className="flex-column items-center mb-6">
+                                                        <Avatar
+                                                            className="w-84 h-84"
+                                                            src={''}
+                                                        />
+                                                        <h5 className="mt-4 mb-2">No tienes pacientes</h5>
+                                                        <small className="text-muted">Por ahora está tranquilo.</small>
+                                                        <small className="text-muted">Espera a que alguien agende.</small>
+                                                    </div>
+                                                </div>
+                                            : <div className="mt-12">
+                                                    <div className="flex-column items-center mb-6">
+                                                        <Avatar
+                                                            className="w-84 h-84"
+                                                            src={''}
+                                                        />
+                                                        <h5 className="mt-4 mb-2">No tienes pacientes, conecta tu cuenta a stripe.</h5>
+                                                        <small className="text-muted">Un usuario podrá verte, hasta que conectes tu cuenta con stripe</small>
+                                                    </div>
+                                    
+                                                    <Table className="mb-6">
+                                                        <TableBody>
+                                                            <TableRow>
+                                                                <TableCell>
+                                                                    <Button
+                                                                    onClick={() => {
+                                                                        console.log("Conecta con stripe... :D")
+                                                                    }}
+                                                                    variant="contained"
+                                                                    color="primary"
+                                                                    className="x-center"
+                                                                    >
 
-                                                                Conecta con stripe
-                                                            </Button>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                </TableBody>
-                                            </Table>
-                                        </div>
+                                                                        Conecta con stripe
+                                                                    </Button>
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        </TableBody>
+                                                    </Table>
+                                                </div>}
+                                        </>
                                     }
                                     </>
                                 }
                             </Card>
                         </Grid>
                         {/**TERMINA LISTA DE PACIENTES */}
-
-
-                        <Grid 
-                            item 
-                            lg={12}
-                            md={12}
-                            sm={12}
-                            xs={12}
-                        >
-                            <Card>
-                                {paymentList.map((method, index) => (
-                                    <Fragment key={index}>
-                                        <div className="py-4 px-6 flex flex-wrap items-center justify-between">
-                                            <div className="flex flex-wrap items-center">
-                                                <div className="flex justify-center items-center bg-gray w-64 h-52 border-radius-4">
-                                                    <img
-                                                        className="w-36 overflow-hidden"
-                                                        src={method.img}
-                                                        alt="master card"
-                                                    />
-                                                </div>
-                                                <div className="ml-4">
-                                                    <h5 className="mb-1 font-medium">
-                                                        {method.type}
-                                                    </h5>
-                                                    <span className="text-muted">
-                                                        {method.product}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {index !== paymentList.length - 1 && (
-                                            <Divider />
-                                        )}
-                                    </Fragment>
-                                ))}
-                            </Card>
-                        </Grid>
                     </Grid> 
 
-                    <Grid item lg={8} md={8} sm={12} xs={12}>
-                        
-                    </Grid>
-
-                    <Grid item lg={4} md={4} sm={12} xs={12}>
-                        
-                    </Grid>
                 </Grid>
                 <div className="py-2"></div>
             </div>
@@ -314,37 +283,5 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions }
     )
 }
 
-const paymentList = [
-    // {
-    //     img: '/assets/images/payment-methods/master-card.png',
-    //     type: 'Método 1',
-    //     product: 'Descripción del método',
-    //     amount: 909,
-    // },
-    // {
-    //     img: '/assets/images/payment-methods/paypal.png',
-    //     type: 'Método 1',
-    //     product: 'Descripción del método',
-    //     amount: 303,
-    // },
-    // {
-    //     img: '/assets/images/payment-methods/visa.png',
-    //     type: 'Método 2',
-    //     product: 'Descripción del método',
-    //     amount: 330,
-    // },
-    // {
-    //     img: '/assets/images/payment-methods/maestro.png',
-    //     type: 'Método 3',
-    //     product: 'Descripción del método',
-    //     amount: 909,
-    // },
-    // {
-    //     img: '/assets/images/payment-methods/maestro.png',
-    //     type: 'Método 4',
-    //     product: 'Descripción del método',
-    //     amount: 909,
-    // },
-]
 
 export default TherapistHomeContent

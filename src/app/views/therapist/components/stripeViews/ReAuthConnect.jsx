@@ -105,14 +105,14 @@ const ReAuthConnect = () => {
                                 src="/assets/images/illustrations/posting_photo.svg"
                                 alt=""
                             />
-                            <Button onClick={() => History.push('/home')} color="secondary" variant="contained" className="x-center" style={{"marginTop": 10}}>
+                            <Button onClick={() => History.push(`/${user.uid}/dashboard`)} color="secondary" variant="contained" className="x-center" style={{"marginTop": 10}}>
                                 VOLVER
                             </Button>
                             
                         </div>
                     </Grid>
                     <Grid item lg={7} md={7} sm={7} xs={12}>
-                        <div className="p-8 h-full">
+                        <div className="p-8 h-full ">
                         <Button 
                             className={useStripeStyles}
                             onClick={handleClickConnect}
