@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
-import Button from '@material-ui/core/Button'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import ErrorIcon from '@material-ui/icons/Error'
-import InfoIcon from '@material-ui/icons/Info'
 import CloseIcon from '@material-ui/icons/Close'
-import { amber, green } from '@material-ui/core/colors'
 import IconButton from '@material-ui/core/IconButton'
-import Snackbar from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
-import WarningIcon from '@material-ui/icons/Warning'
 import { makeStyles } from '@material-ui/core/styles'
 import useAuth from 'app/hooks/useAuth'
 import { Fade } from '@material-ui/core'
-import api from 'app/services/api'
 
 const variantIcon = {
     error: ErrorIcon,
@@ -84,7 +77,7 @@ const useStyles2 = makeStyles((theme) => ({
 export default function CustomizedSnackbars() {
     const [snack, setSnack] = useState(false);
     const [state, setState] = useState({
-        open: false,
+            open: false,
         Transition: Fade,
         vertial:'top',
         horizontal:'center'
@@ -124,12 +117,18 @@ export default function CustomizedSnackbars() {
     //         });
     //     },[]);
 
+    // useEffect(() => {
+    //     api.get(`/t/${user.uid}/reAuth`)
+    //     .then(res => {
+    //         console.log(res.data.charges_enabled)
+    //     })
+    // })
+
     return (
         <div className="my-4">
             <MySnackbarContentWrapper
                 anchorOrigin={{vertical:'bottom',horizontal: 'center'}}
                 variant="error"
-                open={state.open}
                 className={classes.margin}
                 TransitionComponent={state.Transition}
                 message={<span id="message-id">No has completado tu información para recibir pagos, presiona el botón 'conectar con stripe'</span>}

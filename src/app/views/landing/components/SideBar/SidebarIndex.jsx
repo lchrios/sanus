@@ -16,7 +16,7 @@ export const Sidebar = ( { is0pen, toggle }) => {
                     <SidebarLink onClick={() => {toggle();history.push('/blogs')}} to='/blogs'>
                         Blog
                     </SidebarLink>
-                    <SidebarLink onClick={() => {toggle();history.push('/psychologists')}} to='/psychologists'>
+                    <SidebarLink onClick={() => {toggle();history.push('/therapists')}} to='/psychologists'>
                         Psicólogos
                     </SidebarLink>
                     <SidebarLink onClick={() => {history.push('/session/signup')}} to='/session/signup'>

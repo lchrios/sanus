@@ -11,7 +11,6 @@ import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
 import NoStripeSnack from '../snackBars/NoStripeSnack'
 import NoScheduleSnack from '../snackBars/NoScheduleSnack'
-import { ContinuousSizeLegend } from 'react-vis'
 
 
 
@@ -44,10 +43,9 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const TherapistHomeSidenav = ({ url, loading, therapist, charge }) => {
+const TherapistHomeSidenav = ({ url, loading, therapist, charge}) => {
     const classes = usestyles()
     const str_classes = useStripeStyles()
-    // const [charge, setCharge] = React.useState(false)
     const [sched, setSched] = useState(true);
     const { user } = useAuth()
 
@@ -77,24 +75,18 @@ const TherapistHomeSidenav = ({ url, loading, therapist, charge }) => {
 
 
     function handleClickConnect() {
-        console.log('Conectando con stripe', charge)
-        if (charge === false) {
-            history.push(`/${user.uid}/connectFailedView`)    
-        } else if (charge == undefined || null) {
-            api.post(`/t/${user.uid}/connect`, {
-                email: user.email,
-            }).then(res => {
-                window.location.href=res.data.url
-            })
+        console.log('Conectando con stripe, charge es:', charge)
+        api.post(`/t/${user.uid}/connect`, {
+            email: user.email,
+        }).then(res => {
+            console.log(res, 'handleClick conect')
+            window.location.href=res.data.url
+        })
 
-        }
     }
 
     useEffect(() => {
-        // api.get(`/t/${user.uid}/reAuth`)
-        // .then(res => {
-        //     setCharge(res.data.charges_enabled)
-        // })
+        
 
         api.get(`/t/${user.uid}/schedule`)
         .then(res => {

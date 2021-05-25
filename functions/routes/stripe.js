@@ -1,7 +1,7 @@
 const stripe = require('stripe')([
     "sk_test_51IRM5vEkM6QFZKw2N9Ow9xCKwSd2b8J3JjWb2BL9kH5FVCXvJ5fSmFW6GvJot90XsUdgSfbtpPraG5u9Kmycvi5C00HIcjkWgG",
     "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",
-][1]);
+][0]);
 
 
 // ~ 0 - stripe live mode 1-stripe-test 2 - testCLI @Secreto del endpoint webhook    
@@ -9,8 +9,9 @@ const endpoint_secret = [
     "whsec_fwfyWE5QTrOkBJZ7mEfU3LxgsOwhkpvy", // * Stripe LIVE
     "whsec_CObnwxUSvfRajVBO08viht8UpZNRXWhI", // * Stripe TEST
     "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g", // * temp local sig
-][0]; 
+][1]; 
 
+const { ContactsOutlined } = require('@material-ui/icons');
 const { admin, storage } = require('../firebase');
 var db = admin.firestore();
 var thers = db.collection('therapists');
@@ -160,7 +161,7 @@ exports.handleStripeEvent = (req, res) => { // * Código que maneja el otso
 }
 
 exports.expressAccount = (req, res) => {
-
+    console.log('ejecutando función expressAccount')
     const account = stripe.accounts.create({
         "type": 'express',
         "country": 'MX',
@@ -173,20 +174,11 @@ exports.expressAccount = (req, res) => {
         /**
          * TODO MOVER TEST DATA
          */
+        console.log(response, 'response');
         const host = [
             'http://localhost:3000', // * local emulator dev host
             'https://iknelia.app' // * cloud api host
-          ][1]
-
-        thers.doc(req.params.tid).update({stripeId:response.id, charges_enabled:response.charges_enabled})
-        .then(() =>console.log('Actualización de stripeID completada.')
-        ).catch(err => {
-            
-            console.error('no hemos podido actualizar tu id',err)
-
-        })
-
-
+          ][0]
         stripe.accountLinks.create({
             account: response.id,
             refresh_url: `${host}/${req.params.tid}/connectFailedView`,
@@ -194,9 +186,15 @@ exports.expressAccount = (req, res) => {
             type:"account_onboarding"
 
         }).then(response1 => {
-            // console.log("Enviando link")
-    
-            return res.status(200).send(response1)
+            console.log(response1)
+            thers.doc(req.params.tid).update({stripeId:response.id, charges_enabled:response.charges_enabled})
+            .then(() =>{
+                console.log('Actualización de stripeID completada.');
+                return res.status(200).send(response1);
+            }
+            ).catch(err => {
+                console.error('no hemos podido actualizar tu id',err)
+            })
         })
     })
     .catch(e => {
@@ -209,7 +207,7 @@ exports.connectFailed = (req,res) => {
     const host = [
         'http://localhost:3000', // * local emulator dev host
         'https://iknelia.app' // * cloud api host
-      ][1]
+      ][0]
 
     thers.doc(req.params.tid).get().then(doc => {
         console.log(doc.id)
@@ -230,15 +228,14 @@ exports.connectFailed = (req,res) => {
 exports.connectReAuth = (req,res) => {
     thers.doc(req.params.tid).get().then(doc => {
 
-        if (!doc.data().charges_enabled) {
+        // if (!doc.data().charges_enabled) {
             stripe.accounts.retrieve(
                 doc.data().stripeId
             ).then(account => {
             console.log(account)
              return res.status(200).send(account)
             })
-        }
-        return res.status(200)
+        // }
     })
     .catch(e => {
         console.error('No ha sido posible traer tus datos')

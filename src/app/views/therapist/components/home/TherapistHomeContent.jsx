@@ -78,7 +78,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
 
 const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions, charge }) => {
     const classes = usestyles()
-
+    
     const calculateSummary = () => {
         let completed_sessions = 0;
         sessions.data.forEach((ses) => {
