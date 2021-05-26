@@ -178,7 +178,7 @@ exports.expressAccount = (req, res) => {
         const host = [
             'http://localhost:3000', // * local emulator dev host
             'https://iknelia.app' // * cloud api host
-          ][0]
+          ][1]
         stripe.accountLinks.create({
             account: response.id,
             refresh_url: `${host}/${req.params.tid}/connectFailedView`,
@@ -207,7 +207,7 @@ exports.connectFailed = (req,res) => {
     const host = [
         'http://localhost:3000', // * local emulator dev host
         'https://iknelia.app' // * cloud api host
-      ][0]
+      ][1]
 
     thers.doc(req.params.tid).get().then(doc => {
         console.log(doc.id)

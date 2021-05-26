@@ -10,7 +10,7 @@ export const Sidebar = ( { is0pen, toggle }) => {
             </Icon>
             <SidebarWrapper>
                 <SidebarMenu>
-                    <SidebarLink onClick={() => {toggle();history.push('/')}} to='/'>
+                    <SidebarLink onClick={() => {toggle();history.push('/home')}} to='/home'>
                         Inicio
                     </SidebarLink>
                     <SidebarLink onClick={() => {toggle();history.push('/blogs')}} to='/blogs'>

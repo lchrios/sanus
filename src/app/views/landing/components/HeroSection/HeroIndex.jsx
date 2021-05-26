@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Video from '../../../../../assets/videos/relax women.mp4';
+import image from '../../../../../assets/images/picture2.jpg';
 import history from '../../../../../history';
-import { HeroContainer, HeroBg, VideoBg } from './HeroElements';
+import { HeroContainer, HeroBg, VideoBg, HeroBanner } from './HeroElements';
 import { HeroContent, HeroH1, HeroP, HeroBtnWrapper, ArrowForward, ArrowRight } from './HeroElements';
 import { Button } from '../buttonElement_sc';
 import useAuth from 'app/hooks/useAuth';
@@ -17,7 +18,13 @@ const HeroSection = () => {
     return (
         <HeroContainer>
             <HeroBg>
+
+                {/* <HeroBanner src={image}/> */}
+
+                {/* *Se deja el videoBg comentado porque originalmente se utilizaría para la landing page, en caso de reutilziarse el video */}
+                 
                 <VideoBg  autoPlay loop muted src= { Video } type='video/mp4'/>
+
             </HeroBg>
             <HeroContent>
                 <HeroH1>Empieza a vivir con la libertad que mereces</HeroH1>
