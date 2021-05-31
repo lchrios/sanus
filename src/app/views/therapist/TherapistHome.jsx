@@ -42,7 +42,7 @@ const TherapistHome = () => {
     const [blogs, setBlogs] = useState()
     const [therapist, setTherapist] = useState()
     const [url, setUrl] = useState();
-    const [counter, setCounter] = useState(4); // * Numero de requests  que se hacen
+    const [counter, setCounter] = useState(5); // * Numero de requests  que se hacen
 
     const toggleSidenav = () => {
         setOpen(!open)
@@ -97,6 +97,7 @@ const TherapistHome = () => {
         .then(res => {
             console.log(res,'TherapistHomereAuth')
             setCharge(res.data.charges_enabled)
+            finishReq()
         })
 
         

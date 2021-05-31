@@ -5,18 +5,17 @@ import {BrowserRouter as Router } from 'react-router-dom'
 import HeroSection from "./components/HeroSection/HeroIndex"
 import InfoSection from "./components/InfoSection/InfoIndex"
 import BlogEntries from "./components/BlogEntries/entriesIndex"
-import {homeObjOne,homeObjTwo, blogs } from './components/InfoSection/Data'
+import {homeObjOne,homeObjTwo} from './components/InfoSection/Data'
 import Footer from './components/Footer/footerIndex'
 import PsySection from './components/psychologists/psychologists'
 import useAuth from 'app/hooks/useAuth';
 
-
 const Home = () => {
-  const [is0pen, setIs0pen] = useState(false)
+  const [is0pen, setIs0pen] = useState(false);
   const { user } = useAuth();
 
   const toggle = () => {
-    setIs0pen(!is0pen)
+    setIs0pen(!is0pen);
   };
 
   return (
@@ -27,7 +26,7 @@ const Home = () => {
       <InfoSection id='inicio'{...homeObjOne}/>
       <PsySection />
       <InfoSection id='prof'{...homeObjTwo}/>
-      <BlogEntries id='blog_ent' {...blogs}/>
+      <BlogEntries id='blog_ent' />
       <Footer />
     </Router>
   );

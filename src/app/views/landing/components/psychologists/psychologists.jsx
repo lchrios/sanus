@@ -65,8 +65,9 @@ export default function PsySection() {
                       </p>
                       <Button onClick={() => history.push('/session/signup')} color="primary">Agendar una sesión</Button>
                     </CardBody>
-                    <CardFooter profile plain>
-                    </CardFooter>
+                      {/* por el momento no tienen utilidad alguna
+                       <CardFooter profile plain>
+                      </CardFooter> */}
                   </GridItem>
                 </GridContainer>
               </Card>
@@ -101,13 +102,19 @@ export default function PsySection() {
                       </p>
                       <Button onClick={() => history.push('/session/signup')} color="primary">Agendar una sesión</Button>
                     </CardBody>
-                    <CardFooter profile plain>
-                    </CardFooter>
+                    {/* por el momento no tienen utilidad alguna
+                     <CardFooter profile plain>
+                    </CardFooter> */}
                   </GridItem>
                 </GridContainer>
               </Card>
             </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
+            {/* 
+            *  /** 
+            * *  se puede reutilizar el elemento (comentado así por errores de extensión)
+            *  */}
+
+             {/* <GridItem xs={12} sm={12} md={6}>
               <Card profile plain className={classes.card3}>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
@@ -141,8 +148,8 @@ export default function PsySection() {
                   </GridItem>
                 </GridContainer>
               </Card>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
+            </GridItem>  */}
+            <GridItem className="x-center" xs={12} sm={12} md={6}>
               <Card profile plain className={classes.card3}>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
@@ -170,15 +177,19 @@ export default function PsySection() {
                       </p>
                       <Button onClick={() => history.push('/session/signup')} color="primary">Agendar una sesión</Button>
                     </CardBody>
+
+                    {/* /**
+                    * * por el momento no tienen utilidad alguna
                     <CardFooter profile plain>
-                    </CardFooter>
+                    </CardFooter> 
+                    */ }
+
                   </GridItem>
                 </GridContainer>
               </Card>
             </GridItem>
-            <Button className="x-center mt-10" color="twitter" onClick={() => history.push('/therapists')}>Conoce a todos nuestros profesionales</Button>
           </GridContainer>
-          
+          <Button className="mt-10" color="twitter" onClick={() => history.push('/therapists')}>Conoce a todos nuestros profesionales</Button>
       </div>
     </div>
   </div>

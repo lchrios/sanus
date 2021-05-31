@@ -1,9 +1,8 @@
 /*eslint-disable*/
-import React from "react";
+import React, { useState } from "react";
 // @material-ui/core components
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
-import Favorite from "@material-ui/icons/Favorite";
 // core components
 import GridContainer from "./components/GridContainer";
 import GridItem from "./components/GridItem";
@@ -15,6 +14,7 @@ import SearchBox from './landingBlogStyles/searchBoxStyle'
 import InterestedSection from "./components/lessImpBlog";
 import SubscribeLine from "./components/subscribeLine";
 import landingBlogStyles from "./landingBlogStyles/landingBlogStyles";
+import Sidebar from "../components/SideBar/SidebarIndex";
 
 
 
@@ -27,9 +27,17 @@ export default function landingBlog() {
     document.body.scrollTop = 0;
   });
   const classes = useStyles();
+
+  const [is0pen, setIs0pen] = useState(false);
+
+  const toggle = () => {
+    setIs0pen(!is0pen)
+  }
+
   return (
     <div>
-      <Navbar />
+      <Navbar toggle = {toggle} />
+      <Sidebar is0pen={is0pen} toggle={toggle}/>
       <Parallax image={require("assets/images/psychologists/session1.jpg")} filter="dark" small>
         <div className={classes.container}>
           <GridContainer justify="center">

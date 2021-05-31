@@ -72,22 +72,22 @@ export const homeObjThree = {
 
 }
 
-export const blog1 = {
-    img: img1,
-    title: "Vive mejor",
-    body: "Trabaja en ti"
-}
+// export const blog1 = {
+//     img: img1,
+//     title: "Vive mejor",
+//     body: "Trabaja en ti"
+// }
 
-export const blog2 = {
-    img: img2,
-    title: "Aumenta tu felicidad",
-    body: "Toma sesiones online periodicamente"
-}
+// export const blog2 = {
+//     img: img2,
+//     title: "Aumenta tu felicidad",
+//     body: "Toma sesiones online periodicamente"
+// }
 
-export const blog3 = {
-    img: img3,
-    title: "Sientete bien",
-    body: "Pensar con claridad, pensar bien, para vivir bien."
-}
+// export const blog3 = {
+//     img: img3,
+//     title: "Sientete bien",
+//     body: "Pensar con claridad, pensar bien, para vivir bien."
+// }
 
-export const blogs = [blog1, blog2, blog3]
+// export const blogs = [blog1, blog2, blog3]

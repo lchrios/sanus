@@ -49,6 +49,8 @@ export const VideoBg = styled.video`
     object-fit: cover;
     background: #232a24;
 `
+export const HeroBanner = styled.img`
+`
 
 export const HeroContent = styled.div`
     z-index:3;
