@@ -341,7 +341,7 @@ const UserDataForm = () => {
                         <div className="max-w-600 mx-auto">
                             <h4>Selecciona una fotografía para tu perfil</h4>
                             <Divider className="mb-8" />
-                            { imgPreview }
+                            <div className="text-center">{ imgPreview }</div>
                             <input
                                 accept="image/*"
                                 name="img"
@@ -441,7 +441,7 @@ const UserDataForm = () => {
             )}
         >   
             { loading 
-            ?   <Card className={classes.cardLoading}><div className="mt-10 mb-10 ml-10 mr-10"><Loading /></div></Card>
+            ?  <> <Card className={classes.cardLoading}><div className="mt-10 mb-10 ml-10 mr-10"><Loading /></div></Card> </>
             :   <Card className={classes.card}>
                     <Stepper activeStep={activeStep} alternativeLabel>
                         {steps.map((label) => (

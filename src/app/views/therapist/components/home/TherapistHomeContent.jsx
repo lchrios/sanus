@@ -1,8 +1,5 @@
 import {
-    Badge,
     Card,
-    Divider,
-    Fab,
     Grid,
     Icon,
     Button,
@@ -16,13 +13,14 @@ import {
 } from '@material-ui/core'
 import React, { Fragment, useEffect, useState } from 'react'
 import history from 'history.js'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import clsx from 'clsx'
+import { makeStyles } from '@material-ui/core/styles'
 import NextSessions from './NextSessions'
 import { Loading } from 'app/components/Loading/Loading'
 import PatientsList from './PatientsList'
 import NextSessionsEmpty from './NextSessionsEmpty'
 import DashboardBlogs from './DashboardBlogs'
+import useAuth from 'app/hooks/useAuth'
+import api from 'app/services/api'
 
 const usestyles = makeStyles(({ palette, ...theme }) => ({
     profileContent: {
@@ -76,9 +74,11 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     
 }))
 
-const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions, charge }) => {
+const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions, charges, details, stripeId }) => {
     const classes = usestyles()
+    const user = useAuth()
     
+
     const calculateSummary = () => {
         let completed_sessions = 0;
         sessions.data.forEach((ses) => {
@@ -128,6 +128,25 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions, 
             route: '/tid:/completedApp'
         },
     ])
+
+    function handleClickConnect() {
+        console.log('Validando estado stripeId:', stripeId)
+            if (stripeId === undefined) {
+                console.log('connect')
+                api.post(`/t/${user.uid}/connect`, {
+                    email:user.email
+                }).then(res => {
+                    window.location.href=res.data.url;
+                })
+            } else {
+                console.log('connectFailed')
+                api.post(`/t/${user.uid}/connectFailed`).then(res => {
+                    console.log(res, 'connectFailed')
+                    window.location.href=res.data.url;
+                })
+            }
+    }
+
     useEffect(() => {
         if (!loading) {
             calculateSummary();
@@ -225,7 +244,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions, 
                                             </div> 
                                         </div>
                                     :   <>
-                                            { charge 
+                                            { charges 
                                             ?   <div className="mt-12">
                                                     <div className="flex-column items-center mb-6">
                                                         <Avatar
@@ -252,9 +271,7 @@ const TherapistHomeContent = ({ toggleSidenav, loading, users, blogs, sessions, 
                                                             <TableRow>
                                                                 <TableCell>
                                                                     <Button
-                                                                    onClick={() => {
-                                                                        console.log("Conecta con stripe... :D")
-                                                                    }}
+                                                                    onClick={handleClickConnect}
                                                                     variant="contained"
                                                                     color="primary"
                                                                     className="x-center"

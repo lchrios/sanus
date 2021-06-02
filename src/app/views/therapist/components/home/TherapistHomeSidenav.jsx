@@ -11,6 +11,7 @@ import useAuth from 'app/hooks/useAuth'
 import api from 'app/services/api'
 import NoStripeSnack from '../snackBars/NoStripeSnack'
 import NoScheduleSnack from '../snackBars/NoScheduleSnack'
+import ChargesEnabled from '../snackBars/ChargesEnabled'
 
 
 
@@ -43,7 +44,7 @@ const usestyles = makeStyles(({ palette, ...theme }) => ({
     },
 }))
 
-const TherapistHomeSidenav = ({ url, loading, therapist, charge}) => {
+const TherapistHomeSidenav = ({ url, stripe, stripeId, details, charges}) => {
     const classes = usestyles()
     const str_classes = useStripeStyles()
     const [sched, setSched] = useState(true);
@@ -61,40 +62,40 @@ const TherapistHomeSidenav = ({ url, loading, therapist, charge}) => {
 
     const [openS, setOpenS] = React.useState(false)
 
-    function handleClick() {
-        setOpenS(true)
-    }
+    // function handleClick() {
+    //     setOpenS(true)
+    // }
 
-    function handleCloseSnack(event, reason) {
-        if (reason === 'clickaway') {
-            return
-        }
-
-        setOpen(false)
-    }
+    // function handleCloseSnack(event, reason) {
+    //     setOpenS(false)
+    // }
 
 
     function handleClickConnect() {
-        console.log('Conectando con stripe, charge es:', charge)
-        api.post(`/t/${user.uid}/connect`, {
-            email: user.email,
-        }).then(res => {
-            console.log(res, 'handleClick conect')
-            window.location.href=res.data.url
-        })
-
+        console.log('Validando estado stripeId:', stripeId)
+            if (stripeId === undefined) {
+                console.log('connect')
+                api.post(`/t/${user.uid}/connect`, {
+                    email:user.email
+                }).then(res => {
+                    window.location.href=res.data.url;
+                })
+            } else {
+                console.log('connectFailed')
+                api.post(`/t/${user.uid}/connectFailed`).then(res => {
+                    console.log(res, 'connectFailed')
+                    window.location.href=res.data.url;
+                })
+            }
     }
 
     useEffect(() => {
-        
-
         api.get(`/t/${user.uid}/schedule`)
         .then(res => {
             if (res.data.schedule) {
                 setSched(res.data.schedule.length !== 0);
             }
         })
-
     },[])
 
     return (
@@ -202,7 +203,7 @@ const TherapistHomeSidenav = ({ url, loading, therapist, charge}) => {
                         </Button >
                     </Card>
                     <Card className="flex items-center mt-2 justify-center text-primary">
-                        { charge ? null
+                        { charges ? <ChargesEnabled/>
 
                         : 
 
@@ -222,7 +223,8 @@ const TherapistHomeSidenav = ({ url, loading, therapist, charge}) => {
                 </div>
             </div>
             {
-                charge ? null : <NoStripeSnack/>  
+                //* Details y charges se pasan al snaack para condicionar la snackbar
+                charges ? null : <NoStripeSnack details={details} charges={charges}/>  
             }
             {
                 sched ? null : <NoScheduleSnack />  

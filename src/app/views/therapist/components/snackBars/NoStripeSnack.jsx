@@ -74,7 +74,7 @@ const useStyles2 = makeStyles((theme) => ({
     },
 }))
 
-export default function CustomizedSnackbars() {
+export default function CustomizedSnackbars({ charges, details}) {
     const [snack, setSnack] = useState(false);
     const [state, setState] = useState({
             open: false,
@@ -85,44 +85,6 @@ export default function CustomizedSnackbars() {
     const {user} = useAuth()
     const classes = useStyles2()
     const { vertical, horizontal, open } = state
-    // const [open, setOpen] = useState(false)
-
-    // function handleClick() {
-    //     setOpen(true)
-    // }
-
-    // function handleClose(event, reason) {
-    //     if (reason === 'clickaway') {
-    //         return
-    //     }
-
-    //     setOpen(false)
-    // }
-
-    // useEffect((newState) => {
-    //         api.get(`/t/${user.uid}/reAuth`)
-    //         .then(res => {
-    //             console.log(res.data.charges_enabled,'HOLA ESTE ES EL REAUTH de SNACK');
-    //             if (res.data.charges_enabled) {
-    //                 setState({
-    //                     open:false,
-    //                     ...newState
-    //                 });
-    //             } else {
-    //                 setState({
-    //                     open:true,
-    //                     ...newState
-    //                 });
-    //             };
-    //         });
-    //     },[]);
-
-    // useEffect(() => {
-    //     api.get(`/t/${user.uid}/reAuth`)
-    //     .then(res => {
-    //         console.log(res.data.charges_enabled)
-    //     })
-    // })
 
     return (
         <div className="my-4">
@@ -131,7 +93,7 @@ export default function CustomizedSnackbars() {
                 variant="error"
                 className={classes.margin}
                 TransitionComponent={state.Transition}
-                message={<span id="message-id">No has completado tu información para recibir pagos, presiona el botón 'conectar con stripe'</span>}
+                message={<span id="message-id">{details ? 'Tu cuenta está conectada, y completaste tus datos. Pero no puedes recibir ingresos, por favor contacta al soporte' : 'No has completado tu información para recibir pagos, presiona el botón "conectar con stripe"'  }</span>}
             />
         </div>
     )

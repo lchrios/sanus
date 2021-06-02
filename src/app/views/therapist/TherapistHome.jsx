@@ -32,7 +32,13 @@ const TherapistHome = () => {
     const [open, setOpen] = useState(true)
 
     const { user } = useAuth();
-    const [charge, setCharge] = useState()
+    /**
+     * * Es el estado de los valores details_submitted o charges enabled relativos a stirpe para validar renderizado de snackbar
+     */
+    const [stripe, setStripe] = useState()
+    const [stripeId, setStripeId] = useState()
+    const [stripeDetails, setStripeDetails] = useState()
+    const [stripeCharges, setStripeCharges] = useState()
     const theme = useTheme()
     const classes = usestyles()
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
@@ -93,15 +99,30 @@ const TherapistHome = () => {
             setUrl(resC.data.url)
             finishReq()               
         })
+
         api.get(`/t/${user.uid}/reAuth`)
         .then(res => {
-            console.log(res,'TherapistHomereAuth')
-            setCharge(res.data.charges_enabled)
-            finishReq()
+            console.log(res, 'reAuth')
+            if (res.data == false) {
+                console.log('No existe una cuenta')
+                setStripe(res.data)
+                finishReq()
+            } else if ((res.data.details_submitted == false) && (res.data.charges_enabled == false)) {
+                console.log('No se han completado los datos en stripe o no existe una cuenta, y por lo tanto no están disponibles los cargos')
+                setStripeId(res.data.id)
+                setStripeDetails(res.data.details_submitted);
+                setStripeCharges(res.data.charges_enabled)
+                setStripe(false)
+                finishReq()
+            } else if (res.data.charges_enabled && res.data.details_submitted) {
+                console.log('Cargos disponibles')
+                setStripeId(res.data.id)
+                setStripeDetails(res.data.details_submitted)
+                setStripeCharges(res.data.charges_enabled)
+                setStripe(true)
+                finishReq()
+            } 
         })
-
-        
-
     }, [])
 
 
@@ -128,11 +149,11 @@ const TherapistHome = () => {
                             </IconButton>
                         </Hidden>
                     </div>
-                    <TherapistHomeSidenav charge={charge} url={url} therapist={therapist} loading={loading} />
+                    <TherapistHomeSidenav details={stripeDetails} charges={stripeCharges} stripeId={stripeId} stripe={stripe} url={url} therapist={therapist} loading={loading} />
                 </MatxSidenav>
                 <MatxSidenavContent open={open}>
                     <div className={clsx('bg-primary', classes.headerBG)} />
-                    <TherapistHomeContent charge={charge} toggleSidenav={toggleSidenav}  loading={loading} users={users} blogs={blogs} sessions={sessions} />
+                    <TherapistHomeContent details={stripeDetails} charges={stripeCharges} stripeId={stripeId} stripe={stripe} toggleSidenav={toggleSidenav}  loading={loading} users={users} blogs={blogs} sessions={sessions} />
                 </MatxSidenavContent>
             </MatxSidenavContainer>
         </div>
