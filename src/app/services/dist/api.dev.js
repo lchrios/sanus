@@ -14,7 +14,7 @@ var hosts = ['http://localhost:9999/iknelia-3cd8e/us-central1/api', // * local e
 ];
 
 var _default = _axios["default"].create({
-  baseURL: hosts[1],
+  baseURL: hosts[0],
   headers: {
     "Content-type": "application/json"
   }
