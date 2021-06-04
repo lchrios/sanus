@@ -72,22 +72,22 @@ const TherapistHomeSidenav = ({ url, stripe, stripeId, details, charges}) => {
 
 
     function handleClickConnect() {
-        console.log('Validando estado stripeId:', stripeId)
-            if (stripeId === undefined) {
-                console.log('connect')
+        console.log('Validando estado stripeId:', stripeId);
+            if (!stripe) {
+                console.log('no hay ninguna cuenta');
                 api.post(`/t/${user.uid}/connect`, {
                     email:user.email
                 }).then(res => {
                     window.location.href=res.data.url;
                 })
-            } else {
+            }
+           else if (stripeId && stripeId !== "") {
                 console.log('connectFailed')
                 api.post(`/t/${user.uid}/connectFailed`).then(res => {
-                    console.log(res, 'connectFailed')
                     window.location.href=res.data.url;
                 })
             }
-    }
+        } 
 
     useEffect(() => {
         api.get(`/t/${user.uid}/schedule`)
