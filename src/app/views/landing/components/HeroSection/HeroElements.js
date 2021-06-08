@@ -50,6 +50,11 @@ export const VideoBg = styled.video`
     background: #232a24;
 `
 export const HeroBanner = styled.img`
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    background: #232a24;
+
 `
 
 export const HeroContent = styled.div`
