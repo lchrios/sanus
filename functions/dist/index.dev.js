@@ -87,7 +87,8 @@ var _require7 = require("./routes/stripe"),
     handleStripeEvent = _require7.handleStripeEvent,
     expressAccount = _require7.expressAccount,
     connectReAuth = _require7.connectReAuth,
-    connectFailed = _require7.connectFailed;
+    connectFailed = _require7.connectFailed,
+    validateStripe = _require7.validateStripe;
 
 var filesRouter = require('./routes/files');
 
@@ -110,7 +111,7 @@ app.use(logger('dev')); // const upload = multer({
 
 app.use(cors());
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][0]);
+  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][1]);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 }); // * Niveles de permisos por roles 
@@ -165,7 +166,8 @@ app.post("/u/:uid/image", uploadImg); //*rutas de stripe (lado terapeuta)
 
 app.post("/t/:tid/connect", isAuthenticated, isAuthorized(roles.therapist), expressAccount);
 app.get("/t/:tid/reAuth", isAuthenticated, isAuthorized(roles.therapist), connectReAuth);
-app.post("/t/:tid/connectFailed", isAuthenticated, isAuthorized(roles.therapist), connectFailed); //*rutas de stripe (lado user)
+app.post("/t/:tid/connectFailed", isAuthenticated, isAuthorized(roles.therapist), connectFailed);
+app.get("/t/:tid/validateStripe", isAuthenticated, isAuthorized(roles.therapist), validateStripe); //*rutas de stripe (lado user)
 
 app.post("/u/:uid/checkout", isAuthenticated, isAuthorized(roles.user, true), sendPaymentInfo); // * rutas de blogs
 
