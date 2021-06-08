@@ -386,13 +386,20 @@ const TherapistDataForm = () => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            history.push(`/${user.uid}/dashboard`)
+            // history.push(`/${user.uid}/dashboard`)
+            api.post(`/t/${user.uid}/connect`,{
+                email:state.email,
+            }).then(res => {
+                if(res.data.url) {
+                    window.location.href=res.data.url
+                }
+            }). catch(e => {
+                console.error(e, 'No hemos podido enviarte al dashboard de stripe')
+            })
         }
     }, [isAuthenticated])
 
     const handleFormSubmit = () => {
-        console.log(state);
-        
         let { email, password, withProvider, cv, img } = state;
         delete state.cv;
         delete state.img;
@@ -411,9 +418,9 @@ const TherapistDataForm = () => {
                     }
                 })
                 .then(res => {
-                    if (res.status == 200) {
-                        history.push(`/${user.uid}/home`)
-                    }
+                    // if (res.status == 200) {
+                    //     history.push(`/${user.uid}/home`)
+                    //
                 })
                 .catch( error => {
                     console.error("Error al actualizar la informacion", error)

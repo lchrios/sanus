@@ -290,7 +290,7 @@ setTimeout(() =>{
             // * Generate new schedule
             new_schedule = schedule.filter(d => new Date(d).valueOf() >= new Date().valueOf());
             // * Check which dates where erased
-            deleted_sched = schedule.filter(d => !new_schedule.includes(d)); 
+        deleted_sched = schedule.filter(d => !new_schedule.includes(d)); 
             
             // * Update options startDate to prevent users seeing old dates
             options.startDate = new Date().toISOString(); 
