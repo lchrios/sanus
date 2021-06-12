@@ -78,12 +78,22 @@ const TherapistHome = () => {
             setUsers(resU.data)
             finishReq()
         })
+        .catch(er => {
+            console.log("ERROR: Usuarios NO obtenida", er);
+            setUsers(undefined);
+            finishReq() ;  
+        })
 
         api.get(`/t/${user.uid}/s/uncompleted`) 
         .then(resS => {
             console.log("OK: Sesiones obtenidas")
             setSessions(resS.data)
             finishReq();
+        })
+        .catch(er => {
+            console.log("ERROR: Sesiones incompletas NO obtenida", er);
+            setSessions(undefined);
+            finishReq() ;  
         })
 
         api.get(`/t/${user.uid}/b`) 
@@ -92,12 +102,22 @@ const TherapistHome = () => {
             setBlogs(resB.data)
             finishReq()
         })
+        .catch(er => {
+            console.log("ERROR: Blogs NO obtenidos", er);
+            setBlogs(undefined);
+            finishReq() ;  
+        })
 
         api.get(`/t/${user.uid}/image`) 
         .then(resC => {
-            console.log("OK: Imagen obtenida")
-            setUrl(resC.data.url)
-            finishReq()               
+            console.log("OK: Imagen obtenida");
+            setUrl(resC.data.url);
+            finishReq();
+        })
+        .catch(er => {
+            console.log("ERROR: Imagen NO obtenida", er);
+            setUrl(undefined);
+            finishReq() ;  
         })
 
         api.get(`/t/${user.uid}/reAuth`)
@@ -122,6 +142,10 @@ const TherapistHome = () => {
                 setStripe(true)
                 finishReq()
             } 
+        })
+        .catch(er => {
+            console.log("ERROR: ReAuth ha fallado", er);
+            finishReq() ;  
         })
     }, [])
 

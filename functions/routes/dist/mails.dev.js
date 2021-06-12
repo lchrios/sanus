@@ -10,6 +10,9 @@ var fs = require('fs');
 var _require2 = require('util'),
     promisify = _require2.promisify;
 
+var _require3 = require('../firebase'),
+    admin = _require3.admin;
+
 var readFile = promisify(fs.readFile);
 var CLIENT_ID = '989607099791-4vmr6oht2vb6biodsves45artvt6l982.apps.googleusercontent.com';
 var CLEINT_SECRET = 'ciBLgk0ZzdgJ7VvXJ0jWNEPJ';
@@ -96,6 +99,9 @@ exports.mailNewTherapist = function (email) {
         "text": 'Este es un mensaje confirmando tu registro exitoso como terapeuta en https://iknela.app',
         "html": html2send
       };
+      admin.auth().getUserByEmail(email).then(function (user) {
+        fillNewUserMail(user.displayName, user.email, new Date().toISOString());
+      });
       transport.sendMail(mailOptions, function (err, info) {
         if (err) {
           console.error(err.message);
@@ -121,3 +127,7 @@ exports.mailSendTherapistResume = function (req, res) {}; // * 3 - Sesion agenda
 
 
 exports.mailScheduledSession = function (req, res) {};
+
+var fillNewUserMail = function fillNewUserMail(name, email, time) {
+  return "";
+};
