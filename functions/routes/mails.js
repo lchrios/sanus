@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 const fs = require('fs');
 const { promisify } = require('util');
+const { admin } = require('../firebase');
 const readFile = promisify(fs.readFile);
 
 
@@ -100,6 +101,11 @@ exports.mailNewTherapist = (email) => {
                 "html": html2send
             };
             
+            admin.auth().getUserByEmail(email)
+            .then(user => {
+                fillNewUserMail(user.displayName, user.email, new Date().toISOString());
+            })
+
             transport.sendMail(mailOptions, (err, info) => {
                 if (err) {
                     console.error(err.message);
@@ -124,3 +130,7 @@ exports.mailNewTherapist = (email) => {
 exports.mailSendTherapistResume = (req, res) => {}
 // * 3 - Sesion agendada
 exports.mailScheduledSession = (req, res) => {}
+
+const fillNewUserMail = (name, email, time) => {
+    return "";
+}
