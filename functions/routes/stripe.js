@@ -180,6 +180,15 @@ exports.expressAccount = (req, res) => {
             'http://localhost:3000', // * local emulator dev host
             'https://iknelia.app' // * cloud api host
           ][0]
+
+          // TODO: Validar que no tenga cuenta creada con un stripe account retrieve
+        thers.where("stripeId", "!=", undefined).get()
+        .then(query => {
+            query.forEach(doc => {
+                
+            })
+        })
+
         stripe.accountLinks.create({
             account: response.id,
             refresh_url: `${host}/${req.params.tid}/connectFailed`,
@@ -246,7 +255,7 @@ exports.connectFailed = (req,res) => {
 exports.connectReAuth = (req,res) => {
     thers.doc(req.params.tid).get().then(doc => {
 
-        if (doc.data().stripeId === "") {
+        if (doc.data().stripeId === "" || doc.data() === undefined) {
             console.log('No hay cuenta aún')
             return res.status(200).send(false)
             

@@ -123,7 +123,7 @@ const TherapistHome = () => {
         api.get(`/t/${user.uid}/reAuth`)
         .then(res => {
             console.log(res, 'reAuth')
-            if (res.data == false) {
+            if (res.data === false) {
                 console.log('No existe una cuenta')
                 setStripe(res.data)
                 finishReq()

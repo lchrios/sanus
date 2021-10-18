@@ -17,7 +17,7 @@ import useAuth from 'app/hooks/useAuth'
   * !aquí la función getUserRoleAuthStatus tenía la propiedad user, pero daba error, le ando cambiando arre creo ue es suficiente de comment adios
   */
  
-const getUserRoleAuthStatus = (pathname,user,routes) => {
+const getUserRoleAuthStatus = (pathname, user, routes) => {
     
 
     if (!user){
