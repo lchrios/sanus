@@ -85,7 +85,7 @@ const Layout2Topbar = () => {
         <div className={clsx('relative w-full', classes.root)}>
             <div className="flex justify-between items-center h-full">
                 <div className="flex items-center h-full">
-                    <NavLogo to="/home">Iknelia</NavLogo>
+                    <NavLogo to="/home">Sanus</NavLogo>
                 </div>
                 <div className="mx-auto"></div>
                 <div className="flex items-center">

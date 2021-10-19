@@ -10,12 +10,12 @@ import CardHeader from "../eachComponent/components/Card/CardHeader";
 import CardBody from "../eachComponent/components/Card/CardBody";
 import CardFooter from "../eachComponent/components/Card/CardFooter";
 import Button from "../eachComponent/components/CustomButtons/Button";
-import Violeta from "assets/images/psicólogos/Violeta.PNG";
-import Sandra from "assets/images/psicólogos/Sandra.PNG";
-import Ivonne from 'assets/images/psicólogos/Ivonne.jpg'
+import Violeta from "assets/images/especialistas/psico1.jpg";
+import Sandra from "assets/images/especialistas/psico2.jpg";
+import Ivonne from 'assets/images/especialistas/nutri1.jpg'
+import PatyAnahi from 'assets/images/especialistas/nutri2.jpeg';
 import psyCardsStyle from "./styles/psyCardsStyles.js";
 import psyCardStyle from "./styles/psyCardStyle";
-import PatyAnahi from 'assets/images/psicólogos/PatyAnahi.JPG';
 
   
 const style = {
@@ -55,7 +55,7 @@ export default function PsySection() {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Violeta Détré</h4>
+                      <h4 className={classes.cardTitle}>Violeta Rosas</h4>
                       
                         <h6 className={classes.cardCategory}>Terapeuta familiar</h6>
                       
@@ -99,7 +99,7 @@ export default function PsySection() {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Sandra Jaramillo Martínez</h4>
+                      <h4 className={classes.cardTitle}>Sandra Pérez</h4>
                       
                         <h6 className={classes.cardCategory}>
                         Psicóloga y psicoterapeuta familiar sistémica,
@@ -184,20 +184,20 @@ export default function PsySection() {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CardBody plain>
-                      <h4 className={classes.cardTitle}>Verónica Ivonne Paquentin Falcón</h4>
+                      <h4 className={classes.cardTitle}>Iván Benitez</h4>
                       
-                        <h6 className={classes.cardCategory}>Doctora en Psicóloga</h6>
+                        <h6 className={classes.cardCategory}>Lic. en nutriología</h6>
                       
                       <p className={classes.description}>
-                      23 años de experiencia como psicoterapeuta.
+                        8 años de experiencia como nutriólogo.
                       </p>
 
                       <h6 className={classes.cardCategory}>Formación</h6>
                       <p className={classes.description}>
-                      <b>Universidad Nacional Autónoma de México</b>: Doctora en psicología
+                      <b>Universidad Nacional Autónoma de México</b>: Lic. en nutriología
                       </p>
                       <p className={classes.description}>
-                      <b>Universidad de las Américas, A.C.</b>: Maestría en Psicología con Orientación en Terapia Familiar
+                      <b>Universidad de las Américas, A.C.</b>: Maestría en Nutriología Pediátrica
                       </p>
 
                       <Button onClick={() => history.push('/session/signup')} color="primary">Agendar una sesión</Button>
@@ -232,12 +232,12 @@ export default function PsySection() {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                   <CardBody plain>
-                      <h4 className={classes.cardTitle}>Patricia Anahi Hernández Márquez</h4>
+                      <h4 className={classes.cardTitle}>Marcela Fernández</h4>
                       
-                        <h6 className={classes.cardCategory}>Médico cirujano y partero. Psicquiatra. Psicogeriatra.</h6>
+                        <h6 className={classes.cardCategory}>Lic. en nutriología</h6>
                       
                       <p className={classes.description}>
-                      3 años de experiencia como psicogeriatra
+                      6 años de experiencia como nutriologa
                       </p>
 
                       <h6 className={classes.cardCategory}>Formación</h6>

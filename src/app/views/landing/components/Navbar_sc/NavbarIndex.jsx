@@ -40,7 +40,7 @@ const Navbar = ({ toggle }) => {
         <>
             <Nav scrollNav = {scrollNav}>
                 <NavbarContainer>
-                    <NavLogo scrollNav={scrollNav} to='/home'>Iknelia</NavLogo>
+                    <NavLogo scrollNav={scrollNav} to='/home'>Sanus</NavLogo>
                     <MobileIcon onClick={toggleHome && toggle}>
                         <FaBars />
                     </MobileIcon>
@@ -52,7 +52,7 @@ const Navbar = ({ toggle }) => {
                             <NavLinks scrollNav={scrollNav} to='/blogs' onClick={() => {history.push('/blogs')}}>Blog</NavLinks>
                         </NavItem>
                         <NavItem>
-                            <NavLinks scrollNav={scrollNav} to='/therapists' onClick={() => {history.push('/therapists')}}>Psicólogos</NavLinks>
+                            <NavLinks scrollNav={scrollNav} to='/therapists' onClick={() => {history.push('/therapists')}}>Especialistas</NavLinks>
                         </NavItem>
                         { !isAuthenticated ? <NavItem>
                             <NavLinks scrollNav={scrollNav} to='/session/signup' onClick={() => {history.push('/session/signup')}}>Comienza ahora</NavLinks>

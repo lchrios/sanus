@@ -3,9 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.blogs = exports.blog3 = exports.blog2 = exports.blog1 = exports.homeObjThree = exports.homeObjTwo = exports.homeObjOne = void 0;
-
-var _ = _interopRequireDefault(require("../../../../../assets/images/illustrations/1.svg"));
+exports.homeObjThree = exports.homeObjTwo = exports.homeObjOne = void 0;
 
 var _schedule = _interopRequireDefault(require("../../../../../assets/images/schedule.svg"));
 
@@ -15,14 +13,12 @@ var _event = _interopRequireDefault(require("../../../../../assets/images/event-
 
 var _bg = _interopRequireDefault(require("../../../../../assets/images/bg-1.png"));
 
-var _icons = require("@material-ui/icons");
-
 var _history = _interopRequireDefault(require("../../../../../history"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var clickObjOne = function clickObjOne() {
-  _history["default"].push('/psychologists');
+  _history["default"].push('/therapists');
 };
 
 var homeObjOne = {
@@ -30,9 +26,9 @@ var homeObjOne = {
   lightBg: true,
   lightText: false,
   lightTextDesc: true,
-  topLine: 'Psicología profesional',
-  headline: 'Psicologos online, confiables y accesibles',
-  description: 'Conectate de forma privada con un psicologo profesional cuando lo necesites',
+  topLine: 'Psicología y nutrición profesional',
+  headline: 'Escpecialistas online, confiables y accesibles',
+  description: 'Conectate de forma privada con un profesional cuando lo necesites',
   buttonLabel: 'Conoce más',
   buttonClick: clickObjOne,
   imgStart: false,
@@ -45,7 +41,7 @@ var homeObjOne = {
 exports.homeObjOne = homeObjOne;
 
 var clickObjTwo = function clickObjTwo() {
-  _history["default"].push('/psychologists');
+  _history["default"].push('/therapists');
 };
 
 var homeObjTwo = {
@@ -87,25 +83,21 @@ var homeObjThree = {
   dark: true,
   primary: true,
   darkText: false
-};
+}; // export const blog1 = {
+//     img: img1,
+//     title: "Vive mejor",
+//     body: "Trabaja en ti"
+// }
+// export const blog2 = {
+//     img: img2,
+//     title: "Aumenta tu felicidad",
+//     body: "Toma sesiones online periodicamente"
+// }
+// export const blog3 = {
+//     img: img3,
+//     title: "Sientete bien",
+//     body: "Pensar con claridad, pensar bien, para vivir bien."
+// }
+// export const blogs = [blog1, blog2, blog3]
+
 exports.homeObjThree = homeObjThree;
-var blog1 = {
-  img: _event["default"],
-  title: "Vive mejor",
-  body: "Trabaja en ti"
-};
-exports.blog1 = blog1;
-var blog2 = {
-  img: _bg["default"],
-  title: "Aumenta tu felicidad",
-  body: "Toma sesiones online periodicamente"
-};
-exports.blog2 = blog2;
-var blog3 = {
-  img: _happyFace["default"],
-  title: "Sientete bien",
-  body: "Pensar con claridad, pensar bien, para vivir bien."
-};
-exports.blog3 = blog3;
-var blogs = [blog1, blog2, blog3];
-exports.blogs = blogs;

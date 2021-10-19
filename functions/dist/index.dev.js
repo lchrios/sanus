@@ -111,7 +111,13 @@ app.use(logger('dev')); // const upload = multer({
 
 app.use(cors());
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", ["https://iknelia.app", "http://localhost:3000"][1]);
+  var whitelist = ["https://sanus-5ce83.web.app", "https://sanus-5ce83.firebaseapp.com", "http://localhost:3000"];
+  var host = req.get('host');
+  whitelist.forEach(function (v, k) {
+    if (host.indexOf(v) > -1) {
+      res.setHeader('Access-Control-Allow-Origin', host);
+    }
+  });
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 }); // * Niveles de permisos por roles 
@@ -127,7 +133,10 @@ var roles = {
 // - definir los permisos de acceso individualmente por ruta
 // * uso de transformacion a json
 
-app.use(express.json()); // * rutas de stripe (manejo de eventos de stripe)
+app.use(express.json());
+app.get('/hello', function (req, res) {
+  return res.status(200).send('Hello!');
+}); // * rutas de stripe (manejo de eventos de stripe)
 //app.post("/updateAccount", handleAccountUpdate)
 
 app.post("/webhook", handleStripeEvent);

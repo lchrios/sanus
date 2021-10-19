@@ -57,7 +57,7 @@ exports.newSession = (req, res) => {
         })  
     })
     .catch(error => {
-        console.log("Unable to create new blog", error);
+        console.log("Unable to create new session", error);
         return res.status(404).send(error);
     })
 }

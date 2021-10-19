@@ -85,7 +85,7 @@ const UserProfileSidenav = ({ therapist, loading, url }) => {
                     </>   
                 }
                 
-                <div className="px-8 pt-2 bg-default">
+                <div className="px-8 pt-4 mt-12 bg-default">
                     <Grid container spacing={3}>
                         <Button onClick={() => history.push('/'+user.uid+'/home')}>
                             <Grid item>

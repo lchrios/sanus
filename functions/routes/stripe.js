@@ -11,7 +11,6 @@ const endpoint_secret = [
     "whsec_cNX97MfyLEMrl3JKqICh4FoGVDxWYB5g", // * temp local sig
 ][1]; 
 
-const { ContactsOutlined } = require('@material-ui/icons');
 const { admin, storage } = require('../firebase');
 var db = admin.firestore();
 var thers = db.collection('therapists');

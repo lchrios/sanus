@@ -104,11 +104,21 @@ app.use(logger('dev'));
 // * permisos del CORS
 app.use(cors());
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", [
-        "https://iknelia.app",
+
+    let whitelist = [
+        "https://sanus-5ce83.web.app",
+        "https://sanus-5ce83.firebaseapp.com",
         "http://localhost:3000",
-    ][1]);
+    ]
+    let host = req.get('host');
+
+    whitelist.forEach((v, k) => {
+        if (host.indexOf(v) > -1) {
+            res.setHeader('Access-Control-Allow-Origin', host)
+        }
+    })
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    
     next();
 });
 
@@ -127,6 +137,10 @@ const roles = {
 // * uso de transformacion a json
 app.use(express.json());
 
+
+app.get('/hello', (req, res) => {
+    return res.status(200).send('Hello!');
+})
 
 // * rutas de stripe (manejo de eventos de stripe)
 //app.post("/updateAccount", handleAccountUpdate)

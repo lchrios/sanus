@@ -24,7 +24,7 @@ const HeroSection = () => {
             </HeroBg>
             <HeroContent>
                 <HeroH1>Empieza a vivir con la libertad que mereces</HeroH1>
-                <HeroP>Iknelia está contigo</HeroP>
+                <HeroP>Sanus te acompaña</HeroP>
                 {   isAuthenticated 
                 ?   null 
                 :   <HeroBtnWrapper>
@@ -40,7 +40,7 @@ const HeroSection = () => {
                             fontbig = 'true'
                         >
                         
-                            Registrate { hover ? <ArrowForward /> : <ArrowRight />} 
+                            Regístrate { hover ? <ArrowForward /> : <ArrowRight />} 
                         </Button>
                     </HeroBtnWrapper>
                 }
