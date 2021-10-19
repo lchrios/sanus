@@ -208,6 +208,7 @@ app.delete("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession);
 app.post("/u/:uid/mails/new", isAuthenticated, isAuthorized(roles.user, true), mailNewUser);
 
 // * rutas de autenticacion
+app.options('/auth/signuser', cors())
 app.post("/auth/signuser", createUserWithEmailAndPassword);
 app.post("/auth/signtherapist", createTherapistWithEmailAndPassword)
 app.post("/t/:tid", isAuthenticated, isAuthorized(roles.therapist, true), updateTherapistInfo)
