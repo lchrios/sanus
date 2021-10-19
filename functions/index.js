@@ -105,18 +105,19 @@ app.use(logger('dev'));
 app.use(cors());
 app.use((req, res, next) => {
 
-    let whitelist = [
-        "https://sanus-5ce83.web.app",
-        "https://sanus-5ce83.firebaseapp.com",
-        "http://localhost:3000",
-    ]
-    let host = req.get('host');
+    // let whitelist = [
+    //     "https://sanus-5ce83.web.app",
+    //     "https://sanus-5ce83.firebaseapp.com",
+    //     "http://localhost:3000",
+    // ]
+    // let host = req.get('host');
 
-    whitelist.forEach((v, k) => {
-        if (host.indexOf(v) > -1) {
-            res.setHeader('Access-Control-Allow-Origin', host)
-        }
-    })
+    // whitelist.forEach((v, k) => {
+    //     if (host.indexOf(v) > -1) {
+    //         res.setHeader('Access-Control-Allow-Origin', v)
+    //     }
+    // })
+    res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     
     next();
@@ -208,7 +209,7 @@ app.delete("/s/:sid", isAuthenticated, isAuthorized(roles.user), deleteSession);
 app.post("/u/:uid/mails/new", isAuthenticated, isAuthorized(roles.user, true), mailNewUser);
 
 // * rutas de autenticacion
-app.options('/auth/signuser', cors())
+app.options('/auth/signuser', (req,res) => { res.sendStatus(200); })
 app.post("/auth/signuser", createUserWithEmailAndPassword);
 app.post("/auth/signtherapist", createTherapistWithEmailAndPassword)
 app.post("/t/:tid", isAuthenticated, isAuthorized(roles.therapist, true), updateTherapistInfo)

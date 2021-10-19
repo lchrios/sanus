@@ -14,7 +14,7 @@ var hosts = ['http://localhost:9999/sanus-5ce83/us-central1/api', // * local emu
 ];
 
 var _default = _axios["default"].create({
-  baseURL: hosts[1],
+  baseURL: hosts[0],
   headers: {
     "Content-type": "application/json"
   }

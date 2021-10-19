@@ -61,16 +61,16 @@ export const Footer = () => {
                 <SocialMedia>
                     <SocialMediaWrap>
                         <SocialLogo to='/'>
-                            Iknelia
+                            Sanus
                         </SocialLogo>
                         <WebsiteRights>
                             Derechos de autor {new Date().getFullYear() } todos los derechos reservados.
                         </WebsiteRights>
                         <SocialIcons>
-                            <SocialIconLink href="https://www.facebook.com/ikneliacontigo/" target="_blank" aria-label="Facebook">
+                            <SocialIconLink href="https://www.facebook.com/sanuscontigo/" target="_blank" aria-label="Facebook">
                                 <FaFacebook />
                             </SocialIconLink>
-                            <SocialIconLink href="https://www.instagram.com/ikneliacontigo/" target="_blank" aria-label="Instagram">
+                            <SocialIconLink href="https://www.instagram.com/sanuscontigo/" target="_blank" aria-label="Instagram">
                                 <FaInstagram />
                             </SocialIconLink>
                         </SocialIcons>

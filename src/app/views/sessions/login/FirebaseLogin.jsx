@@ -210,7 +210,7 @@ const FirebaseLogin = () => {
                             })}
                         >
                             <div className={classes.logo}>
-                                    <IkneliaLogo to={"/home"}>Iknelia</IkneliaLogo>
+                                    <IkneliaLogo to={"/home"}>Sanus</IkneliaLogo>
                             </div>
                             {/* <h1 className={classes.mainTitle}>
                                 La atención que mereces
